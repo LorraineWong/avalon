@@ -7,6 +7,8 @@ A free, no-sign-up online version of the social deduction board game *The Resist
 **Play / 开玩:** https://lorrainewong.github.io/avalon/
 
 ## Features / 功能
+- Immersive Camelot UI with original painterly character portraits for all 8 roles
+- Responsive Arthurian round-table experience with parchment, carved-oak and antique-gold visual language
 - Round-table UI with animated role reveal, vote reveal and quest-card flips
 - Roles: Merlin, Percival, Loyal Servant, Assassin, Morgana, Mordred, Oberon, Minion; optional Lady of the Lake (7+)
 - Correct rules: strict-majority votes, 5 rejected proposals = Evil wins, Quest 4 needs 2 fails with 7+ players, Good can never play Fail
@@ -21,6 +23,8 @@ The host's browser runs the game engine; each player's key pair lives in their o
 
 ## Files
 - `index.html`, `style.css`, `app.js` — the app
+- `assets/roles/*.webp` — optimized original role portraits used throughout the UI
+- `DESIGN.md` — visual system, component and implementation reference
 - `database.rules.json` — Realtime Database security rules (deployed in the Firebase console)
 - `vendor/firebase-*-compat.js` — Firebase JS SDK v10 (Apache-2.0)
 

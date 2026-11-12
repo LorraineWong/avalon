@@ -113,15 +113,21 @@ const ROLE_TXT = {
   }
 };
 const ROLE_META = {
-  merlin:{side:'good',ic:'🧙'}, percival:{side:'good',ic:'🛡️'}, servant:{side:'good',ic:'⚔️'},
-  assassin:{side:'evil',ic:'🗡️'}, morgana:{side:'evil',ic:'🔮'}, mordred:{side:'evil',ic:'🐉'},
-  oberon:{side:'evil',ic:'🌑'}, minion:{side:'evil',ic:'🦇'},
+  merlin:{side:'good',ic:'✦',art:'assets/roles/merlin.webp'},
+  percival:{side:'good',ic:'◈',art:'assets/roles/percival.webp'},
+  servant:{side:'good',ic:'⚔',art:'assets/roles/servant.webp'},
+  assassin:{side:'evil',ic:'†',art:'assets/roles/assassin.webp'},
+  morgana:{side:'evil',ic:'☾',art:'assets/roles/morgana.webp'},
+  mordred:{side:'evil',ic:'♜',art:'assets/roles/mordred.webp'},
+  oberon:{side:'evil',ic:'♠',art:'assets/roles/oberon.webp'},
+  minion:{side:'evil',ic:'◆',art:'assets/roles/minion.webp'},
 };
 let LANG = 'zh';
 function t(k, ...a){ const s = (I18N[LANG][k] ?? I18N.zh[k] ?? k); return s.replace(/\{(\d)\}/g, (_,i)=>a[+i] ?? ''); }
 const rName = r => ROLE_TXT[LANG][r][0];
 const rDesc = r => ROLE_TXT[LANG][r][1];
 const side = r => ROLE_META[r] ? ROLE_META[r].side : null;
+const roleArt = (r, cls='role-art') => '<img class="'+cls+'" src="'+ROLE_META[r].art+'" alt="'+esc(rName(r))+'" loading="lazy">';
 
 /* ================= Rules ================= */
 const EVIL_N = {5:2,6:2,7:3,8:3,9:3,10:4};
@@ -565,7 +571,7 @@ function render(){
 function topBar(){
   const conn=Net.connected();
   const st = !Net.everConnected ? t('connecting') : (conn ? t('online') : t('offline'));
-  return '<div class="top"><button class="brand" data-a="home"><div class="mark">⚔️</div><div><div class="t1">AVALON</div><div class="t2">'+t('sub')+'</div></div></button>'
+  return '<div class="top"><button class="brand" data-a="home"><div class="mark"><span>V</span></div><div><div class="t1">AVALON</div><div class="t2">'+t('sub')+'</div></div></button>'
     +'<div class="top-r">'+(S.code&&S.game?'<span class="chip"><span class="dot '+(conn?'on':'')+'"></span><b style="letter-spacing:2px">'+esc(S.code)+'</b></span>':'<span class="chip"><span class="dot '+(conn?'on':'')+'"></span>'+st+'</span>')
     +'<button class="chip btn" data-a="lang">'+(LANG==='zh'?'EN':'中文')+'</button></div></div>'
     +(Net.everConnected && !conn ? '<div class="banner-off">'+t('offline')+'</div>' : '')
@@ -573,14 +579,15 @@ function topBar(){
 }
 function rulesBlock(){
   const order=['merlin','percival','servant','assassin','morgana','mordred','oberon','minion'];
-  return '<details class="rules"><summary>📜 '+t('rules')+'</summary><p>'+t('rulesP1')+'</p><p>'+t('rulesP2')+'</p><p>'+t('rulesP3')+'</p>'
-    +'<div class="rgrid">'+order.map(r=>'<div><span class="ic">'+ROLE_META[r].ic+'</span><span><b class="'+(side(r)==='good'?'res-s':'res-f')+'">'+rName(r)+'</b><br><span class="muted">'+rDesc(r)+'</span></span></div>').join('')+'</div>'
+  return '<details class="rules"><summary><span class="summary-mark">✦</span> '+t('rules')+'</summary><p>'+t('rulesP1')+'</p><p>'+t('rulesP2')+'</p><p>'+t('rulesP3')+'</p>'
+    +'<div class="rgrid">'+order.map(r=>'<div class="role-guide '+side(r)+'">'+roleArt(r,'guide-art')+'<span><b class="'+(side(r)==='good'?'res-s':'res-f')+'">'+rName(r)+'</b><br><span class="muted">'+rDesc(r)+'</span></span></div>').join('')+'</div>'
     +'<p class="muted small">'+t('rulesP4')+'</p></details>';
 }
 function viewHome(){
   const last=LS.get('last');
-  return '<div class="hero"><div class="crest">⚔️</div><h1>AVALON</h1><div class="sub">'+t('tagline')+'</div>'
-    +'<div class="feature"><span>👥 '+t('feat1')+'</span><span>✨ '+t('feat2')+'</span><span>📱 '+t('feat3')+'</span><span>🔒 '+t('feat4')+'</span></div></div>'
+  return '<div class="hero"><div class="hero-art hero-art-good"><img src="'+ROLE_META.merlin.art+'" alt="Merlin"></div><div class="hero-art hero-art-evil"><img src="'+ROLE_META.morgana.art+'" alt="Morgana"></div>'
+    +'<div class="hero-copy"><div class="eyebrow">THE RESISTANCE</div><div class="crest"><span>V</span></div><h1>AVALON</h1><div class="sub">'+t('tagline')+'</div><p class="hero-oath">'+(LANG==='zh'?'忠诚藏于誓言，背叛隐于圆桌。':'Loyalty hides in every oath. Treachery sits at the table.')+'</p>'
+    +'<div class="feature"><span>♟ '+t('feat1')+'</span><span>✦ '+t('feat2')+'</span><span>⌁ '+t('feat3')+'</span><span>⌘ '+t('feat4')+'</span></div></div></div>'
     +(last ? '<div class="glass resume"><span>'+t('resume','<b style="letter-spacing:2px">'+esc(last)+'</b>')+'</span><button class="btn pri" data-a="resume">'+t('resumeBtn')+'</button></div>' : '')
     +'<div class="home-grid"><div class="glass card"><h2>'+t('nick')+'</h2><input class="input" id="nick" maxlength="12" placeholder="'+t('nickPh')+'" value="'+esc(S.ui.nick)+'">'
     +'<button class="btn pri big" style="width:100%;margin-top:14px" data-a="create">✨ '+t('create')+'</button></div>'
@@ -599,7 +606,7 @@ function viewLobby(){
       +(host && p!==ME.pid ? '<button class="x" title="kick" data-kick="'+esc(p)+'">×</button>' : '')+'</div>';
   }).join('');
   for(let i=n;i<Math.max(5,Math.min(10,n+1));i++) seats+='<div class="seatcard empty tiny">'+t('emptySeat')+'</div>';
-  const tile=(k,ic,name,desc,cls)=>'<button class="rt '+cls+(st[k]?' on':'')+'" '+(host?'data-set="'+k+'"':'disabled')+'><span class="ic">'+ic+'</span><span><b>'+name+'</b><span>'+desc+'</span></span></button>';
+  const tile=(k,role,name,desc,cls)=>'<button class="rt '+cls+(st[k]?' on':'')+'" '+(host?'data-set="'+k+'"':'disabled')+'>'+roleArt(role,'tile-art')+'<span><b>'+name+'</b><span>'+desc+'</span></span></button>';
   const compHtml = pv.err ? '<p class="warn small">'+esc(pv.err)+'</p>' :
     '<div class="comp">'+pv.roles.map(r=>'<span class="tag '+side(r)+'">'+ROLE_META[r].ic+' '+rName(r)+'</span>').join('')+'</div>'
     +'<p class="muted small" style="margin:6px 0 0">'+(n>=5&&n<=10 ? t('comp', n, pv.gd, pv.ev) : t('compPrev', Math.min(10,Math.max(5,n)), pv.gd, pv.ev))+'</p>';
@@ -613,12 +620,12 @@ function viewLobby(){
     +'<button class="btn ghost" data-a="leave">'+t('leave')+'</button></div>'
     +(host&&br.err?'<p class="warn small" style="margin-bottom:0">'+esc(br.err)+'</p>':'')+'</div>'
     +'<div class="glass card"><h2>'+t('roleSettings')+(host?'':' <span class="muted small">· '+t('hostOnly')+'</span>')+'</h2><div class="roletiles">'
-    +tile('merlin','🧙',t('optMerlin'),t('optMerlinD'),'good')
-    +tile('percival','🛡️',rName('percival'),rDesc('percival').split(/[。.]/)[0],'good')
-    +tile('morgana','🔮',rName('morgana'),rDesc('morgana').split(/[。.]/)[0],'evil')
-    +tile('mordred','🐉',rName('mordred'),rDesc('mordred').split(/[。.]/)[0],'evil')
-    +tile('oberon','🌑',rName('oberon'),rDesc('oberon').split(/[，(（,]/)[0],'evil')
-    +tile('lady','🧜‍♀️',t('optLady'),t('optLadyD'),'neutral')
+    +tile('merlin','merlin',t('optMerlin'),t('optMerlinD'),'good')
+    +tile('percival','percival',rName('percival'),rDesc('percival').split(/[。.]/)[0],'good')
+    +tile('morgana','morgana',rName('morgana'),rDesc('morgana').split(/[。.]/)[0],'evil')
+    +tile('mordred','mordred',rName('mordred'),rDesc('mordred').split(/[。.]/)[0],'evil')
+    +tile('oberon','oberon',rName('oberon'),rDesc('oberon').split(/[，(（,]/)[0],'evil')
+    +'<button class="rt neutral'+(st.lady?' on':'')+'" '+(host?'data-set="lady"':'disabled')+'><span class="lady-art">◯</span><span><b>'+t('optLady')+'</b><span>'+t('optLadyD')+'</span></span></button>'
     +'</div>'+compHtml+'</div></div>'
     +'<div class="glass card">'+rulesBlock()+'</div>';
 }
@@ -725,7 +732,7 @@ function roleBar(){
   const g=S.game; if(!g.order.includes(ME.pid)) return '';
   if(!S.mine) return '<div class="glass card muted">'+t('loadingRole')+'</div>';
   const s=side(S.mine.role);
-  return '<button class="glass card rolebar '+(S.peek?s:'')+'" data-a="peek"><span class="rb-l"><span class="rb-ic">'+(S.peek?ROLE_META[S.mine.role].ic:'🂠')+'</span>'
+  return '<button class="glass card rolebar '+(S.peek?s:'')+'" data-a="peek"><span class="rb-l"><span class="rb-ic">'+(S.peek?roleArt(S.mine.role,'rolebar-art'):'<span class="card-seal">V</span>')+'</span>'
     +'<span><div class="muted tiny">'+t('myRole')+'</div><b>'+(S.peek?rName(S.mine.role):'••••••')+'</b></span></span><span class="muted small">'+(S.peek?'🙈':t('tapReveal'))+'</span></button>'
     +(S.peek?'<div class="glass card" style="margin-top:-8px">'+knowBlock()+'</div>':'');
 }
@@ -762,8 +769,8 @@ function renderOverlay(){
     const m=S.mine; if(!m){ S.ov.shift(); return renderOverlay(); }
     const s=side(m.role);
     h='<h2>🌙 '+t('nightTitle')+'</h2><p class="lead">'+t('nightLead')+'</p>'
-      +'<div class="rolecard '+(o.flipped?'flip':'')+'" data-a="flipcard"><div class="in"><div class="face back"><div class="em">⚔️</div>AVALON</div>'
-      +'<div class="face front '+s+'"><div class="em">'+ROLE_META[m.role].ic+'</div><div class="rs">'+t(s)+'</div><div class="rn">'+rName(m.role)+'</div></div></div></div>'
+      +'<div class="rolecard '+(o.flipped?'flip':'')+'" data-a="flipcard"><div class="in"><div class="face back"><div class="card-seal large">V</div><span>AVALON</span></div>'
+      +'<div class="face front '+s+'">'+roleArt(m.role,'rolecard-art')+'<div class="rolecard-caption"><div class="rs">'+t(s)+'</div><div class="rn">'+rName(m.role)+'</div></div></div></div></div>'
       +(o.flipped?knowBlock()+'<button class="btn pri big" style="width:100%" data-a="ovnext">'+t('gotIt')+'</button>':'<button class="btn pri big" style="width:100%" data-a="flipcard">'+t('flip')+'</button>');
   } else if(o.type==='vote'){
     const r=o.r, yes=Object.values(r.votes).filter(Boolean).length, no=Object.keys(r.votes).length-yes;
