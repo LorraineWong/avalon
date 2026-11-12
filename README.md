@@ -19,6 +19,7 @@ An immersive, browser-based implementation of the social-deduction game *The Res
 - **Responsive Camelot interface** — optimized for desktop and portrait mobile play.
 - **English and Simplified Chinese** — language can be switched at any time.
 - **No build step** — the application is plain HTML, CSS, and JavaScript and can be hosted as a static site.
+- **Temporary rooms** — new rooms carry a 72-hour expiry marker; completed games expire after 24 hours and are removed when the host reconnects.
 
 ## How to Play
 
@@ -82,6 +83,18 @@ For GitHub Pages:
 1. Open **Settings → Pages** in the repository.
 2. Select **Deploy from a branch**.
 3. Choose `main` and `/ (root)`.
+
+### Optional support link
+
+The footer can show a voluntary support button without processing payments on this site. Define the URL before `app.js` loads:
+
+```html
+<script>window.AVALON_SUPPORT_URL = 'https://ko-fi.com/yourname';</script>
+```
+
+Leave it unset to hide the button. Keep the game free and use a hosted payment provider rather than collecting card details on GitHub Pages.
+
+The public footer also links to bilingual privacy and unofficial-project notices. The full privacy notice is in [PRIVACY.md](PRIVACY.md).
 
 ## Project Structure
 

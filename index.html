@@ -6,8 +6,14 @@
 <meta name="theme-color" content="#110d0a">
 <title>Avalon Online · 阿瓦隆在线版</title>
 <meta name="description" content="Free online Avalon (The Resistance) — no sign-up, play with friends on phone or desktop. 免费在线阿瓦隆，无需注册，手机电脑都能玩。">
+<link rel="canonical" href="https://lorrainewong.github.io/avalon/">
 <meta property="og:title" content="Avalon Online · 阿瓦隆在线版">
 <meta property="og:description" content="Free online Avalon — no sign-up. 免费在线阿瓦隆，无需注册。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://lorrainewong.github.io/avalon/">
+<meta property="og:image" content="https://lorrainewong.github.io/avalon/docs/screenshots/home-desktop.png">
+<meta property="og:image:alt" content="Avalon Online home screen">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><path fill='%23b9914a' d='M50 3 88 18v29c0 25-16 41-38 50C28 88 12 72 12 47V18z'/><path fill='%23110d0a' d='M27 27h14l9 41 9-41h14L58 79H42z'/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -20,7 +26,8 @@
 <div id="app"></div>
 <div id="ov"></div>
 <div id="rulesModal"></div>
-<div id="toast" class="toast hidden"></div>
+<div id="infoModal"></div>
+<div id="toast" class="toast hidden" role="status" aria-live="polite" aria-atomic="true"></div>
 <script src="vendor/firebase-app-compat.js"></script>
 <script src="vendor/firebase-auth-compat.js"></script>
 <script src="vendor/firebase-database-compat.js"></script>

@@ -51,7 +51,7 @@ const I18N = {
     rulesP2:'出任务时队员秘密出牌：好人只能出“成功”，坏人可以选择。7 人及以上时，<b>第 4 个任务需要 2 张失败</b>才算失败。好人完成 3 个任务后，刺客还有一次刺杀梅林的机会，刺中则坏人翻盘。',
     rulesP3:'湖中仙女（可选，7 人以上）：第 2、3、4 个任务结束后，持有者秘密查验一名玩家的阵营，然后把仙女交给对方。持有过仙女的人不能再被查验。',
     rulesP4:'人数配置：5 人 3 好 2 坏 · 6 人 4 好 2 坏 · 7 人 4 好 3 坏 · 8 人 5 好 3 坏 · 9 人 6 好 3 坏 · 10 人 6 好 4 坏',
-    writeFail:'保存失败，请检查网络后重试', footer:'Avalon Online · 非官方粉丝作品，基于桌游《抵抗组织：阿瓦隆》', tooLong:'昵称最多 12 个字',
+    writeFail:'保存失败，请检查网络后重试', footer:'非官方粉丝作品，与原版游戏发行方无关联。相关名称与设定权利归各自权利人所有。', privacy:'隐私', legal:'非官方声明', support:'支持开发', tooLong:'昵称最多 12 个字',
   },
   en: {
     sub:'Avalon · Online', tagline:'The Resistance: Avalon', feat1:'5–10 players', feat2:'No sign-up', feat3:'Phone & desktop', feat4:'Encrypted roles',
@@ -95,7 +95,7 @@ const I18N = {
     rulesP2:'Team members play cards secretly: Good can only play Success, Evil may choose. With 7+ players, <b>Quest 4 needs 2 fails</b>. If Good completes 3 quests, the Assassin gets one shot at Merlin — a hit means Evil wins.',
     rulesP3:'Lady of the Lake (optional, 7+): after Quests 2, 3 and 4 the holder secretly checks one player\'s loyalty, then passes the Lady to them. Former holders cannot be checked.',
     rulesP4:'Teams: 5p 3G/2E · 6p 4G/2E · 7p 4G/3E · 8p 5G/3E · 9p 6G/3E · 10p 6G/4E',
-    writeFail:'Could not save — check your network and try again', footer:'Avalon Online · unofficial fan project based on the board game "The Resistance: Avalon"', tooLong:'Name: max 12 characters',
+    writeFail:'Could not save — check your network and try again', footer:'Unofficial fan project, not affiliated with the original game publisher. Names and settings belong to their respective owners.', privacy:'Privacy', legal:'Unofficial notice', support:'Support development', tooLong:'Name: max 12 characters',
   }
 };
 const ROLE_TXT = {
@@ -294,6 +294,10 @@ const FIREBASE_CONFIG = (typeof window!=='undefined' && window.AVALON_FIREBASE) 
   messagingSenderId:'282689238789',
   appId:'1:282689238789:web:44b4f71ad48559c88d296c'
 };
+// Set this before app.js to show a support button, e.g. window.AVALON_SUPPORT_URL='https://ko-fi.com/yourname'.
+const SUPPORT_URL = (typeof window!=='undefined' && window.AVALON_SUPPORT_URL) || '';
+const ROOM_TTL_MS = 72 * 60 * 60 * 1000;
+const END_TTL_MS = 24 * 60 * 60 * 1000;
 const Net = {
   db:null, auth:null, ref:null, onlineRef:null, code:null, loaded:false, conn:false, everConnected:false, authFailed:false,
   raw:new Map(), parsed:new Map(), revs:new Map(), online:new Set(),
@@ -349,6 +353,18 @@ const Net = {
     const val = d==null ? null : (key==='game' ? {host:d.host, j:JSON.stringify(d)} : {j:JSON.stringify(d)});
     return this.ref.child(path).set(val).catch(e=>{ console.warn('write failed', key, e); toast(t('writeFail')); });
   },
+  dropRoom(){
+    if(!this.ref) return Promise.resolve();
+    // Delete host-owned children before the game record, because the rules use
+    // the game's host id to authorize seat and secret cleanup.
+    const jobs=[];
+    for(const key of this.raw.keys()){
+      if(key.startsWith('seat/')) jobs.push(this.ref.child('seats/'+key.slice(5)).remove());
+      if(key.startsWith('sec/')) jobs.push(this.ref.child('sec/'+key.slice(4)).remove());
+    }
+    if(this.onlineRef) jobs.push(this.onlineRef.remove());
+    return Promise.all(jobs).then(()=>this.ref.child('game').remove()).catch(e=>{ console.warn('room cleanup failed', e); toast(t('writeFail')); });
+  },
   markOnline(){
     if(!this.code || !this.conn || !ME.pid) return;
     const r=this.db.ref('rooms/'+this.code+'/online/'+ME.pid);
@@ -363,7 +379,7 @@ const Net = {
 /* ================= App state ================= */
 const S = {
   view:'home', code:null, joinedAt:0, game:null, seats:{}, secrets:{},
-  mine:null, master:null, ladyMine:[], checksMine:[], ui:{nick:'', joinCode:'', pick:[], pickStep:'', myActs:{}, busy:false, excalibur:null, rulesOpen:false, rulesInlineOpen:false},
+  mine:null, master:null, ladyMine:[], checksMine:[], ui:{nick:'', joinCode:'', pick:[], pickStep:'', myActs:{}, busy:false, excalibur:null, rulesOpen:false, rulesInlineOpen:false, infoOpen:null},
   ov:[], seen:null, notFoundTimer:null, lastGid:null,
 };
 
@@ -396,6 +412,7 @@ function sync(){
     S.seats = Net.prefixed('seat/');
     S.secrets = Net.prefixed('sec/');
     if(!S.game && Net.loaded){ toast(t('notFound', S.code)); return goHome(true); } // room missing or closed
+    if(S.game && S.game.host===ME.pid && S.game.expires && Date.now()>S.game.expires){ Net.dropRoom().then(()=>goHome(true)); return; }
     if(S.game && S.game.status==='lobby' && S.autoSeat && !S.seats[ME.pid] && Net.loaded){ S.autoSeat=false; takeSeat(); }
     if(S.game && S.game.step!==S.ui.pickStep){ S.ui.pick=[]; S.ui.excalibur=null; S.ui.pickStep=S.game.step; }
     decryptSecrets().then(()=>{ detect(); render(); hostTick(); });
@@ -456,7 +473,7 @@ function createRoom(){
   const code=randCode(5);
   enterRoom(code);
   S.autoSeat=false;
-  Net.pub('game', {code, host:ME.pid, hostPub:ME.pub, status:'lobby', created:Date.now(), settings:Object.assign({},DEFAULT_SETTINGS), gid:''});
+  Net.pub('game', {code, host:ME.pid, hostPub:ME.pub, status:'lobby', created:Date.now(), expires:Date.now()+ROOM_TTL_MS, settings:Object.assign({},DEFAULT_SETTINGS), gid:''});
   Net.pub('seat/'+ME.pid, {pid:ME.pid, nick, pub:ME.pub, joined:Date.now(), act:null});
 }
 function joinRoom(){
@@ -485,7 +502,7 @@ function leaveRoom(){
     const others=lobbyOrder().filter(p=>p!==ME.pid);
     if(g.host===ME.pid){
       if(others.length) Net.pub('game', Object.assign({}, g, {host:others[0], hostPub:S.seats[others[0]].pub}));
-      else Net.pub('game', null);
+      else { Net.dropRoom(); return setTimeout(()=>goHome(true), 150); }
     }
     if(S.seats[ME.pid]) Net.pub('seat/'+ME.pid, null);
   }
@@ -531,7 +548,7 @@ async function startGame(){
     S.master={roles,allegiances};
     const holder=(st.lady && n>=7) ? ids[(leader-1+n)%n] : null;
     Net.pub('game', {
-      code:g.code, host:ME.pid, hostPub:ME.pub, created:g.created, settings:st,
+      code:g.code, host:ME.pid, hostPub:ME.pub, created:g.created, expires:Date.now()+ROOM_TTL_MS, settings:st,
       status:'play', gid, order:ids, pubs, nicks, n,
       phase:needsTricksterChoice?'loyalty':'propose', q:0, att:1, leader, team:[], excaliburHolder:null,
       step:needsTricksterChoice?gid+':loyalty:cleric':gid+':propose:0:1',
@@ -546,7 +563,7 @@ async function startGame(){
 function playAgain(){
   const g=S.game; if(!isHost()) return;
   for(const id of Object.keys(S.secrets)) Net.pub('sec/'+id, null);
-  Net.pub('game', {code:g.code, host:ME.pid, hostPub:ME.pub, status:'lobby', created:g.created||Date.now(), settings:g.settings||DEFAULT_SETTINGS, gid:''});
+  Net.pub('game', {code:g.code, host:ME.pid, hostPub:ME.pub, status:'lobby', created:g.created||Date.now(), expires:Date.now()+ROOM_TTL_MS, settings:g.settings||DEFAULT_SETTINGS, gid:''});
   S.ov=[];
 }
 
@@ -584,7 +601,7 @@ async function readAct(pid, step){
   try{ return (await decC(s.act.box)).v; }catch(e){ return undefined; }
 }
 function endPatch(g, winner, reason, extra){
-  return Object.assign({}, extra, {status:'end', phase:'end', winner, reason, roles:S.master.roles, allegiances:S.master.allegiances, step:g.gid+':end'});
+  return Object.assign({}, extra, {status:'end', phase:'end', winner, reason, roles:S.master.roles, allegiances:S.master.allegiances, expires:Date.now()+END_TTL_MS, step:g.gid+':end'});
 }
 async function saveMaster(g){
   Net.pub('sec/master', {gid:g.gid, box:await enc(ME.pub,S.master)});
@@ -733,20 +750,25 @@ function render(){
   else if(!S.game) html+='<div class="glass card" style="text-align:center;max-width:480px;margin:40px auto">'+t('entering', esc(S.code))+'<div class="muted small" style="margin-top:6px">'+(Net.connected()?'':t('connecting'))+'</div></div>';
   else if(S.game.status==='lobby') html+=viewLobby();
   else html+=viewGame();
-  html+='<div class="foot">'+t('footer')+'</div>';
+  html+=siteFooter();
   app.innerHTML=html;
   renderOverlay();
   renderRulesModal();
+  renderInfoModal();
   if(fid){ const el=document.getElementById(fid); if(el){ el.focus(); try{ el.setSelectionRange(fsel,fsel); }catch(e){} } }
 }
 function topBar(){
   const conn=Net.connected();
   const st = !Net.everConnected ? t('connecting') : (conn ? t('online') : t('offline'));
-  return '<div class="top"><button class="brand" data-a="home"><div class="mark"><span>V</span></div><div><div class="t1">AVALON</div><div class="t2">'+t('sub')+'</div></div></button>'
+  return '<div class="top"><button class="brand" data-a="home" aria-label="'+t('home')+'"><div class="mark"><span>V</span></div><div><div class="t1">AVALON</div><div class="t2">'+t('sub')+'</div></div></button>'
     +'<div class="top-r">'+(S.code&&S.game?'<button class="chip btn rules-access" data-a="rules" aria-label="'+t('rulesAnytime')+'">📜 <span>'+t('rulesAnytime')+'</span></button><span class="chip room-chip"><span class="dot '+(conn?'on':'')+'"></span><b style="letter-spacing:2px">'+esc(S.code)+'</b></span>':'<span class="chip"><span class="dot '+(conn?'on':'')+'"></span>'+st+'</span>')
     +'<button class="chip btn" data-a="lang">'+(LANG==='zh'?'EN':'中文')+'</button></div></div>'
     +(Net.everConnected && !conn ? '<div class="banner-off">'+t('offline')+'</div>' : '')
     +((Net.authFailed || (!Net.everConnected && S.bootAt && Date.now()-S.bootAt>15000)) ? '<div class="banner-off">'+t('noNet')+'</div>' : '');
+}
+function siteFooter(){
+  const support = SUPPORT_URL ? '<a class="foot-link support-link" href="'+esc(SUPPORT_URL)+'" target="_blank" rel="noopener noreferrer">♡ '+t('support')+'</a>' : '';
+  return '<footer class="foot"><p>'+t('footer')+'</p><nav aria-label="Footer"><button class="foot-link" data-a="info" data-info="privacy">'+t('privacy')+'</button><button class="foot-link" data-a="info" data-info="legal">'+t('legal')+'</button>'+support+'<a class="foot-link" href="https://github.com/LorraineWong/avalon" target="_blank" rel="noopener noreferrer">GitHub</a></nav></footer>';
 }
 function roleGuide(r){
   return '<div class="role-guide '+side(r)+'">'+roleArt(r,'guide-art')+'<span><b class="'+(side(r)==='good'?'res-s':'res-f')+'">'+rName(r)+'</b><br><span class="muted">'+rDesc(r)+'</span></span></div>';
@@ -768,6 +790,22 @@ function renderRulesModal(){
   if(el._lang===LANG && el.innerHTML) return;
   el._lang=LANG;
   el.innerHTML='<div class="rules-modal" role="dialog" aria-modal="true" aria-label="'+t('rulesAnytime')+'"><div class="glass rules-sheet"><div class="rules-head"><div><div class="eyebrow">AVALON GUIDE</div><h2>📜 '+t('rulesAnytime')+'</h2></div><button class="btn ghost rules-close" data-a="closeRules" aria-label="'+t('close')+'">×</button></div>'+rulesContent()+'</div></div>';
+  requestAnimationFrame(()=>el.querySelector('.rules-close')?.focus());
+}
+function infoContent(kind){
+  if(LANG==='zh' && kind==='privacy') return '<p>这个网站使用 Firebase 匿名登录来连接游戏。我们会处理随机生成的匿名账号 ID、你输入的昵称、房间状态与加密后的游戏行动。你的身份解密私钥与偏好保存在当前浏览器的 localStorage。</p><p>游戏不要求邮箱或真实姓名，也没有广告追踪器。请不要把真实姓名或敏感资料当作昵称。房间会带有有效期；房主再次连接时，过期房间会被清除，维护期间也可能删除旧房间。</p><p>Firebase 和字体服务可能按其政策处理必要的网络资料（例如 IP 地址）。如需报告隐私或安全问题，请使用 GitHub 仓库 Security 页面中的私密漏洞报告功能。</p>';
+  if(LANG==='zh') return '<p>Avalon Online 是免费的非官方粉丝作品，与《抵抗组织：阿瓦隆》的设计者、发行商或权利方没有隶属、赞助或认可关系。</p><p>相关游戏名称、角色名称与设定权利归各自权利人所有。本站人物插画与网页代码为本项目原创，没有使用官方卡牌图片。请支持正版桌游。</p><p>自愿赞助（启用后）仅用于网站与开发成本，不会解锁游戏功能，也不代表出售或授权原作内容。</p>';
+  if(kind==='privacy') return '<p>This site uses Firebase Anonymous Authentication to connect games. We process a randomly generated anonymous account ID, the nickname you enter, room state, and encrypted game actions. Your role-decryption private key and preferences stay in this browser’s localStorage.</p><p>No email or real name is required, and the site has no advertising trackers. Do not use a real name or sensitive information as your nickname. Rooms carry an expiry time; an expired room is removed when its host reconnects, and old rooms may also be deleted during maintenance.</p><p>Firebase and the font provider may process necessary network data such as IP addresses under their own policies. Report privacy or security issues privately through the repository’s GitHub Security page.</p>';
+  return '<p>Avalon Online is a free, unofficial fan project. It is not affiliated with, sponsored, or endorsed by the designers, publishers, or rights holders of The Resistance: Avalon.</p><p>Game, character, and setting names belong to their respective owners. The character art and site code are original to this project; no official card artwork is used. Please support the official board game.</p><p>Voluntary support, when enabled, only helps cover site and development costs. It does not unlock gameplay or sell or license any content from the original game.</p>';
+}
+function renderInfoModal(){
+  const el=$('#infoModal'); if(!el) return;
+  const kind=S.ui.infoOpen;
+  if(!kind){ if(el.innerHTML) el.innerHTML=''; el._key=null; return; }
+  const key=kind+':'+LANG; if(el._key===key) return; el._key=key;
+  const title=kind==='privacy'?t('privacy'):t('legal');
+  el.innerHTML='<div class="rules-modal info-modal" role="dialog" aria-modal="true" aria-labelledby="infoTitle"><div class="glass rules-sheet info-sheet"><div class="rules-head"><div><div class="eyebrow">AVALON ONLINE</div><h2 id="infoTitle">'+title+'</h2></div><button class="btn ghost rules-close" data-a="closeInfo" aria-label="'+t('close')+'">×</button></div><div class="info-copy">'+infoContent(kind)+'</div></div></div>';
+  requestAnimationFrame(()=>el.querySelector('.rules-close')?.focus());
 }
 function viewHome(){
   const last=LS.get('last');
@@ -775,9 +813,9 @@ function viewHome(){
     +'<div class="hero-copy"><div class="eyebrow">THE RESISTANCE</div><div class="crest"><span>V</span></div><h1>AVALON</h1><div class="sub">'+t('tagline')+'</div><p class="hero-oath">'+(LANG==='zh'?'忠诚藏于誓言，背叛隐于圆桌。':'Loyalty hides in every oath. Treachery sits at the table.')+'</p>'
     +'<div class="feature"><span>♟ '+t('feat1')+'</span><span>✦ '+t('feat2')+'</span><span>⌁ '+t('feat3')+'</span><span>⌘ '+t('feat4')+'</span></div></div></div>'
     +(last ? '<div class="glass resume"><span>'+t('resume','<b style="letter-spacing:2px">'+esc(last)+'</b>')+'</span><button class="btn pri" data-a="resume">'+t('resumeBtn')+'</button></div>' : '')
-    +'<div class="home-grid"><div class="glass card"><h2>'+t('nick')+'</h2><input class="input" id="nick" maxlength="12" placeholder="'+t('nickPh')+'" value="'+esc(S.ui.nick)+'">'
+    +'<div class="home-grid"><div class="glass card"><h2>'+t('nick')+'</h2><input class="input" id="nick" aria-label="'+t('nick')+'" maxlength="12" placeholder="'+t('nickPh')+'" value="'+esc(S.ui.nick)+'">'
     +'<button class="btn pri big" style="width:100%;margin-top:14px" data-a="create">✨ '+t('create')+'</button></div>'
-    +'<div class="glass card"><h2>'+t('joinTitle')+'</h2><div class="row"><input class="input code" id="joinCode" maxlength="8" placeholder="'+t('codePh')+'" value="'+esc(S.ui.joinCode)+'" style="flex:1;min-width:0">'
+    +'<div class="glass card"><h2>'+t('joinTitle')+'</h2><div class="row"><input class="input code" id="joinCode" aria-label="'+t('codePh')+'" maxlength="8" placeholder="'+t('codePh')+'" value="'+esc(S.ui.joinCode)+'" style="flex:1;min-width:0">'
     +'<button class="btn" data-a="join">'+t('join')+'</button></div><p class="muted small" style="margin-bottom:0">'+t('joinHint')+'</p></div></div>'
     +'<div class="glass card" style="max-width:820px;margin:16px auto 0">'+rulesBlock()+'</div>';
 }
@@ -1026,7 +1064,13 @@ document.addEventListener('input', e=>{
   if(e.target.id==='joinCode') S.ui.joinCode=e.target.value.toUpperCase();
 });
 document.addEventListener('keydown', e=>{
+  if(e.key==='Escape' && S.ui.infoOpen){ S.ui.infoOpen=null; renderInfoModal(); return; }
   if(e.key==='Escape' && S.ui.rulesOpen){ S.ui.rulesOpen=false; renderRulesModal(); return; }
+  if(e.key==='Tab' && (S.ui.infoOpen || S.ui.rulesOpen)){
+    const root=S.ui.infoOpen?$('#infoModal'):$('#rulesModal');
+    const items=root&&[...root.querySelectorAll('button,a[href],[tabindex]:not([tabindex="-1"])')].filter(x=>!x.disabled);
+    if(items&&items.length){ const first=items[0], last=items[items.length-1]; if(e.shiftKey&&document.activeElement===first){ e.preventDefault(); last.focus(); } else if(!e.shiftKey&&document.activeElement===last){ e.preventDefault(); first.focus(); } }
+  }
   if(e.key!=='Enter') return;
   if(e.target.id==='joinCode') joinRoom();
   else if(e.target.id==='nick'){ if(!S.code) createRoom(); else if(S.seats[ME.pid]) renameSeat(); else takeSeat(); }
@@ -1056,6 +1100,8 @@ document.addEventListener('click', e=>{
     case 'lang': LANG = LANG==='zh'?'en':'zh'; LS.set('lang', LANG); document.documentElement.lang = LANG==='zh'?'zh-CN':'en'; return render();
     case 'rules': S.ui.rulesOpen=true; return renderRulesModal();
     case 'closeRules': S.ui.rulesOpen=false; return renderRulesModal();
+    case 'info': S.ui.infoOpen=b.dataset.info; return renderInfoModal();
+    case 'closeInfo': S.ui.infoOpen=null; return renderInfoModal();
     case 'create': return createRoom();
     case 'join': return joinRoom();
     case 'resume': { const l=LS.get('last'); if(l) enterRoom(l); return; }
