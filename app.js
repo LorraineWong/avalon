@@ -46,7 +46,7 @@ const I18N = {
     history:'对局记录', noHistory:'还没有投票记录。', round:'轮次', leaderTeam:'队长 / 队伍', result:'结果',
     rRejected:'否决', rOn:'出发中', try:'第 {0} 次',
     hostOffline:'房主 {0} 似乎掉线了。游戏由房主的设备推进，请房主重新打开链接，游戏会从当前进度继续。',
-    rules:'规则速查', close:'关闭', ladyLog:'湖中仙女', kicked:'已移出', toMany:'最多选 {0} 人，先取消一个',
+    rules:'规则速查', close:'关闭', goodCamp:'正义阵营', evilCamp:'邪恶阵营', gameModules:'组合角色与玩法模块', currentLineup:'本局阵容', rulesAnytime:'规则与角色', ladyLog:'湖中仙女', kicked:'已移出', toMany:'最多选 {0} 人，先取消一个',
     rulesP1:'好人要完成 3 个任务，坏人要让 3 个任务失败。每轮由队长挑选队员，所有人公开投票，<b>超过半数</b>赞成才能出发，否则队长顺延到下一位。同一个任务<b>连续 5 次</b>组队被否决，坏人直接获胜。',
     rulesP2:'出任务时队员秘密出牌：好人只能出“成功”，坏人可以选择。7 人及以上时，<b>第 4 个任务需要 2 张失败</b>才算失败。好人完成 3 个任务后，刺客还有一次刺杀梅林的机会，刺中则坏人翻盘。',
     rulesP3:'湖中仙女（可选，7 人以上）：第 2、3、4 个任务结束后，持有者秘密查验一名玩家的阵营，然后把仙女交给对方。持有过仙女的人不能再被查验。',
@@ -90,7 +90,7 @@ const I18N = {
     history:'History', noHistory:'No votes yet.', round:'Round', leaderTeam:'Leader / Team', result:'Result',
     rRejected:'Rejected', rOn:'On quest', try:'Try {0}',
     hostOffline:'Host {0} seems offline. The game runs on the host\'s device — ask them to reopen the link and it will resume.',
-    rules:'Quick rules', close:'Close', ladyLog:'Lady of the Lake', kicked:'Removed', toMany:'Max {0} players — deselect one first',
+    rules:'Quick rules', close:'Close', goodCamp:'Good', evilCamp:'Evil', gameModules:'Paired roles & game modules', currentLineup:'Current lineup', rulesAnytime:'Rules & roles', ladyLog:'Lady of the Lake', kicked:'Removed', toMany:'Max {0} players — deselect one first',
     rulesP1:'Good must complete 3 quests; Evil must fail 3. Each round the leader proposes a team and everyone votes openly — a <b>strict majority</b> is needed, otherwise leadership passes on. If <b>5 proposals in a row</b> are rejected for one quest, Evil wins.',
     rulesP2:'Team members play cards secretly: Good can only play Success, Evil may choose. With 7+ players, <b>Quest 4 needs 2 fails</b>. If Good completes 3 quests, the Assassin gets one shot at Merlin — a hit means Evil wins.',
     rulesP3:'Lady of the Lake (optional, 7+): after Quests 2, 3 and 4 the holder secretly checks one player\'s loyalty, then passes the Lady to them. Former holders cannot be checked.',
@@ -363,7 +363,7 @@ const Net = {
 /* ================= App state ================= */
 const S = {
   view:'home', code:null, joinedAt:0, game:null, seats:{}, secrets:{},
-  mine:null, master:null, ladyMine:[], checksMine:[], ui:{nick:'', joinCode:'', pick:[], pickStep:'', myActs:{}, busy:false, excalibur:null},
+  mine:null, master:null, ladyMine:[], checksMine:[], ui:{nick:'', joinCode:'', pick:[], pickStep:'', myActs:{}, busy:false, excalibur:null, rulesOpen:false, rulesInlineOpen:false},
   ov:[], seen:null, notFoundTimer:null, lastGid:null,
 };
 
@@ -736,22 +736,38 @@ function render(){
   html+='<div class="foot">'+t('footer')+'</div>';
   app.innerHTML=html;
   renderOverlay();
+  renderRulesModal();
   if(fid){ const el=document.getElementById(fid); if(el){ el.focus(); try{ el.setSelectionRange(fsel,fsel); }catch(e){} } }
 }
 function topBar(){
   const conn=Net.connected();
   const st = !Net.everConnected ? t('connecting') : (conn ? t('online') : t('offline'));
   return '<div class="top"><button class="brand" data-a="home"><div class="mark"><span>V</span></div><div><div class="t1">AVALON</div><div class="t2">'+t('sub')+'</div></div></button>'
-    +'<div class="top-r">'+(S.code&&S.game?'<span class="chip"><span class="dot '+(conn?'on':'')+'"></span><b style="letter-spacing:2px">'+esc(S.code)+'</b></span>':'<span class="chip"><span class="dot '+(conn?'on':'')+'"></span>'+st+'</span>')
+    +'<div class="top-r">'+(S.code&&S.game?'<button class="chip btn rules-access" data-a="rules" aria-label="'+t('rulesAnytime')+'">📜 <span>'+t('rulesAnytime')+'</span></button><span class="chip room-chip"><span class="dot '+(conn?'on':'')+'"></span><b style="letter-spacing:2px">'+esc(S.code)+'</b></span>':'<span class="chip"><span class="dot '+(conn?'on':'')+'"></span>'+st+'</span>')
     +'<button class="chip btn" data-a="lang">'+(LANG==='zh'?'EN':'中文')+'</button></div></div>'
     +(Net.everConnected && !conn ? '<div class="banner-off">'+t('offline')+'</div>' : '')
     +((Net.authFailed || (!Net.everConnected && S.bootAt && Date.now()-S.bootAt>15000)) ? '<div class="banner-off">'+t('noNet')+'</div>' : '');
 }
+function roleGuide(r){
+  return '<div class="role-guide '+side(r)+'">'+roleArt(r,'guide-art')+'<span><b class="'+(side(r)==='good'?'res-s':'res-f')+'">'+rName(r)+'</b><br><span class="muted">'+rDesc(r)+'</span></span></div>';
+}
+function rulesContent(){
+  const good=['merlin','percival','cleric','troublemaker','untrustworthy','lancelotGood','servant'];
+  const evil=['assassin','morgana','mordred','oberon','trickster','lunatic','brute','revealer','lancelotEvil','minion'];
+  return '<div class="rules-copy"><p>'+t('rulesP1')+'</p><p>'+t('rulesP2')+'</p><p>'+t('rulesP3')+'</p></div>'
+    +'<div class="rule-camps"><section class="camp good"><h3>🛡️ '+t('goodCamp')+'</h3><div class="rgrid">'+good.map(roleGuide).join('')+'</div></section>'
+    +'<section class="camp evil"><h3>🗡️ '+t('evilCamp')+'</h3><div class="rgrid">'+evil.map(roleGuide).join('')+'</div></section></div>'
+    +'<p class="muted small rules-counts">'+t('rulesP4')+'</p>';
+}
 function rulesBlock(){
-  const order=['merlin','percival','cleric','troublemaker','untrustworthy','lancelotGood','servant','assassin','morgana','mordred','oberon','trickster','lunatic','brute','revealer','lancelotEvil','minion'];
-  return '<details class="rules"><summary><span class="summary-mark">✦</span> '+t('rules')+'</summary><p>'+t('rulesP1')+'</p><p>'+t('rulesP2')+'</p><p>'+t('rulesP3')+'</p>'
-    +'<div class="rgrid">'+order.map(r=>'<div class="role-guide '+side(r)+'">'+roleArt(r,'guide-art')+'<span><b class="'+(side(r)==='good'?'res-s':'res-f')+'">'+rName(r)+'</b><br><span class="muted">'+rDesc(r)+'</span></span></div>').join('')+'</div>'
-    +'<p class="muted small">'+t('rulesP4')+'</p></details>';
+  return '<details class="rules" '+(S.ui.rulesInlineOpen?'open':'')+'><summary><span class="summary-mark">✦</span> '+t('rules')+'</summary>'+rulesContent()+'</details>';
+}
+function renderRulesModal(){
+  const el=$('#rulesModal'); if(!el) return;
+  if(!S.ui.rulesOpen){ if(el.innerHTML) el.innerHTML=''; el._lang=null; return; }
+  if(el._lang===LANG && el.innerHTML) return;
+  el._lang=LANG;
+  el.innerHTML='<div class="rules-modal" role="dialog" aria-modal="true" aria-label="'+t('rulesAnytime')+'"><div class="glass rules-sheet"><div class="rules-head"><div><div class="eyebrow">AVALON GUIDE</div><h2>📜 '+t('rulesAnytime')+'</h2></div><button class="btn ghost rules-close" data-a="closeRules" aria-label="'+t('close')+'">×</button></div>'+rulesContent()+'</div></div>';
 }
 function viewHome(){
   const last=LS.get('last');
@@ -777,9 +793,26 @@ function viewLobby(){
   }).join('');
   for(let i=n;i<Math.max(5,Math.min(10,n+1));i++) seats+='<div class="seatcard empty tiny">'+t('emptySeat')+'</div>';
   const tile=(k,role,name,desc,cls)=>'<button class="rt '+cls+(st[k]?' on':'')+'" '+(host?'data-set="'+k+'"':'disabled')+'>'+roleArt(role,'tile-art')+'<span><b>'+name+'</b><span>'+desc+'</span></span></button>';
+  const lineupSide=(s,label,count)=>'<section class="lineup-side '+s+'"><h3><span>'+(s==='good'?'🛡️':'🗡️')+' '+label+'</span><b>'+count+'</b></h3><div class="lineup-roles">'+pv.roles.filter(r=>side(r)===s).map(r=>'<span class="tag '+s+'">'+ROLE_META[r].ic+' '+rName(r)+'</span>').join('')+'</div></section>';
   const compHtml = pv.err ? '<p class="warn small">'+esc(pv.err)+'</p>' :
-    '<div class="comp">'+pv.roles.map(r=>'<span class="tag '+side(r)+'">'+ROLE_META[r].ic+' '+rName(r)+'</span>').join('')+'</div>'
-    +'<p class="muted small" style="margin:6px 0 0">'+(n>=5&&n<=10 ? t('comp', n, pv.gd, pv.ev) : t('compPrev', Math.min(10,Math.max(5,n)), pv.gd, pv.ev))+'</p>';
+    '<div class="lineup-title">'+t('currentLineup')+' · '+Math.min(10,Math.max(5,n))+'</div><div class="lineup">'+lineupSide('good',t('goodCamp'),pv.gd)+lineupSide('evil',t('evilCamp'),pv.ev)+'</div>'
+    +'<p class="muted small" style="margin:7px 0 0">'+(n>=5&&n<=10 ? t('comp', n, pv.gd, pv.ev) : t('compPrev', Math.min(10,Math.max(5,n)), pv.gd, pv.ev))+'</p>';
+  const goodSettings=tile('percival','percival',rName('percival'),rDesc('percival').split(/[。.]/)[0],'good')
+    +tile('cleric','cleric',rName('cleric'),rDesc('cleric').split(/[。.]/)[0],'good')
+    +tile('troublemaker','troublemaker',rName('troublemaker'),rDesc('troublemaker').split(/[。.]/)[0],'good')
+    +tile('untrustworthy','untrustworthy',rName('untrustworthy'),rDesc('untrustworthy').split(/[。.]/)[0],'good');
+  const evilSettings=tile('morgana','morgana',rName('morgana'),rDesc('morgana').split(/[。.]/)[0],'evil')
+    +tile('mordred','mordred',rName('mordred'),rDesc('mordred').split(/[。.]/)[0],'evil')
+    +tile('oberon','oberon',rName('oberon'),rDesc('oberon').split(/[，(（,]/)[0],'evil')
+    +tile('lunatic','lunatic',rName('lunatic'),rDesc('lunatic').split(/[。.]/)[0],'evil')
+    +tile('brute','brute',rName('brute'),rDesc('brute').split(/[。.]/)[0],'evil')
+    +tile('revealer','revealer',rName('revealer'),rDesc('revealer').split(/[。.]/)[0],'evil')
+    +tile('trickster','trickster',rName('trickster'),rDesc('trickster').split(/[。.]/)[0],'evil');
+  const modules=tile('merlin','merlin',t('optMerlin'),t('optMerlinD'),'neutral')
+    +tile('lancelot','lancelotGood',t('optLancelot'),t('optLancelotD'),'neutral')
+    +tile('lancelotSwitch','lancelotEvil',t('optLancelotSwitch'),t('optLancelotSwitchD'),'neutral')
+    +'<button class="rt neutral'+(st.lady?' on':'')+'" '+(host?'data-set="lady"':'disabled')+'><span class="lady-art">◯</span><span><b>'+t('optLady')+'</b><span>'+t('optLadyD')+'</span></span></button>'
+    +'<button class="rt neutral'+(st.excalibur?' on':'')+'" '+(host?'data-set="excalibur"':'disabled')+'><span class="lady-art">⚔</span><span><b>'+t('optExcalibur')+'</b><span>'+t('optExcaliburD')+'</span></span></button>';
   return '<div class="glass card roomcode"><div><div class="muted small">'+t('roomCode')+'</div><div class="code">'+esc(g.code)+'</div><div class="muted small">'+t('inviteHint')+'</div></div>'
     +'<div class="row"><button class="btn pri" data-a="copy">🔗 '+t('copyLink')+'</button>'+(navigator.share?'<button class="btn" data-a="share">'+t('share')+'</button>':'')+'</div></div>'
     +'<div class="lobby"><div class="glass card"><h2>'+t('players')+' · '+n+'/10</h2><div class="seats">'+seats+'</div>'
@@ -789,24 +822,10 @@ function viewLobby(){
     +(host?'<button class="btn pri big" data-a="start" '+(br.err||S.ui.busy?'disabled':'')+'>'+(S.ui.busy?t('dealing'):'⚔️ '+t('start'))+'</button>':'<span class="muted" style="flex:1">⏳ '+t('waitHost')+'</span>')
     +'<button class="btn ghost" data-a="leave">'+t('leave')+'</button></div>'
     +(host&&br.err?'<p class="warn small" style="margin-bottom:0">'+esc(br.err)+'</p>':'')+'</div>'
-    +'<div class="glass card"><h2>'+t('roleSettings')+(host?'':' <span class="muted small">· '+t('hostOnly')+'</span>')+'</h2><div class="roletiles">'
-    +tile('merlin','merlin',t('optMerlin'),t('optMerlinD'),'good')
-    +tile('percival','percival',rName('percival'),rDesc('percival').split(/[。.]/)[0],'good')
-    +tile('morgana','morgana',rName('morgana'),rDesc('morgana').split(/[。.]/)[0],'evil')
-    +tile('mordred','mordred',rName('mordred'),rDesc('mordred').split(/[。.]/)[0],'evil')
-    +tile('oberon','oberon',rName('oberon'),rDesc('oberon').split(/[，(（,]/)[0],'evil')
-    +tile('lancelot','lancelotGood',t('optLancelot'),t('optLancelotD'),'good')
-    +tile('lancelotSwitch','lancelotEvil',t('optLancelotSwitch'),t('optLancelotSwitchD'),'neutral')
-    +tile('lunatic','lunatic',rName('lunatic'),rDesc('lunatic').split(/[。.]/)[0],'evil')
-    +tile('brute','brute',rName('brute'),rDesc('brute').split(/[。.]/)[0],'evil')
-    +tile('revealer','revealer',rName('revealer'),rDesc('revealer').split(/[。.]/)[0],'evil')
-    +tile('cleric','cleric',rName('cleric'),rDesc('cleric').split(/[。.]/)[0],'good')
-    +tile('trickster','trickster',rName('trickster'),rDesc('trickster').split(/[。.]/)[0],'evil')
-    +tile('troublemaker','troublemaker',rName('troublemaker'),rDesc('troublemaker').split(/[。.]/)[0],'good')
-    +tile('untrustworthy','untrustworthy',rName('untrustworthy'),rDesc('untrustworthy').split(/[。.]/)[0],'good')
-    +'<button class="rt neutral'+(st.lady?' on':'')+'" '+(host?'data-set="lady"':'disabled')+'><span class="lady-art">◯</span><span><b>'+t('optLady')+'</b><span>'+t('optLadyD')+'</span></span></button>'
-    +'<button class="rt neutral'+(st.excalibur?' on':'')+'" '+(host?'data-set="excalibur"':'disabled')+'><span class="lady-art">⚔</span><span><b>'+t('optExcalibur')+'</b><span>'+t('optExcaliburD')+'</span></span></button>'
-    +'</div>'+compHtml+'</div></div>'
+    +'<div class="glass card"><h2>'+t('roleSettings')+(host?'':' <span class="muted small">· '+t('hostOnly')+'</span>')+'</h2><div class="settings-camps">'
+    +'<section class="setting-camp good"><h3>🛡️ '+t('goodCamp')+'</h3><div class="roletiles">'+goodSettings+'</div></section>'
+    +'<section class="setting-camp evil"><h3>🗡️ '+t('evilCamp')+'</h3><div class="roletiles">'+evilSettings+'</div></section></div>'
+    +'<section class="setting-camp modules"><h3>✦ '+t('gameModules')+'</h3><div class="roletiles">'+modules+'</div></section>'+compHtml+'</div></div>'
     +'<div class="glass card">'+rulesBlock()+'</div>';
 }
 
@@ -1007,10 +1026,14 @@ document.addEventListener('input', e=>{
   if(e.target.id==='joinCode') S.ui.joinCode=e.target.value.toUpperCase();
 });
 document.addEventListener('keydown', e=>{
+  if(e.key==='Escape' && S.ui.rulesOpen){ S.ui.rulesOpen=false; renderRulesModal(); return; }
   if(e.key!=='Enter') return;
   if(e.target.id==='joinCode') joinRoom();
   else if(e.target.id==='nick'){ if(!S.code) createRoom(); else if(S.seats[ME.pid]) renameSeat(); else takeSeat(); }
 });
+document.addEventListener('toggle', e=>{
+  if(e.target.matches && e.target.matches('details.rules')) S.ui.rulesInlineOpen=e.target.open;
+}, true);
 document.addEventListener('click', e=>{
   const b=e.target.closest('[data-a],[data-pick],[data-vote],[data-quest],[data-kick],[data-set],[data-excalibur],[data-loyalty]'); if(!b) return;
   if(b.dataset.kick) return kick(b.dataset.kick);
@@ -1031,6 +1054,8 @@ document.addEventListener('click', e=>{
   switch(b.dataset.a){
     case 'home': return S.code ? goHome(false) : render();
     case 'lang': LANG = LANG==='zh'?'en':'zh'; LS.set('lang', LANG); document.documentElement.lang = LANG==='zh'?'zh-CN':'en'; return render();
+    case 'rules': S.ui.rulesOpen=true; return renderRulesModal();
+    case 'closeRules': S.ui.rulesOpen=false; return renderRulesModal();
     case 'create': return createRoom();
     case 'join': return joinRoom();
     case 'resume': { const l=LS.get('last'); if(l) enterRoom(l); return; }
