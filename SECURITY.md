@@ -17,6 +17,13 @@ The production key must:
 - be paired with the deployed `database.rules.json` rules;
 - be monitored through Firebase App Check before enforcement is enabled.
 
+Current production restrictions (Google Cloud Console → APIs & Services → Credentials → "Browser key (auto created by Firebase)"):
+
+- **API restrictions:** Identity Toolkit API, Token Service API, Firebase App Check API only. Everything else, including Firebase AI Logic / Gemini, is blocked.
+- **Website restrictions:** `https://lorrainewong.github.io/*`, `https://lw-avalon.firebaseapp.com/*`, `http://localhost/*`.
+
+If you serve the game from another domain, add it to the website list first, or anonymous sign-in will fail. GitHub secret scanning flags this key as a "Google API Key"; that alert is a false positive for the reasons above.
+
 Moving this key to a frontend environment variable would not make it secret because every browser must receive it.
 
 ## Data and Trust Model

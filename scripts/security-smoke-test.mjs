@@ -10,6 +10,10 @@ if (!apiKey || !databaseURL) {
   throw new Error('Could not read the Firebase configuration from app.js.');
 }
 
+// The API key only accepts browser requests from allowed websites (see SECURITY.md),
+// so this script identifies itself as the local development origin.
+const REFERER = process.env.AVALON_REFERER || 'http://localhost/';
+
 const room = `SEC${Math.random().toString(36).slice(2, 7).toUpperCase()}`;
 const users = [];
 const results = [];
@@ -19,7 +23,7 @@ async function createAnonymousUser() {
     `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${encodeURIComponent(apiKey)}`,
     {
       method: 'POST',
-      headers: { 'content-type': 'application/json' },
+      headers: { 'content-type': 'application/json', referer: REFERER },
       body: JSON.stringify({ returnSecureToken: true })
     }
   );
@@ -53,7 +57,7 @@ async function deleteAnonymousUser(user) {
     `https://identitytoolkit.googleapis.com/v1/accounts:delete?key=${encodeURIComponent(apiKey)}`,
     {
       method: 'POST',
-      headers: { 'content-type': 'application/json' },
+      headers: { 'content-type': 'application/json', referer: REFERER },
       body: JSON.stringify({ idToken: user.idToken })
     }
   );
