@@ -557,6 +557,9 @@ function avatar(p, cls){ return '<div class="'+(cls||'av')+'" style="background:
 
 function render(){
   const app=$('#app'); if(!app) return;
+  const gameActive=!!(S.code && S.game && S.game.status!=='lobby');
+  document.body.classList.toggle('game-active', gameActive);
+  document.body.classList.toggle('game-ended', gameActive && S.game.status==='end');
   const a=document.activeElement, fid=a && a.id, fsel=a && a.selectionStart;
   let html=topBar();
   if(!S.code) html+=viewHome();
@@ -650,7 +653,7 @@ function viewGame(){
   const offline = g.status==='play' && !isHost() && Net.connected() && Date.now()-S.joinedAt>25000 && !Net.isOnline(g.host);
   return (offline?'<div class="banner-off">⚠️ '+t('hostOffline', esc(nickOf(g.host)))+'</div>':'')
     +'<div class="game"><div>'+tableView(g)+'</div><div class="panel">'
-    +'<div class="dock">'+actionBlock(g)+'</div>'
+    +'<div class="dock '+(g.status==='end'?'dock-end':'')+'">'+actionBlock(g)+'</div>'
     +roleBar()+historyBlock(g)
     +'<div class="glass card">'+rulesBlock()+'</div></div></div>';
 }
