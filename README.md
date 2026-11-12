@@ -11,8 +11,9 @@ An immersive, browser-based implementation of the social-deduction game *The Res
 ## Highlights
 
 - **Complete 5–10 player game loop** — team proposals, public votes, secret quest cards, assassination, and rematches.
-- **Eight supported roles** — Merlin, Percival, Loyal Servant, Assassin, Morgana, Mordred, Oberon, and Minion of Mordred.
+- **Seventeen supported character types** — the classic cast plus both Lancelots, Lunatic, Brute, Revealer, Cleric, Trickster, Troublemaker, and Untrustworthy Servant.
 - **Optional Lady of the Lake** — available for games with seven or more players.
+- **Big Box modules** — Excalibur and the Lancelot Allegiance variant are fully integrated into the encrypted multiplayer flow.
 - **Private role delivery** — roles and player actions are encrypted in the browser with ECDH P-256 and AES-GCM.
 - **Reconnect support** — room state is stored in Firebase Realtime Database, so a refreshed browser can resume the game.
 - **Responsive Camelot interface** — optimized for desktop and portrait mobile play.
@@ -110,6 +111,8 @@ The current release was browser-tested on 13 November 2026 with five isolated cl
 Result: **3 complete games, 42 state checks, 0 browser console errors, and no horizontal overflow.**
 
 See the [full multiplayer playtest report](docs/PLAYTEST.md) for covered and deferred scenarios.
+
+The new character behavior and the boundary of the current Big Box implementation are documented in [Big Box rules coverage](docs/BIG_BOX_RULES.md). Pure rule tests currently cover 16 character and module invariants.
 
 For the trust model, disclosure process, and production security smoke test, see [SECURITY.md](SECURITY.md).
 

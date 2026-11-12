@@ -21,22 +21,26 @@ const I18N = {
     renamed:'昵称已更新', roleSettings:'角色配置', hostOnly:'仅房主可修改', emptySeat:'等待加入',
     needPlayers:'需要 5–10 名玩家（当前 {0} 人）', tooManyEvil:'{0} 人局只有 {1} 个坏人，勾选的坏人角色太多了', tooManyGood:'好人特殊角色太多了',
     comp:'{0} 人局：{1} 好人 · {2} 坏人', compPrev:'按 {0} 人预览：{1} 好人 · {2} 坏人',
-    optMerlin:'梅林 + 刺客', optMerlinD:'经典核心', optLady:'湖中仙女', optLadyD:'7 人及以上生效',
-    ph_propose:'组队', ph_vote:'投票', ph_quest:'出任务', ph_lady:'湖中仙女', ph_assassin:'刺杀梅林', ph_end:'游戏结束',
+    optMerlin:'梅林 + 刺客', optMerlinD:'经典核心', optLady:'湖中仙女', optLadyD:'7 人及以上生效', optExcalibur:'王者之剑', optExcaliburD:'持剑者可换掉另一名队员的任务牌',
+    optLancelot:'兰斯洛特', optLancelotD:'一好一坏，互相认识', optLancelotSwitch:'兰斯洛特·效忠转换', optLancelotSwitchD:'每个任务开始时抽效忠牌；两人互不认识',
+    ph_propose:'组队', ph_vote:'投票', ph_quest:'出任务', ph_excalibur:'王者之剑', ph_loyalty:'阵营查验', ph_recruit:'招募判定', ph_lady:'湖中仙女', ph_assassin:'刺杀梅林', ph_end:'游戏结束',
     questN:'任务 {0}', attempt:'第 {0}/5 次组队', needTwo:'需 2 张失败', fails:'{0} 张失败',
     leaderPick:'你是队长：选 {0} 名队员', leaderHint:'点击圆桌上的玩家选择，可以选自己。', submitTeam:'提交队伍', resubmit:'重新提交',
     waitLeader:'{0} 正在挑选 {1} 名队员', discuss:'趁现在讨论一下吧。', voteTitle:'同意这支队伍出发吗？',
     approve:'赞成', reject:'反对', voted:'已投票，所有人投完前可以修改。', pleaseVote:'请投票，全部投完后统一公开。', votedCount:'已投 {0}/{1}',
-    questTitle:'任务进行中', success:'成功', fail:'失败', goodOnly:'好人只能出“成功”。', evilChoice:'你是坏人，可以选择让任务失败。',
+    questTitle:'任务进行中', success:'成功', fail:'失败', goodOnly:'好人只能出“成功”。', evilChoice:'你是坏人，可以选择让任务失败。', mustFail:'你的身份在本次任务必须出“失败”。', cannotFail:'你的身份在本次任务不能出“失败”。',
+    excaliburPick:'把王者之剑交给一名队员', excaliburHint:'持剑者不能是队长，出牌后可换掉另一名队员的牌。', excaliburUse:'要换掉谁的任务牌？', excaliburSkip:'不使用王者之剑', excaliburWait:'{0} 正在决定是否使用王者之剑…',
+    loyaltyChoose:'你的阵营正在被查验', loyaltyHint:'骗术师可以向查验者展示任意阵营。', showGood:'展示好人', showEvil:'展示坏人', loyaltyWait:'等待被查验者选择要展示的阵营…',
+    recruitTitle:'刺客先寻找“不可信的仆人”', recruitMe:'选出你认为的不可信仆人。猜中后，他会倒戈并接替你刺杀梅林；猜错则仍由你刺杀。', recruitWait:'刺客正在尝试招募不可信的仆人…',
     played:'已出牌 {0}/{1}', youPlayed:'你已出牌。', waitTeam:'等待队员出牌…', twoNote:'本任务需要 2 张失败才算失败。',
     ladyTitle:'湖中仙女：查验一名玩家', ladyHint:'点击圆桌上的玩家（持有过仙女的人不能选）。', inspect:'查验 {0}', ladyWait:'{0} 正在使用湖中仙女…',
     assTitle:'好人完成了 3 个任务！', assMe:'你是刺客：和队友商量后，选出你认为的梅林。', stab:'刺杀 {0}', assWait:'刺客正在寻找梅林…', assEvil:'坏人可以公开讨论刺谁。',
     spectator:'你正在观战', myRole:'我的身份', tapReveal:'点击查看身份', yourRole:'你的身份', youSee:'你看到的{0}', none:'无',
-    inspected:'你查验了 {0}：{1}', good:'好人', evil:'坏人', gotIt:'我记住了', loadingRole:'正在读取身份…',
-    see_evil:'坏人', see_mp:'梅林或莫甘娜', see_allies:'坏人同伴', nightTitle:'夜晚降临', nightLead:'悄悄看一下你的身份，别让旁边的人看到。', flip:'翻开身份牌',
+    inspected:'你查验了 {0}：{1}', good:'好人', evil:'坏人', currentLoyalty:'当前阵营：{0}', gotIt:'我记住了', loadingRole:'正在读取身份…',
+    see_evil:'坏人', see_mp:'梅林或莫甘娜', see_allies:'坏人同伴', see_assassin:'刺客', see_lancelot:'另一名兰斯洛特', see_lancelot_allies:'另一名兰斯洛特与坏人同伴', nightTitle:'夜晚降临', nightLead:'悄悄看一下你的身份，别让旁边的人看到。', flip:'翻开身份牌',
     voteReveal:'投票结果', passed:'队伍通过，出发！', rejected:'队伍被否决', yesNo:'{0} 赞成 · {1} 反对',
     questReveal:'任务 {0} 结果', qSuccess:'任务成功', qFail:'任务失败',
-    goodWin:'好人阵营获胜', evilWin:'坏人阵营获胜', r5:'连续 5 次组队被否决', r3f:'3 个任务失败', r3s:'3 个任务成功',
+    goodWin:'好人阵营获胜', evilWin:'坏人阵营获胜', r5:'连续 5 次组队被否决', r3f:'3 个任务失败', r3s:'3 个任务成功', recruited:'不可信的仆人已倒戈', revealerShown:'揭示者公开了身份', lancelotSwitchLog:'兰斯洛特转换了阵营', lancelotNoChange:'兰斯洛特阵营不变',
     rhit:'刺客刺中了梅林，坏人翻盘！', rmiss:'刺客没有找到梅林！', stabbedX:'刺客刺杀了 {0}',
     again:'再来一局', waitAgain:'等待房主开新局', backHome:'回首页', allRoles:'身份揭晓',
     history:'对局记录', noHistory:'还没有投票记录。', round:'轮次', leaderTeam:'队长 / 队伍', result:'结果',
@@ -61,22 +65,26 @@ const I18N = {
     renamed:'Name updated', roleSettings:'Roles', hostOnly:'Host only', emptySeat:'Open seat',
     needPlayers:'Need 5–10 players (now {0})', tooManyEvil:'A {0}-player game has only {1} evil players — too many evil roles selected', tooManyGood:'Too many special good roles',
     comp:'{0} players: {1} good · {2} evil', compPrev:'Preview for {0}: {1} good · {2} evil',
-    optMerlin:'Merlin + Assassin', optMerlinD:'The classic core', optLady:'Lady of the Lake', optLadyD:'7+ players',
-    ph_propose:'Team building', ph_vote:'Voting', ph_quest:'Quest', ph_lady:'Lady of the Lake', ph_assassin:'Assassination', ph_end:'Game over',
+    optMerlin:'Merlin + Assassin', optMerlinD:'The classic core', optLady:'Lady of the Lake', optLadyD:'7+ players', optExcalibur:'Excalibur', optExcaliburD:'Its holder may switch another member\'s Quest card',
+    optLancelot:'Lancelots', optLancelotD:'One Good and one Evil; they know each other', optLancelotSwitch:'Lancelot allegiance variant', optLancelotSwitchD:'Reveal an Allegiance card before each Quest; they do not know each other',
+    ph_propose:'Team building', ph_vote:'Voting', ph_quest:'Quest', ph_excalibur:'Excalibur', ph_loyalty:'Loyalty check', ph_recruit:'Recruitment', ph_lady:'Lady of the Lake', ph_assassin:'Assassination', ph_end:'Game over',
     questN:'Quest {0}', attempt:'Proposal {0}/5', needTwo:'Needs 2 fails', fails:'{0} fail(s)',
     leaderPick:'You lead: pick {0} players', leaderHint:'Tap players around the table. You may pick yourself.', submitTeam:'Propose team', resubmit:'Propose again',
     waitLeader:'{0} is picking {1} players', discuss:'Discuss while you wait.', voteTitle:'Approve this team?',
     approve:'Approve', reject:'Reject', voted:'Vote cast — you can change it until everyone has voted.', pleaseVote:'Cast your vote. All votes are revealed together.', votedCount:'Voted {0}/{1}',
-    questTitle:'Quest in progress', success:'Success', fail:'Fail', goodOnly:'Good players can only play Success.', evilChoice:'You are evil — you may sabotage.',
+    questTitle:'Quest in progress', success:'Success', fail:'Fail', goodOnly:'Good players can only play Success.', evilChoice:'You are evil — you may sabotage.', mustFail:'Your role must play Fail on this Quest.', cannotFail:'Your role cannot play Fail on this Quest.',
+    excaliburPick:'Give Excalibur to a team member', excaliburHint:'The Leader cannot hold it. After cards are played, its holder may switch another member\'s card.', excaliburUse:'Whose Quest card will you switch?', excaliburSkip:'Do not use Excalibur', excaliburWait:'{0} is deciding whether to use Excalibur…',
+    loyaltyChoose:'Your loyalty is being checked', loyaltyHint:'The Trickster may show either loyalty to the examiner.', showGood:'Show Good', showEvil:'Show Evil', loyaltyWait:'Waiting for the checked player to choose a loyalty…',
+    recruitTitle:'The Assassin first seeks the Untrustworthy Servant', recruitMe:'Choose the Untrustworthy Servant. If correct, they turn Evil and take over the assassination; if wrong, you still hunt Merlin.', recruitWait:'The Assassin is attempting to recruit the Untrustworthy Servant…',
     played:'Played {0}/{1}', youPlayed:'Card played.', waitTeam:'Waiting for the team…', twoNote:'This quest needs 2 fails to fail.',
     ladyTitle:'Lady of the Lake: inspect a player', ladyHint:'Tap a player (former holders cannot be chosen).', inspect:'Inspect {0}', ladyWait:'{0} is using the Lady of the Lake…',
     assTitle:'Good completed 3 quests!', assMe:'You are the Assassin: confer with your team and choose who you think is Merlin.', stab:'Assassinate {0}', assWait:'The Assassin is hunting for Merlin…', assEvil:'Evil may discuss openly.',
     spectator:'You are spectating', myRole:'My role', tapReveal:'Tap to reveal', yourRole:'Your role', youSee:'You see ({0})', none:'nobody',
-    inspected:'You inspected {0}: {1}', good:'Good', evil:'Evil', gotIt:'Got it', loadingRole:'Loading your role…',
-    see_evil:'evil', see_mp:'Merlin or Morgana', see_allies:'evil allies', nightTitle:'Night falls', nightLead:'Peek at your role — keep it hidden from anyone next to you.', flip:'Reveal my role',
+    inspected:'You inspected {0}: {1}', good:'Good', evil:'Evil', currentLoyalty:'Current loyalty: {0}', gotIt:'Got it', loadingRole:'Loading your role…',
+    see_evil:'evil', see_mp:'Merlin or Morgana', see_allies:'evil allies', see_assassin:'the Assassin', see_lancelot:'the other Lancelot', see_lancelot_allies:'the other Lancelot and evil allies', nightTitle:'Night falls', nightLead:'Peek at your role — keep it hidden from anyone next to you.', flip:'Reveal my role',
     voteReveal:'Vote results', passed:'Team approved — off they go!', rejected:'Team rejected', yesNo:'{0} approve · {1} reject',
     questReveal:'Quest {0} result', qSuccess:'Quest succeeded', qFail:'Quest failed',
-    goodWin:'Good wins', evilWin:'Evil wins', r5:'5 proposals in a row were rejected', r3f:'3 quests failed', r3s:'3 quests succeeded',
+    goodWin:'Good wins', evilWin:'Evil wins', r5:'5 proposals in a row were rejected', r3f:'3 quests failed', r3s:'3 quests succeeded', recruited:'The Untrustworthy Servant changed sides', revealerShown:'The Revealer exposed their identity', lancelotSwitchLog:'The Lancelots switched allegiance', lancelotNoChange:'The Lancelots kept their allegiance',
     rhit:'The Assassin found Merlin — Evil steals the win!', rmiss:'The Assassin missed Merlin!', stabbedX:'The Assassin chose {0}',
     again:'Play again', waitAgain:'Waiting for the host', backHome:'Home', allRoles:'Roles revealed',
     history:'History', noHistory:'No votes yet.', round:'Round', leaderTeam:'Leader / Team', result:'Result',
@@ -100,6 +108,15 @@ const ROLE_TXT = {
     mordred:['莫德雷德','梅林看不到你是坏人。'],
     oberon:['奥伯伦','你不认识其他坏人，他们也不认识你（但梅林能看到你）。'],
     minion:['莫德雷德的爪牙','你认识其他坏人（奥伯伦除外），想办法让任务失败。'],
+    lancelotGood:['善良兰斯洛特','你属于好人阵营。基础玩法中你与邪恶兰斯洛特互相认识。'],
+    lancelotEvil:['邪恶兰斯洛特','你属于坏人阵营。基础玩法中你与善良兰斯洛特互相认识。'],
+    lunatic:['疯子','你属于坏人；只要参加任务就必须出“失败”。'],
+    brute:['蛮兵','你属于坏人；只有前三个任务可以出“失败”。'],
+    revealer:['揭示者','你属于坏人；第二个失败任务结算后必须公开身份。'],
+    cleric:['牧师','开局时你会得知初始队长属于好人还是坏人。'],
+    trickster:['骗术师','你属于坏人；阵营被查验时可以展示好人或坏人。'],
+    troublemaker:['捣乱者','你属于好人；阵营被查验时必须显示为坏人。'],
+    untrustworthy:['不可信的仆人','你属于好人并认识刺客，但梅林把你看成坏人。三次任务成功后，刺客会先尝试招募你。'],
   },
   en: {
     merlin:['Merlin','You know the evil players (except Mordred). Stay hidden — if the Assassin finds you, Evil wins.'],
@@ -110,6 +127,15 @@ const ROLE_TXT = {
     mordred:['Mordred','Merlin cannot see you as evil.'],
     oberon:['Oberon','You do not know the other evil players and they do not know you (Merlin does see you).'],
     minion:['Minion of Mordred','You know your evil allies (except Oberon). Sabotage the quests.'],
+    lancelotGood:['Good Lancelot','You are Good. In the base Lancelot rules, you and Evil Lancelot know each other.'],
+    lancelotEvil:['Evil Lancelot','You are Evil. In the base Lancelot rules, you and Good Lancelot know each other.'],
+    lunatic:['Lunatic','You are Evil and must play Fail on every Quest you join.'],
+    brute:['Brute','You are Evil but may play Fail only on the first three Quests.'],
+    revealer:['Revealer','You are Evil and must expose your identity after the second failed Quest.'],
+    cleric:['Cleric','At the start of the game, you learn whether the initial Leader is Good or Evil.'],
+    trickster:['Trickster','You are Evil and may show either loyalty whenever your loyalty is checked.'],
+    troublemaker:['Troublemaker','You are Good but must show Evil whenever your loyalty is checked.'],
+    untrustworthy:['Untrustworthy Servant','You are Good and know the Assassin, but Merlin sees you as Evil. After three successful Quests, the Assassin first tries to recruit you.'],
   }
 };
 const ROLE_META = {
@@ -121,6 +147,15 @@ const ROLE_META = {
   mordred:{side:'evil',ic:'♜',art:'assets/roles/mordred.webp'},
   oberon:{side:'evil',ic:'♠',art:'assets/roles/oberon.webp'},
   minion:{side:'evil',ic:'◆',art:'assets/roles/minion.webp'},
+  lancelotGood:{side:'good',ic:'♞',art:'assets/roles/lancelot-good.webp'},
+  lancelotEvil:{side:'evil',ic:'♞',art:'assets/roles/lancelot-evil.webp'},
+  lunatic:{side:'evil',ic:'☄',art:'assets/roles/lunatic.webp'},
+  brute:{side:'evil',ic:'⚒',art:'assets/roles/brute.webp'},
+  revealer:{side:'evil',ic:'◉',art:'assets/roles/revealer.webp'},
+  cleric:{side:'good',ic:'☩',art:'assets/roles/cleric.webp'},
+  trickster:{side:'evil',ic:'☿',art:'assets/roles/trickster.webp'},
+  troublemaker:{side:'good',ic:'⚡',art:'assets/roles/troublemaker.webp'},
+  untrustworthy:{side:'good',ic:'⚜',art:'assets/roles/untrustworthy.webp'},
 };
 let LANG = 'zh';
 function t(k, ...a){ const s = (I18N[LANG][k] ?? I18N.zh[k] ?? k); return s.replace(/\{(\d)\}/g, (_,i)=>a[+i] ?? ''); }
@@ -132,7 +167,12 @@ const roleArt = (r, cls='role-art') => '<img class="'+cls+'" src="'+ROLE_META[r]
 /* ================= Rules ================= */
 const EVIL_N = {5:2,6:2,7:3,8:3,9:3,10:4};
 const SIZES  = {5:[2,3,2,3,3],6:[2,3,4,3,4],7:[2,3,3,4,4],8:[3,4,4,5,5],9:[3,4,4,5,5],10:[3,4,4,5,5]};
-const DEFAULT_SETTINGS = {merlin:true, percival:true, morgana:true, mordred:false, oberon:false, lady:false};
+const DEFAULT_SETTINGS = {
+  merlin:true, percival:true, morgana:true, mordred:false, oberon:false,
+  lancelot:false, lancelotSwitch:false, lunatic:false, brute:false, revealer:false,
+  cleric:false, trickster:false, troublemaker:false, untrustworthy:false,
+  lady:false, excalibur:false
+};
 function buildRoles(n, st){
   if(n<5 || n>10) return {err:t('needPlayers', n)};
   const ev=EVIL_N[n], gd=n-ev, good=[], evil=[];
@@ -141,12 +181,48 @@ function buildRoles(n, st){
   if(st.morgana) evil.push('morgana');
   if(st.mordred) evil.push('mordred');
   if(st.oberon) evil.push('oberon');
+  if(st.lancelot){ good.push('lancelotGood'); evil.push('lancelotEvil'); }
+  if(st.lunatic) evil.push('lunatic');
+  if(st.brute) evil.push('brute');
+  if(st.revealer) evil.push('revealer');
+  if(st.cleric) good.push('cleric');
+  if(st.trickster) evil.push('trickster');
+  if(st.troublemaker) good.push('troublemaker');
+  if(st.untrustworthy) good.push('untrustworthy');
   if(evil.length>ev) return {err:t('tooManyEvil', n, ev)};
   if(good.length>gd) return {err:t('tooManyGood')};
   while(evil.length<ev) evil.push('minion');
   while(good.length<gd) good.push('servant');
   return {roles:good.concat(evil), ev, gd};
 }
+function roleSideFor(roles, pid, allegiances){ return (allegiances && allegiances[pid]) || side(roles[pid]); }
+function questChoices(role, questIndex, allegiance, settings){
+  if(allegiance==='good') return ['S'];
+  if(role==='lunatic') return ['F'];
+  if(role==='brute' && questIndex>2) return ['S'];
+  if(settings && settings.lancelotSwitch && (role==='lancelotGood' || role==='lancelotEvil')) return ['F'];
+  return ['S','F'];
+}
+function privateRoleData(id, roles, settings, allegiances, checks=[]){
+  const ids=Object.keys(roles), role=roles[id], allegiance=roleSideFor(roles,id,allegiances);
+  let sees=[], see='';
+  if(role==='merlin'){
+    sees=ids.filter(x=>(roleSideFor(roles,x,allegiances)==='evil' && roles[x]!=='mordred') || roles[x]==='untrustworthy');
+    see='see_evil';
+  } else if(role==='percival'){
+    sees=ids.filter(x=>roles[x]==='merlin'||roles[x]==='morgana'); see='see_mp';
+  } else if(role==='untrustworthy'){
+    sees=ids.filter(x=>roles[x]==='assassin'); see='see_assassin';
+  } else if(settings.lancelot && !settings.lancelotSwitch && role==='lancelotGood'){
+    sees=ids.filter(x=>x!==id && (roles[x]==='lancelotGood'||roles[x]==='lancelotEvil')); see='see_lancelot';
+  } else if(settings.lancelot && !settings.lancelotSwitch && role==='lancelotEvil'){
+    sees=ids.filter(x=>x!==id && ((roles[x]==='lancelotGood') || (roleSideFor(roles,x,allegiances)==='evil'&&roles[x]!=='oberon'))); see='see_lancelot_allies';
+  } else if(allegiance==='evil' && role!=='oberon' && !(settings.lancelotSwitch && (role==='lancelotGood'||role==='lancelotEvil'))){
+    sees=ids.filter(x=>x!==id && roleSideFor(roles,x,allegiances)==='evil' && roles[x]!=='oberon'); see='see_allies';
+  }
+  return {role, allegiance, sees, see, checks};
+}
+function shownLoyalty(role, allegiance){ return role==='troublemaker' ? 'evil' : allegiance; }
 
 /* ================= Utils ================= */
 const $ = s => document.querySelector(s);
@@ -287,7 +363,7 @@ const Net = {
 /* ================= App state ================= */
 const S = {
   view:'home', code:null, joinedAt:0, game:null, seats:{}, secrets:{},
-  mine:null, master:null, ladyMine:[], ui:{nick:'', joinCode:'', pick:[], pickStep:'', myActs:{}, busy:false},
+  mine:null, master:null, ladyMine:[], checksMine:[], ui:{nick:'', joinCode:'', pick:[], pickStep:'', myActs:{}, busy:false, excalibur:null},
   ov:[], seen:null, notFoundTimer:null, lastGid:null,
 };
 
@@ -321,23 +397,24 @@ function sync(){
     S.secrets = Net.prefixed('sec/');
     if(!S.game && Net.loaded){ toast(t('notFound', S.code)); return goHome(true); } // room missing or closed
     if(S.game && S.game.status==='lobby' && S.autoSeat && !S.seats[ME.pid] && Net.loaded){ S.autoSeat=false; takeSeat(); }
-    if(S.game && S.game.step!==S.ui.pickStep){ S.ui.pick=[]; S.ui.pickStep=S.game.step; }
+    if(S.game && S.game.step!==S.ui.pickStep){ S.ui.pick=[]; S.ui.excalibur=null; S.ui.pickStep=S.game.step; }
     decryptSecrets().then(()=>{ detect(); render(); hostTick(); });
   }
   render();
 }
 async function decryptSecrets(){
   const g=S.game, gid=g && g.gid;
-  if(!gid){ S.mine=null; S.master=null; S.ladyMine=[]; return; }
+  if(!gid){ S.mine=null; S.master=null; S.ladyMine=[]; S.checksMine=[]; return; }
   const m=S.secrets[ME.pid];
   if(m && m.gid===gid){ try{ S.mine=await decC(m.box); }catch(e){ S.mine=null; } } else S.mine=null;
   const ms=S.secrets.master;
   if(g.host===ME.pid && ms && ms.gid===gid){ try{ S.master=await decC(ms.box); }catch(e){ S.master=null; } } else if(g.host!==ME.pid) S.master=null;
-  const lady=[];
+  const lady=[], checks=(S.mine && S.mine.checks ? S.mine.checks.slice() : []);
   for(const [id,d] of Object.entries(S.secrets)){
     if(id.startsWith('lady-') && d.gid===gid && d.to===ME.pid){ try{ lady.push(await decC(d.box)); }catch(e){} }
+    if(id.startsWith('check-') && d.gid===gid && d.to===ME.pid){ try{ checks.push(await decC(d.box)); }catch(e){} }
   }
-  lady.sort((a,b)=>a.q-b.q); S.ladyMine=lady;
+  lady.sort((a,b)=>a.q-b.q); S.ladyMine=lady; S.checksMine=checks;
 }
 function detect(){
   const g=S.game; if(!g) return;
@@ -360,7 +437,7 @@ function detect(){
 function cleanNick(){ return (S.ui.nick||'').trim().slice(0,12); }
 function enterRoom(code){
   S.code=code; S.view='room'; S.joinedAt=Date.now(); S.autoSeat=true; S.seen=null;
-  S.game=null; S.seats={}; S.secrets={}; S.mine=null; S.master=null; S.ladyMine=[]; S.ov=[];
+  S.game=null; S.seats={}; S.secrets={}; S.mine=null; S.master=null; S.ladyMine=[]; S.checksMine=[]; S.ov=[];
   Net.join(code);
   setTimeout(sync, 1600);
   try{ history.replaceState(null,'','#'+code); }catch(e){ location.hash=code; }
@@ -421,6 +498,9 @@ function toggleSetting(k){
   st[k]=!st[k];
   if(k==='merlin' && !st.merlin){ st.percival=false; st.morgana=false; st.mordred=false; }
   if(['percival','morgana','mordred'].includes(k) && st[k]) st.merlin=true;
+  if(k==='lancelotSwitch' && st.lancelotSwitch) st.lancelot=true;
+  if(k==='lancelot' && !st.lancelot) st.lancelotSwitch=false;
+  if(k==='untrustworthy' && st.untrustworthy) st.merlin=true;
   Net.pub('game', Object.assign({}, S.game, {settings:st}));
 }
 async function startGame(){
@@ -429,27 +509,36 @@ async function startGame(){
   const br=buildRoles(n, st); if(br.err) return toast(br.err);
   S.ui.busy=true; render();
   try{
-    const dealt=shuffle(br.roles), roles={};
-    ids.forEach((id,i)=>roles[id]=dealt[i]);
-    const gid=randCode(8), pubs={}, nicks={};
+    const dealt=shuffle(br.roles), roles={}, allegiances={};
+    ids.forEach((id,i)=>{ roles[id]=dealt[i]; allegiances[id]=side(dealt[i]); });
+    const gid=randCode(8), pubs={}, nicks={}, leader=rnd(n);
     ids.forEach(id=>{ pubs[id]=S.seats[id].pub; nicks[id]=S.seats[id].nick; });
-    for(const id of ids){
-      const r=roles[id]; let sees=[], see='';
-      if(r==='merlin'){ sees=ids.filter(x=>side(roles[x])==='evil' && roles[x]!=='mordred'); see='see_evil'; }
-      else if(r==='percival'){ sees=ids.filter(x=>roles[x]==='merlin'||roles[x]==='morgana'); see='see_mp'; }
-      else if(side(r)==='evil' && r!=='oberon'){ sees=ids.filter(x=>x!==id && side(roles[x])==='evil' && roles[x]!=='oberon'); see='see_allies'; }
-      Net.pub('sec/'+id, {gid, box: await enc(pubs[id], {role:r, sees, see})});
+    let lancelot=null;
+    if(st.lancelot && st.lancelotSwitch){
+      const deck=shuffle([false,false,false,false,true,true]);
+      const switched=deck.shift();
+      const lp=ids.filter(id=>roles[id]==='lancelotGood'||roles[id]==='lancelotEvil');
+      if(switched && lp.length===2) [allegiances[lp[0]],allegiances[lp[1]]]=[allegiances[lp[1]],allegiances[lp[0]]];
+      lancelot={deck, draws:[{q:0, switched}]};
     }
-    Net.pub('sec/master', {gid, box: await enc(ME.pub, {roles})});
-    S.master={roles};
-    const leader=rnd(n), holder=(st.lady && n>=7) ? ids[(leader-1+n)%n] : null;
+    const cleric=ids.find(id=>roles[id]==='cleric'), leaderId=ids[leader];
+    const needsTricksterChoice=!!(cleric && roles[leaderId]==='trickster');
+    for(const id of ids){
+      const checks=(id===cleric && !needsTricksterChoice) ? [{source:'cleric', target:leaderId, side:shownLoyalty(roles[leaderId],allegiances[leaderId])}] : [];
+      Net.pub('sec/'+id, {gid, box: await enc(pubs[id], privateRoleData(id,roles,st,allegiances,checks))});
+    }
+    Net.pub('sec/master', {gid, box: await enc(ME.pub, {roles,allegiances})});
+    S.master={roles,allegiances};
+    const holder=(st.lady && n>=7) ? ids[(leader-1+n)%n] : null;
     Net.pub('game', {
       code:g.code, host:ME.pid, hostPub:ME.pub, created:g.created, settings:st,
       status:'play', gid, order:ids, pubs, nicks, n,
-      phase:'propose', q:0, att:1, leader, team:[], step:gid+':propose:0:1',
+      phase:needsTricksterChoice?'loyalty':'propose', q:0, att:1, leader, team:[], excaliburHolder:null,
+      step:needsTricksterChoice?gid+':loyalty:cleric':gid+':propose:0:1',
       quests:SIZES[n].map((size,i)=>({size, two:(i===3 && n>=7), r:null, fails:null, team:null})),
       rounds:[], lady: holder ? {holder, used:[holder], log:[]} : null,
-      winner:null, reason:'', roles:null, assassinPick:null, started:Date.now()
+      loyalty:needsTricksterChoice?{source:'cleric', viewer:cleric, target:leaderId, next:'propose'}:null,
+      lancelot, revealed:[], events:[], winner:null, reason:'', roles:null, assassinPick:null, started:Date.now()
     });
   }catch(e){ console.error(e); }
   S.ui.busy=false; render();
@@ -495,17 +584,78 @@ async function readAct(pid, step){
   try{ return (await decC(s.act.box)).v; }catch(e){ return undefined; }
 }
 function endPatch(g, winner, reason, extra){
-  return Object.assign({}, extra, {status:'end', phase:'end', winner, reason, roles:S.master.roles, step:g.gid+':end'});
+  return Object.assign({}, extra, {status:'end', phase:'end', winner, reason, roles:S.master.roles, allegiances:S.master.allegiances, step:g.gid+':end'});
+}
+async function saveMaster(g){
+  Net.pub('sec/master', {gid:g.gid, box:await enc(ME.pub,S.master)});
+}
+async function publishLoyalty(g, source, viewer, target, shown){
+  const payload={source, target, side:shown, q:g.q};
+  const key=source==='lady' ? 'lady-'+g.q : 'check-'+source+'-'+g.q;
+  Net.pub('sec/'+key, {gid:g.gid, to:viewer, box:await enc(g.pubs[viewer],payload)});
+}
+async function beginQuest(g, base, q){
+  let lancelot=g.lancelot, events=(g.events||[]).slice();
+  if(g.settings.lancelotSwitch && lancelot && lancelot.deck && lancelot.deck.length){
+    const deck=lancelot.deck.slice(), switched=deck.shift(), draws=(lancelot.draws||[]).concat([{q,switched}]);
+    lancelot={deck,draws};
+    events.push({type:switched?'lancelotSwitchLog':'lancelotNoChange',q});
+    if(switched){
+      const lp=g.order.filter(id=>g.roles ? (g.roles[id]==='lancelotGood'||g.roles[id]==='lancelotEvil') : (S.master.roles[id]==='lancelotGood'||S.master.roles[id]==='lancelotEvil'));
+      if(lp.length===2){
+        const a=Object.assign({},S.master.allegiances);
+        [a[lp[0]],a[lp[1]]]=[a[lp[1]],a[lp[0]]]; S.master.allegiances=a;
+        for(const id of lp) Net.pub('sec/'+id,{gid:g.gid,box:await enc(g.pubs[id],privateRoleData(id,S.master.roles,g.settings,a))});
+        await saveMaster(g);
+      }
+    }
+  }
+  return Object.assign({},base,{q,phase:'propose',step:g.gid+':propose:'+q+':1',lancelot,events});
+}
+async function resolveQuest(g, cards, excaliburTarget){
+  const roles=S.master.roles, allegiances=S.master.allegiances, finalCards=Object.assign({},cards);
+  for(const u of g.team){
+    if(!questChoices(roles[u],g.q,roleSideFor(roles,u,allegiances),g.settings).includes(cards[u])) return null;
+  }
+  if(excaliburTarget){
+    if(!g.team.includes(excaliburTarget) || excaliburTarget===g.excaliburHolder) return null;
+    finalCards[excaliburTarget]=finalCards[excaliburTarget]==='F'?'S':'F';
+  }
+  const fails=g.team.filter(u=>finalCards[u]==='F').length, qd=g.quests[g.q], failed=fails>=(qd.two?2:1);
+  const quests=g.quests.map((x,i)=>i===g.q?Object.assign({},x,{r:failed?'F':'S',fails,team:g.team,excalibur:excaliburTarget||null}):x);
+  const sc=quests.filter(x=>x.r==='S').length, fc=quests.filter(x=>x.r==='F').length;
+  let revealed=(g.revealed||[]).slice(), events=(g.events||[]).slice();
+  const revealer=g.order.find(u=>roles[u]==='revealer');
+  if(fc===2 && revealer && !revealed.includes(revealer)){ revealed.push(revealer); events.push({type:'revealerShown',player:revealer,q:g.q}); }
+  const common={quests,revealed,events,questBox:null,excaliburHolder:null};
+  if(fc>=3) return endPatch(g,'evil','r3f',common);
+  if(sc>=3){
+    const vals=Object.values(roles);
+    if(vals.includes('assassin')&&vals.includes('merlin')){
+      if(vals.includes('untrustworthy')) return Object.assign(common,{phase:'recruit',step:g.gid+':recruit'});
+      return Object.assign(common,{phase:'assassin',step:g.gid+':assassin'});
+    }
+    return endPatch(g,'good','r3s',common);
+  }
+  const q=g.q+1, base=Object.assign(common,{q,att:1,leader:(g.leader+1)%g.order.length,team:[]});
+  if(g.lady && q>=2 && q<=4) return Object.assign(base,{phase:'lady',step:g.gid+':lady:'+q});
+  return beginQuest(g,base,q);
 }
 async function computeNext(g){
   const n=g.order.length, roles=S.master.roles, gid=g.gid, inGame=u=>g.order.includes(u);
   switch(g.phase){
     case 'propose': {
       const v=await readAct(g.order[g.leader], g.step);
-      if(!Array.isArray(v)) return null;
-      const team=[...new Set(v)].filter(inGame);
+      const picked=Array.isArray(v)?{team:v,excalibur:null}:v;
+      if(!picked || !Array.isArray(picked.team)) return null;
+      const team=[...new Set(picked.team)].filter(inGame);
       if(team.length!==g.quests[g.q].size) return null;
-      return {phase:'vote', team, step:gid+':vote:'+g.q+':'+g.att};
+      let excaliburHolder=null;
+      if(g.settings.excalibur){
+        excaliburHolder=picked.excalibur;
+        if(!team.includes(excaliburHolder)||excaliburHolder===g.order[g.leader]) return null;
+      }
+      return {phase:'vote',team,excaliburHolder,step:gid+':vote:'+g.q+':'+g.att};
     }
     case 'vote': {
       const votes={};
@@ -514,34 +664,51 @@ async function computeNext(g){
       const rounds=(g.rounds||[]).concat([{q:g.q, att:g.att, leader:g.order[g.leader], team:g.team, votes, ok}]);
       if(ok) return {rounds, phase:'quest', step:gid+':quest:'+g.q+':'+g.att};
       if(g.att>=5) return endPatch(g, 'evil', 'r5', {rounds});
-      return {rounds, att:g.att+1, leader:(g.leader+1)%n, team:[], phase:'propose', step:gid+':propose:'+g.q+':'+(g.att+1)};
+      return {rounds, att:g.att+1, leader:(g.leader+1)%n, team:[], excaliburHolder:null, phase:'propose', step:gid+':propose:'+g.q+':'+(g.att+1)};
     }
     case 'quest': {
       const cards={};
       for(const u of g.team){ const v=await readAct(u, g.step); if(v===undefined) return null; cards[u]=v; }
-      const fails=g.team.filter(u=>cards[u]==='F' && side(roles[u])==='evil').length; // good can never fail
-      const qd=g.quests[g.q], failed=fails>=(qd.two?2:1);
-      const quests=g.quests.map((x,i)=> i===g.q ? Object.assign({}, x, {r:failed?'F':'S', fails, team:g.team}) : x);
-      const sc=quests.filter(x=>x.r==='S').length, fc=quests.filter(x=>x.r==='F').length;
-      if(fc>=3) return endPatch(g, 'evil', 'r3f', {quests});
-      if(sc>=3){
-        const vals=Object.values(roles);
-        if(vals.includes('assassin') && vals.includes('merlin')) return {quests, phase:'assassin', step:gid+':assassin'};
-        return endPatch(g, 'good', 'r3s', {quests});
-      }
-      const q=g.q+1, base={quests, q, att:1, leader:(g.leader+1)%n, team:[]};
-      if(g.lady && q>=2 && q<=4) return Object.assign(base, {phase:'lady', step:gid+':lady:'+q});
-      return Object.assign(base, {phase:'propose', step:gid+':propose:'+q+':1'});
+      for(const u of g.team){ if(!questChoices(roles[u],g.q,roleSideFor(roles,u,S.master.allegiances),g.settings).includes(cards[u])) return null; }
+      if(g.settings.excalibur && g.excaliburHolder) return {phase:'excalibur',questBox:await enc(ME.pub,{cards}),step:gid+':excalibur:'+g.q+':'+g.att};
+      return resolveQuest(g,cards,null);
+    }
+    case 'excalibur': {
+      const target=await readAct(g.excaliburHolder,g.step); if(target===undefined) return null;
+      const saved=await decC(g.questBox); if(!saved||!saved.cards) return null;
+      return resolveQuest(g,saved.cards,target||null);
     }
     case 'lady': {
       const h=g.lady.holder, tg=await readAct(h, g.step);
       if(!inGame(tg) || tg===h || g.lady.used.includes(tg)) return null;
-      Net.pub('sec/lady-'+g.q, {gid, to:h, box: await enc(g.pubs[h], {q:g.q, target:tg, side:side(roles[tg])})});
-      return {lady:{holder:tg, used:g.lady.used.concat([tg]), log:(g.lady.log||[]).concat([{q:g.q, from:h, to:tg}])},
-              phase:'propose', step:gid+':propose:'+g.q+':1'};
+      if(roles[tg]==='trickster') return {phase:'loyalty',loyalty:{source:'lady',viewer:h,target:tg,next:'propose'},step:gid+':loyalty:lady:'+g.q};
+      await publishLoyalty(g,'lady',h,tg,shownLoyalty(roles[tg],roleSideFor(roles,tg,S.master.allegiances)));
+      const base={lady:{holder:tg,used:g.lady.used.concat([tg]),log:(g.lady.log||[]).concat([{q:g.q,from:h,to:tg}])},loyalty:null,att:1,team:[]};
+      return beginQuest(g,base,g.q);
+    }
+    case 'loyalty': {
+      const x=g.loyalty, shown=await readAct(x.target,g.step);
+      if(shown!=='good'&&shown!=='evil') return null;
+      await publishLoyalty(g,x.source,x.viewer,x.target,shown);
+      if(x.source==='lady'){
+        const base={lady:{holder:x.target,used:g.lady.used.concat([x.target]),log:(g.lady.log||[]).concat([{q:g.q,from:x.viewer,to:x.target}])},loyalty:null,att:1,team:[]};
+        return beginQuest(g,base,g.q);
+      }
+      return {phase:'propose',loyalty:null,step:gid+':propose:'+g.q+':'+g.att};
+    }
+    case 'recruit': {
+      const a=g.order.find(u=>roles[u]==='assassin'), tg=await readAct(a,g.step); if(!inGame(tg)||tg===a) return null;
+      const servant=g.order.find(u=>roles[u]==='untrustworthy');
+      if(tg===servant){
+        S.master.allegiances=Object.assign({},S.master.allegiances,{[servant]:'evil'});
+        Net.pub('sec/'+servant,{gid,box:await enc(g.pubs[servant],privateRoleData(servant,roles,g.settings,S.master.allegiances))});
+        await saveMaster(g);
+        return {phase:'assassin',recruitedPlayer:servant,recruitPick:tg,events:(g.events||[]).concat([{type:'recruited',player:servant}]),step:gid+':assassin'};
+      }
+      return {phase:'assassin',recruitPick:tg,step:gid+':assassin'};
     }
     case 'assassin': {
-      const a=g.order.find(u=>roles[u]==='assassin'); if(!a) return null;
+      const a=g.recruitedPlayer||g.order.find(u=>roles[u]==='assassin'); if(!a) return null;
       const tg=await readAct(a, g.step);
       if(!inGame(tg) || tg===a) return null;
       const hit=roles[tg]==='merlin';
@@ -581,7 +748,7 @@ function topBar(){
     +((Net.authFailed || (!Net.everConnected && S.bootAt && Date.now()-S.bootAt>15000)) ? '<div class="banner-off">'+t('noNet')+'</div>' : '');
 }
 function rulesBlock(){
-  const order=['merlin','percival','servant','assassin','morgana','mordred','oberon','minion'];
+  const order=['merlin','percival','cleric','troublemaker','untrustworthy','lancelotGood','servant','assassin','morgana','mordred','oberon','trickster','lunatic','brute','revealer','lancelotEvil','minion'];
   return '<details class="rules"><summary><span class="summary-mark">✦</span> '+t('rules')+'</summary><p>'+t('rulesP1')+'</p><p>'+t('rulesP2')+'</p><p>'+t('rulesP3')+'</p>'
     +'<div class="rgrid">'+order.map(r=>'<div class="role-guide '+side(r)+'">'+roleArt(r,'guide-art')+'<span><b class="'+(side(r)==='good'?'res-s':'res-f')+'">'+rName(r)+'</b><br><span class="muted">'+rDesc(r)+'</span></span></div>').join('')+'</div>'
     +'<p class="muted small">'+t('rulesP4')+'</p></details>';
@@ -628,7 +795,17 @@ function viewLobby(){
     +tile('morgana','morgana',rName('morgana'),rDesc('morgana').split(/[。.]/)[0],'evil')
     +tile('mordred','mordred',rName('mordred'),rDesc('mordred').split(/[。.]/)[0],'evil')
     +tile('oberon','oberon',rName('oberon'),rDesc('oberon').split(/[，(（,]/)[0],'evil')
+    +tile('lancelot','lancelotGood',t('optLancelot'),t('optLancelotD'),'good')
+    +tile('lancelotSwitch','lancelotEvil',t('optLancelotSwitch'),t('optLancelotSwitchD'),'neutral')
+    +tile('lunatic','lunatic',rName('lunatic'),rDesc('lunatic').split(/[。.]/)[0],'evil')
+    +tile('brute','brute',rName('brute'),rDesc('brute').split(/[。.]/)[0],'evil')
+    +tile('revealer','revealer',rName('revealer'),rDesc('revealer').split(/[。.]/)[0],'evil')
+    +tile('cleric','cleric',rName('cleric'),rDesc('cleric').split(/[。.]/)[0],'good')
+    +tile('trickster','trickster',rName('trickster'),rDesc('trickster').split(/[。.]/)[0],'evil')
+    +tile('troublemaker','troublemaker',rName('troublemaker'),rDesc('troublemaker').split(/[。.]/)[0],'good')
+    +tile('untrustworthy','untrustworthy',rName('untrustworthy'),rDesc('untrustworthy').split(/[。.]/)[0],'good')
     +'<button class="rt neutral'+(st.lady?' on':'')+'" '+(host?'data-set="lady"':'disabled')+'><span class="lady-art">◯</span><span><b>'+t('optLady')+'</b><span>'+t('optLadyD')+'</span></span></button>'
+    +'<button class="rt neutral'+(st.excalibur?' on':'')+'" '+(host?'data-set="excalibur"':'disabled')+'><span class="lady-art">⚔</span><span><b>'+t('optExcalibur')+'</b><span>'+t('optExcaliburD')+'</span></span></button>'
     +'</div>'+compHtml+'</div></div>'
     +'<div class="glass card">'+rulesBlock()+'</div>';
 }
@@ -638,14 +815,20 @@ function pickMode(g){
   const me=ME.pid;
   if(g.phase==='propose' && g.order[g.leader]===me) return {max:g.quests[g.q].size, ok:()=>true};
   if(g.phase==='lady' && g.lady && g.lady.holder===me) return {max:1, ok:u=>u!==me && !g.lady.used.includes(u)};
-  if(g.phase==='assassin' && S.mine && S.mine.role==='assassin') return {max:1, ok:u=>u!==me};
+  if(g.phase==='excalibur' && g.excaliburHolder===me) return {max:1, ok:u=>g.team.includes(u)&&u!==me};
+  if(g.phase==='recruit' && S.mine && S.mine.role==='assassin') return {max:1, ok:u=>u!==me};
+  if(g.phase==='assassin' && ((g.recruitedPlayer&&g.recruitedPlayer===me)||(!g.recruitedPlayer&&S.mine&&S.mine.role==='assassin'))) return {max:1, ok:u=>u!==me};
   return null;
 }
 function needsAct(g,u){
   if(g.phase==='propose') return g.order[g.leader]===u;
   if(g.phase==='vote') return true;
   if(g.phase==='quest') return (g.team||[]).includes(u);
+  if(g.phase==='excalibur') return g.excaliburHolder===u;
   if(g.phase==='lady') return !!(g.lady && g.lady.holder===u);
+  if(g.phase==='loyalty') return !!(g.loyalty && g.loyalty.target===u);
+  if(g.phase==='recruit') return u===ME.pid&&S.mine&&S.mine.role==='assassin';
+  if(g.phase==='assassin') return u===ME.pid&&((g.recruitedPlayer&&g.recruitedPlayer===u)||(!g.recruitedPlayer&&S.mine&&S.mine.role==='assassin'));
   return false;
 }
 function viewGame(){
@@ -666,17 +849,19 @@ function tableView(g){
   const seats=g.order.map((p,i)=>{
     const ang=(-90 + i*360/n)*Math.PI/180, R=41;
     const x=50+R*Math.cos(ang), y=50+R*Math.sin(ang);
-    const onTeam=(g.phase==='vote'||g.phase==='quest') && (g.team||[]).includes(p);
+    const onTeam=['vote','quest','excalibur'].includes(g.phase) && (g.team||[]).includes(p);
     const can=pm && pm.ok(p), picked=S.ui.pick.includes(p);
     let tags='';
-    if(endRoles && endRoles[p]) tags+='<span class="tag '+side(endRoles[p])+'">'+ROLE_META[endRoles[p]].ic+' '+rName(endRoles[p])+'</span>';
+    if(endRoles && endRoles[p]) tags+='<span class="tag '+((g.allegiances&&g.allegiances[p])||side(endRoles[p]))+'">'+ROLE_META[endRoles[p]].ic+' '+rName(endRoles[p])+'</span>';
     else {
       if(sees.has(p)) tags+='<span class="tag '+(S.mine.role==='percival'?'good':'evil')+'">'+(S.mine.role==='percival'?'🧙?':'👁 '+t('evil'))+'</span>';
       if(lady[p]) tags+='<span class="tag '+lady[p]+'">🧜‍♀️ '+t(lady[p])+'</span>';
+      if((g.revealed||[]).includes(p)) tags+='<span class="tag evil">◉ '+rName('revealer')+'</span>';
     }
     let badges='<span class="b-off '+(Net.isOnline(p)?'y':'')+'"></span>';
-    if(g.status==='play' && p===L && ['propose','vote','quest'].includes(g.phase)) badges+='<span class="badge b-crown">👑</span>';
+    if(g.status==='play' && p===L && ['propose','vote','quest','excalibur'].includes(g.phase)) badges+='<span class="badge b-crown">👑</span>';
     if(g.lady && g.lady.holder===p && g.status==='play') badges+='<span class="badge b-lady">🧜‍♀️</span>';
+    if(g.excaliburHolder===p && g.status==='play') badges+='<span class="badge b-lady">⚔</span>';
     if(g.status==='play' && needsAct(g,p)) badges+= acted(p) ? '<span class="badge b-act">✓</span>' : '<span class="badge b-wait">⏳</span>';
     if(showVotes && last.votes[p]!==undefined) badges+='<span class="badge b-vote '+(last.votes[p]?'y':'n')+'">'+(last.votes[p]?'✓':'✗')+'</span>';
     const cls='seatp'+(onTeam?' team':'')+(can?' pick':'')+(picked?' picked':'')+(p===ME.pid?' me':'')+(g.assassinPick===p?' stabbed':'')+(pm&&!can?' dimmed':'');
@@ -692,7 +877,8 @@ function tableView(g){
   else center='<div class="ph">'+t('questN', g.q+1)+' · '+t('ph_'+g.phase)+'</div>';
   return '<div class="glass card" style="padding:10px"><div class="tablewrap"><div class="table"><div class="disc">'+center+'<div class="qtoks">'+qt+'</div>'
     +(g.status==='play'?'<div class="rejs">'+rej+'<span>'+t('attempt', g.att)+'</span></div>':'')+'</div>'+seats+'</div></div>'
-    +(g.lady&&g.lady.log&&g.lady.log.length?'<p class="muted small" style="text-align:center;margin:4px 0 6px">🧜‍♀️ '+g.lady.log.map(x=>esc(nickOf(x.from))+' → '+esc(nickOf(x.to))).join(' · ')+'</p>':'')+'</div>';
+    +(g.lady&&g.lady.log&&g.lady.log.length?'<p class="muted small" style="text-align:center;margin:4px 0 6px">🧜‍♀️ '+g.lady.log.map(x=>esc(nickOf(x.from))+' → '+esc(nickOf(x.to))).join(' · ')+'</p>':'')
+    +(g.events&&g.events.length?'<p class="muted small" style="text-align:center;margin:4px 0 6px">'+g.events.slice(-3).map(x=>'✦ '+t(x.type)+(x.player?' · '+esc(nickOf(x.player)):'')).join(' · ')+'</p>':'')+'</div>';
 }
 function actionBlock(g){
   const me=ME.pid, inGame=g.order.includes(me), busy=S.ui.busy, mine=S.ui.myActs[g.step], L=g.order[g.leader];
@@ -704,8 +890,12 @@ function actionBlock(g){
   let h='';
   if(g.phase==='propose'){
     const size=g.quests[g.q].size;
-    if(L===me) h='<h2>👑 '+t('leaderPick', size)+'</h2><div class="hint">'+t('leaderHint')+' ('+S.ui.pick.length+'/'+size+')</div>'+chips(S.ui.pick)
-      +'<button class="btn pri big" style="width:100%" data-a="propose" '+(S.ui.pick.length!==size||busy?'disabled':'')+'>'+(acted(me)?t('resubmit'):t('submitTeam'))+'</button>';
+    if(L===me){
+      const sword=g.settings.excalibur && S.ui.pick.length===size ? '<div class="hint" style="margin-top:10px">⚔ '+t('excaliburPick')+'<br><span class="muted small">'+t('excaliburHint')+'</span></div><div class="pickrow">'+S.ui.pick.filter(u=>u!==me).map(u=>'<button class="tag '+(S.ui.excalibur===u?'good':'')+'" data-excalibur="'+esc(u)+'">⚔ '+esc(nickOf(u))+'</button>').join('')+'</div>' : '';
+      const ready=S.ui.pick.length===size && (!g.settings.excalibur||!!S.ui.excalibur);
+      h='<h2>👑 '+t('leaderPick', size)+'</h2><div class="hint">'+t('leaderHint')+' ('+S.ui.pick.length+'/'+size+')</div>'+chips(S.ui.pick)+sword
+        +'<button class="btn pri big" style="width:100%" data-a="propose" '+(!ready||busy?'disabled':'')+'>'+(acted(me)?t('resubmit'):t('submitTeam'))+'</button>';
+    }
     else h='<h2>⏳ '+t('waitLeader', esc(nickOf(L)), size)+'</h2><div class="hint" style="margin-bottom:0">'+t('discuss')+'</div>';
   } else if(g.phase==='vote'){
     h='<h2>🗳️ '+t('voteTitle')+'</h2>'+chips(g.team)
@@ -715,34 +905,46 @@ function actionBlock(g){
   } else if(g.phase==='quest'){
     h='<h2>⚔️ '+t('questTitle')+'</h2>'+chips(g.team);
     if(g.team.includes(me)){
-      const evil=S.mine && side(S.mine.role)==='evil';
-      h+='<div class="row"><button class="btn good big '+(mine==='S'?'sel':'')+'" data-quest="S" '+(busy?'disabled':'')+'>✓ '+t('success')+'</button>'
-        +'<button class="btn evil big '+(mine==='F'?'sel':'')+'" data-quest="F" '+(!evil||busy?'disabled':'')+'>✗ '+t('fail')+'</button></div>'
-        +'<div class="hint" style="margin:10px 0 0">'+(evil?t('evilChoice'):t('goodOnly'))+(acted(me)?' '+t('youPlayed'):'')+(g.quests[g.q].two?' '+t('twoNote'):'')+'</div>';
+      const allegiance=(S.mine&&S.mine.allegiance)||side(S.mine&&S.mine.role), choices=S.mine?questChoices(S.mine.role,g.q,allegiance,g.settings):['S'];
+      const note=choices.length===1?(choices[0]==='F'?t('mustFail'):t(allegiance==='evil'?'cannotFail':'goodOnly')):t('evilChoice');
+      h+='<div class="row"><button class="btn good big '+(mine==='S'?'sel':'')+'" data-quest="S" '+(!choices.includes('S')||busy?'disabled':'')+'>✓ '+t('success')+'</button>'
+        +'<button class="btn evil big '+(mine==='F'?'sel':'')+'" data-quest="F" '+(!choices.includes('F')||busy?'disabled':'')+'>✗ '+t('fail')+'</button></div>'
+        +'<div class="hint" style="margin:10px 0 0">'+note+(acted(me)?' '+t('youPlayed'):'')+(g.quests[g.q].two?' '+t('twoNote'):'')+'</div>';
     } else h+='<div class="hint">'+t('waitTeam')+' '+t('played', g.team.filter(acted).length, g.team.length)+(g.quests[g.q].two?' · '+t('twoNote'):'')+'</div>';
     h+=prog(g.team);
+  } else if(g.phase==='excalibur'){
+    if(g.excaliburHolder===me) h='<h2>⚔ '+t('excaliburUse')+'</h2>'+chips(g.team.filter(u=>u!==me))+'<button class="btn pri big" style="width:100%" data-a="single" '+(S.ui.pick.length!==1||busy?'disabled':'')+'>⚔ '+(S.ui.pick[0]?esc(nickOf(S.ui.pick[0])):'…')+'</button><button class="btn ghost" style="width:100%;margin-top:8px" data-a="excaliburSkip" '+(busy?'disabled':'')+'>'+t('excaliburSkip')+'</button>';
+    else h='<h2>⚔ '+t('ph_excalibur')+'</h2><div class="hint">'+t('excaliburWait',esc(nickOf(g.excaliburHolder)))+'</div>';
   } else if(g.phase==='lady'){
     const ho=g.lady.holder;
     if(ho===me) h='<h2>🧜‍♀️ '+t('ladyTitle')+'</h2><div class="hint">'+t('ladyHint')+'</div><button class="btn pri big" style="width:100%" data-a="single" '+(S.ui.pick.length!==1||busy?'disabled':'')+'>'+t('inspect', S.ui.pick[0]?esc(nickOf(S.ui.pick[0])):'…')+'</button>';
     else h='<h2>🧜‍♀️ '+t('ph_lady')+'</h2><div class="hint" style="margin-bottom:0">'+t('ladyWait', esc(nickOf(ho)))+'</div>';
+  } else if(g.phase==='loyalty'){
+    if(g.loyalty&&g.loyalty.target===me) h='<h2>◐ '+t('loyaltyChoose')+'</h2><div class="hint">'+t('loyaltyHint')+'</div><div class="row"><button class="btn good big" data-loyalty="good" '+(busy?'disabled':'')+'>'+t('showGood')+'</button><button class="btn evil big" data-loyalty="evil" '+(busy?'disabled':'')+'>'+t('showEvil')+'</button></div>';
+    else h='<h2>◐ '+t('ph_loyalty')+'</h2><div class="hint">'+t('loyaltyWait')+'</div>';
+  } else if(g.phase==='recruit'){
+    if(S.mine&&S.mine.role==='assassin') h='<h2>🗡️ '+t('recruitTitle')+'</h2><div class="hint">'+t('recruitMe')+'</div><button class="btn evil big" style="width:100%" data-a="single" '+(S.ui.pick.length!==1||busy?'disabled':'')+'>'+t('inspect',S.ui.pick[0]?esc(nickOf(S.ui.pick[0])):'…')+'</button>';
+    else h='<h2>🗡️ '+t('recruitTitle')+'</h2><div class="hint">'+t('recruitWait')+'</div>';
   } else if(g.phase==='assassin'){
-    if(S.mine && S.mine.role==='assassin') h='<h2>🗡️ '+t('assTitle')+'</h2><div class="hint">'+t('assMe')+'</div><button class="btn evil big" style="width:100%" data-a="single" '+(S.ui.pick.length!==1||busy?'disabled':'')+'>'+t('stab', S.ui.pick[0]?esc(nickOf(S.ui.pick[0])):'…')+'</button>';
-    else h='<h2>🗡️ '+t('assTitle')+'</h2><div class="hint" style="margin-bottom:0">'+t('assWait')+(S.mine&&side(S.mine.role)==='evil'?' '+t('assEvil'):'')+'</div>';
+    if((g.recruitedPlayer&&g.recruitedPlayer===me)||(!g.recruitedPlayer&&S.mine&&S.mine.role==='assassin')) h='<h2>🗡️ '+t('assTitle')+'</h2><div class="hint">'+t('assMe')+'</div><button class="btn evil big" style="width:100%" data-a="single" '+(S.ui.pick.length!==1||busy?'disabled':'')+'>'+t('stab', S.ui.pick[0]?esc(nickOf(S.ui.pick[0])):'…')+'</button>';
+    else h='<h2>🗡️ '+t('assTitle')+'</h2><div class="hint" style="margin-bottom:0">'+t('assWait')+(S.mine&&((S.mine.allegiance||side(S.mine.role))==='evil')?' '+t('assEvil'):'')+'</div>';
   }
   return '<div class="glass card act">'+h+'</div>';
 }
 function roleBar(){
   const g=S.game; if(!g.order.includes(ME.pid)) return '';
   if(!S.mine) return '<div class="glass card muted">'+t('loadingRole')+'</div>';
-  const s=side(S.mine.role);
+  const s=S.mine.allegiance||side(S.mine.role);
   return '<button class="glass card rolebar '+(S.peek?s:'')+'" data-a="peek"><span class="rb-l"><span class="rb-ic">'+(S.peek?roleArt(S.mine.role,'rolebar-art'):'<span class="card-seal">V</span>')+'</span>'
     +'<span><div class="muted tiny">'+t('myRole')+'</div><b>'+(S.peek?rName(S.mine.role):'••••••')+'</b></span></span><span class="muted small">'+(S.peek?'🙈':t('tapReveal'))+'</span></button>'
     +(S.peek?'<div class="glass card" style="margin-top:-8px">'+knowBlock()+'</div>':'');
 }
 function knowBlock(){
   const m=S.mine; let h='<div class="small" style="margin-bottom:8px">'+rDesc(m.role)+'</div>';
+  if(m.allegiance&&m.allegiance!==side(m.role)) h+='<div class="know"><b class="'+(m.allegiance==='good'?'res-s':'res-f')+'">'+t('currentLoyalty',t(m.allegiance))+'</b></div>';
   if(m.see) h+='<div class="know"><div class="kl">'+t('youSee', t(m.see))+'</div>'+((m.sees||[]).length?m.sees.map(u=>'<span class="tag '+(m.role==='percival'?'good':'evil')+'" style="font-size:13px">'+esc(nickOf(u))+'</span>').join(' '):t('none'))+'</div>';
   S.ladyMine.forEach(x=>{ h+='<div class="know">🧜‍♀️ '+t('inspected', '<b>'+esc(nickOf(x.target))+'</b>', '<b class="'+(x.side==='good'?'res-s':'res-f')+'">'+t(x.side)+'</b>')+'</div>'; });
+  S.checksMine.filter(x=>x.source!=='lady').forEach(x=>{ h+='<div class="know">☩ '+t('inspected','<b>'+esc(nickOf(x.target))+'</b>','<b class="'+(x.side==='good'?'res-s':'res-f')+'">'+t(x.side)+'</b>')+'</div>'; });
   return h;
 }
 function historyBlock(g){
@@ -770,7 +972,7 @@ function renderOverlay(){
   const g=S.game; let h='';
   if(o.type==='night'){
     const m=S.mine; if(!m){ S.ov.shift(); return renderOverlay(); }
-    const s=side(m.role);
+    const s=m.allegiance||side(m.role);
     h='<h2>🌙 '+t('nightTitle')+'</h2><p class="lead">'+t('nightLead')+'</p>'
       +'<div class="rolecard '+(o.flipped?'flip':'')+'" data-a="flipcard"><div class="in"><div class="face back"><div class="card-seal large">V</div><span>AVALON</span></div>'
       +'<div class="face front '+s+'">'+roleArt(m.role,'rolecard-art')+'<div class="rolecard-caption"><div class="rs">'+t(s)+'</div><div class="rn">'+rName(m.role)+'</div></div></div></div></div>'
@@ -793,7 +995,7 @@ function renderOverlay(){
     const roles=g.roles||{};
     h='<h2>'+(g.winner==='good'?'🛡️':'🗡️')+'</h2><div class="bigres '+g.winner+'">'+(g.winner==='good'?t('goodWin'):t('evilWin'))+'</div><p class="lead" style="margin-top:8px">'+t(g.reason)
       +(g.assassinPick?'<br>'+t('stabbedX','<b>'+esc(nickOf(g.assassinPick))+'</b>'):'')+'</p>'
-      +'<div class="endroles">'+g.order.map(u=>'<div class="'+side(roles[u])+'"><span>'+esc(nickOf(u))+(u===ME.pid?' ('+t('you')+')':'')+'</span><b>'+ROLE_META[roles[u]].ic+' '+rName(roles[u])+'</b></div>').join('')+'</div>'
+      +'<div class="endroles">'+g.order.map(u=>'<div class="'+((g.allegiances&&g.allegiances[u])||side(roles[u]))+'"><span>'+esc(nickOf(u))+(u===ME.pid?' ('+t('you')+')':'')+'</span><b>'+ROLE_META[roles[u]].ic+' '+rName(roles[u])+'</b></div>').join('')+'</div>'
       +'<div class="row">'+(isHost()?'<button class="btn pri big" data-a="again">🔄 '+t('again')+'</button>':'')+'<button class="btn big" data-a="ovnext">'+t('close')+'</button></div>';
   }
   el.innerHTML='<div class="ov"><div class="glass ovbox">'+h+'</div></div>';
@@ -810,15 +1012,18 @@ document.addEventListener('keydown', e=>{
   else if(e.target.id==='nick'){ if(!S.code) createRoom(); else if(S.seats[ME.pid]) renameSeat(); else takeSeat(); }
 });
 document.addEventListener('click', e=>{
-  const b=e.target.closest('[data-a],[data-pick],[data-vote],[data-quest],[data-kick],[data-set]'); if(!b) return;
+  const b=e.target.closest('[data-a],[data-pick],[data-vote],[data-quest],[data-kick],[data-set],[data-excalibur],[data-loyalty]'); if(!b) return;
   if(b.dataset.kick) return kick(b.dataset.kick);
   if(b.dataset.set) return toggleSetting(b.dataset.set);
+  if(b.dataset.excalibur){ S.ui.excalibur=b.dataset.excalibur; return render(); }
+  if(b.dataset.loyalty) return submit(b.dataset.loyalty);
   if(b.dataset.pick){
     const pm=pickMode(S.game), u=b.dataset.pick; if(!pm) return;
     if(pm.max===1) S.ui.pick = S.ui.pick[0]===u ? [] : [u];
     else if(S.ui.pick.includes(u)) S.ui.pick=S.ui.pick.filter(x=>x!==u);
     else if(S.ui.pick.length<pm.max) S.ui.pick=S.ui.pick.concat([u]);
     else toast(t('toMany', pm.max));
+    if(S.ui.excalibur && !S.ui.pick.includes(S.ui.excalibur)) S.ui.excalibur=null;
     return render();
   }
   if(b.dataset.vote) return submit(b.dataset.vote==='1');
@@ -834,8 +1039,9 @@ document.addEventListener('click', e=>{
     case 'leave': return leaveRoom();
     case 'start': return startGame();
     case 'again': return playAgain();
-    case 'propose': return submit(S.ui.pick.slice());
+    case 'propose': return submit(S.game.settings.excalibur?{team:S.ui.pick.slice(),excalibur:S.ui.excalibur}:S.ui.pick.slice());
     case 'single': return submit(S.ui.pick[0]);
+    case 'excaliburSkip': return submit(null);
     case 'peek': S.peek=!S.peek; return render();
     case 'flipcard': if(S.ov[0] && S.ov[0].type==='night'){ S.ov[0].flipped=true; renderOverlay(); } return;
     case 'ovnext': S.ov.shift(); return renderOverlay();
