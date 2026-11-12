@@ -11,15 +11,17 @@ A free, no-sign-up online version of the social deduction board game *The Resist
 - Roles: Merlin, Percival, Loyal Servant, Assassin, Morgana, Mordred, Oberon, Minion; optional Lady of the Lake (7+)
 - Correct rules: strict-majority votes, 5 rejected proposals = Evil wins, Quest 4 needs 2 fails with 7+ players, Good can never play Fail
 - Roles and actions are end-to-end encrypted (ECDH P-256 + AES-GCM): nobody can read other players' roles from the network
-- Refresh / reconnect safe: state is persisted as retained MQTT messages; the host can reopen the link and the game resumes
+- Refresh / reconnect safe: state lives in Firebase Realtime Database; the host can reopen the link and the game resumes
 - Invite link (`…/avalon/#ROOM`), online indicators, game history
 
 ## How it works / 技术说明
-Static site (GitHub Pages) + public MQTT brokers over WebSocket (EMQX and HiveMQ, used together for redundancy).
-The host's browser runs the game engine; every player's identity and key pair live in their own browser's localStorage.
+Static site (GitHub Pages) + Firebase Realtime Database (Singapore region) with anonymous sign-in.
+Security rules (`database.rules.json`): only the host can write the game state and secrets; each player can only write their own seat.
+The host's browser runs the game engine; each player's key pair lives in their own browser's localStorage.
 
 ## Files
 - `index.html`, `style.css`, `app.js` — the app
-- `vendor/mqtt.min.js` — [MQTT.js](https://github.com/mqttjs/MQTT.js) (MIT)
+- `database.rules.json` — Realtime Database security rules (deployed in the Firebase console)
+- `vendor/firebase-*-compat.js` — Firebase JS SDK v10 (Apache-2.0)
 
 Unofficial fan project. *The Resistance: Avalon* is a trademark of its respective owners.

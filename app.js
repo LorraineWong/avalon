@@ -1,14 +1,9 @@
-/* Avalon Online — static client. Realtime via public MQTT brokers (retained messages).
+/* Avalon Online — static client. Realtime via Firebase Realtime Database (anonymous auth).
  * Architecture:
- *  - Every player has a local identity (pid + ECDH key pair) kept in localStorage.
- *  - Room data lives under topic  lwavalon/v2/<CODE>/<key>, retained, as {v, d}.
- *      game        public game state, written only by the host
- *      seat/<pid>  a player's seat (nickname, public key, latest encrypted action)
- *      sec/<id>    encrypted secrets (each player's role, host master copy, lady results)
- *      ping/<pid>  non-retained heartbeat for online dots
- *  - Every message carries a version v; newest version wins (works across two brokers).
- *  - The host's browser runs the game engine; actions are encrypted to the host,
- *    roles are encrypted to each player, so nobody can read others' roles from the network.
+ *  - Every player signs in anonymously (Firebase uid) and keeps an ECDH key pair in localStorage.
+ *  - Database security rules: only the host writes the game state and secrets; each player writes only their own seat.
+ *  - The host's browser runs the game engine; actions are encrypted to the host and
+ *    roles are encrypted to each player, so nobody can read others' roles from the database.
  */
 'use strict';
 
@@ -52,7 +47,7 @@ const I18N = {
     rulesP2:'出任务时队员秘密出牌：好人只能出“成功”，坏人可以选择。7 人及以上时，<b>第 4 个任务需要 2 张失败</b>才算失败。好人完成 3 个任务后，刺客还有一次刺杀梅林的机会，刺中则坏人翻盘。',
     rulesP3:'湖中仙女（可选，7 人以上）：第 2、3、4 个任务结束后，持有者秘密查验一名玩家的阵营，然后把仙女交给对方。持有过仙女的人不能再被查验。',
     rulesP4:'人数配置：5 人 3 好 2 坏 · 6 人 4 好 2 坏 · 7 人 4 好 3 坏 · 8 人 5 好 3 坏 · 9 人 6 好 3 坏 · 10 人 6 好 4 坏',
-    footer:'Avalon Online · 非官方粉丝作品，基于桌游《抵抗组织：阿瓦隆》', tooLong:'昵称最多 12 个字',
+    writeFail:'保存失败，请检查网络后重试', footer:'Avalon Online · 非官方粉丝作品，基于桌游《抵抗组织：阿瓦隆》', tooLong:'昵称最多 12 个字',
   },
   en: {
     sub:'Avalon · Online', tagline:'The Resistance: Avalon', feat1:'5–10 players', feat2:'No sign-up', feat3:'Phone & desktop', feat4:'Encrypted roles',
@@ -92,7 +87,7 @@ const I18N = {
     rulesP2:'Team members play cards secretly: Good can only play Success, Evil may choose. With 7+ players, <b>Quest 4 needs 2 fails</b>. If Good completes 3 quests, the Assassin gets one shot at Merlin — a hit means Evil wins.',
     rulesP3:'Lady of the Lake (optional, 7+): after Quests 2, 3 and 4 the holder secretly checks one player\'s loyalty, then passes the Lady to them. Former holders cannot be checked.',
     rulesP4:'Teams: 5p 3G/2E · 6p 4G/2E · 7p 4G/3E · 8p 5G/3E · 9p 6G/3E · 10p 6G/4E',
-    footer:'Avalon Online · unofficial fan project based on the board game "The Resistance: Avalon"', tooLong:'Name: max 12 characters',
+    writeFail:'Could not save — check your network and try again', footer:'Avalon Online · unofficial fan project based on the board game "The Resistance: Avalon"', tooLong:'Name: max 12 characters',
   }
 };
 const ROLE_TXT = {
@@ -190,87 +185,97 @@ async function decC(box){
 }
 
 /* ================= Identity ================= */
+// ME.pid is the Firebase anonymous-auth uid; the ECDH key pair lives in localStorage, bound to that uid.
 const ME = {pid:null, priv:null, pub:null};
-async function loadIdentity(){
+async function loadIdentity(uid){
   let id = LS.get('id');
-  if(!id || !id.pid || !id.priv || !id.pub){
+  if(!id || id.pid!==uid || !id.priv || !id.pub){
     const kp=await crypto.subtle.generateKey(EC,true,['deriveKey']);
     const priv=await crypto.subtle.exportKey('jwk',kp.privateKey);
     const pj=await crypto.subtle.exportKey('jwk',kp.publicKey);
-    id={pid:'p'+randCode(12,'abcdefghijkmnpqrstuvwxyz23456789'), priv, pub:{x:pj.x,y:pj.y}};
+    id={pid:uid, priv, pub:{x:pj.x,y:pj.y}};
     LS.set('id', id);
   }
   ME.pid=id.pid; ME.pub=id.pub;
   ME.priv=await crypto.subtle.importKey('jwk',id.priv,EC,false,['deriveKey']);
 }
 
-/* ================= Network (MQTT, retained, versioned) ================= */
-const ROOT='lwavalon/v2/';
-const BROKERS = (typeof window!=='undefined' && window.AVALON_BROKERS) ||
-  ['wss://broker.emqx.io:8084/mqtt', 'wss://broker.hivemq.com:8884/mqtt'];
+/* ================= Network (Firebase Realtime Database) ================= */
+// Layout: rooms/<CODE>/game {host, j}, seats/<uid> {j}, sec/<id> {j}, online/<uid> timestamp.
+// Documents are stored as JSON strings (j) so arrays and nulls round-trip exactly.
+const FIREBASE_CONFIG = (typeof window!=='undefined' && window.AVALON_FIREBASE) || {
+  apiKey:'AIzaSyCfqmltcXOvlBN_GYuYhTIMEak31RpC1cg',
+  authDomain:'lw-avalon.firebaseapp.com',
+  databaseURL:'https://lw-avalon-default-rtdb.asia-southeast1.firebasedatabase.app',
+  projectId:'lw-avalon',
+  storageBucket:'lw-avalon.firebasestorage.app',
+  messagingSenderId:'282689238789',
+  appId:'1:282689238789:web:44b4f71ad48559c88d296c'
+};
 const Net = {
-  clients:[], code:null, data:new Map(), mine:new Map(), online:new Map(), everConnected:false,
-  init(){
-    for(const url of BROKERS){
-      let c;
-      try{
-        c = mqtt.connect(url, {clientId:'lwav_'+ME.pid+'_'+randCode(4,'abcdefghjk23456789'), clean:true, reconnectPeriod:3000, connectTimeout:10000, keepalive:30});
-      }catch(e){ continue; }
-      c._ok=false;
-      c.on('connect', ()=>{
-        c._ok=true; Net.everConnected=true;
-        if(Net.code){ c.subscribe(ROOT+Net.code+'/#', {qos:1}); Net.flush(c); }
-        changed();
-      });
-      c.on('close', ()=>{ if(c._ok){ c._ok=false; changed(); } });
-      c.on('offline', ()=>{ c._ok=false; changed(); });
-      c.on('error', ()=>{});
-      c.on('message', (topic, payload)=>Net.onMsg(topic, payload));
-      Net.clients.push(c);
-    }
-    setInterval(()=>Net.ping(), 8000);
+  db:null, auth:null, ref:null, onlineRef:null, code:null, loaded:false, conn:false, everConnected:false, authFailed:false,
+  raw:new Map(), parsed:new Map(), revs:new Map(), online:new Set(),
+  async init(){
+    firebase.initializeApp(FIREBASE_CONFIG);
+    this.auth=firebase.auth(); this.db=firebase.database();
+    this.db.ref('.info/connected').on('value', s=>{
+      this.conn=!!s.val();
+      if(this.conn){ this.everConnected=true; this.markOnline(); }
+      changed();
+    });
+    try{
+      const cred = this.auth.currentUser ? null : await this.auth.signInAnonymously();
+      const user = this.auth.currentUser || (cred && cred.user);
+      if(!user) throw new Error('no user');
+      return user.uid;
+    }catch(e){ console.error('auth', e); this.authFailed=true; changed(); return null; }
   },
-  connected(){ return this.clients.some(c=>c._ok); },
+  connected(){ return this.conn; },
   join(code){
-    if(this.code && this.code!==code) this.clients.forEach(c=>{ try{ c.unsubscribe(ROOT+this.code+'/#'); }catch(e){} });
-    this.code=code; this.data=new Map(); this.mine=new Map(); this.online=new Map();
-    if(code) this.clients.forEach(c=>{ if(c._ok) c.subscribe(ROOT+code+'/#', {qos:1}); });
-    if(code) this.ping();
+    if(this.ref){ this.ref.off(); this.ref=null; }
+    if(this.onlineRef){ this.onlineRef.onDisconnect().cancel(); this.onlineRef.remove().catch(()=>{}); this.onlineRef=null; }
+    this.code=code; this.loaded=false; this.raw=new Map(); this.parsed=new Map(); this.revs=new Map(); this.online=new Set();
+    if(!code) return;
+    this.ref=this.db.ref('rooms/'+code);
+    this.ref.on('value', snap=>this.onSnap(code, snap), err=>{ console.error('read', err); toast(t('noNet')); });
+    this.markOnline();
   },
-  onMsg(topic, payload){
-    const pre=ROOT+this.code+'/';
-    if(!this.code || !topic.startsWith(pre)) return;
-    const key=topic.slice(pre.length);
-    let m; try{ m=JSON.parse(String(payload)); }catch(e){ return; }
-    if(key.startsWith('ping/')){ this.online.set(key.slice(5), Date.now()); changed(); return; }
-    if(!m || typeof m.v!=='number') return;
-    const cur=this.data.get(key);
-    if(cur && cur.v>=m.v) return;
-    this.data.set(key, {v:m.v, d:m.d ?? null});
+  onSnap(code, snap){
+    if(code!==this.code) return;
+    const v=snap.val()||{}, next=new Map();
+    if(v.game && v.game.j) next.set('game', v.game.j);
+    for(const [k,x] of Object.entries(v.seats||{})) if(x && x.j) next.set('seat/'+k, x.j);
+    for(const [k,x] of Object.entries(v.sec||{})) if(x && x.j) next.set('sec/'+k, x.j);
+    for(const key of new Set([...this.raw.keys(), ...next.keys()])){
+      if(this.raw.get(key)!==next.get(key)){ this.revs.set(key, (this.revs.get(key)||0)+1); this.parsed.delete(key); }
+    }
+    this.raw=next;
+    this.online=new Set(Object.keys(v.online||{}));
+    this.loaded=true;
     changed();
   },
-  get(key){ const x=this.data.get(key); return x ? x.d : null; },
-  ver(key){ const x=this.data.get(key); return x ? x.v : 0; },
+  get(key){
+    if(!this.raw.has(key)) return null;
+    if(!this.parsed.has(key)){ try{ this.parsed.set(key, JSON.parse(this.raw.get(key))); }catch(e){ this.parsed.set(key, null); } }
+    return this.parsed.get(key);
+  },
+  ver(key){ return this.revs.get(key)||0; },
+  had(key){ return this.revs.has(key); },
   pub(key, d){
-    if(!this.code) return;
-    const v=Math.max(Date.now(), this.ver(key)+1);
-    this.data.set(key, {v, d});
-    const msg=JSON.stringify({v, d});
-    this.mine.set(key, {v, msg});
-    const topic=ROOT+this.code+'/'+key;
-    this.clients.forEach(c=>{ if(c._ok) c.publish(topic, msg, {qos:1, retain:true}); });
-    changed();
+    if(!this.ref) return Promise.resolve();
+    const path = key==='game' ? 'game' : key.startsWith('seat/') ? 'seats/'+key.slice(5) : 'sec/'+key.slice(4);
+    const val = d==null ? null : (key==='game' ? {host:d.host, j:JSON.stringify(d)} : {j:JSON.stringify(d)});
+    return this.ref.child(path).set(val).catch(e=>{ console.warn('write failed', key, e); toast(t('writeFail')); });
   },
-  flush(c){ // re-send my latest writes to a broker that (re)connected, if they are still the newest
-    for(const [key, w] of this.mine){ if(this.ver(key)===w.v) c.publish(ROOT+this.code+'/'+key, w.msg, {qos:1, retain:true}); }
+  markOnline(){
+    if(!this.code || !this.conn || !ME.pid) return;
+    const r=this.db.ref('rooms/'+this.code+'/online/'+ME.pid);
+    this.onlineRef=r;
+    r.onDisconnect().remove();
+    r.set(firebase.database.ServerValue.TIMESTAMP).catch(()=>{});
   },
-  ping(){
-    if(!this.code || !ME.pid) return;
-    this.online.set(ME.pid, Date.now());
-    this.clients.forEach(c=>{ if(c._ok) c.publish(ROOT+this.code+'/ping/'+ME.pid, '1', {qos:0, retain:false}); });
-  },
-  isOnline(pid){ return pid===ME.pid || (Date.now()-(this.online.get(pid)||0) < 21000); },
-  prefixed(p){ const out={}; for(const [k,x] of this.data){ if(k.startsWith(p) && x.d) out[k.slice(p.length)]=x.d; } return out; }
+  isOnline(pid){ return pid===ME.pid || this.online.has(pid); },
+  prefixed(p){ const out={}; for(const k of this.raw.keys()){ if(k.startsWith(p)){ const d=this.get(k); if(d) out[k.slice(p.length)]=d; } } return out; }
 };
 
 /* ================= App state ================= */
@@ -285,9 +290,11 @@ async function boot(){
   LANG = LS.get('lang') || ((navigator.language||'zh').toLowerCase().startsWith('zh') ? 'zh' : 'en');
   document.documentElement.lang = LANG==='zh' ? 'zh-CN' : 'en';
   if(!window.crypto || !crypto.subtle){ $('#app').innerHTML='<div class="glass card">This browser does not support Web Crypto. Please use a recent Chrome / Safari / Edge (https).</div>'; return; }
-  await loadIdentity();
+  render();
+  const uid = await Net.init();
+  if(!uid){ render(); return; }
+  await loadIdentity(uid);
   S.ui.nick = LS.get('nick') || '';
-  Net.init();
   const h=(location.hash||'').slice(1).toUpperCase();
   if(/^[A-Z0-9]{4,8}$/.test(h)) enterRoom(h);
   render();
@@ -306,9 +313,8 @@ function sync(){
     S.game = Net.get('game');
     S.seats = Net.prefixed('seat/');
     S.secrets = Net.prefixed('sec/');
-    if(S.game){ clearTimeout(S.notFoundTimer); S.notFoundTimer=null; }
-    else if(Net.ver('game')>0){ toast(t('notFound', S.code)); return goHome(true); } // room was closed
-    if(S.game && S.game.status==='lobby' && S.autoSeat && !S.seats[ME.pid] && Date.now()-S.joinedAt>1500){ S.autoSeat=false; takeSeat(); }
+    if(!S.game && Net.loaded){ toast(t('notFound', S.code)); return goHome(true); } // room missing or closed
+    if(S.game && S.game.status==='lobby' && S.autoSeat && !S.seats[ME.pid] && Net.loaded){ S.autoSeat=false; takeSeat(); }
     if(S.game && S.game.step!==S.ui.pickStep){ S.ui.pick=[]; S.ui.pickStep=S.game.step; }
     decryptSecrets().then(()=>{ detect(); render(); hostTick(); });
   }
@@ -332,6 +338,7 @@ function detect(){
   const snap={gid:g.gid, rounds:(g.rounds||[]).length, quests:(g.quests||[]).filter(q=>q.r).length, end:g.status==='end', lady:S.ladyMine.length};
   const prev=S.seen; S.seen=snap;
   if(!prev || prev.gid!==snap.gid){
+    S.ov=S.ov.filter(o=>o.type==='night' && g.gid);
     // New game (or first load): show the night overlay once per game.
     if(g.status==='play' && S.mine && !LS.get('night.'+g.gid)){ S.ov.push({type:'night', flipped:false}); LS.set('night.'+g.gid, 1); }
     else if(g.status==='play' && !S.mine && g.order && g.order.includes(ME.pid)) S.seen=Object.assign({}, snap, {gid:null});
@@ -349,15 +356,9 @@ function enterRoom(code){
   S.code=code; S.view='room'; S.joinedAt=Date.now(); S.autoSeat=true; S.seen=null;
   S.game=null; S.seats={}; S.secrets={}; S.mine=null; S.master=null; S.ladyMine=[]; S.ov=[];
   Net.join(code);
-  setTimeout(sync, 1600); setTimeout(sync, 3200);
+  setTimeout(sync, 1600);
   try{ history.replaceState(null,'','#'+code); }catch(e){ location.hash=code; }
   LS.set('last', code);
-  clearTimeout(S.notFoundTimer);
-  S.notFoundTimer=setTimeout(function check(){
-    if(S.code!==code || S.game) return;
-    if(!Net.connected()){ S.notFoundTimer=setTimeout(check, 1500); return; }
-    toast(t('notFound', code)); goHome(true);
-  }, 4500);
   render();
 }
 function goHome(forget){
@@ -568,7 +569,7 @@ function topBar(){
     +'<div class="top-r">'+(S.code&&S.game?'<span class="chip"><span class="dot '+(conn?'on':'')+'"></span><b style="letter-spacing:2px">'+esc(S.code)+'</b></span>':'<span class="chip"><span class="dot '+(conn?'on':'')+'"></span>'+st+'</span>')
     +'<button class="chip btn" data-a="lang">'+(LANG==='zh'?'EN':'中文')+'</button></div></div>'
     +(Net.everConnected && !conn ? '<div class="banner-off">'+t('offline')+'</div>' : '')
-    +(!Net.everConnected && S.bootAt && Date.now()-S.bootAt>15000 ? '<div class="banner-off">'+t('noNet')+'</div>' : '');
+    +((Net.authFailed || (!Net.everConnected && S.bootAt && Date.now()-S.bootAt>15000)) ? '<div class="banner-off">'+t('noNet')+'</div>' : '');
 }
 function rulesBlock(){
   const order=['merlin','percival','servant','assassin','morgana','mordred','oberon','minion'];
@@ -750,6 +751,7 @@ function historyBlock(g){
 /* ================= Overlays ================= */
 function renderOverlay(){
   const el=$('#ov'); if(!el) return;
+  if(S.ov.length && !(S.game && S.game.order && S.game.gid)) S.ov=[]; // game was reset to the lobby
   const o=S.ov[0];
   if(!o){ if(el.innerHTML) el.innerHTML=''; el._k=null; return; }
   const key=JSON.stringify([o.type, o.flipped, o.qi, o.r && o.r.att, o.r && o.r.q, LANG, S.mine && S.mine.role]);
