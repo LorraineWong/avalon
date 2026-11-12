@@ -54,6 +54,7 @@ Firebase Realtime Database（亚洲东南区）
 - 房主使用临时 ECDH 密钥和 AES-GCM 分别加密每名玩家的身份。
 - 玩家行动会先加密给房主，再写入 Firebase。
 - `database.rules.json` 限制只有房主能够写入游戏状态与秘密数据，每名玩家只能写入自己的座位数据。
+- Firebase Web API Key 按设计就是公开的项目标识；权限由身份验证和 Security Rules 控制，不能依靠隐藏前端 Key。生产 Key 必须只允许本项目需要的 Firebase API。
 
 该设计可以避免普通玩家客户端或简单数据库查看直接读取他人身份，但不防御被入侵的房主浏览器，也不阻止玩家修改自己的前端代码。
 
@@ -109,6 +110,8 @@ GitHub Pages 设置：
 结果：**完整完成 3 局游戏、42 项状态检查、0 个浏览器控制台错误、0 个横向溢出。**
 
 完整覆盖范围和暂未测试的场景请查看[多人测试报告](docs/PLAYTEST.md)。
+
+安全边界、漏洞报告方式和生产规则回归测试请查看 [SECURITY.md](SECURITY.md)。
 
 ## 参与贡献
 

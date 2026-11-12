@@ -54,6 +54,7 @@ The room host's browser advances the game state. Firebase synchronizes the room,
 - The host encrypts each role separately with an ephemeral ECDH key and AES-GCM.
 - Player actions are encrypted to the host before being written to Firebase.
 - `database.rules.json` restricts game-state and secret writes to the host and seat writes to the corresponding player.
+- The Firebase Web API key is a public project identifier by design. Authorization depends on Authentication and Security Rules, not on hiding that key; production keys must remain restricted to required Firebase APIs.
 
 This design protects hidden roles from other normal clients and casual database inspection. It does not attempt to defend against a compromised host browser or a user modifying their own client.
 
@@ -109,6 +110,8 @@ The current release was browser-tested on 13 November 2026 with five isolated cl
 Result: **3 complete games, 42 state checks, 0 browser console errors, and no horizontal overflow.**
 
 See the [full multiplayer playtest report](docs/PLAYTEST.md) for covered and deferred scenarios.
+
+For the trust model, disclosure process, and production security smoke test, see [SECURITY.md](SECURITY.md).
 
 ## Contributing
 
