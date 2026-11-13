@@ -659,3 +659,87 @@ button.me-id:hover,button.me-role:hover,button.me-id:focus-visible,button.me-rol
 }
 .seatcard.me{grid-column:span 2}
 .seatcard .nm{overflow-wrap:anywhere;word-break:normal}
+
+/* ================================================================
+   Button system — one shape, three sizes, five roles.
+   Sizes:  .sm 32px · default 40px · .big 48px     Icon-only: .icon
+   Roles:  default (secondary) · .pri · .good · .evil · .ghost · .link
+   ================================================================ */
+.ic{flex:none;width:1.15em;height:1.15em;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:40px;padding:8px 16px;border:1px solid var(--line2);border-radius:8px;
+  background:linear-gradient(#45331f,#2b2016);color:#f2e4c6;font:600 14px/1.25 var(--sans);letter-spacing:.2px;text-align:center;text-decoration:none;
+  box-shadow:inset 0 1px rgba(255,255,255,.05);user-select:none;-webkit-user-select:none;transition:background .15s,border-color .15s,box-shadow .15s,transform .08s}
+.btn:hover:not(:disabled){transform:none;border-color:#e1c276;background:linear-gradient(#54402a,#34271b);box-shadow:inset 0 1px rgba(255,255,255,.07)}
+.btn:active:not(:disabled){transform:translateY(1px) scale(1)}
+.btn:disabled{opacity:.42;cursor:not-allowed}
+.btn.sm{min-height:32px;padding:5px 12px;border-radius:6px;font-size:12.5px;gap:6px}
+.btn.big{min-height:48px;padding:10px 20px;border-radius:10px;font-size:15.5px}
+.btn.icon{width:40px;min-height:40px;padding:0;font-size:16px}
+.btn.icon.sm{width:32px;min-height:32px}
+.btn.pri{border-color:#e5c985;background:linear-gradient(135deg,#e0c47f,#a87832);color:#1a1108;font-weight:700;box-shadow:0 4px 14px rgba(91,57,20,.35)}
+.btn.pri:hover:not(:disabled){border-color:#fff0b0;background:linear-gradient(135deg,#ebd391,#b8873d);box-shadow:0 6px 18px rgba(185,133,54,.3)}
+.btn.good{border-color:#90afba;background:linear-gradient(135deg,#668898,#385765);color:#f3fbff}
+.btn.good:hover:not(:disabled){border-color:#c5e2ec;background:linear-gradient(135deg,#7498a8,#426473)}
+.btn.evil{border-color:#bd7662;background:linear-gradient(135deg,#984c3e,#56231f);color:#fff1ec}
+.btn.evil:hover:not(:disabled){border-color:#eeb09f;background:linear-gradient(135deg,#a85849,#632a25)}
+.btn.ghost{background:transparent;border-color:var(--line2);color:#d9c9aa;box-shadow:none}
+.btn.ghost:hover:not(:disabled){background:rgba(86,62,34,.32);color:#f2e4c6;box-shadow:none}
+.btn.link{min-height:0;padding:4px 2px;border:0;background:none;box-shadow:none;color:#e2c87f;font-weight:500;text-decoration:underline;text-underline-offset:3px}
+.btn.link:hover:not(:disabled){background:none;color:#fff0b0}
+.btn.sel{box-shadow:0 0 0 2px #f0d995 inset,0 0 16px rgba(224,200,120,.25)}
+/* One focus ring for every control. */
+.btn:focus-visible,.chip.btn:focus-visible,.tool-tab:focus-visible,.me-id:focus-visible,.me-role:focus-visible,.seat-edit:focus-visible,.reaction-btn:focus-visible,
+.rt:focus-visible,.selected-person:focus-visible,.seatp.pick:focus-visible,.foot-link:focus-visible,.brand:focus-visible,.seatcard .x:focus-visible,.input:focus-visible,.host-select:focus-visible,.note-select:focus-visible{outline:2px solid #f0d995;outline-offset:2px}
+
+/* Top bar controls share one height. */
+.chip{min-height:36px;padding:0 12px;border-radius:8px;font:600 13px/1 var(--sans);letter-spacing:.3px;color:#e7d6b6}
+.chip.btn{min-height:36px;padding:0 12px;gap:6px;background:rgba(18,13,10,.76);border-color:var(--line);font-size:13px;box-shadow:none}
+.chip.btn:hover:not(:disabled){background:rgba(57,42,25,.8);border-color:#e1c276}
+.rules-access{color:#e8d39f;border-color:rgba(210,176,104,.42)}
+
+/* Contextual buttons fall back to the shared sizes instead of one-off paddings. */
+.preset-btn,.lobby-guide-links .btn,.lobby-guide-actions .btn{min-height:32px;padding:5px 12px;font-size:12.5px}
+.preset-row{gap:8px}
+.rules-tabs{gap:6px;padding:4px;border-radius:10px}
+.rules-tabs .btn{min-height:40px;padding:8px 12px;border-color:transparent;border-radius:7px;background:transparent;color:#ad9f87;box-shadow:none}
+.rules-tabs .btn:hover:not(:disabled){background:rgba(86,62,34,.3);border-color:transparent;color:#f2e4c6}
+.rules-tabs .btn.active{border-color:#d7b86f;background:linear-gradient(135deg,rgba(209,170,94,.25),rgba(80,55,28,.45));color:#f0db9c}
+.rules-close,.qr-close{width:40px;height:40px;min-height:40px;padding:0;font-size:18px;line-height:1}
+.tool-close{width:32px;height:32px;min-height:32px;padding:0;font-size:15px}
+.sheet-close{flex:none}
+.notes-clear{margin-top:10px;font-size:12px;color:#b9aa90}
+.quest-confirm .btn.big,.quest-confirm .btn.ghost{width:100%}
+.host-tools .btn{flex:none}
+.roomcode-actions{gap:8px}
+.lobby-actions .btn.big{flex:1}
+.lobby-actions .btn.ghost{min-height:48px}
+.resume .btn{flex:none}
+
+/* Button-like controls follow the same radius and hover language. */
+.tool-tab,.me-id,.me-role,.reaction-btn{border-radius:8px}
+.tool-tab .ic{color:#c8ab68;font-size:14px}
+.tool-tab.on .ic{color:#fff0b0}
+.me-text em{display:inline-flex}
+.me-text em .ic{font-size:12px}
+.seat-edit{display:inline-flex;align-items:center;gap:5px;min-height:30px;padding:4px 9px;border-radius:6px;font-weight:600}
+.seatcard .x{top:4px;right:4px;display:grid;place-items:center;width:26px;height:26px;padding:0;border-radius:6px;font-size:13px;color:#8d806a}
+.seatcard .x:hover{background:rgba(129,57,46,.35);color:#f1c0b2}
+.selected-person em{display:inline-flex;font-size:12px}
+.reaction-btn{min-height:36px}
+.input{min-height:44px;border-radius:8px}
+.host-select{height:40px;border-radius:8px}
+.note-select{border-radius:6px}
+.rt{border-radius:10px}
+.foot-link{border-radius:4px}
+
+@media(max-width:900px){
+  .dock .btn.big{min-height:46px;padding:8px 14px;font-size:15px}
+  .tool-close{width:36px;height:36px;min-height:36px}
+}
+@media(max-width:720px){
+  .chip,.chip.btn{min-height:34px;padding:0 10px}
+  .tool-tab .ic{font-size:16px}
+  .roomcode-actions .btn{flex:1;padding:8px 10px}
+  .lobby-actions .btn.ghost{flex:none}
+}
+.home-grid .row .btn,.seat-join .btn{min-height:44px}
