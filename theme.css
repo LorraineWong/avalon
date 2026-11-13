@@ -26,31 +26,128 @@
   background:var(--page);
 }
 :root[data-theme] body{background:var(--page);color:var(--ink)}
-:root[data-theme] :is(.glass,.grid .card,.facts,.notice,.guide-camp,.ovbox,.rules-sheet,.sheet,.qr-sheet,.confirm-sheet,.name-sheet){background:var(--surface);border-color:var(--border);box-shadow:var(--theme-shadow)}
+:root[data-theme] .glass,
+:root[data-theme] .grid .card,
+:root[data-theme] .facts,
+:root[data-theme] .notice,
+:root[data-theme] .guide-camp,
+:root[data-theme] .ovbox,
+:root[data-theme] .rules-sheet,
+:root[data-theme] .sheet,
+:root[data-theme] .qr-sheet,
+:root[data-theme] .confirm-sheet,
+:root[data-theme] .name-sheet{background:var(--surface);border-color:var(--border);box-shadow:var(--theme-shadow)}
 :root[data-theme] .glass::after{border-color:var(--border);opacity:.28}
-:root[data-theme] :is(.card h2,.card h3,.av-brand,.brand .t1,.av-footer strong,.rules-head h2,.facts b,.notice strong,.faq summary,.grid .card strong,.rules-flow li b,.known-person b,.me-text b,.private-note-person b,.sheet-head b){color:var(--ink)}
-:root[data-theme] :is(.av-header,.av-footer,.top,.av-nav a,.av-footer a,.av-brand small,.facts span,.grid .card p,.lead,.legal-main p,.legal-main li,.guide-camp .character-card p,.rules-flow li span,.rules-copy p,.info-copy,.known-person small,.me-text small,.private-notes-head p,.lineup-guide-head p,.lobby-status span,.lobby-guide-copy small,.roomcode-hint,.wait-person,.hint,.foot,.hero-oath){color:var(--ink-muted)}
-:root[data-theme] :is(.av-header,.av-footer,.top,.facts div,.faq details,.legal-main h2,.guide-jump){border-color:var(--border)}
-:root[data-theme] :is(.av-nav a[aria-current],.guide-jump .guide-play,.kicker,.section-kicker,.guide-camp summary,.rules-flow>h3,.all-role-title,.lineup-title,.lineup-guide-head h3,.private-notes-head h3,.lobby-guide-copy b,.rules-tabs .btn.active,.tool-tab .ic,.me-text em,.rules-head .eyebrow,.info-copy a,.foot-link){color:var(--accent)}
-:root[data-theme] :is(.av-nav a:hover,.av-footer a:hover,.guide-jump a:hover){color:var(--accent)}
-:root[data-theme] :is(.input,.note-select,.note-text,.host-select,.av-controls select,.language-picker select){background:var(--surface-inset);border-color:var(--border-strong);color:var(--ink)}
-:root[data-theme] :is(.input,.note-text)::placeholder{color:var(--ink-dim);opacity:1}
-:root[data-theme] :is(.input,.note-text,.note-select):focus{border-color:var(--accent);box-shadow:0 0 0 2px color-mix(in srgb,var(--accent) 20%,transparent)}
+:root[data-theme] .card h2,
+:root[data-theme] .card h3,
+:root[data-theme] .av-brand,
+:root[data-theme] .brand .t1,
+:root[data-theme] .av-footer strong,
+:root[data-theme] .rules-head h2,
+:root[data-theme] .facts b,
+:root[data-theme] .notice strong,
+:root[data-theme] .faq summary,
+:root[data-theme] .grid .card strong,
+:root[data-theme] .rules-flow li b,
+:root[data-theme] .known-person b,
+:root[data-theme] .me-text b,
+:root[data-theme] .private-note-person b,
+:root[data-theme] .sheet-head b{color:var(--ink)}
+:root[data-theme] .av-header,
+:root[data-theme] .av-footer,
+:root[data-theme] .top,
+:root[data-theme] .av-nav a,
+:root[data-theme] .av-footer a,
+:root[data-theme] .av-brand small,
+:root[data-theme] .facts span,
+:root[data-theme] .grid .card p,
+:root[data-theme] .lead,
+:root[data-theme] .legal-main p,
+:root[data-theme] .legal-main li,
+:root[data-theme] .guide-camp .character-card p,
+:root[data-theme] .rules-flow li span,
+:root[data-theme] .rules-copy p,
+:root[data-theme] .info-copy,
+:root[data-theme] .known-person small,
+:root[data-theme] .me-text small,
+:root[data-theme] .private-notes-head p,
+:root[data-theme] .lineup-guide-head p,
+:root[data-theme] .lobby-status span,
+:root[data-theme] .lobby-guide-copy small,
+:root[data-theme] .roomcode-hint,
+:root[data-theme] .wait-person,
+:root[data-theme] .hint,
+:root[data-theme] .foot,
+:root[data-theme] .hero-oath{color:var(--ink-muted)}
+:root[data-theme] .av-header,
+:root[data-theme] .av-footer,
+:root[data-theme] .top,
+:root[data-theme] .facts div,
+:root[data-theme] .faq details,
+:root[data-theme] .legal-main h2,
+:root[data-theme] .guide-jump{border-color:var(--border)}
+:root[data-theme] .av-nav a[aria-current],
+:root[data-theme] .guide-jump .guide-play,
+:root[data-theme] .kicker,
+:root[data-theme] .section-kicker,
+:root[data-theme] .guide-camp summary,
+:root[data-theme] .rules-flow>h3,
+:root[data-theme] .all-role-title,
+:root[data-theme] .lineup-title,
+:root[data-theme] .lineup-guide-head h3,
+:root[data-theme] .private-notes-head h3,
+:root[data-theme] .lobby-guide-copy b,
+:root[data-theme] .rules-tabs .btn.active,
+:root[data-theme] .tool-tab .ic,
+:root[data-theme] .me-text em,
+:root[data-theme] .rules-head .eyebrow,
+:root[data-theme] .info-copy a,
+:root[data-theme] .foot-link{color:var(--accent)}
+:root[data-theme] .av-nav a:hover,
+:root[data-theme] .av-footer a:hover,
+:root[data-theme] .guide-jump a:hover{color:var(--accent)}
+:root[data-theme] .input,
+:root[data-theme] .note-select,
+:root[data-theme] .note-text,
+:root[data-theme] .host-select,
+:root[data-theme] .av-controls select,
+:root[data-theme] .language-picker select{background:var(--surface-inset);border-color:var(--border-strong);color:var(--ink)}
+:root[data-theme] .input::placeholder,
+:root[data-theme] .note-text::placeholder{color:var(--ink-dim);opacity:1}
+:root[data-theme] .input:focus,
+:root[data-theme] .note-text:focus,
+:root[data-theme] .note-select:focus{border-color:var(--accent);box-shadow:0 0 0 2px color-mix(in srgb,var(--accent) 20%,transparent)}
 :root[data-theme] :focus-visible{outline-color:var(--accent)}
-:root[data-theme] :is(.btn,.button.alt,.seat-edit,.tool-tab,.reaction-btn,.chip,.chip.btn){background:var(--surface-raised);border-color:var(--border-strong);color:var(--ink);box-shadow:none}
-:root[data-theme] :is(.btn,.seat-edit,.tool-tab,.reaction-btn,.chip.btn):hover:not(:disabled){background:var(--hover);border-color:var(--accent);color:var(--ink)}
-:root[data-theme] :is(.btn.pri,.button:not(.alt)){background:linear-gradient(135deg,#e9cf8d,#c6a25b);border-color:#b58c40;color:#241b0b;box-shadow:0 3px 10px rgba(112,82,30,.12)}
+:root[data-theme] .btn,
+:root[data-theme] .button.alt,
+:root[data-theme] .seat-edit,
+:root[data-theme] .tool-tab,
+:root[data-theme] .reaction-btn,
+:root[data-theme] .chip,
+:root[data-theme] .chip.btn{background:var(--surface-raised);border-color:var(--border-strong);color:var(--ink);box-shadow:none}
+:root[data-theme] .btn:hover:not(:disabled),
+:root[data-theme] .seat-edit:hover:not(:disabled),
+:root[data-theme] .tool-tab:hover:not(:disabled),
+:root[data-theme] .reaction-btn:hover:not(:disabled),
+:root[data-theme] .chip.btn:hover:not(:disabled){background:var(--hover);border-color:var(--accent);color:var(--ink)}
+:root[data-theme] .btn.pri,
+:root[data-theme] .button:not(.alt){background:linear-gradient(135deg,#e9cf8d,#c6a25b);border-color:#b58c40;color:#241b0b;box-shadow:0 3px 10px rgba(112,82,30,.12)}
 :root[data-theme] .btn.pri:hover:not(:disabled){background:linear-gradient(135deg,#f1dca4,#d5b36e);color:#241b0b}
 :root[data-theme] .btn.good{background:#356a84;border-color:#5489a2;color:#fff}
 :root[data-theme] .btn.evil{background:#943f38;border-color:#ae6056;color:#fff}
 :root[data-theme] .btn.good:hover:not(:disabled){background:#2b5971;color:#fff}
 :root[data-theme] .btn.evil:hover:not(:disabled){background:#7e342f;color:#fff}
-:root[data-theme] :is(.btn.ghost,.btn.link){background:transparent;color:var(--ink-muted)}
-:root[data-theme] :is(.btn.link,.button.alt){color:var(--accent)}
-:root[data-theme] :is(.btn.sel,.tool-tab.on,.rules-tabs .btn.active){background:var(--hover);border-color:var(--accent);color:var(--accent)}
+:root[data-theme] .btn.ghost,
+:root[data-theme] .btn.link{background:transparent;color:var(--ink-muted)}
+:root[data-theme] .btn.link,
+:root[data-theme] .button.alt{color:var(--accent)}
+:root[data-theme] .btn.sel,
+:root[data-theme] .tool-tab.on,
+:root[data-theme] .rules-tabs .btn.active{background:var(--hover);border-color:var(--accent);color:var(--accent)}
 :root[data-theme] .av-status{background:var(--success-wash);border-color:var(--success);color:var(--success)}
 :root[data-theme] .av-status.is-connecting{background:var(--surface-raised);border-color:var(--border-strong);color:var(--accent)}
-:root[data-theme] :is(.av-status.is-offline,.banner-off){background:var(--evil-wash);border-color:var(--evil-ink);color:var(--evil-ink)}
+:root[data-theme] .av-status.is-offline,
+:root[data-theme] .banner-off{background:var(--evil-wash);border-color:var(--evil-ink);color:var(--evil-ink)}
 /* A quiet illustration treatment preserves the artwork in both themes. */
 :root[data-theme] .hero{background:var(--surface-raised);border-color:var(--border);box-shadow:var(--theme-shadow)}
 :root[data-theme] .hero::before{background:linear-gradient(90deg,transparent 18%,var(--hero-veil) 39% 61%,transparent 82%),linear-gradient(0deg,var(--hero-fade),transparent 70%)}
@@ -58,37 +155,85 @@
 :root[data-theme] .hero-art-evil::after{background:linear-gradient(270deg,transparent,var(--hero-fade)),linear-gradient(0deg,var(--hero-fade),transparent 70%)}
 :root[data-theme] .hero-copy{text-shadow:none}
 :root[data-theme] .hero h1{background:none;color:var(--ink);-webkit-text-fill-color:var(--ink)}
-:root[data-theme] :is(.hero .eyebrow,.hero .sub){color:var(--accent)}
+:root[data-theme] .hero .eyebrow,
+:root[data-theme] .hero .sub{color:var(--accent)}
 :root[data-theme] .hero-lead{color:var(--ink)}
 :root[data-theme] .feature span{color:var(--ink-muted);background:var(--surface);border-color:var(--border)}
-:root[data-theme] :is(.character-card h3,.character-alignment,.setting-camp h3,.camp h3,.lineup-side h3,.res-s){color:var(--good-ink)}
-:root[data-theme] :is(.character-card.evil h3,.evil .character-alignment,.setting-camp.evil h3,.camp.evil h3,.lineup-side.evil h3,.res-f){color:var(--evil-ink)}
-:root[data-theme] :is(.setting-camp.modules h3,.res-r){color:var(--accent)}
-:root[data-theme] :is(.role-list .character-card,.rgrid .role-guide,.rule-camps .camp,.rules-flow li,.current-lineup-guide,.setting-camp,.lineup-side,.rules-counts,.seatcard,.rt,.me-id,.me-role,.know,.known-person,.tool-body,.private-note-row,.reaction-bubble,.selected-team-review,.selected-person,.confirm-person,.action-status,.wait-person,.assassination-result,.vlist div){background:var(--surface-inset);border-color:var(--border)}
+:root[data-theme] .character-card h3,
+:root[data-theme] .character-alignment,
+:root[data-theme] .setting-camp h3,
+:root[data-theme] .camp h3,
+:root[data-theme] .lineup-side h3,
+:root[data-theme] .res-s{color:var(--good-ink)}
+:root[data-theme] .character-card.evil h3,
+:root[data-theme] .evil .character-alignment,
+:root[data-theme] .setting-camp.evil h3,
+:root[data-theme] .camp.evil h3,
+:root[data-theme] .lineup-side.evil h3,
+:root[data-theme] .res-f{color:var(--evil-ink)}
+:root[data-theme] .setting-camp.modules h3,
+:root[data-theme] .res-r{color:var(--accent)}
+:root[data-theme] .role-list .character-card,
+:root[data-theme] .rgrid .role-guide,
+:root[data-theme] .rule-camps .camp,
+:root[data-theme] .rules-flow li,
+:root[data-theme] .current-lineup-guide,
+:root[data-theme] .setting-camp,
+:root[data-theme] .lineup-side,
+:root[data-theme] .rules-counts,
+:root[data-theme] .seatcard,
+:root[data-theme] .rt,
+:root[data-theme] .me-id,
+:root[data-theme] .me-role,
+:root[data-theme] .know,
+:root[data-theme] .known-person,
+:root[data-theme] .tool-body,
+:root[data-theme] .private-note-row,
+:root[data-theme] .reaction-bubble,
+:root[data-theme] .selected-team-review,
+:root[data-theme] .selected-person,
+:root[data-theme] .confirm-person,
+:root[data-theme] .action-status,
+:root[data-theme] .wait-person,
+:root[data-theme] .assassination-result,
+:root[data-theme] .vlist div{background:var(--surface-inset);border-color:var(--border)}
 :root[data-theme] .role-list .character-copy{background:none}
-:root[data-theme] :is(.tag.good,.rt.on.good,.vchip.y){color:var(--good-ink);background:var(--good-wash);border-color:var(--good-ink)}
-:root[data-theme] :is(.tag.evil,.rt.on.evil,.vchip.n){color:var(--evil-ink);background:var(--evil-wash);border-color:var(--evil-ink)}
-:root[data-theme] :is(.rt.on.neutral,.seatcard.me,.lobby-status,.lobby-guide-bar){background:var(--surface-raised);border-color:var(--accent)}
+:root[data-theme] .tag.good,
+:root[data-theme] .rt.on.good,
+:root[data-theme] .vchip.y{color:var(--good-ink);background:var(--good-wash);border-color:var(--good-ink)}
+:root[data-theme] .tag.evil,
+:root[data-theme] .rt.on.evil,
+:root[data-theme] .vchip.n{color:var(--evil-ink);background:var(--evil-wash);border-color:var(--evil-ink)}
+:root[data-theme] .rt.on.neutral,
+:root[data-theme] .seatcard.me,
+:root[data-theme] .lobby-status,
+:root[data-theme] .lobby-guide-bar{background:var(--surface-raised);border-color:var(--accent)}
 :root[data-theme] .lobby-status b{color:var(--accent)}
 :root[data-theme] .lobby-status.ready{background:var(--success-wash);border-color:var(--success)}
 :root[data-theme] .lobby-status.ready b{color:var(--success)}
 :root[data-theme] .roomcode .code{background:none;color:var(--accent);-webkit-text-fill-color:var(--accent)}
-:root[data-theme] :is(.act,.rules-head,.rules-sheet>.rules-tabs){background:var(--surface-raised);border-color:var(--border)}
+:root[data-theme] .act,
+:root[data-theme] .rules-head,
+:root[data-theme] .rules-sheet>.rules-tabs{background:var(--surface-raised);border-color:var(--border)}
 :root[data-theme] .rules-flow li::before{border-color:var(--accent);color:var(--accent)}
-:root[data-theme] :is(.rules-modal,.ov){background:var(--overlay)}
+:root[data-theme] .rules-modal,
+:root[data-theme] .ov{background:var(--overlay)}
 :root[data-theme] .toast{background:var(--surface-raised);color:var(--ink);border-color:var(--accent)}
 /* Game colors remain semantic: blue is Success and red is Fail. */
 :root[data-theme] .table .disc{background:radial-gradient(circle at 48% 42%,var(--table-center),var(--table-edge));border-color:var(--border-strong);box-shadow:0 0 0 1.4cqw var(--border),0 0 0 2.7cqw var(--surface-raised),var(--theme-shadow)}
-:root[data-theme] :is(.disc .ph,.disc .phs){color:var(--ink);text-shadow:none}
+:root[data-theme] .disc .ph,
+:root[data-theme] .disc .phs{color:var(--ink);text-shadow:none}
 :root[data-theme] .qt:not(.S):not(.F){background:var(--surface-raised);border-color:var(--border-strong);color:var(--ink);box-shadow:none}
 :root[data-theme] .qt.cur{border-color:var(--accent)}
 :root[data-theme] .seatp .pn{background:var(--surface);color:var(--ink);border-color:var(--border-strong)}
 :root[data-theme] .seatp.me:not(.picked) .pn{background:#e9cf8d;color:#241b0b;border-color:#ac8137}
 :root[data-theme] .selected-person b{color:var(--ink)}
-:root[data-theme="light"] :is(.rolecard .back,.qcard .f.b){background:repeating-linear-gradient(45deg,#e6decb 0 10px,#f3ecdc 10px 20px);color:#78551d;text-shadow:none}
+:root[data-theme="light"] .rolecard .back,
+:root[data-theme="light"] .qcard .f.b{background:repeating-linear-gradient(45deg,#e6decb 0 10px,#f3ecdc 10px 20px);color:#78551d;text-shadow:none}
 :root[data-theme="light"] .rolecard .front .rn{color:#fff0cf}
 :root[data-theme="light"] .privacy-cover{background:var(--page);color:var(--ink)}
-:root[data-theme="light"] .privacy-cover :is(h2,p){color:var(--ink)}
+:root[data-theme="light"] .privacy-cover h2,
+:root[data-theme="light"] .privacy-cover p{color:var(--ink)}
 .theme-toggle{display:inline-grid;place-items:center;flex:none;width:40px;height:40px;padding:0;border:1px solid var(--border-strong);border-radius:8px;background:var(--surface-raised);color:var(--ink);cursor:pointer}
 .theme-toggle:hover{background:var(--hover);border-color:var(--accent)}
 .theme-toggle:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
@@ -100,13 +245,34 @@
 @media(max-width:600px){.av-controls{gap:7px}.theme-toggle{width:36px;height:40px}.top-r{flex-wrap:wrap}}
 @media(max-width:380px){.av-header .av-brand{flex-basis:100%}.av-controls{width:100%;margin-left:0}.av-controls .av-status{margin-right:auto}.av-controls select{margin-left:auto}.av-nav{gap:17px}}
 /* Setup, confirmations and results use the same readable text hierarchy. */
-:root[data-theme] :is(.preset-wrap,.settings-advanced,.settings-advanced[open]>summary,.quest-confirm){background:var(--surface-inset);border-color:var(--border)}
-:root[data-theme] :is(.settings-advanced>summary b,.settings-advanced>summary i,.selected-team-head b){color:var(--accent)}
-:root[data-theme] :is(.settings-advanced>summary small,.selected-team-head small,.quest-confirm small,.quest-confirm p,.assassination-copy>small,.assassination-target em,.info-copy p,.confirm-sheet p,.notes-clear){color:var(--ink-muted)}
-:root[data-theme] :is(.selected-person,.selected-person em,.assassination-copy>strong,.assassination-target b,.confirm-person b){color:var(--ink)}
+:root[data-theme] .preset-wrap, confirmations and results use the same readable text hierarchy. */
+:root[data-theme] .settings-advanced, confirmations and results use the same readable text hierarchy. */
+:root[data-theme] .settings-advanced[open]>summary, confirmations and results use the same readable text hierarchy. */
+:root[data-theme] .quest-confirm{background:var(--surface-inset);border-color:var(--border)}
+:root[data-theme] .settings-advanced>summary b,
+:root[data-theme] .settings-advanced>summary i,
+:root[data-theme] .selected-team-head b{color:var(--accent)}
+:root[data-theme] .settings-advanced>summary small,
+:root[data-theme] .selected-team-head small,
+:root[data-theme] .quest-confirm small,
+:root[data-theme] .quest-confirm p,
+:root[data-theme] .assassination-copy>small,
+:root[data-theme] .assassination-target em,
+:root[data-theme] .info-copy p,
+:root[data-theme] .confirm-sheet p,
+:root[data-theme] .notes-clear{color:var(--ink-muted)}
+:root[data-theme] .selected-person,
+:root[data-theme] .selected-person em,
+:root[data-theme] .assassination-copy>strong,
+:root[data-theme] .assassination-target b,
+:root[data-theme] .confirm-person b{color:var(--ink)}
 :root[data-theme] .assassination-target em b{color:var(--accent)}
-:root[data-theme] :is(.score-good,.bigres.good,.quest-confirm.success strong){color:var(--good-ink);text-shadow:none}
-:root[data-theme] :is(.score-evil,.bigres.evil,.quest-confirm.fail strong){color:var(--evil-ink);text-shadow:none}
+:root[data-theme] .score-good,
+:root[data-theme] .bigres.good,
+:root[data-theme] .quest-confirm.success strong{color:var(--good-ink);text-shadow:none}
+:root[data-theme] .score-evil,
+:root[data-theme] .bigres.evil,
+:root[data-theme] .quest-confirm.fail strong{color:var(--evil-ink);text-shadow:none}
 :root[data-theme] .disc .ph.res-s{color:var(--good-ink)}
 :root[data-theme] .disc .ph.res-f{color:var(--evil-ink)}
 :root[data-theme] .scoreline i{color:var(--ink-muted)}
@@ -117,8 +283,195 @@
 :root[data-theme] .assassination-result.hit{border-color:var(--success)}
 :root[data-theme] .assassination-result.miss{border-color:var(--evil-ink)}
 @media(max-width:600px){.av-status{max-width:140px;white-space:normal;overflow-wrap:anywhere;line-height:1.3}}
-:root[data-theme] :is(.table-kicker,.action-status>b){color:var(--ink-muted)}
+:root[data-theme] .table-kicker,
+:root[data-theme] .action-status>b{color:var(--ink-muted)}
 :root[data-theme] .action-status.done{color:var(--success)}
-:root[data-theme] :is(.tag.clue,details.rules summary){color:var(--accent)}
+:root[data-theme] .tag.clue,
+:root[data-theme] details.rules summary{color:var(--accent)}
 :root[data-theme] .tag.clue{background:var(--surface-raised);border-color:var(--accent)}
 :root[data-theme] .seatp.picked .pn{background:#075078;color:#fff;border-color:#6fd8ff}
+/* Content hierarchy: restrained surfaces, explicit roles and one icon family. */
+:root[data-theme="light"]{--page:#f7f6f2;--surface:#fff;--surface-raised:#eef1f4;--surface-inset:#f7f9fa;--border:#dce2e7;--border-strong:#b6c2cc;--hover:#e7edf2;--theme-shadow:0 5px 20px rgba(33,47,61,.045)}
+:root[data-theme="dark"]{--border:#3d4e60;--theme-shadow:0 5px 20px rgba(7,14,22,.12)}
+:root[data-theme] .glass::after{display:none}
+:root[data-theme] .ic{display:inline-block;vertical-align:-.18em;width:1.15em;height:1.15em;fill:none;stroke:currentColor;stroke-width:1.65;stroke-linecap:round;stroke-linejoin:round;flex:none}
+:root[data-theme] :is(h2,h3,.sheet-head b,.lineup-side h3 span){display:flex;align-items:center;gap:8px}
+:root[data-theme] .ovbox h2{justify-content:center}
+:root[data-theme] :is(.card h2,.card h3,.act h2,.tools h3){font-family:var(--av-font);font-weight:650;letter-spacing:0;line-height:1.45}
+:root[data-theme] .tag{display:inline-flex;align-items:center;gap:4px;padding:2px 7px;border-radius:5px;line-height:1.5}
+:root[data-theme] .tag.host{color:var(--accent);background:transparent;border-color:transparent}
+:root[data-theme] .tag.me{color:var(--good-ink);background:var(--good-wash);border-color:transparent}
+:root[data-theme] .scoreline>span{display:inline-flex;align-items:center;gap:.5cqw}
+:root[data-theme] .scoreline .ic{width:.9em;height:.9em}
+:root[data-theme] .seatp .badge .ic{width:70%;height:70%;vertical-align:0}
+:root[data-theme] .seatp .b-crown{display:grid;place-items:center;width:4.8cqw;height:4.8cqw;top:-1.6cqw;right:-1.4cqw;border-radius:50%;border:.35cqw solid var(--accent);color:var(--accent);background:var(--surface);filter:none}
+:root[data-theme] .seatp .b-lady{display:grid;place-items:center;background:var(--surface);color:var(--accent)}
+:root[data-theme] .seatp:not(.me):not(.team):not(.picked) .pav{box-shadow:0 0 0 .4cqw var(--surface),0 4px 12px rgba(18,30,42,.18);border-color:var(--border-strong)}
+/* The character catalog flows by alignment, avoiding an empty half-column. */
+:root[data-theme] .rule-camps{grid-template-columns:1fr;gap:24px}
+:root[data-theme] .rule-camps .camp{padding:0;background:transparent;border:0;overflow:visible}
+:root[data-theme] .rule-camps .camp::before{display:none}
+:root[data-theme] .rule-camps .camp>h3{font:650 14px/1.4 var(--av-font);padding-bottom:10px;border-bottom:1px solid var(--border)}
+:root[data-theme] .camp .rgrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+:root[data-theme] .rgrid .role-guide{min-height:128px;background:var(--surface-inset);border:1px solid var(--border);border-radius:10px}
+:root[data-theme] .role-guide::before{display:none}
+:root[data-theme] .role-guide .guide-art{width:86px;min-width:86px;height:100%;max-height:172px;align-self:stretch}
+:root[data-theme] .role-guide>span{padding:14px;font-size:13px;line-height:1.65}
+:root[data-theme] .role-guide b{font-family:var(--av-font);font-size:14px;letter-spacing:0}
+:root[data-theme] .rules-sheet{width:min(1040px,100%);border-radius:14px}
+:root[data-theme] .rules-head{background:var(--surface);padding:18px 24px}
+:root[data-theme] .rules-head h2{font:650 21px/1.4 var(--av-font);letter-spacing:0}
+:root[data-theme] .rules-sheet>.rules-tabs{background:transparent;border:0;border-radius:0;border-bottom:1px solid var(--border);padding:0;margin:0 24px;gap:24px;display:flex}
+:root[data-theme] .rules-tabs .btn{border:0;border-bottom:2px solid transparent;border-radius:0;background:transparent;min-height:48px;padding:10px 0;box-shadow:none;color:var(--ink-muted)}
+:root[data-theme] .rules-tabs .btn.active{border-color:var(--accent);color:var(--accent);background:transparent}
+:root[data-theme] .rules-tab-content{padding-top:24px}
+:root[data-theme] .rules-flow ol{grid-template-columns:repeat(2,minmax(0,1fr))}
+:root[data-theme] .rules-flow li{padding:18px 18px 18px 54px;background:transparent;border-color:var(--border)}
+:root[data-theme] .rules-flow li::before{left:16px;top:18px;background:var(--surface-raised);border:0;width:25px;height:25px;font-family:var(--av-font)}
+:root[data-theme] .rules-copy{padding:4px 0 10px}
+:root[data-theme] .current-lineup-guide{padding:0;border:0;background:transparent}
+/* Shared player reference: compare counts and five Quest sizes in rows. */
+:root[data-theme] .setup-reference{margin:28px 0 0;padding-top:24px;border-top:1px solid var(--border)}
+:root[data-theme] .setup-reference>h3{font:650 16px/1.4 var(--av-font);color:var(--ink);margin:0 0 16px}
+:root[data-theme] .setup-table-wrap{border:1px solid var(--border);border-radius:12px;overflow:hidden;background:var(--surface)}
+:root[data-theme] .setup-table{width:100%;border-collapse:collapse;text-align:center;font:14px/1.5 var(--av-font);margin:0}
+:root[data-theme] .setup-table :is(th,td){padding:13px 16px;border:0;border-bottom:1px solid var(--border);text-align:center;white-space:nowrap;color:var(--ink)}
+:root[data-theme] .setup-table thead th{background:var(--surface-inset);font-size:12px;font-weight:600;color:var(--ink-muted)}
+:root[data-theme] .setup-table th:first-child{text-align:left}
+:root[data-theme] .setup-table tbody tr:last-child>*{border-bottom:0}
+:root[data-theme] .setup-table .good-text{color:var(--good-ink)}
+:root[data-theme] .setup-table .evil-text{color:var(--evil-ink)}
+:root[data-theme] .setup-table th .ic{margin-right:5px}
+:root[data-theme] .quest-sizes{display:flex;gap:7px;justify-content:center}
+:root[data-theme] .quest-sizes span{display:grid;place-items:center;width:27px;height:27px;border-radius:6px;background:var(--surface-inset);font-size:12px;font-weight:600}
+:root[data-theme] .quest-sizes .two-fails{color:var(--accent);box-shadow:inset 0 0 0 1px var(--border-strong)}
+:root[data-theme] .setup-footnote{font-size:12px;line-height:1.65;color:var(--ink-muted);margin:12px 0 0}
+/* Public guide: compact orientation, useful reading rhythm. */
+:root[data-theme] main.wrap>h1{margin:8px 0 20px!important;font-size:clamp(28px,3.5vw,38px)!important}
+:root[data-theme] .facts{display:flex;flex-wrap:wrap;gap:10px 24px;background:none;border:0;border-radius:0;box-shadow:none;padding:0 0 12px}
+:root[data-theme] .facts div{display:flex;align-items:center;gap:8px;padding:0;border:0;text-align:left}
+:root[data-theme] .facts b{font-size:12px;font-weight:500;color:var(--ink-muted)}
+:root[data-theme] .facts div>span{display:none}
+:root[data-theme] .facts .ic{color:var(--accent);font-size:17px}
+:root[data-theme] main.wrap section{padding:30px 0}
+:root[data-theme] main.wrap section h2{font-size:26px}
+:root[data-theme] #rules .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+:root[data-theme] #rules .grid .card{box-shadow:none;padding:20px;border-radius:10px;background:var(--surface)}
+:root[data-theme] #rules .grid .card:nth-child(n+5){background:var(--surface-inset);border:0}
+:root[data-theme] #roles .guide-camp{background:transparent;padding:0;border:0;border-radius:0;margin:24px 0}
+:root[data-theme] #roles .guide-camp>summary{padding:0 0 12px;border-bottom:1px solid var(--border);color:var(--ink);font-size:15px;line-height:1.5}
+:root[data-theme] #roles .guide-camp>summary .ic{margin-right:6px}
+:root[data-theme] #roles .role-list{gap:14px}
+:root[data-theme] .character-card h3{font-family:var(--av-font);font-size:15px;font-weight:650}
+:root[data-theme] .character-alignment{display:flex;align-items:center;gap:5px;font-size:9px;letter-spacing:1px;margin-bottom:6px}
+:root[data-theme] .character-alignment .ic{font-size:12px}
+/* Lobby: content-height panels and artwork rather than dense text tags. */
+:root[data-theme] .lobby{align-items:start}
+:root[data-theme] .lobby-players,:root[data-theme] .lobby-roles{padding:22px}
+:root[data-theme] .lobby-status{border:0;border-left:3px solid var(--accent);border-radius:0 6px 6px 0;background:var(--surface-inset);padding:12px 14px}
+:root[data-theme] .lobby-status.ready{border-color:var(--success);background:var(--success-wash)}
+:root[data-theme] .preset-wrap{padding:0 0 18px;border:0;border-bottom:1px solid var(--border);border-radius:0;background:transparent}
+:root[data-theme] .preset-row{display:flex;gap:8px;margin-top:10px}
+:root[data-theme] .preset-btn{min-height:36px;flex:1;background:var(--surface);border-color:var(--border)}
+:root[data-theme] .preset-btn.active{background:var(--surface-raised);border-color:var(--accent);color:var(--accent)}
+:root[data-theme] .lineup{gap:18px}
+:root[data-theme] .lineup-side{padding:0;background:none;border:0;overflow:visible}
+:root[data-theme] .lineup-side::before{display:none}
+:root[data-theme] .lineup-side h3{font:600 12px/1.4 var(--av-font);margin-bottom:10px}
+:root[data-theme] .lineup-side h3 b{width:22px;height:22px;font-size:11px;background:var(--good-wash);color:var(--good-ink)}
+:root[data-theme] .lineup-side.evil h3 b{background:var(--evil-wash);color:var(--evil-ink)}
+:root[data-theme] .lineup-roles{display:grid;gap:8px}
+:root[data-theme] .lineup-character{display:flex;align-items:center;gap:9px;font-size:12px;line-height:1.35;color:var(--ink)}
+:root[data-theme] .lineup-art{width:34px;height:42px;object-fit:cover;object-position:50% 18%;border-radius:5px;border:1px solid var(--border)}
+:root[data-theme] .settings-advanced{background:transparent;border:0;border-top:1px solid var(--border);border-radius:0;margin-top:20px}
+:root[data-theme] .settings-advanced>summary{padding:16px 0 0}
+:root[data-theme] .settings-advanced>summary b{font-family:var(--av-font);font-size:13px;letter-spacing:0}
+:root[data-theme] .settings-advanced[open]>summary{background:transparent;border:0}
+:root[data-theme] .settings-advanced-body{padding:16px 0 0}
+/* Play panel: one surface per purpose, without nested boxes. */
+:root[data-theme] .act{background:var(--surface);border-top:3px solid var(--accent)}
+:root[data-theme] .act h2{font-size:16px}
+:root[data-theme] .act h2>.ic{color:var(--accent)}
+:root[data-theme] .act .hint{font-size:13px;line-height:1.7}
+:root[data-theme] .action-status{background:none;padding:12px 0 0;border-top-color:var(--border)}
+:root[data-theme] .wait-person{background:var(--surface-inset);border-color:var(--border)}
+:root[data-theme] .mebar{padding:4px;gap:0}
+:root[data-theme] :is(.me-id,.me-role){background:none;border:0;border-radius:6px;padding:10px;min-height:62px}
+:root[data-theme] .me-role{border-left:1px solid var(--border);border-radius:0 6px 6px 0}
+:root[data-theme] :is(.me-id,.me-role):hover{background:var(--surface-inset)}
+:root[data-theme] .me-text b{font-size:13px;line-height:1.4}
+:root[data-theme] .tools{padding:8px}
+:root[data-theme] .tool-tabs{gap:4px}
+:root[data-theme] .tool-tab{background:transparent;border-color:transparent;font-size:12px;min-height:42px}
+:root[data-theme] .tool-tab.on{background:var(--surface-raised);border-color:transparent;color:var(--accent)}
+:root[data-theme] .tool-tab:hover{background:var(--surface-inset);border-color:transparent}
+:root[data-theme] .only-wide .reaction-btn{background:transparent;border-color:transparent;min-height:36px;font-size:19px}
+:root[data-theme] .only-wide .reaction-btn:hover{background:var(--surface-inset)}
+:root[data-theme] .tools .only-wide{border-bottom:1px solid var(--border);margin-bottom:6px;padding-bottom:4px}
+:root[data-theme] .tool-body{background:var(--surface-inset);border:0;border-radius:8px;padding:16px;margin-top:8px}
+:root[data-theme] .tool-body .glass{background:none;border:0;box-shadow:none}
+:root[data-theme] .history-empty{display:flex;flex-direction:column;align-items:center;text-align:center;padding:24px 10px 12px;color:var(--ink-muted)}
+:root[data-theme] .history-empty>.ic{width:26px;height:26px;margin-bottom:10px;color:var(--ink-dim)}
+:root[data-theme] .history-empty b{font-size:13px;color:var(--ink)}
+:root[data-theme] .history-empty p{font-size:12px;line-height:1.65;max-width:260px;margin:7px 0}
+:root[data-theme] .identity-detail{display:grid;grid-template-columns:106px minmax(0,1fr);gap:18px;align-items:start}
+:root[data-theme] .identity-portrait{position:relative;border-radius:9px;overflow:hidden;background:#152132;border:1px solid #b99a58}
+:root[data-theme] .identity-art{display:block;width:100%;height:148px;object-fit:cover;object-position:50% 15%}
+:root[data-theme] .identity-portrait>span{display:block;padding:7px 5px;color:#eee5cd;background:#182537;text-align:center;font-size:10px;font-weight:600}
+:root[data-theme] .identity-portrait.evil>span{background:#3e2329}
+:root[data-theme] .identity-knowledge{font-size:13px;line-height:1.7}
+:root[data-theme] .identity-knowledge .know{padding:12px;background:var(--surface-inset);border:0;border-radius:8px}
+/* A designed card back is independent of page appearance. */
+:root[data-theme] .night-sheet{width:min(500px,100%);padding:26px;border-radius:16px}
+:root[data-theme] .night-sheet h2{font-size:21px;gap:9px}
+:root[data-theme] .night-sheet h2>.ic{color:var(--accent)}
+:root[data-theme] .night-sheet>.lead{font-size:13px;line-height:1.65;max-width:330px;margin:8px auto 20px}
+:root[data-theme] .night-sheet .rolecard{display:block;width:218px;height:306px;margin:0 auto 22px;padding:0;border:0;background:none;box-shadow:none;text-align:center;color:#e6cd8b}
+:root[data-theme] .rolecard .in{display:block}
+:root[data-theme] .night-sheet .rolecard .face{border-radius:12px;border:1px solid #b99a58;box-shadow:0 12px 22px rgba(5,12,23,.22);padding:0}
+:root[data-theme] .night-sheet .rolecard .back{background:radial-gradient(ellipse at 50% 35%,#293d52 0,#142537 60%,#0e1b2b 100%);color:#e6cd8b;text-shadow:none;gap:0;overflow:hidden}
+:root[data-theme] .rolecard .back::before{content:"";position:absolute;inset:9px;border:1px solid #bc9c5866;border-radius:7px}
+:root[data-theme] .rolecard .back::after{content:"";position:absolute;inset:16px;border:1px solid #bc9c5830;border-radius:4px}
+:root[data-theme] .card-orbit{position:absolute;width:130px;height:130px;top:55px;border:1px solid #c4a25a38;transform:rotate(45deg);border-radius:14px}
+:root[data-theme] .card-orbit::after{content:"";position:absolute;inset:10px;border:1px solid #c4a25a26;border-radius:50%}
+:root[data-theme] .rolecard .card-seal.large{position:relative;z-index:1;width:58px;height:68px;margin:0 0 28px;background:linear-gradient(140deg,#e3cf92,#ac8541);color:#182537;box-shadow:none;font:700 27px var(--av-heading)}
+:root[data-theme] .card-wordmark{font:600 22px/1.4 var(--av-heading);letter-spacing:5px;margin-left:5px}
+:root[data-theme] .card-secret{position:absolute;bottom:26px;display:flex;align-items:center;justify-content:center;gap:6px;font:500 8px/1.4 var(--av-font);letter-spacing:1.8px;color:#c0b28e}
+:root[data-theme] .rolecard-caption{bottom:18px;left:14px;right:14px;display:flex;flex-direction:column;gap:5px}
+:root[data-theme] .rolecard .front .rn{display:block;color:#fff3d6;font:700 21px/1.2 var(--av-heading);letter-spacing:.5px}
+:root[data-theme] .rolecard .front .rs{display:flex;align-items:center;justify-content:center;gap:6px;font-size:10px;letter-spacing:2px;color:#eddbb5;opacity:1}
+:root[data-theme] .qcard .f.b{background:radial-gradient(circle at 50% 30%,#293d52,#142537);border-color:#b99a58}
+:root[data-theme] .btn:disabled{opacity:1;background:var(--surface-raised);color:var(--ink-dim);border-color:var(--border);box-shadow:none}
+@media(max-width:720px){
+  :root[data-theme] .camp .rgrid{grid-template-columns:1fr}
+  :root[data-theme] .rules-head{padding:16px}
+  :root[data-theme] .rules-sheet>.rules-tabs{margin:0 16px;gap:20px}
+  :root[data-theme] .rules-tabs .btn{font-size:12px}
+  :root[data-theme] .rules-flow ol{grid-template-columns:1fr}
+  :root[data-theme] .rules-flow li{padding:15px 15px 15px 50px}
+  :root[data-theme] .setup-table :is(th,td){padding:11px 8px;font-size:12px}
+  :root[data-theme] .setup-table thead th{font-size:10px}
+  :root[data-theme] .setup-table th .ic{display:none}
+  :root[data-theme] .quest-sizes{gap:3px}
+  :root[data-theme] .quest-sizes span{width:19px;height:23px;font-size:11px}
+  :root[data-theme] .facts{gap:10px 18px}
+  :root[data-theme] #rules .grid{grid-template-columns:1fr}
+  :root[data-theme] .lobby-players,:root[data-theme] .lobby-roles{padding:16px}
+  :root[data-theme] .lineup{grid-template-columns:1fr 1fr}
+  :root[data-theme] .me-text b{font-size:12px}
+  :root[data-theme] .tool-tab{font-size:11px;min-height:46px}
+  :root[data-theme] .tool-body.sheet{padding:18px 16px calc(18px + env(safe-area-inset-bottom));background:var(--surface);border:1px solid var(--border);border-radius:16px 16px 0 0}
+  :root[data-theme] .night-sheet{padding:22px 18px}
+  :root[data-theme] .night-sheet .rolecard{width:194px;height:274px}
+  :root[data-theme] .identity-detail{grid-template-columns:82px minmax(0,1fr);gap:14px}
+  :root[data-theme] .identity-art{height:120px}
+}
+:root[data-theme] .reaction-btn{display:grid;place-items:center;color:var(--ink-muted)}
+:root[data-theme] .reaction-btn .ic{width:23px;height:23px;stroke-width:1.5}
+:root[data-theme] .reaction-btn:hover{color:var(--accent)}
+:root[data-theme] .reaction-bubble{display:grid;place-items:center;color:var(--accent)}
+:root[data-theme] .reaction-bubble .ic{width:62%;height:62%}
+:root[data-theme] .btn.good.sel{background:#235b76;color:#fff;border-color:var(--good-ink);box-shadow:inset 0 0 0 1px var(--good-ink)}
+:root[data-theme] .btn.evil.sel{background:#7d302c;color:#fff;border-color:var(--evil-ink);box-shadow:inset 0 0 0 1px var(--evil-ink)}
+:root[data-theme] .settings-advanced>summary small{font-size:11px;line-height:1.6}
+:root[data-theme] .lady-art{background:var(--surface-raised);color:var(--accent);font-size:24px}
