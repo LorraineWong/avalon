@@ -31,11 +31,7 @@ Realtime Database is hosted in Asia Southeast (asia-southeast1). Fonts are serve
 
 The application code contains no analytics or advertising trackers and does not itself set cookies. Site preferences and notes use localStorage; Firebase may additionally use browser storage for authentication. This statement does not guarantee that hosting or third-party services never use cookies.
 
-This policy may be updated; the last-updated date reflects changes. Contact:
-
-CONTACT_EMAIL_TODO
-
-(placeholder; not yet an active contact address). For private security reports use GitHub Security.
+This policy may be updated; the last-updated date reflects changes. For private security reports use GitHub Security.
 
 ---
 
@@ -61,4 +57,4 @@ Realtime Database 位于亚洲东南区（asia-southeast1）。字体由 Google 
 
 应用代码不含分析统计或广告追踪，也不自行设置 Cookie。偏好和笔记使用 localStorage；Firebase 还可能使用浏览器存储保存登录状态。这不代表托管平台或第三方服务绝不使用 Cookie。
 
-政策可能更新，变更以最后更新日期为准。联系： CONTACT_EMAIL_TODO （待填写，尚非有效联系地址）。私密安全报告请使用 GitHub Security。
+政策可能更新，变更以最后更新日期为准。私密安全报告请使用 GitHub Security。

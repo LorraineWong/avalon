@@ -2,7 +2,7 @@
 
 ## Report privately
 
-Use [GitHub private vulnerability reporting](https://github.com/LorraineWong/avalon/security/advisories/new). Include reproduction steps, affected version, browser and impact. Do not publish secrets or other players’ room data. Contact email: `CONTACT_EMAIL_TODO` (not active yet).
+Use [GitHub private vulnerability reporting](https://github.com/LorraineWong/avalon/security/advisories/new). Include reproduction steps, affected version, browser and impact. Do not publish secrets or other players’ room data.
 
 ## Trust boundary
 
@@ -22,7 +22,7 @@ The Firebase web API key is a public client identifier, not an authorization sec
 
 ## 私密报告
 
-请使用 [GitHub 私密漏洞报告](https://github.com/LorraineWong/avalon/security/advisories/new)，提供复现步骤、版本、浏览器与影响。不要公开密钥或其他玩家的房间资料。联系邮箱：`CONTACT_EMAIL_TODO`（尚未启用）。
+请使用 [GitHub 私密漏洞报告](https://github.com/LorraineWong/avalon/security/advisories/new)，提供复现步骤、版本、浏览器与影响。不要公开密钥或其他玩家的房间资料。
 
 ## 信任边界
 
