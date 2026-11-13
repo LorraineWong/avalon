@@ -1,5 +1,6 @@
 # Project documentation
 
+- [Development guide](DEVELOPMENT.md) — local preview, Firebase configuration, verification and deployment.
 - [Design system](DESIGN.md) — interface direction, visual language, and component notes.
 - [Big Box rules coverage](BIG_BOX_RULES.md) — supported characters, modules, and known boundaries.
 - [Multiplayer playtest](PLAYTEST.md) — tested scenarios, environments, and deferred cases.

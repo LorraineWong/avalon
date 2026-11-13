@@ -927,7 +927,7 @@ function topBar(){
   const conn=Net.connected();
   const st = !Net.everConnected ? t('connecting') : (conn ? t('online') : t('offline'));
   if(!S.code && typeof AvalonShell!=='undefined') return AvalonShell.header(LANG,'./','home','<span class="av-status '+(conn?'is-online':Net.everConnected?'is-offline':'is-connecting')+'" role="status"><span class="status-dot" aria-hidden="true"></span>'+st+'</span>')+((Net.authFailed || (!Net.everConnected && S.bootAt && Date.now()-S.bootAt>15000))?'<div class="banner-off">'+t('noNet')+'</div>':'');
-  return '<div class="top"><button class="brand av-brand" data-a="home" aria-label="'+t('home')+'"><span class="av-mark">V</span><span><b>AVALON</b><small>'+t('sub')+'</small></span></button>'
+  return '<div class="top"><button class="brand av-brand" data-a="home" aria-label="'+t('home')+'"><span class="av-mark"><img src="assets/brand-mark.svg" alt="" width="40" height="40"></span><span><b>AVALON</b><small>'+t('sub')+'</small></span></button>'
     +(!S.code?'<nav class="site-navigation" aria-label="Main navigation"><button data-a="home" aria-current="page">'+t('home')+'</button><a href="'+(LANG==='zh'?'zh-cn/':'en/')+'">'+t('guide')+'</a><a href="privacy/">'+t('privacy')+'</a><a href="unofficial-notice/">'+t('legal')+'</a></nav>':'')
     +'<div class="top-r">'+(S.code&&S.game?((S.game.status!=='lobby'?'<button class="chip btn privacy-cover-btn" data-a="privacyCover" aria-label="'+t('privacyCover')+'">'+ic('eyeoff')+'<span>'+t('privacyCover')+'</span></button>':'')+'<button class="chip btn rules-access" data-a="rules" aria-label="'+t('rulesAnytime')+'">'+ic('book')+'<span>'+t('rulesAnytime')+'</span></button><span class="chip room-chip"><span class="dot '+(conn?'on':'')+'"></span><b style="letter-spacing:2px">'+esc(S.code)+'</b></span>'):'<span class="chip"><span class="dot '+(conn?'on':'')+'"></span>'+st+'</span>')
     +(typeof AvalonShell!=='undefined'?AvalonShell.themeControl(LANG):'')+'<label class="language-picker"><span class="sr-only">Language / 语言</span><select id="siteLanguage" aria-label="Language / 语言"><option value="zh" '+(LANG==='zh'?'selected':'')+'>简体中文</option><option value="en" '+(LANG==='en'?'selected':'')+'>English</option></select></label></div></div>'
@@ -1029,7 +1029,7 @@ function renderConfirmModal(){
 }
 function privacyCoverHtml(){
   if(!S.ui.privacyCover) return '';
-  return '<div class="privacy-cover" role="dialog" aria-modal="true"><div class="privacy-cover-crest">V</div><h2>'+t('coveredTitle')+'</h2><p>'+t('coveredHint')+'</p><button class="btn pri big" data-a="privacyCover">'+t('revealScreen')+'</button></div>';
+  return '<div class="privacy-cover" role="dialog" aria-modal="true"><div class="privacy-cover-crest"><img src="assets/brand-mark.svg" alt="" width="78" height="78"></div><h2>'+t('coveredTitle')+'</h2><p>'+t('coveredHint')+'</p><button class="btn pri big" data-a="privacyCover">'+t('revealScreen')+'</button></div>';
 }
 function viewHome(){
   const last=LS.get('last');
@@ -1175,7 +1175,7 @@ function toolPanel(g){
     +'<button class="tool-tab" data-a="rules">'+ic('book')+'<span>'+t('tRules')+'</span></button>';
   const body=tab==='history'?historyBlock(g):tab==='notes'?privateNotesPanel(g):tab==='host'?hostToolsPanel(g):tab==='react'?reactionPanel(g):'';
   return '<section class="glass card tools">'+(canReact?'<div class="only-wide">'+reactionPanel(g)+'</div>':'')+'<div class="tool-tabs" role="toolbar">'+tabs+'</div>'
-    +(body?'<button class="sheet-backdrop" data-tool="'+tab+'" aria-label="'+t('close')+'"></button><div class="tool-body sheet tool-'+tab+'"><button class="btn ghost icon sheet-close tool-close" data-tool="'+tab+'" aria-label="'+t('close')+'">'+ic('x')+'</button>'+body+'</div>':'')+'</section>';
+    +(body?'<button class="sheet-backdrop" data-tool="'+tab+'" aria-label="'+t('close')+'"></button><div class="tool-body sheet tool-'+tab+'"><div class="tool-sheet-head"><b>'+t(({history:'tHistory',notes:'tNotes',host:'tHost',react:'tReact'})[tab])+'</b><button class="btn ghost icon sheet-close tool-close" data-tool="'+tab+'" aria-label="'+t('close')+'">'+ic('x')+'</button></div>'+body+'</div>':'')+'</section>';
 }
 function sendReaction(id){
   const def=REACTIONS.find(r=>r.id===id), now=Date.now();
@@ -1225,8 +1225,8 @@ function tableView(g){
   const showVotes = last && g.status==='play' && (g.phase==='quest' || (g.phase==='propose' && !last.ok && last.q===g.q));
   const L=g.order[g.leader];
   const seats=g.order.map((p,i)=>{
-    const ang=(-90 + i*360/n)*Math.PI/180, R=41;
-    const x=50+R*Math.cos(ang), y=50+R*Math.sin(ang);
+    const ang=(-90 + i*360/n)*Math.PI/180;
+    const x=50+41*Math.cos(ang), y=50+36*Math.sin(ang);
     const onTeam=['vote','quest','excalibur'].includes(g.phase) && (g.team||[]).includes(p);
     const can=pm && pm.ok(p), picked=(g.phase==='propose'?draftTeam:S.ui.pick).includes(p), skillKnown=sees.has(p)||!!lady[p]||!!checked[p];
     let tags='';
@@ -1249,7 +1249,7 @@ function tableView(g){
     if(g.status==='play' && needsAct(g,p)) badges+= acted(p) ? '<span class="badge b-act">✓</span>' : '<span class="badge b-wait">'+ic('clock')+'</span>';
     if(showVotes && last.votes[p]!==undefined) badges+='<span class="badge b-vote '+(last.votes[p]?'y':'n')+'">'+(last.votes[p]?'✓':'✗')+'</span>';
     const cls='seatp'+(onTeam?' team':'')+(can?' pick':'')+(picked?' picked':'')+(skillKnown?' skill-known':'')+(p===ME.pid?' me':'')+(g.assassinPick===p?' stabbed':'')+(pm&&!can?' dimmed':'');
-    return '<button class="'+cls+'" style="left:'+x.toFixed(2)+'%;top:'+y.toFixed(2)+'%" '+(can?'data-pick="'+esc(p)+'"':'tabindex="-1"')+'>'
+    return '<button class="'+cls+'" title="'+esc(nickOf(p))+'" style="left:'+x.toFixed(2)+'%;top:calc('+y.toFixed(2)+'% - var(--seat-avatar)/2)" '+(can?'data-pick="'+esc(p)+'"':'tabindex="-1"')+'>'
       +'<div class="pav player-avatar" style="'+avStyle(p)+'">'+badges+'</div>'
       +'<div class="pn">'+(p===ME.pid?'<b class="me-chip">'+t('meMark')+'</b>':'')+(i+1)+'·'+esc(nickOf(p))+'</div><div class="pt">'+tags+'</div></button>';
   }).join('');
@@ -1259,7 +1259,7 @@ function tableView(g){
   const score=questScore(g), scoreLabel=t('good')+' '+score.good+' · '+t('evil')+' '+score.evil, scoreHint=score.good>=3?t('r3s'):score.evil>=3?t('r3f'):t('goodNeeds',3-score.good)+' · '+t('evilNeeds',3-score.evil); let center;
   if(g.status==='end') center='<div class="table-kicker">'+t('score')+'</div><div class="ph '+(g.winner==='good'?'res-s':'res-f')+'">'+(g.winner==='good'?ic('shield')+' '+t('goodWin'):ic('sword')+' '+t('evilWin'))+'</div><div class="scoreline" aria-label="'+esc(scoreLabel)+'"><span class="score-good">'+ic('shield')+' '+score.good+'</span><i>:</i><span class="score-evil">'+score.evil+' '+ic('sword')+'</span></div><div class="phs">'+t(g.reason)+'</div>';
   else center='<div class="table-kicker">'+t('questN', g.q+1)+' · '+t('attempt',g.att)+'</div><div class="ph">'+t('ph_'+g.phase)+'</div><div class="scoreline" aria-label="'+esc(scoreLabel)+'"><span class="score-good">'+ic('shield')+' '+score.good+'</span><i>:</i><span class="score-evil">'+score.evil+' '+ic('sword')+'</span></div><div class="phs">'+scoreHint+'</div>';
-  return '<div class="glass card" style="padding:10px"><div class="tablewrap"><div class="table"><div class="disc">'+center+'<div class="qtoks">'+qt+'</div>'
+  return '<div class="glass card" style="padding:10px"><div class="tablewrap"><div class="table" data-players="'+n+'" style="--seat-avatar:'+(n>=9?'10.75cqw':n>=7?'11.5cqw':'12.5cqw')+'"><div class="disc">'+center+'<div class="qtoks">'+qt+'</div>'
     +(g.status==='play'?'<div class="rejs">'+rej+'<span>'+t('attempt', g.att)+'</span></div>':'')+'</div>'+seats+'</div></div>'
     +(g.lady&&g.lady.log&&g.lady.log.length?'<p class="muted small" style="text-align:center;margin:4px 0 6px">'+ic('droplet')+' '+g.lady.log.map(x=>esc(nickOf(x.from))+' → '+esc(nickOf(x.to))).join(' · ')+'</p>':'')
     +(g.events&&g.events.length?'<p class="muted small" style="text-align:center;margin:4px 0 6px">'+g.events.slice(-3).map(x=>ic('sparkle')+' '+t(x.type)+(x.player?' · '+esc(nickOf(x.player)):'')).join(' · ')+'</p>':'')+'</div>';
@@ -1304,8 +1304,8 @@ function actionBlock(g){
         const qv=S.ui.questConfirm;
         h+='<div class="quest-confirm '+(qv==='S'?'success':'fail')+'"><div><small>'+t('confirmQuest')+'</small><strong>'+(qv==='S'?'✓ '+t('success'):'✗ '+t('fail'))+'</strong><p>'+t('confirmQuestHint')+'</p></div><button class="btn '+(qv==='S'?'good':'evil')+' big" data-a="questSubmit" '+(busy?'disabled':'')+'>'+(qv==='S'?t('confirmSuccess'):t('confirmFail'))+'</button><button class="btn ghost" data-a="questCancel">'+t('changeChoice')+'</button></div>';
       } else {
-        h+='<div class="row"><button class="btn good big '+(mine==='S'?'sel':'')+'" data-quest="S" '+(!choices.includes('S')||busy?'disabled':'')+'>'+ic('check')+t('success')+'</button>'
-          +'<button class="btn evil big '+(mine==='F'?'sel':'')+'" data-quest="F" '+(!choices.includes('F')||busy?'disabled':'')+'>'+ic('x')+t('fail')+'</button></div>';
+        h+='<div class="quest-choices"><button class="btn quest-choice success '+(mine==='S'?'sel':'')+'" data-quest="S" '+(!choices.includes('S')||busy?'disabled':'')+'>'+ic('check')+t('success')+'</button>'
+          +'<button class="btn quest-choice fail '+(mine==='F'?'sel':'')+'" data-quest="F" '+(!choices.includes('F')||busy?'disabled':'')+'>'+ic('x')+t('fail')+'</button></div>';
       }
       h+='<div class="hint" style="margin:10px 0 0">'+note+(acted(me)?' '+t('youPlayed'):'')+(g.quests[g.q].two?' '+t('twoNote'):'')+'</div>';
     } else h+='<div class="hint">'+t('waitTeam')+' '+t('played', g.team.filter(acted).length, g.team.length)+(g.quests[g.q].two?' · '+t('twoNote'):'')+'</div>';
@@ -1335,7 +1335,7 @@ function roleBar(){
   // Who am I at this table: portrait, seat number and name, with rename one tap away.
   const id='<button class="me-id" data-a="editName" aria-label="'+t('editName')+'"><i class="player-avatar" style="'+avStyle(me)+'"></i><span class="me-text"><small>'+t('youAre')+' · '+t('seatNo', g.order.indexOf(me)+1)+'</small><b><span>'+esc(nickOf(me))+'</span><em>'+ic('pencil')+'</em></b></span></button>';
   const role=!S.mine ? '<span class="me-role muted small">'+t('loadingRole')+'</span>'
-    : '<button class="me-role '+(S.peek?s:'')+'" data-a="peek" aria-expanded="'+!!S.peek+'"><span class="rb-ic">'+(S.peek?roleArt(S.mine.role,'rolebar-art'):'<span class="card-seal">V</span>')+'</span><span class="me-text"><small>'+t('myRole')+'</small><b>'+(S.peek?rName(S.mine.role):t('tapReveal'))+'</b></span></button>';
+    : '<button class="me-role '+(S.peek?s:'')+'" data-a="peek" aria-expanded="'+!!S.peek+'"><span class="rb-ic">'+(S.peek?roleArt(S.mine.role,'rolebar-art'):'<span class="card-seal"><img src="assets/brand-mark.svg" alt="" width="32" height="32"></span>')+'</span><span class="me-text"><small>'+t('myRole')+'</small><b>'+(S.peek?rName(S.mine.role):t('tapReveal'))+'</b></span></button>';
   return '<div class="glass card mebar">'+id+role+'</div>'
     +(S.peek&&S.mine?'<button class="sheet-backdrop" data-a="peek" aria-label="'+t('hideRole')+'"></button><div class="glass card know-card sheet"><div class="sheet-head"><b class="'+(s==='good'?'res-s':'res-f')+'">'+roleIcon(S.mine.role)+' '+rName(S.mine.role)+' · '+t(s)+'</b><button class="btn ghost sm sheet-close" data-a="peek">'+ic('eyeoff')+t('hideRole')+'</button></div><div class="identity-detail"><div class="identity-portrait '+s+'">'+roleArt(S.mine.role,'identity-art')+'<span>'+t(s)+'</span></div><div class="identity-knowledge">'+knowBlock()+'</div></div></div>':'');
 }
@@ -1385,7 +1385,7 @@ function renderOverlay(){
     const m=S.mine; if(!m){ S.ov.shift(); return renderOverlay(); }
     const s=m.allegiance||side(m.role);
     h='<h2>'+ic('moon')+' '+t('nightTitle')+'</h2><p class="lead">'+t('nightLead')+'</p>'
-      +'<button type="button" class="rolecard '+(o.flipped?'flip':'')+'" data-a="flipcard" aria-label="'+(o.flipped?rName(m.role):t('flip'))+'"><span class="in"><span class="face back"><span class="card-orbit" aria-hidden="true"></span><span class="card-seal large">V</span><span class="card-wordmark">AVALON</span><span class="card-secret">'+ic('lock')+(LANG==='zh'?'秘密身份':'SECRET IDENTITY')+'</span></span>'
+      +'<button type="button" class="rolecard '+(o.flipped?'flip':'')+'" data-a="flipcard" aria-label="'+(o.flipped?rName(m.role):t('flip'))+'"><span class="in"><span class="face back"><span class="card-orbit" aria-hidden="true"></span><span class="card-seal large"><img src="assets/brand-mark.svg" alt="" width="72" height="72"></span><span class="card-wordmark">AVALON</span><span class="card-secret">'+ic('lock')+(LANG==='zh'?'秘密身份':'SECRET IDENTITY')+'</span></span>'
       +'<span class="face front '+s+'">'+roleArt(m.role,'rolecard-art')+'<span class="rolecard-caption"><span class="rs">'+ic(s==='good'?'shield':'sword')+t(s)+'</span><span class="rn">'+rName(m.role)+'</span></span></span></span></button>'
       +(o.flipped?knowBlock()+'<button class="btn pri big" style="width:100%" data-a="ovnext">'+t('gotIt')+'</button>':'<button class="btn pri big" style="width:100%" data-a="flipcard">'+t('flip')+'</button>');
   } else if(o.type==='vote'){
