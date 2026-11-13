@@ -111,6 +111,7 @@ GitHub Pages 设置：
 ├── index.html                 # 页面外壳与元数据
 ├── app.js                     # 界面、加密、网络和游戏引擎
 ├── style.css                  # 响应式 Camelot 视觉系统
+├── landing.css                # 搜索友好内容页的共用样式
 ├── service-worker.js          # 可安装网页应用的离线外壳
 ├── manifest.webmanifest       # 网页应用清单
 ├── robots.txt, sitemap.xml    # 搜索引擎提示
@@ -120,6 +121,9 @@ GitHub Pages 设置：
 ├── tests/                     # 自动化检查（node tests/run-all.mjs）
 ├── dev/                       # 开发用的离线界面预览页
 ├── docs/                      # 设计说明、规则覆盖、测试报告、隐私说明与第三方声明
+├── en/, zh-cn/                # 英文与中文玩法、角色、人数配置和 FAQ 落地页
+├── privacy/                   # 公开隐私说明
+├── unofficial-notice/         # 公开非官方作品与权利声明
 ├── .github/                   # 安全策略、Issue 与 PR 模板
 ├── README.md                  # 英文主文档
 └── README.zh-CN.md            # 简体中文文档

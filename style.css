@@ -743,3 +743,30 @@ button.me-id:hover,button.me-role:hover,button.me-id:focus-visible,button.me-rol
   .lobby-actions .btn.ghost{flex:none}
 }
 .home-grid .row .btn,.seat-join .btn{min-height:44px}
+
+/* Landing story — useful to first-time visitors and indexable after render. */
+.hero-lead{max-width:520px;margin:14px auto 0;color:#e0d1b6;font:600 17px/1.55 var(--story)}
+.landing-section{max-width:980px;margin:70px auto 0;text-align:center}
+.section-kicker{margin-bottom:9px;color:#b9914a;font:700 11px/1 var(--sans);letter-spacing:3px;text-transform:uppercase}
+.landing-section>h2,.landing-trust h2{margin:0;color:#f1dfbd;font:700 clamp(24px,4vw,36px)/1.2 var(--serif);letter-spacing:.4px}
+.section-lead{max-width:640px;margin:11px auto 26px;color:#a99b83;font:500 17px/1.6 var(--story)}
+.landing-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;text-align:left}
+.landing-cards article{position:relative;min-height:190px;padding:26px 22px;border:1px solid var(--line);border-radius:10px;background:linear-gradient(145deg,rgba(66,49,31,.7),rgba(20,15,12,.9));box-shadow:var(--shadow)}
+.landing-cards article>b{display:grid;place-items:center;width:38px;height:38px;margin-bottom:22px;border:1px solid rgba(225,194,118,.4);border-radius:50%;color:#e6c97e;font:700 15px var(--serif)}
+.landing-cards h3,.party-grid h3{margin:0 0 7px;color:#ead9b6;font:700 15px/1.3 var(--serif)}
+.landing-cards p,.party-grid p,.landing-trust p{margin:0;color:#a99b83;line-height:1.65}
+.party-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:26px;text-align:left}
+.party-grid article{display:flex;gap:15px;padding:21px;border-top:1px solid rgba(218,180,105,.32);background:linear-gradient(180deg,rgba(51,37,24,.46),transparent)}
+.party-grid article>span{flex:none;color:#d7b66a;font:700 26px/1 var(--story)}
+.landing-trust{display:flex;align-items:center;justify-content:space-between;gap:28px;max-width:980px;margin:70px auto 0;padding:28px;text-align:left}
+.landing-trust>div:first-child{max-width:580px}.landing-trust p{margin-top:9px}
+.landing-actions{display:flex;flex-direction:column;gap:10px;min-width:255px}.landing-actions .btn{width:100%}
+.home-rules{max-width:980px;margin:24px auto 0}
+.info-copy a{color:#e2c87f;text-underline-offset:3px}
+@media(max-width:760px){
+  .hero-lead{font-size:15px;margin-top:10px}.landing-section,.landing-trust{margin-top:46px}
+  .landing-cards,.party-grid{grid-template-columns:1fr}.landing-cards article{min-height:0;padding:20px}
+  .landing-cards article>b{float:left;margin:0 14px 22px 0}.landing-cards article p{clear:both}
+  .party-grid{gap:8px}.landing-trust{align-items:stretch;flex-direction:column;padding:22px}.landing-actions{min-width:0;width:100%}
+}
+@media(max-width:720px){.hero-lead{display:block}.hero-oath{display:none}}

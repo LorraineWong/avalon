@@ -111,6 +111,7 @@ The public footer also links to bilingual privacy and unofficial-project notices
 ├── index.html                 # document shell and metadata
 ├── app.js                     # UI, encryption, networking, and game engine
 ├── style.css                  # responsive Camelot design system
+├── landing.css                # shared styles for search-friendly content pages
 ├── service-worker.js          # offline shell for the installable web app
 ├── manifest.webmanifest       # web app manifest
 ├── robots.txt, sitemap.xml    # search engine hints
@@ -120,6 +121,9 @@ The public footer also links to bilingual privacy and unofficial-project notices
 ├── tests/                     # automated checks (node tests/run-all.mjs)
 ├── dev/                       # offline UI preview for development
 ├── docs/                      # design notes, rules coverage, playtests, privacy, third-party notices
+├── en/, zh-cn/                # localized rules, roles, player-count and FAQ landing pages
+├── privacy/                   # public privacy notice
+├── unofficial-notice/         # public fan-project and rights notice
 ├── .github/                   # security policy, issue and pull request templates
 ├── README.md                  # English documentation
 └── README.zh-CN.md            # Simplified Chinese documentation

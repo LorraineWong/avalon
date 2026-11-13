@@ -12,7 +12,10 @@ const I18N = {
   zh: {
     tHistory:'记录', tNotes:'笔记', tHost:'房主', tRules:'规则', tReact:'表情', editName:'改名', renameTitle:'修改昵称', renameHint:'其他玩家会立刻看到新名字，座位和身份不变。', save:'保存', youAre:'你是', seatNo:'{0} 号位', meMark:'我', roleInfo:'角色说明', hideRole:'收起',
     lobbyNeed:'还差 {0} 人即可开始', lobbyReady:'人数已够，等待房主开始', lobbyReadyHost:'人数已够，可以开始了', lobbySteps:'等人到齐 → 房主开始 → 各自查看秘密身份',
-    sub:'阿瓦隆 · 在线版', tagline:'抵抗组织：阿瓦隆', feat1:'5–10 人', feat2:'无需注册', feat3:'手机电脑都能玩', feat4:'身份加密，无法偷看',
+    sub:'阿瓦隆 · 在线版', tagline:'免费在线玩阿瓦隆', heroLead:'5–10 人，无需注册或下载。每人打开手机，分享房间号就能开始。', feat1:'5–10 人', feat2:'无需注册', feat3:'手机电脑都能玩', feat4:'身份加密，无法偷看',
+    startTitle:'朋友到齐，30 秒开局', startLead:'不需要账号、不需要主持人发牌，也不用下载安装。', start1:'输入昵称', start1d:'使用游戏昵称即可，不要填写真实姓名或敏感资料。', start2:'创建并邀请', start2d:'分享房间链接、五位房间号或桌面二维码。', start3:'秘密身份开局', start3d:'每个人只在自己的设备上查看身份，然后围桌讨论。',
+    madeFor:'适合你的下一场聚会', party1:'面对面聚会', party1d:'每人一台手机，讨论仍然发生在真实圆桌旁。', party2:'远程语音局', party2d:'把房间链接发进群聊，配合语音或视频通话。', party3:'新手与老玩家', party3d:'从推荐阵容开始，也可启用 17 种角色与扩展模块。',
+    trustTitle:'专注游戏，不收集多余资料', trustLead:'匿名连接、无广告追踪、私人推理笔记只留在当前浏览器。', exploreGuide:'查看完整玩法与角色指南', playNow:'现在就创建免费房间',
     nick:'你的昵称', nickPh:'比如：小明', create:'创建房间', joinTitle:'加入房间', codePh:'房间号', join:'加入',
     joinHint:'输入朋友发来的房间号，或直接打开邀请链接。', resume:'你上次在房间 {0}', resumeBtn:'回到房间',
     needNick:'请先填写昵称', badCode:'请输入正确的房间号', notFound:'房间 {0} 不存在或已解散',
@@ -56,12 +59,15 @@ const I18N = {
     rulesP2:'出任务时队员秘密出牌：好人只能出“成功”，坏人可以选择。7 人及以上时，<b>第 4 个任务需要 2 张失败</b>才算失败。好人完成 3 个任务后，刺客还有一次刺杀梅林的机会，刺中则坏人翻盘。',
     rulesP3:'湖中仙女（可选，7 人以上）：第 2、3、4 个任务结束后，持有者秘密查验一名玩家的阵营，然后把仙女交给对方。持有过仙女的人不能再被查验。',
     rulesP4:'人数配置：5 人 3 好 2 坏 · 6 人 4 好 2 坏 · 7 人 4 好 3 坏 · 8 人 5 好 3 坏 · 9 人 6 好 3 坏 · 10 人 6 好 4 坏',
-    writeFail:'保存失败，请检查网络后重试', footer:'非官方粉丝作品，与原版游戏发行方无关联。相关名称与设定权利归各自权利人所有。', privacy:'隐私', legal:'非官方声明', support:'支持开发', react:'圆桌表情', reactHint:'只显示几秒，不保存聊天记录', reactAgree:'赞成', reactThink:'思考', reactSus:'怀疑', reactShock:'震惊', reactLaugh:'大笑', reactSword:'出发', tooLong:'昵称最多 12 个字',
+    writeFail:'保存失败，请检查网络后重试', footer:'免费非官方粉丝作品 · 与原作发行方无关联 · 请支持正版桌游', privacy:'隐私', legal:'非官方声明', privacyFull:'隐私全文', legalFull:'声明全文', guide:'玩法指南', support:'支持开发', react:'圆桌表情', reactHint:'只显示几秒，不保存聊天记录', reactAgree:'赞成', reactThink:'思考', reactSus:'怀疑', reactShock:'震惊', reactLaugh:'大笑', reactSword:'出发', tooLong:'昵称最多 12 个字',
   },
   en: {
     tHistory:'History', tNotes:'Notes', tHost:'Host', tRules:'Rules', tReact:'React', editName:'Rename', renameTitle:'Change your name', renameHint:'Everyone sees the new name right away. Your seat and role stay the same.', save:'Save', youAre:'You are', seatNo:'Seat {0}', meMark:'YOU', roleInfo:'Role guide', hideRole:'Hide',
     lobbyNeed:'{0} more player(s) needed to start', lobbyReady:'Enough players — waiting for the host to start', lobbyReadyHost:'Enough players — you can start', lobbySteps:'Gather players → host starts → everyone checks their secret role',
-    sub:'Avalon · Online', tagline:'The Resistance: Avalon', feat1:'5–10 players', feat2:'No sign-up', feat3:'Phone & desktop', feat4:'Encrypted roles',
+    sub:'Avalon · Online', tagline:'Play Avalon online for free', heroLead:'5–10 players, no sign-up or download. Open a room, share the code, and start on any phone.', feat1:'5–10 players', feat2:'No sign-up', feat3:'Phone & desktop', feat4:'Encrypted roles',
+    startTitle:'From group chat to game in 30 seconds', startLead:'No accounts, app download, or human dealer required.', start1:'Choose a game name', start1d:'A nickname is enough — never enter real or sensitive information.', start2:'Create and invite', start2d:'Share the room link, five-character code, or table-ready QR.', start3:'Reveal roles privately', start3d:'Everyone checks their own device, then the discussion begins.',
+    madeFor:'Made for your next game night', party1:'Around one table', party1d:'One phone each; the bluffing and debate stay face to face.', party2:'Remote game night', party2d:'Drop the room link in chat and keep a voice or video call open.', party3:'New and experienced groups', party3d:'Start with recommended lineups or explore 17 roles and modules.',
+    trustTitle:'Built for play, not data collection', trustLead:'Anonymous connections, no ad trackers, and private deduction notes that stay in your browser.', exploreGuide:'Read the full rules and role guide', playNow:'Create a free room now',
     nick:'Your name', nickPh:'e.g. Alex', create:'Create room', joinTitle:'Join a room', codePh:'Room code', join:'Join',
     joinHint:'Enter the code a friend sent you, or just open their invite link.', resume:'You were in room {0}', resumeBtn:'Rejoin',
     needNick:'Please enter your name first', badCode:'Please enter a valid room code', notFound:'Room {0} does not exist or was closed',
@@ -105,7 +111,7 @@ const I18N = {
     rulesP2:'Team members play cards secretly: Good can only play Success, Evil may choose. With 7+ players, <b>Quest 4 needs 2 fails</b>. If Good completes 3 quests, the Assassin gets one shot at Merlin — a hit means Evil wins.',
     rulesP3:'Lady of the Lake (optional, 7+): after Quests 2, 3 and 4 the holder secretly checks one player\'s loyalty, then passes the Lady to them. Former holders cannot be checked.',
     rulesP4:'Teams: 5p 3G/2E · 6p 4G/2E · 7p 4G/3E · 8p 5G/3E · 9p 6G/3E · 10p 6G/4E',
-    writeFail:'Could not save — check your network and try again', footer:'Unofficial fan project, not affiliated with the original game publisher. Names and settings belong to their respective owners.', privacy:'Privacy', legal:'Unofficial notice', support:'Support development', react:'Table reactions', reactHint:'Shown briefly; no chat history is stored', reactAgree:'Agree', reactThink:'Thinking', reactSus:'Suspicious', reactShock:'Shocked', reactLaugh:'Laugh', reactSword:'Onward', tooLong:'Name: max 12 characters',
+    writeFail:'Could not save — check your network and try again', footer:'Free unofficial fan project · Not affiliated with the original publisher · Please support the official game', privacy:'Privacy', legal:'Unofficial notice', privacyFull:'Full privacy notice', legalFull:'Full notice', guide:'How to play', support:'Support development', react:'Table reactions', reactHint:'Shown briefly; no chat history is stored', reactAgree:'Agree', reactThink:'Thinking', reactSus:'Suspicious', reactShock:'Shocked', reactLaugh:'Laugh', reactSword:'Onward', tooLong:'Name: max 12 characters',
   }
 };
 const REACTIONS = [
@@ -909,7 +915,7 @@ function topBar(){
 }
 function siteFooter(){
   const support = SUPPORT_URL ? '<a class="foot-link support-link" href="'+esc(SUPPORT_URL)+'" target="_blank" rel="noopener noreferrer">♡ '+t('support')+'</a>' : '';
-  return '<footer class="foot"><p>'+t('footer')+'</p><nav aria-label="Footer"><button class="foot-link" data-a="info" data-info="privacy">'+t('privacy')+'</button><button class="foot-link" data-a="info" data-info="legal">'+t('legal')+'</button>'+support+'<a class="foot-link" href="https://github.com/LorraineWong/avalon" target="_blank" rel="noopener noreferrer">GitHub</a></nav></footer>';
+  return '<footer class="foot"><p>'+t('footer')+'</p><nav aria-label="Footer"><button class="foot-link" data-a="info" data-info="privacy">'+t('privacy')+'</button><button class="foot-link" data-a="info" data-info="legal">'+t('legal')+'</button><a class="foot-link" href="'+(LANG==='zh'?'zh-cn/':'en/')+'">'+t('guide')+'</a><a class="foot-link" href="privacy/">'+t('privacyFull')+'</a><a class="foot-link" href="unofficial-notice/">'+t('legalFull')+'</a>'+support+'<a class="foot-link" href="https://github.com/LorraineWong/avalon" target="_blank" rel="noopener noreferrer">GitHub</a></nav></footer>';
 }
 function roleGuide(r, count=1){
   return '<div class="role-guide '+side(r)+'">'+roleArt(r,'guide-art')+'<span><b class="'+(side(r)==='good'?'res-s':'res-f')+'">'+rName(r)+(count>1?' ×'+count:'')+'</b><br><span class="muted">'+rDesc(r)+'</span></span></div>';
@@ -951,10 +957,10 @@ function renderRulesModal(){
   requestAnimationFrame(()=>el.querySelector('.rules-close')?.focus());
 }
 function infoContent(kind){
-  if(LANG==='zh' && kind==='privacy') return '<p>这个网站使用 Firebase 匿名登录来连接游戏。我们会处理随机生成的匿名账号 ID、你输入的昵称、房间状态与加密后的游戏行动。你的身份解密私钥、偏好和私人推理笔记保存在当前浏览器的 localStorage。</p><p>私人笔记不会上传 Firebase，也不会分享给房主或其他玩家；但能使用这台设备和浏览器的人可能看到它们。你可以在游戏中清空本局笔记，或清除浏览器网站资料。</p><p>游戏不要求邮箱或真实姓名，也没有广告追踪器。请不要把真实姓名或敏感资料当作昵称。房间会带有有效期；房主再次连接时，过期房间会被清除，维护期间也可能删除旧房间。</p><p>Firebase 和字体服务可能按其政策处理必要的网络资料（例如 IP 地址）。如需报告隐私或安全问题，请使用 GitHub 仓库 Security 页面中的私密漏洞报告功能。</p>';
-  if(LANG==='zh') return '<p>Avalon Online 是免费的非官方粉丝作品，与《抵抗组织：阿瓦隆》的设计者、发行商或权利方没有隶属、赞助或认可关系。</p><p>相关游戏名称、角色名称与设定权利归各自权利人所有。本站人物插画与网页代码为本项目原创，没有使用官方卡牌图片。请支持正版桌游。</p><p>自愿赞助（启用后）仅用于网站与开发成本，不会解锁游戏功能，也不代表出售或授权原作内容。</p>';
-  if(kind==='privacy') return '<p>This site uses Firebase Anonymous Authentication to connect games. We process a randomly generated anonymous account ID, the nickname you enter, room state, and encrypted game actions. Your role-decryption private key, preferences, and private deduction notes stay in this browser’s localStorage.</p><p>Private notes are never uploaded to Firebase or shared with the host or other players. Anyone with access to this device and browser may still see them. Clear notes in the game or remove this site’s browser data when needed.</p><p>No email or real name is required, and the site has no advertising trackers. Do not use a real name or sensitive information as your nickname. Rooms carry an expiry time; an expired room is removed when its host reconnects, and old rooms may also be deleted during maintenance.</p><p>Firebase and the font provider may process necessary network data such as IP addresses under their own policies. Report privacy or security issues privately through the repository’s GitHub Security page.</p>';
-  return '<p>Avalon Online is a free, unofficial fan project. It is not affiliated with, sponsored, or endorsed by the designers, publishers, or rights holders of The Resistance: Avalon.</p><p>Game, character, and setting names belong to their respective owners. The character art and site code are original to this project; no official card artwork is used. Please support the official board game.</p><p>Voluntary support, when enabled, only helps cover site and development costs. It does not unlock gameplay or sell or license any content from the original game.</p>';
+  if(LANG==='zh' && kind==='privacy') return '<p>这个网站使用 Firebase 匿名登录来连接游戏。我们会处理随机生成的匿名账号 ID、你输入的昵称、房间状态与加密后的游戏行动。你的身份解密私钥、偏好和私人推理笔记保存在当前浏览器的 localStorage。</p><p>私人笔记不会上传 Firebase，也不会分享给房主或其他玩家；但能使用这台设备和浏览器的人可能看到它们。你可以在游戏中清空本局笔记，或清除浏览器网站资料。</p><p>游戏不要求邮箱或真实姓名，也没有广告追踪器。请不要把真实姓名或敏感资料当作昵称。新房间带有 72 小时有效期标记；已结束的游戏使用 24 小时标记。房主再次连接时会清除过期房间，维护期间也可能删除旧资料。</p><p>Firebase 和字体服务可能按其政策处理必要的网络资料（例如 IP 地址）。如需报告隐私或安全问题，请使用 GitHub 仓库 Security 页面中的私密漏洞报告功能。<a href="privacy/">查看隐私全文</a>。</p>';
+  if(LANG==='zh') return '<p>Avalon Online 是免费的非官方粉丝项目，与《抵抗组织：阿瓦隆》的设计者、出版商及其他权利人不存在隶属、授权、赞助或认可关系。</p><p>相关名称、角色与游戏设定归各自权利人所有。本站代码、界面及人物插画为本项目原创，不使用官方卡牌素材。请支持正版桌游。</p><p>本项目旨在方便玩家进行线上聚会，不宣称拥有原作知识产权，也不提供官方产品的替代授权。自愿赞助（启用后）只用于网站与开发成本，不解锁游戏功能，也不代表出售或授权原作内容。</p><p>如果权利人认为本站内容存在问题，请通过 GitHub 仓库联系我们处理。<a href="unofficial-notice/">查看完整声明</a>。</p>';
+  if(kind==='privacy') return '<p>This site uses Firebase Anonymous Authentication to connect games. We process a randomly generated anonymous account ID, the nickname you enter, room state, and encrypted game actions. Your role-decryption private key, preferences, and private deduction notes stay in this browser’s localStorage.</p><p>Private notes are never uploaded to Firebase or shared with the host or other players. Anyone with access to this device and browser may still see them. Clear notes in the game or remove this site’s browser data when needed.</p><p>No email or real name is required, and the site has no advertising trackers. Do not use a real name or sensitive information as your nickname. New rooms carry a 72-hour expiry marker; completed games use a 24-hour marker. The host client removes expired rooms when it reconnects, and old data may also be deleted during maintenance.</p><p>Firebase and the font provider may process necessary network data such as IP addresses under their own policies. Report privacy or security issues privately through the repository’s GitHub Security page. <a href="privacy/">Read the full privacy notice</a>.</p>';
+  return '<p>Avalon Online is a free, unofficial fan project. It is not affiliated with, authorized by, sponsored, or endorsed by the designers, publishers, or other rights holders of The Resistance: Avalon.</p><p>Game, character, and setting names belong to their respective owners. The site code, interface, and character art are original to this project; no official card artwork is used. Please support the official board game.</p><p>The project helps players run online game nights. It does not claim ownership of the original intellectual property or provide an official replacement licence. Voluntary support, when enabled, only covers site and development costs and unlocks no gameplay.</p><p>Rights holders can contact the project through its GitHub repository. <a href="unofficial-notice/">Read the full notice</a>.</p>';
 }
 function renderInfoModal(){
   const el=$('#infoModal'); if(!el) return;
@@ -1001,14 +1007,18 @@ function privacyCoverHtml(){
 function viewHome(){
   const last=LS.get('last');
   return '<div class="hero"><div class="hero-art hero-art-good"><img src="'+ROLE_META.merlin.art+'" alt="Merlin"></div><div class="hero-art hero-art-evil"><img src="'+ROLE_META.morgana.art+'" alt="Morgana"></div>'
-    +'<div class="hero-copy"><div class="eyebrow">THE RESISTANCE</div><div class="crest"><span>V</span></div><h1>AVALON</h1><div class="sub">'+t('tagline')+'</div><p class="hero-oath">'+(LANG==='zh'?'忠诚藏于誓言，背叛隐于圆桌。':'Loyalty hides in every oath. Treachery sits at the table.')+'</p>'
+    +'<div class="hero-copy"><div class="eyebrow">THE RESISTANCE</div><div class="crest"><span>V</span></div><h1>AVALON</h1><div class="sub">'+t('tagline')+'</div><p class="hero-lead">'+t('heroLead')+'</p><p class="hero-oath">'+(LANG==='zh'?'忠诚藏于誓言，背叛隐于圆桌。':'Loyalty hides in every oath. Treachery sits at the table.')+'</p>'
     +'<div class="feature"><span>♟ '+t('feat1')+'</span><span>✦ '+t('feat2')+'</span><span>⌁ '+t('feat3')+'</span><span>⌘ '+t('feat4')+'</span></div></div></div>'
     +(last ? '<div class="glass resume"><span>'+t('resume','<b style="letter-spacing:2px">'+esc(last)+'</b>')+'</span><button class="btn pri" data-a="resume">'+t('resumeBtn')+'</button></div>' : '')
     +'<div class="home-grid"><div class="glass card"><h2>'+t('nick')+'</h2><input class="input" id="nick" aria-label="'+t('nick')+'" maxlength="12" placeholder="'+t('nickPh')+'" value="'+esc(S.ui.nick)+'">'
     +'<button class="btn pri big" style="width:100%;margin-top:14px" data-a="create">'+ic('plus')+t('create')+'</button></div>'
     +'<div class="glass card"><h2>'+t('joinTitle')+'</h2><div class="row"><input class="input code" id="joinCode" aria-label="'+t('codePh')+'" maxlength="8" placeholder="'+t('codePh')+'" value="'+esc(S.ui.joinCode)+'" style="flex:1;min-width:0">'
     +'<button class="btn" data-a="join">'+t('join')+'</button></div><p class="muted small" style="margin-bottom:0">'+t('joinHint')+'</p></div></div>'
-    +'<div class="glass card" style="max-width:820px;margin:16px auto 0">'+rulesBlock()+'</div>';
+    +'<section class="landing-section landing-steps" aria-labelledby="startTitle"><div class="section-kicker">01 · START</div><h2 id="startTitle">'+t('startTitle')+'</h2><p class="section-lead">'+t('startLead')+'</p><div class="landing-cards">'
+    +'<article><b>1</b><h3>'+t('start1')+'</h3><p>'+t('start1d')+'</p></article><article><b>2</b><h3>'+t('start2')+'</h3><p>'+t('start2d')+'</p></article><article><b>3</b><h3>'+t('start3')+'</h3><p>'+t('start3d')+'</p></article></div></section>'
+    +'<section class="landing-section landing-party" aria-labelledby="partyTitle"><div class="section-kicker">02 · GAME NIGHT</div><h2 id="partyTitle">'+t('madeFor')+'</h2><div class="party-grid"><article><span>♜</span><div><h3>'+t('party1')+'</h3><p>'+t('party1d')+'</p></div></article><article><span>⌁</span><div><h3>'+t('party2')+'</h3><p>'+t('party2d')+'</p></div></article><article><span>✦</span><div><h3>'+t('party3')+'</h3><p>'+t('party3d')+'</p></div></article></div></section>'
+    +'<section class="glass landing-trust"><div><div class="section-kicker">03 · PRIVACY</div><h2>'+t('trustTitle')+'</h2><p>'+t('trustLead')+'</p></div><div class="landing-actions"><a class="btn ghost" href="'+(LANG==='zh'?'zh-cn/':'en/')+'">'+ic('book')+t('exploreGuide')+'</a><button class="btn pri" data-a="focusCreate">'+ic('plus')+t('playNow')+'</button></div></section>'
+    +'<div class="glass card home-rules">'+rulesBlock()+'</div>';
 }
 function viewLobby(){
   const g=S.game, ids=lobbyOrder(), n=ids.length, host=isHost(), seated=!!S.seats[ME.pid];
@@ -1451,6 +1461,7 @@ document.addEventListener('click', e=>{
     case 'renameCancel': return closeRename();
     case 'renameSave': return saveRename();
     case 'clearNotes': { const key=notesStorageKey(); if(key) LS.del(key); render(); return toast(t('notesCleared')); }
+    case 'focusCreate': { const field=$('#nick'); if(field){ field.scrollIntoView({behavior:'smooth',block:'center'}); setTimeout(()=>field.focus({preventScroll:true}),350); } return; }
     case 'create': return createRoom();
     case 'join': return joinRoom();
     case 'resume': { const l=LS.get('last'); if(l) enterRoom(l); return; }

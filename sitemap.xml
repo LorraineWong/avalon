@@ -4,4 +4,20 @@
     <loc>https://lorrainewong.github.io/avalon/</loc>
     <changefreq>weekly</changefreq>
   </url>
+  <url>
+    <loc>https://lorrainewong.github.io/avalon/zh-cn/</loc>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://lorrainewong.github.io/avalon/en/</loc>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://lorrainewong.github.io/avalon/privacy/</loc>
+    <changefreq>yearly</changefreq>
+  </url>
+  <url>
+    <loc>https://lorrainewong.github.io/avalon/unofficial-notice/</loc>
+    <changefreq>yearly</changefreq>
+  </url>
 </urlset>
