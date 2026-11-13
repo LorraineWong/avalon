@@ -8,18 +8,29 @@ An immersive, browser-based implementation of the social-deduction game *The Res
 
 ![Avalon Online desktop interface](docs/screenshots/home-desktop.png)
 
-## Highlights
+## Start here
+
+- [Play / home](https://lorrainewong.github.io/avalon/) — create or join a room.
+- [Rules and roles](https://lorrainewong.github.io/avalon/en/) — a beginner guide and player counts.
+- [Privacy](https://lorrainewong.github.io/avalon/privacy/) · [Unofficial notice](https://lorrainewong.github.io/avalon/unofficial-notice/)
+- Developers: [Run locally](#run-locally) · [Verification](#verification) · [Documentation](docs/README.md)
+
+## Gameplay
 
 - **Complete 5–10 player game loop** — team proposals, public votes, secret quest cards, assassination, and rematches.
 - **Seventeen supported character types** — the classic cast plus both Lancelots, Lunatic, Brute, Revealer, Cleric, Trickster, Troublemaker, and Untrustworthy Servant.
 - **Optional Lady of the Lake** — available for games with seven or more players.
 - **Big Box modules** — Excalibur and the Lancelot Allegiance variant are fully integrated into the encrypted multiplayer flow.
+### Privacy and reliability
+
 - **Private role delivery** — roles and player actions are encrypted in the browser with ECDH P-256 and AES-GCM.
 - **Reconnect support** — room state is stored in Firebase Realtime Database, so a refreshed browser can resume the game.
 - **Responsive Camelot interface** — optimized for desktop and portrait mobile play.
 - **English and Simplified Chinese** — language can be switched at any time.
 - **No build step** — the application is plain HTML, CSS, and JavaScript and can be hosted as a static site.
 - **Temporary rooms** — new rooms carry a 72-hour expiry marker; completed games expire after 24 hours and are removed when the host reconnects.
+### Around the table
+
 - **No-account table reactions** — players can send brief emoji reactions around the table without creating a persistent chat history.
 - **Installable web app** — a lightweight PWA shell keeps the home screen and rules available offline; multiplayer still requires a network connection.
 - **In-game role guide** — review your own ability and the exact role lineup for the current game at any time.

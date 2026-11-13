@@ -743,6 +743,17 @@ button.me-id:hover,button.me-role:hover,button.me-id:focus-visible,button.me-rol
   .lobby-actions .btn.ghost{flex:none}
 }
 .home-grid .row .btn,.seat-join .btn{min-height:44px}
+.site-navigation{display:flex;gap:22px;align-items:center;margin:0 0 20px;padding:12px 2px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.site-navigation a,.site-navigation button{padding:4px 0;border:0;background:none;color:#d7c6a7;text-decoration:none;font-size:14px}
+.site-navigation [aria-current]{color:#f1d38b;border-bottom:2px solid #d8b66b}
+.language-picker select{min-height:36px;max-width:145px;padding:6px 10px;border:1px solid var(--line2);border-radius:6px;background:#211810;color:#ead9b6;font:inherit}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+.home-grid>.card:first-child{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:0 10px;align-content:start}
+.home-grid>.card:first-child h2{grid-column:1/-1}
+.home-grid>.card:first-child .input{min-width:0}
+.home-grid>.card:first-child .btn{min-height:44px;white-space:nowrap}
+.foot nav{display:none}
+@media(max-width:540px){.site-navigation{gap:18px;font-size:13px}.top-r .chip:not(.btn){display:none}.language-picker select{max-width:120px}.home-grid>.card:first-child .btn{padding:8px 12px}}
 
 /* Landing story — useful to first-time visitors and indexable after render. */
 .hero-lead{max-width:520px;margin:14px auto 0;color:#e0d1b6;font:600 17px/1.55 var(--story)}
