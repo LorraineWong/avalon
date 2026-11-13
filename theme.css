@@ -475,3 +475,60 @@
 :root[data-theme] .btn.evil.sel{background:#7d302c;color:#fff;border-color:var(--evil-ink);box-shadow:inset 0 0 0 1px var(--evil-ink)}
 :root[data-theme] .settings-advanced>summary small{font-size:11px;line-height:1.6}
 :root[data-theme] .lady-art{background:var(--surface-raised);color:var(--accent);font-size:24px}
+/* Mobile tools: the close control has its own header, never the reaction row. */
+:root[data-theme] .tool-sheet-head{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:40px;margin:0 0 12px;padding:0 0 10px;border-bottom:1px solid var(--border)}
+:root[data-theme] .tool-sheet-head>b{font-size:14px;color:var(--ink)}
+:root[data-theme] .tool-sheet-head .tool-close{position:static;flex:none;width:40px;height:40px;min-height:40px;margin:0}
+:root[data-theme] .tool-body :is(.log>h3,.private-notes-head h3,.host-tools>h3){display:none}
+:root[data-theme] .tool-body .private-notes-head{padding-right:0}
+:root[data-theme] .tool-react{padding-right:16px}
+/* Table geometry uses the portrait center; labels no longer displace heads. */
+:root[data-theme] .table{aspect-ratio:1/1.22}
+:root[data-theme] .table .disc{width:56%;height:auto;aspect-ratio:1/1;box-shadow:0 0 0 1cqw var(--border),0 0 0 2cqw var(--surface-raised),var(--theme-shadow)}
+:root[data-theme] .seatp{transform:translate(-50%,0);width:18cqw;gap:.6cqw}
+:root[data-theme] .seatp .pav{width:var(--seat-avatar);height:var(--seat-avatar);flex:none}
+:root[data-theme] .seatp .pn{max-width:18cqw;font-size:clamp(10px,2.35cqw,13px);line-height:1.5;min-height:1.5em}
+:root[data-theme] .table[data-players="9"] .seatp,:root[data-theme] .table[data-players="10"] .seatp{width:17cqw}
+:root[data-theme] .seatp .pt{max-width:18cqw;min-height:0}
+:root[data-theme] .seatp .pt .tag{max-width:18cqw;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;line-height:1.4}
+:root[data-theme] .disc .ph{font-size:clamp(11px,2.9cqw,18px);letter-spacing:.1cqw;max-width:48cqw}
+:root[data-theme] .disc .phs{font-size:clamp(9px,2.05cqw,12px);max-width:45cqw;line-height:1.5}
+:root[data-theme] .qt{width:7.5cqw;height:7.5cqw;font-size:clamp(11px,2.9cqw,18px)}
+:root[data-theme] .qtoks{gap:1.4cqw}
+:root[data-theme] .scoreline{font-size:clamp(14px,3.2cqw,20px)}
+/* Secret Quest cards stay luminous and distinct in either page theme. */
+:root[data-theme]{--quest-blue-bg:#e4f2ff;--quest-blue-ink:#18547d;--quest-red-bg:#ffebe6;--quest-red-ink:#8e342b}
+:root[data-theme="dark"]{--quest-blue-bg:#cfe7f9;--quest-blue-ink:#164c72;--quest-red-bg:#f7dbd4;--quest-red-ink:#84332c}
+:root[data-theme] .quest-choices{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:10px 0}
+:root[data-theme] .btn.quest-choice{min-height:102px;display:flex;flex-direction:column;gap:10px;border-radius:12px;font-size:16px;font-weight:650;border-width:1px;box-shadow:none}
+:root[data-theme] .btn.quest-choice .ic{width:28px;height:28px}
+:root[data-theme] .btn.quest-choice.success{background:var(--quest-blue-bg);color:var(--quest-blue-ink);border-color:#83b9df}
+:root[data-theme] .btn.quest-choice.fail{background:var(--quest-red-bg);color:var(--quest-red-ink);border-color:#d8a095}
+:root[data-theme] .btn.quest-choice:hover:not(:disabled){border-color:currentColor;box-shadow:0 0 0 2px color-mix(in srgb,currentColor 18%,transparent)}
+:root[data-theme] .btn.quest-choice:disabled{background:var(--surface-inset);color:var(--ink-dim);border-color:var(--border);border-style:dashed;box-shadow:none}
+:root[data-theme] .btn.quest-choice.sel{border-width:2px;box-shadow:inset 0 0 0 1px currentColor}
+:root[data-theme] .quest-confirm{padding:16px;border-radius:12px}
+:root[data-theme] .quest-confirm.success{background:var(--quest-blue-bg);border-color:#83b9df;color:var(--quest-blue-ink)}
+:root[data-theme] .quest-confirm.fail{background:var(--quest-red-bg);border-color:#d8a095;color:var(--quest-red-ink)}
+:root[data-theme] .quest-confirm :is(small,strong,p,.btn.ghost){color:inherit}
+:root[data-theme] .quest-confirm strong{font:700 22px/1.4 var(--av-font)}
+:root[data-theme] .quest-confirm p{font-size:12px;line-height:1.6}
+:root[data-theme] .quest-confirm .btn.good{background:#176caa;color:#fff;border-color:#176caa}
+:root[data-theme] .quest-confirm .btn.evil{background:#a33d32;color:#fff;border-color:#a33d32}
+/* One forty-pixel control size across navigation and game headers. */
+:root[data-theme] :is(.av-controls select,.language-picker select,.theme-toggle,.top-r .chip,.top-r .chip.btn){box-sizing:border-box;height:40px;min-height:40px;border-radius:8px;font-size:13px;line-height:1.2}
+:root[data-theme] :is(.av-controls select,.language-picker select){padding:0 30px 0 12px;margin-block:0;max-width:140px}
+:root[data-theme] .theme-toggle{width:40px;padding:0}
+:root[data-theme] .top-r{gap:8px}
+:root[data-theme] .av-mark{display:block;width:40px;height:40px;clip-path:none;background:none;flex:none;border-radius:10px}
+:root[data-theme] .av-mark img{display:block;width:100%;height:100%}
+:root[data-theme] .card-seal,:root[data-theme] .rolecard .card-seal.large,:root[data-theme] .privacy-cover-crest{clip-path:none;background:none;border-radius:0;box-shadow:none}
+:root[data-theme] .card-seal img{display:block;width:100%;height:100%}
+:root[data-theme] .rolecard .card-seal.large{width:66px;height:66px}
+:root[data-theme] .privacy-cover-crest img{display:block;width:100%;height:100%}
+@media(max-width:720px){:root[data-theme] .btn.quest-choice{min-height:82px;font-size:15px;gap:7px}:root[data-theme] .btn.quest-choice .ic{width:23px;height:23px}:root[data-theme] .tool-react.sheet{padding:16px 16px calc(20px + env(safe-area-inset-bottom))}}
+@media(max-width:420px){:root[data-theme] .tool-react .reaction-row{grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}:root[data-theme] .tool-react .reaction-btn{min-height:48px;border:1px solid var(--border);background:var(--surface-inset);border-radius:10px}}
+:root[data-theme] .quest-confirm .btn.ghost,:root[data-theme] .quest-confirm .btn.ghost:hover:not(:disabled){background:transparent;color:inherit;border-color:color-mix(in srgb,currentColor 35%,transparent);box-shadow:none}
+:root[data-theme] .quest-confirm .btn.good:hover:not(:disabled){background:#145e95;color:#fff}
+:root[data-theme] .quest-confirm .btn.evil:hover:not(:disabled){background:#91352d;color:#fff}
+:root[data-theme] .seatp.me .pn{max-width:24cqw}
