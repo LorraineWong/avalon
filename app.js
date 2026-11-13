@@ -10,6 +10,8 @@
 /* ================= i18n ================= */
 const I18N = {
   zh: {
+    tHistory:'记录', tNotes:'笔记', tHost:'房主', tRules:'规则', tReact:'表情', editName:'改名', renameTitle:'修改昵称', renameHint:'其他玩家会立刻看到新名字，座位和身份不变。', save:'保存', youAre:'你是', seatNo:'{0} 号位', meMark:'我', roleInfo:'角色说明', hideRole:'收起',
+    lobbyNeed:'还差 {0} 人即可开始', lobbyReady:'人数已够，等待房主开始', lobbyReadyHost:'人数已够，可以开始了', lobbySteps:'等人到齐 → 房主开始 → 各自查看秘密身份',
     sub:'阿瓦隆 · 在线版', tagline:'抵抗组织：阿瓦隆', feat1:'5–10 人', feat2:'无需注册', feat3:'手机电脑都能玩', feat4:'身份加密，无法偷看',
     nick:'你的昵称', nickPh:'比如：小明', create:'创建房间', joinTitle:'加入房间', codePh:'房间号', join:'加入',
     joinHint:'输入朋友发来的房间号，或直接打开邀请链接。', resume:'你上次在房间 {0}', resumeBtn:'回到房间',
@@ -57,6 +59,8 @@ const I18N = {
     writeFail:'保存失败，请检查网络后重试', footer:'非官方粉丝作品，与原版游戏发行方无关联。相关名称与设定权利归各自权利人所有。', privacy:'隐私', legal:'非官方声明', support:'支持开发', react:'圆桌表情', reactHint:'只显示几秒，不保存聊天记录', reactAgree:'赞成', reactThink:'思考', reactSus:'怀疑', reactShock:'震惊', reactLaugh:'大笑', reactSword:'出发', tooLong:'昵称最多 12 个字',
   },
   en: {
+    tHistory:'History', tNotes:'Notes', tHost:'Host', tRules:'Rules', tReact:'React', editName:'Rename', renameTitle:'Change your name', renameHint:'Everyone sees the new name right away. Your seat and role stay the same.', save:'Save', youAre:'You are', seatNo:'Seat {0}', meMark:'YOU', roleInfo:'Role guide', hideRole:'Hide',
+    lobbyNeed:'{0} more player(s) needed to start', lobbyReady:'Enough players — waiting for the host to start', lobbyReadyHost:'Enough players — you can start', lobbySteps:'Gather players → host starts → everyone checks their secret role',
     sub:'Avalon · Online', tagline:'The Resistance: Avalon', feat1:'5–10 players', feat2:'No sign-up', feat3:'Phone & desktop', feat4:'Encrypted roles',
     nick:'Your name', nickPh:'e.g. Alex', create:'Create room', joinTitle:'Join a room', codePh:'Room code', join:'Join',
     joinHint:'Enter the code a friend sent you, or just open their invite link.', resume:'You were in room {0}', resumeBtn:'Rejoin',
@@ -247,6 +251,29 @@ function shownLoyalty(role, allegiance){ return role==='troublemaker' ? 'evil' :
 
 /* ================= Utils ================= */
 const $ = s => document.querySelector(s);
+/* One small line-icon set for every button, so controls do not depend on how a
+ * platform happens to draw emoji. */
+const ICONS = {
+  check:'<path d="M5 12.5l4.5 4.5L19 7.5"/>',
+  x:'<path d="M6 6l12 12M18 6L6 18"/>',
+  link:'<path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/>',
+  qr:'<rect x="4" y="4" width="6" height="6" rx="1"/><rect x="14" y="4" width="6" height="6" rx="1"/><rect x="4" y="14" width="6" height="6" rx="1"/><path d="M14 14h2v2h-2zM18 18h2v2h-2zM18.5 14H20M14 18.5V20"/>',
+  refresh:'<path d="M20 11a8 8 0 0 0-14.3-4.3L4 8.5"/><path d="M4 4v4.5h4.5"/><path d="M4 13a8 8 0 0 0 14.3 4.3L20 15.5"/><path d="M20 20v-4.5h-4.5"/>',
+  plus:'<path d="M12 5v14M5 12h14"/>',
+  play:'<path d="M8 5.5v13l11-6.5z"/>',
+  book:'<path d="M5 4.5h10.5A2.5 2.5 0 0 1 18 7v12.5H7.5A2.5 2.5 0 0 1 5 17z"/><path d="M5 17a2.5 2.5 0 0 1 2.5-2.5H18"/>',
+  users:'<circle cx="9" cy="8.5" r="3.2"/><path d="M3 19.5c.6-3.3 3-5 6-5s5.4 1.7 6 5"/><path d="M16 5.6a3.2 3.2 0 0 1 0 5.8M18 14.9c1.700.700 2.700 2.300 3 4.600"/>',
+  pencil:'<path d="M4 20l1-4.500L16.500 4a2.100 2.100 0 0 1 3 3L8 18.500z"/><path d="M14.500 6l3 3"/>',
+  eye:'<path d="M2.500 12c1-2 4.500-6 9.500-6s8.500 4 9.500 6c-1 2-4.500 6-9.500 6s-8.500-4-9.500-6z"/><circle cx="12" cy="12" r="3"/>',
+  eyeoff:'<path d="M3 3l18 18"/><path d="M10.600 6.200A9.600 9.600 0 0 1 12 6c5 0 8.500 4 9.500 6a13 13 0 0 1-2.600 3.400M6.400 7.600A13 13 0 0 0 2.500 12c1 2 4.500 6 9.500 6a9.300 9.300 0 0 0 4-.900"/><path d="M9.900 9.900a3 3 0 0 0 4.200 4.200"/>',
+  list:'<path d="M8 6.500h12M8 12h12M8 17.500h12M4 6.500h.01M4 12h.01M4 17.500h.01"/>',
+  smile:'<circle cx="12" cy="12" r="8.500"/><path d="M8.500 14a4.200 4.200 0 0 0 7 0M9 9.800h.01M15 9.800h.01"/>',
+  crown:'<path d="M4 18.500h16M4.500 15L3.500 7l5 4L12 5l3.500 6 5-4-1 8z"/>',
+  share:'<path d="M12 15V4M8 7.500L12 4l4 3.500"/><path d="M5 12v6.500A1.500 1.500 0 0 0 6.500 20h11a1.500 1.500 0 0 0 1.500-1.500V12"/>',
+  exit:'<path d="M14 4.500H6.500v15H14"/><path d="M10 12h10M17 8.500l3.500 3.500-3.500 3.500"/>',
+  swap:'<path d="M4 8.500h14M14.500 5L18 8.500 14.500 12"/><path d="M20 15.500H6M9.500 12L6 15.500 9.500 19"/>',
+};
+const ic = n => '<svg class="ic" viewBox="0 0 24 24" aria-hidden="true">'+ICONS[n]+'</svg>';
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 function rnd(n){ const a=new Uint32Array(1); crypto.getRandomValues(a); return a[0]%n; }
 function shuffle(arr){ const a=arr.slice(); for(let i=a.length-1;i>0;i--){ const j=rnd(i+1); [a[i],a[j]]=[a[j],a[i]]; } return a; }
@@ -391,6 +418,14 @@ const Net = {
       try{ const seat=JSON.parse(raw); seat.reaction={id,at}; return JSON.stringify(seat); }catch(e){ return; }
     }).catch(e=>{ console.warn('reaction failed', e); toast(t('writeFail')); });
   },
+  rename(pid, nick){
+    if(!this.ref) return Promise.resolve();
+    // Merge into the latest seat so a rename can never overwrite a vote or quest card.
+    return this.ref.child('seats/'+pid+'/j').transaction(raw=>{
+      if(!raw) return raw;
+      try{ const seat=JSON.parse(raw); seat.nick=nick; return JSON.stringify(seat); }catch(e){ return; }
+    }).catch(e=>{ console.warn('rename failed', e); toast(t('writeFail')); });
+  },
   draftTeam(pid, step, picks){
     if(!this.ref) return Promise.resolve();
     const code=this.code;
@@ -429,7 +464,7 @@ const Net = {
 /* ================= App state ================= */
 const S = {
   view:'home', code:null, joinedAt:0, game:null, seats:{}, secrets:{},
-  mine:null, master:null, ladyMine:[], checksMine:[], ui:{nick:'', joinCode:'', pick:[], pickStep:'', myActs:{}, busy:false, excalibur:null, rulesOpen:false, guideTab:'rules', rulesInlineOpen:false, settingsOpen:false, infoOpen:null, qrOpen:false, privacyCover:false, questConfirm:null, confirm:null, hostSuccessor:'', confirmHostTransfer:false, lastReactionAt:0, notesOpen:false},
+  mine:null, master:null, ladyMine:[], checksMine:[], ui:{nick:'', joinCode:'', pick:[], pickStep:'', myActs:{}, busy:false, excalibur:null, rulesOpen:false, guideTab:'rules', rulesInlineOpen:false, settingsOpen:false, infoOpen:null, qrOpen:false, privacyCover:false, questConfirm:null, confirm:null, hostSuccessor:'', confirmHostTransfer:false, lastReactionAt:0, notesOpen:false, tool:null, rename:null},
   ov:[], seen:null, notFoundTimer:null, lastGid:null,
 };
 
@@ -542,7 +577,31 @@ function takeSeat(){
 function renameSeat(){
   const nick=cleanNick(); if(!nick) return toast(t('needNick'));
   LS.set('nick', nick);
-  const s=S.seats[ME.pid]; if(s && s.nick!==nick){ Net.pub('seat/'+ME.pid, Object.assign({}, s, {nick})); toast(t('renamed')); }
+  const s=S.seats[ME.pid]; if(s && s.nick!==nick){ Net.rename(ME.pid, nick); toast(t('renamed')); }
+}
+function openRename(){
+  const s=S.seats[ME.pid];
+  S.ui.rename={draft:(s&&s.nick)||S.ui.nick||''};
+  renderNameModal();
+}
+function closeRename(){ S.ui.rename=null; renderNameModal(); }
+function saveRename(){
+  const r=S.ui.rename; if(!r) return;
+  const nick=String(r.draft||'').trim().slice(0,12); if(!nick) return toast(t('needNick'));
+  closeRename();
+  S.ui.nick=nick; LS.set('nick', nick);
+  const s=S.seats[ME.pid]; if(s && s.nick!==nick){ Net.rename(ME.pid, nick); toast(t('renamed')); }
+  render();
+}
+function renderNameModal(){
+  let el=$('#nameModal');
+  if(!el){ if(!S.ui.rename || !document.body || !document.createElement) return; el=document.createElement('div'); el.id='nameModal'; document.body.appendChild(el); }
+  const r=S.ui.rename;
+  if(!r){ el.innerHTML=''; return; }
+  el.innerHTML='<div class="rules-modal confirm-modal" role="dialog" aria-modal="true" aria-labelledby="nameTitle"><div class="glass confirm-sheet name-sheet"><i class="player-avatar name-avatar" style="'+avStyle(ME.pid)+'"></i><h2 id="nameTitle">'+t('renameTitle')+'</h2><p>'+t('renameHint')+'</p>'
+    +'<input class="input" id="renameInput" maxlength="12" autocomplete="off" aria-label="'+t('nick')+'" placeholder="'+t('nickPh')+'" value="'+esc(r.draft)+'">'
+    +'<div class="row"><button class="btn ghost big" data-a="renameCancel">'+t('cancel')+'</button><button class="btn pri big" data-a="renameSave">'+t('save')+'</button></div></div></div>';
+  requestAnimationFrame(()=>{ const i=$('#renameInput'); if(i){ i.focus(); try{ i.select(); }catch(e){} } });
 }
 function lobbyOrder(){ return Object.values(S.seats).sort((a,b)=>(a.joined||0)-(b.joined||0) || String(a.pid).localeCompare(b.pid)).map(s=>s.pid); }
 const isHost = () => !!(S.game && S.game.host===ME.pid);
@@ -828,6 +887,10 @@ function render(){
   else html+=viewGame();
   html+=siteFooter()+privacyCoverHtml();
   app.innerHTML=html;
+  try{
+    const dock=document.querySelector('.dock'), fixed=dock && getComputedStyle(dock).position==='fixed';
+    document.documentElement.style.setProperty('--dock-h', (fixed?dock.offsetHeight:0)+'px');
+  }catch(e){}
   renderOverlay();
   renderRulesModal();
   renderInfoModal();
@@ -839,7 +902,7 @@ function topBar(){
   const conn=Net.connected();
   const st = !Net.everConnected ? t('connecting') : (conn ? t('online') : t('offline'));
   return '<div class="top"><button class="brand" data-a="home" aria-label="'+t('home')+'"><div class="mark"><span>V</span></div><div><div class="t1">AVALON</div><div class="t2">'+t('sub')+'</div></div></button>'
-    +'<div class="top-r">'+(S.code&&S.game?((S.game.status!=='lobby'?'<button class="chip btn privacy-cover-btn" data-a="privacyCover" aria-label="'+t('privacyCover')+'">◉ <span>'+t('privacyCover')+'</span></button>':'')+'<button class="chip btn rules-access" data-a="rules" aria-label="'+t('rulesAnytime')+'">📜 <span>'+t('rulesAnytime')+'</span></button><span class="chip room-chip"><span class="dot '+(conn?'on':'')+'"></span><b style="letter-spacing:2px">'+esc(S.code)+'</b></span>'):'<span class="chip"><span class="dot '+(conn?'on':'')+'"></span>'+st+'</span>')
+    +'<div class="top-r">'+(S.code&&S.game?((S.game.status!=='lobby'?'<button class="chip btn privacy-cover-btn" data-a="privacyCover" aria-label="'+t('privacyCover')+'">'+ic('eyeoff')+'<span>'+t('privacyCover')+'</span></button>':'')+'<button class="chip btn rules-access" data-a="rules" aria-label="'+t('rulesAnytime')+'">'+ic('book')+'<span>'+t('rulesAnytime')+'</span></button><span class="chip room-chip"><span class="dot '+(conn?'on':'')+'"></span><b style="letter-spacing:2px">'+esc(S.code)+'</b></span>'):'<span class="chip"><span class="dot '+(conn?'on':'')+'"></span>'+st+'</span>')
     +'<button class="chip btn" data-a="lang">'+(LANG==='zh'?'EN':'中文')+'</button></div></div>'
     +(Net.everConnected && !conn ? '<div class="banner-off">'+t('offline')+'</div>' : '')
     +((Net.authFailed || (!Net.everConnected && S.bootAt && Date.now()-S.bootAt>15000)) ? '<div class="banner-off">'+t('noNet')+'</div>' : '');
@@ -874,9 +937,7 @@ function rulesBlock(){
   return '<details class="rules" '+(S.ui.rulesInlineOpen?'open':'')+'><summary><span class="summary-mark">✦</span> '+t('rules')+'</summary>'+rulesContent()+'</details>';
 }
 function lobbyGuideBar(){
-  const actual=Object.keys(S.seats||{}).length, n=Math.min(10,Math.max(5,actual)), built=buildRoles(n,Object.assign({},DEFAULT_SETTINGS,S.game&&S.game.settings));
-  const totals=built.err?'':('<span class="tag good">'+built.gd+' '+t('good')+'</span><span class="tag evil">'+built.ev+' '+t('evil')+'</span>');
-  return '<section class="glass card lobby-guide-bar"><div class="lobby-guide-copy"><span class="lobby-guide-icon">♟</span><span><b>'+t('currentLineup')+'</b><small>'+t('lobbyGuideHint')+(actual<5?' '+t('lineupPreview',n):'')+'</small></span><span class="lobby-guide-totals">'+totals+'</span></div><div class="lobby-guide-actions"><button class="btn pri" data-a="rulesLineup">♟ '+t('openLineup')+'</button><button class="btn" data-a="rulesFull">📜 '+t('fullRules')+'</button></div></section>';
+  return '<div class="lobby-guide-links"><button class="btn sm" data-a="rulesLineup">'+ic('users')+t('roleInfo')+'</button><button class="btn ghost sm" data-a="rulesFull">'+ic('book')+t('fullRules')+'</button></div>';
 }
 function renderRulesModal(){
   const el=$('#rulesModal'); if(!el) return;
@@ -884,9 +945,9 @@ function renderRulesModal(){
   const tab=S.ui.guideTab==='lineup'?'lineup':'rules', key=LANG+':'+tab+':'+JSON.stringify(S.game&&S.game.settings)+':'+Object.keys(S.seats||{}).length;
   if(el._key===key && el.innerHTML) return;
   el._key=key;
-  const tabs='<div class="rules-tabs" role="tablist"><button class="btn '+(tab==='lineup'?'active':'')+'" role="tab" aria-selected="'+(tab==='lineup')+'" data-a="rulesLineup">♟ '+t('currentLineup')+'</button><button class="btn '+(tab==='rules'?'active':'')+'" role="tab" aria-selected="'+(tab==='rules')+'" data-a="rulesFull">📜 '+t('fullRules')+'</button></div>';
+  const tabs='<div class="rules-tabs" role="tablist"><button class="btn '+(tab==='lineup'?'active':'')+'" role="tab" aria-selected="'+(tab==='lineup')+'" data-a="rulesLineup">'+ic('users')+t('currentLineup')+'</button><button class="btn '+(tab==='rules'?'active':'')+'" role="tab" aria-selected="'+(tab==='rules')+'" data-a="rulesFull">'+ic('book')+t('fullRules')+'</button></div>';
   const content=tab==='lineup'?currentLineupContent():rulesContent();
-  el.innerHTML='<div class="rules-modal" role="dialog" aria-modal="true" aria-label="'+t('rulesAnytime')+'"><div class="glass rules-sheet"><div class="rules-head"><div><div class="eyebrow">AVALON GUIDE</div><h2>'+(tab==='lineup'?'♟ '+t('currentLineup'):'📜 '+t('fullRules'))+'</h2></div><button class="btn ghost rules-close" data-a="closeRules" aria-label="'+t('close')+'">×</button></div>'+tabs+'<div class="rules-tab-content">'+content+'</div></div></div>';
+  el.innerHTML='<div class="rules-modal" role="dialog" aria-modal="true" aria-label="'+t('rulesAnytime')+'"><div class="glass rules-sheet"><div class="rules-head"><div><div class="eyebrow">AVALON GUIDE</div><h2>'+(tab==='lineup'?'♟ '+t('currentLineup'):'📜 '+t('fullRules'))+'</h2></div><button class="btn ghost icon rules-close" data-a="closeRules" aria-label="'+t('close')+'">'+ic('x')+'</button></div>'+tabs+'<div class="rules-tab-content">'+content+'</div></div></div>';
   requestAnimationFrame(()=>el.querySelector('.rules-close')?.focus());
 }
 function infoContent(kind){
@@ -901,7 +962,7 @@ function renderInfoModal(){
   if(!kind){ if(el.innerHTML) el.innerHTML=''; el._key=null; return; }
   const key=kind+':'+LANG; if(el._key===key) return; el._key=key;
   const title=kind==='privacy'?t('privacy'):t('legal');
-  el.innerHTML='<div class="rules-modal info-modal" role="dialog" aria-modal="true" aria-labelledby="infoTitle"><div class="glass rules-sheet info-sheet"><div class="rules-head"><div><div class="eyebrow">AVALON ONLINE</div><h2 id="infoTitle">'+title+'</h2></div><button class="btn ghost rules-close" data-a="closeInfo" aria-label="'+t('close')+'">×</button></div><div class="info-copy">'+infoContent(kind)+'</div></div></div>';
+  el.innerHTML='<div class="rules-modal info-modal" role="dialog" aria-modal="true" aria-labelledby="infoTitle"><div class="glass rules-sheet info-sheet"><div class="rules-head"><div><div class="eyebrow">AVALON ONLINE</div><h2 id="infoTitle">'+title+'</h2></div><button class="btn ghost icon rules-close" data-a="closeInfo" aria-label="'+t('close')+'">'+ic('x')+'</button></div><div class="info-copy">'+infoContent(kind)+'</div></div></div>';
   requestAnimationFrame(()=>el.querySelector('.rules-close')?.focus());
 }
 function renderQRModal(){
@@ -909,7 +970,7 @@ function renderQRModal(){
   if(!S.ui.qrOpen || !S.game){ el.innerHTML=''; el._key=null; return; }
   const link=location.origin+location.pathname+'#'+S.game.code, key=LANG+':'+link;
   if(el._key===key && el.innerHTML) return; el._key=key;
-  el.innerHTML='<div class="rules-modal qr-modal" role="dialog" aria-modal="true" aria-labelledby="qrTitle"><div class="glass qr-sheet"><button class="btn ghost qr-close" data-a="closeQR" aria-label="'+t('close')+'">×</button><div class="eyebrow">AVALON · '+esc(S.game.code)+'</div><h2 id="qrTitle">'+t('scanJoin')+'</h2><div id="qrCanvas" class="qr-canvas"></div><b class="qr-code">'+esc(S.game.code)+'</b><button class="btn pri" data-a="copy">🔗 '+t('copyLink')+'</button></div></div>';
+  el.innerHTML='<div class="rules-modal qr-modal" role="dialog" aria-modal="true" aria-labelledby="qrTitle"><div class="glass qr-sheet"><button class="btn ghost icon qr-close" data-a="closeQR" aria-label="'+t('close')+'">'+ic('x')+'</button><div class="eyebrow">AVALON · '+esc(S.game.code)+'</div><h2 id="qrTitle">'+t('scanJoin')+'</h2><div id="qrCanvas" class="qr-canvas"></div><b class="qr-code">'+esc(S.game.code)+'</b><button class="btn pri" data-a="copy">'+ic('link')+t('copyLink')+'</button></div></div>';
   requestAnimationFrame(()=>{ const box=$('#qrCanvas'); if(box&&window.QRCode) new QRCode(box,{text:link,width:220,height:220,colorDark:'#110d0a',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M}); el.querySelector('.qr-close')?.focus(); });
 }
 function askConfirm(message, action, value=null, people=[], confirmLabel=''){
@@ -944,7 +1005,7 @@ function viewHome(){
     +'<div class="feature"><span>♟ '+t('feat1')+'</span><span>✦ '+t('feat2')+'</span><span>⌁ '+t('feat3')+'</span><span>⌘ '+t('feat4')+'</span></div></div></div>'
     +(last ? '<div class="glass resume"><span>'+t('resume','<b style="letter-spacing:2px">'+esc(last)+'</b>')+'</span><button class="btn pri" data-a="resume">'+t('resumeBtn')+'</button></div>' : '')
     +'<div class="home-grid"><div class="glass card"><h2>'+t('nick')+'</h2><input class="input" id="nick" aria-label="'+t('nick')+'" maxlength="12" placeholder="'+t('nickPh')+'" value="'+esc(S.ui.nick)+'">'
-    +'<button class="btn pri big" style="width:100%;margin-top:14px" data-a="create">✨ '+t('create')+'</button></div>'
+    +'<button class="btn pri big" style="width:100%;margin-top:14px" data-a="create">'+ic('plus')+t('create')+'</button></div>'
     +'<div class="glass card"><h2>'+t('joinTitle')+'</h2><div class="row"><input class="input code" id="joinCode" aria-label="'+t('codePh')+'" maxlength="8" placeholder="'+t('codePh')+'" value="'+esc(S.ui.joinCode)+'" style="flex:1;min-width:0">'
     +'<button class="btn" data-a="join">'+t('join')+'</button></div><p class="muted small" style="margin-bottom:0">'+t('joinHint')+'</p></div></div>'
     +'<div class="glass card" style="max-width:820px;margin:16px auto 0">'+rulesBlock()+'</div>';
@@ -954,10 +1015,11 @@ function viewLobby(){
   const st=Object.assign({}, DEFAULT_SETTINGS, g.settings);
   const br=buildRoles(n, st), pv=buildRoles(Math.min(10,Math.max(5,n)), st);
   let seats=ids.map(p=>{
-    const s=S.seats[p];
-    return '<div class="seatcard">'+'<div class="av player-avatar" style="'+avStyle(p)+'"><span class="on '+(Net.isOnline(p)?'y':'')+'"></span></div>'
-      +'<div><div class="nm">'+esc(s.nick)+'</div>'+(p===g.host?'<span class="tag host">👑 '+t('host')+'</span>':'')+(p===ME.pid?'<span class="tag me">'+t('you')+'</span>':'')+'</div>'
-      +(host && p!==ME.pid ? '<button class="x" title="kick" data-kick="'+esc(p)+'">×</button>' : '')+'</div>';
+    const s=S.seats[p], mine=p===ME.pid;
+    return '<div class="seatcard'+(mine?' me':'')+'">'+'<div class="av player-avatar" style="'+avStyle(p)+'"><span class="on '+(Net.isOnline(p)?'y':'')+'"></span></div>'
+      +'<div class="seat-info"><div class="nm">'+esc(s.nick)+'</div>'+(p===g.host?'<span class="tag host">👑 '+t('host')+'</span>':'')+(mine?'<span class="tag me">'+t('you')+'</span>':'')+'</div>'
+      +(mine?'<button class="seat-edit" data-a="editName" aria-label="'+t('editName')+'">'+ic('pencil')+t('editName')+'</button>':'')
+      +(host && !mine ? '<button class="x" title="kick" aria-label="kick" data-kick="'+esc(p)+'">'+ic('x')+'</button>' : '')+'</div>';
   }).join('');
   for(let i=n;i<Math.max(5,Math.min(10,n+1));i++) seats+='<div class="seatcard empty tiny">'+t('emptySeat')+'</div>';
   const tile=(k,role,name,desc,cls)=>'<button class="rt '+cls+(st[k]?' on':'')+'" '+(host?'data-set="'+k+'"':'disabled')+'>'+roleArt(role,'tile-art')+'<span><b>'+name+'</b><span>'+desc+'</span></span></button>';
@@ -981,20 +1043,24 @@ function viewLobby(){
     +tile('lancelotSwitch','lancelotEvil',t('optLancelotSwitch'),t('optLancelotSwitchD'),'neutral')
     +'<button class="rt neutral'+(st.lady?' on':'')+'" '+(host?'data-set="lady"':'disabled')+'><span class="lady-art">◯</span><span><b>'+t('optLady')+'</b><span>'+t('optLadyD')+'</span></span></button>'
     +'<button class="rt neutral'+(st.excalibur?' on':'')+'" '+(host?'data-set="excalibur"':'disabled')+'><span class="lady-art">⚔</span><span><b>'+t('optExcalibur')+'</b><span>'+t('optExcaliburD')+'</span></span></button>';
-  return '<div class="glass card roomcode"><div><div class="muted small">'+t('roomCode')+'</div><div class="code">'+esc(g.code)+'</div><div class="muted small">'+t('inviteHint')+'</div></div>'
-    +'<div class="row"><button class="btn pri" data-a="copy">🔗 '+t('copyLink')+'</button><button class="btn" data-a="qr">▦ '+t('showQR')+'</button>'+(navigator.share?'<button class="btn" data-a="share">'+t('share')+'</button>':'')+'</div></div>'
-    +lobbyGuideBar()+'<div class="lobby"><div class="glass card"><h2>'+t('players')+' · '+n+'/10</h2><div class="seats">'+seats+'</div>'
-    +'<div class="row" style="margin-top:14px"><input class="input" id="nick" maxlength="12" placeholder="'+t('nickPh')+'" value="'+esc(S.ui.nick)+'" style="flex:1;min-width:120px">'
-    +(seated?'<button class="btn" data-a="rename">'+t('rename')+'</button>':'<button class="btn pri" data-a="seat">'+t('seat')+'</button>')+'</div>'
-    +'<div class="row" style="margin-top:14px">'
-    +(host?'<button class="btn pri big" data-a="start" '+(br.err||S.ui.busy?'disabled':'')+'>'+(S.ui.busy?t('dealing'):'⚔️ '+t('start'))+'</button>':'<span class="muted" style="flex:1">⏳ '+t('waitHost')+'</span>')
-    +'<button class="btn ghost" data-a="leave">'+t('leave')+'</button></div>'
-    +(host&&br.err?'<p class="warn small" style="margin-bottom:0">'+esc(br.err)+'</p>':'')+'</div>'
-    +'<div class="glass card"><h2>'+t('roleSettings')+(host?'':' <span class="muted small">· '+t('hostOnly')+'</span>')+'</h2><div class="preset-wrap"><span class="muted tiny">'+t('presets')+'</span><div class="preset-row"><button class="btn preset-btn" data-preset="new" '+(host?'':'disabled')+'>🛡 '+t('presetNew')+'</button><button class="btn preset-btn" data-preset="classic" '+(host?'':'disabled')+'>⚔ '+t('presetClassic')+'</button><button class="btn preset-btn" data-preset="big" '+(host?'':'disabled')+'>✦ '+t('presetBig')+'</button></div></div>'+compHtml
-    +'<details class="settings-advanced" '+(S.ui.settingsOpen?'open':'')+'><summary><span><b>⚙ '+t('advancedRoles')+'</b><small>'+t('advancedRolesHint')+'</small></span><i>⌄</i></summary><div class="settings-advanced-body"><div class="settings-camps">'
+  const need=Math.max(0,5-n);
+  const status='<div class="lobby-status'+(need?'':' ready')+'"><b>'+(need?t('lobbyNeed',need):t(host?'lobbyReadyHost':'lobbyReady'))+'</b><span>'+t('lobbySteps')+'</span></div>';
+  const presets='<div class="preset-wrap"><span class="muted tiny">'+t('presets')+'</span><div class="preset-row"><button class="btn sm preset-btn" data-preset="new">'+t('presetNew')+'</button><button class="btn sm preset-btn" data-preset="classic">'+t('presetClassic')+'</button><button class="btn sm preset-btn" data-preset="big">'+t('presetBig')+'</button></div></div>';
+  const advanced='<details class="settings-advanced" '+(S.ui.settingsOpen?'open':'')+'><summary><span><b>⚙ '+t('advancedRoles')+'</b><small>'+t('advancedRolesHint')+'</small></span><i>⌄</i></summary><div class="settings-advanced-body"><div class="settings-camps">'
     +'<section class="setting-camp good"><h3>🛡️ '+t('goodCamp')+'</h3><div class="roletiles">'+goodSettings+'</div></section>'
     +'<section class="setting-camp evil"><h3>🗡️ '+t('evilCamp')+'</h3><div class="roletiles">'+evilSettings+'</div></section></div>'
-    +'<section class="setting-camp modules"><h3>✦ '+t('gameModules')+'</h3><div class="roletiles">'+modules+'</div></section></div></details></div></div>';
+    +'<section class="setting-camp modules"><h3>✦ '+t('gameModules')+'</h3><div class="roletiles">'+modules+'</div></section></div></details>';
+  // Guests only need to see what is in play; the controls stay with the host.
+  const roleSetup=host ? presets+compHtml+lobbyGuideBar()+advanced : compHtml+lobbyGuideBar();
+  return '<div class="glass card roomcode"><div class="roomcode-main"><div class="muted small">'+t('roomCode')+'</div><div class="code">'+esc(g.code)+'</div></div>'
+    +'<div class="roomcode-side"><div class="row roomcode-actions"><button class="btn pri" data-a="copy">'+ic('link')+t('copyLink')+'</button><button class="btn" data-a="qr">'+ic('qr')+t('showQR')+'</button>'+(navigator.share?'<button class="btn" data-a="share">'+ic('share')+t('share')+'</button>':'')+'</div><div class="muted small roomcode-hint">'+t('inviteHint')+'</div></div></div>'
+    +'<div class="lobby"><div class="glass card lobby-players">'+status+'<h2>'+t('players')+' · '+n+'/10</h2><div class="seats">'+seats+'</div>'
+    +(seated?'':'<div class="row seat-join"><input class="input" id="nick" maxlength="12" placeholder="'+t('nickPh')+'" value="'+esc(S.ui.nick)+'" style="flex:1;min-width:120px"><button class="btn pri" data-a="seat">'+t('seat')+'</button></div>')
+    +'<div class="row lobby-actions">'
+    +(host?'<button class="btn pri big" data-a="start" '+(br.err||S.ui.busy?'disabled':'')+'>'+(S.ui.busy?t('dealing'):ic('play')+t('start'))+'</button>':'<span class="muted lobby-wait">⏳ '+t('waitHost')+'</span>')
+    +'<button class="btn ghost" data-a="leave">'+ic('exit')+t('leave')+'</button></div>'
+    +(host&&br.err&&!need?'<p class="warn small" style="margin-bottom:0">'+esc(br.err)+'</p>':'')+'</div>'
+    +'<div class="glass card lobby-roles"><h2>'+t('roleSettings')+(host?'':' <span class="muted small">· '+t('hostOnly')+'</span>')+'</h2>'+roleSetup+'</div></div>';
 }
 
 function pickMode(g){
@@ -1019,13 +1085,12 @@ function needsAct(g,u){
   return false;
 }
 function viewGame(){
-  const g=S.game, n=g.order.length;
+  const g=S.game;
   const offline = g.status==='play' && !isHost() && Net.connected() && Date.now()-S.joinedAt>25000 && !Net.isOnline(g.host);
   return (offline?'<div class="banner-off">⚠️ '+t('hostOffline', esc(nickOf(g.host)))+'</div>':'')
-    +'<div class="game"><div>'+tableView(g)+'</div><div class="panel">'
+    +'<div class="game"><div class="game-table">'+tableView(g)+'</div><div class="panel">'
     +'<div class="dock '+(g.status==='end'?'dock-end':'')+'">'+actionBlock(g)+'</div>'
-    +roleBar()+hostToolsPanel(g)+privateNotesPanel(g)+reactionPanel(g)+historyBlock(g)
-    +'<div class="glass card">'+rulesBlock()+'</div></div></div>';
+    +roleBar()+toolPanel(g)+'</div></div>';
 }
 function notesStorageKey(g=S.game){ return g&&S.code ? 'notes.'+S.code+'.'+(g.gid||'lobby') : ''; }
 function readPrivateNotes(){ const key=notesStorageKey(); return key ? (LS.get(key)||{}) : {}; }
@@ -1055,13 +1120,26 @@ function privateNotesPanel(g){
   if(!open) return '<button class="glass card private-notes-toggle" data-a="toggleNotes"><span>✎</span><span><b>'+t('privateNotes')+'</b><small>'+t('openNotes')+'</small></span><span>›</span></button>';
   const notes=readPrivateNotes(), roles=noteRoleOptions(g);
   const options=(selected)=>'<option value="">'+t('unmarked')+'</option><option value="good" '+(selected==='good'?'selected':'')+'>🛡 '+t('leanGood')+'</option><option value="evil" '+(selected==='evil'?'selected':'')+'>🗡 '+t('leanEvil')+'</option>'+roles.map(r=>'<option value="'+r+'" '+(selected===r?'selected':'')+'>'+ROLE_META[r].ic+' '+rName(r)+'</option>').join('');
-  const rows=g.order.filter(pid=>pid!==ME.pid).map(pid=>{ const note=notes[pid]||{}; return '<div class="private-note-row"><div class="private-note-person"><span class="note-avatar player-avatar" style="'+avStyle(pid)+'"></span><b>'+esc(nickOf(pid))+'</b></div><select class="note-select" data-note-player="'+esc(pid)+'" aria-label="'+t('suspectAs')+' · '+esc(nickOf(pid))+'">'+options(note.mark||'')+'</select><textarea class="note-text" data-note-player="'+esc(pid)+'" maxlength="240" rows="2" aria-label="'+t('privateNotes')+' · '+esc(nickOf(pid))+'" placeholder="'+t('notePlaceholder')+'">'+esc(note.text||'')+'</textarea></div>'; }).join('');
-  return '<section class="glass card private-notes"><div class="private-notes-head"><div><h3>✎ '+t('privateNotes')+'</h3><p>🔒 '+t('notesHint')+'</p></div><button class="btn ghost notes-collapse" data-a="toggleNotes">'+t('closeNotes')+'</button></div><div class="private-note-list">'+rows+'</div><button class="btn link notes-clear" data-a="clearNotes">'+t('clearNotes')+'</button></section>';
+  const rows=g.order.filter(pid=>pid!==ME.pid).map(pid=>{ const note=notes[pid]||{}; return '<div class="private-note-row"><div class="private-note-person"><span class="note-avatar player-avatar" style="'+avStyle(pid)+'"></span><b>'+esc(nickOf(pid))+'</b></div><select class="note-select" id="note-mark-'+esc(pid)+'" data-note-player="'+esc(pid)+'" aria-label="'+t('suspectAs')+' · '+esc(nickOf(pid))+'">'+options(note.mark||'')+'</select><textarea class="note-text" id="note-text-'+esc(pid)+'" data-note-player="'+esc(pid)+'" maxlength="240" rows="1" aria-label="'+t('privateNotes')+' · '+esc(nickOf(pid))+'" placeholder="'+t('notePlaceholder')+'">'+esc(note.text||'')+'</textarea></div>'; }).join('');
+  return '<section class="glass card private-notes"><div class="private-notes-head"><div><h3>✎ '+t('privateNotes')+'</h3><p>🔒 '+t('notesHint')+'</p></div></div><div class="private-note-list">'+rows+'</div><button class="btn link notes-clear" data-a="clearNotes">'+t('clearNotes')+'</button></section>';
 }
 function reactionPanel(g){
   if(!g.order.includes(ME.pid) || !S.seats[ME.pid]) return '';
-  return '<div class="glass card reactions"><div class="reaction-head"><h3>'+t('react')+'</h3><span class="muted tiny">'+t('reactHint')+'</span></div><div class="reaction-row">'
+  return '<div class="reactions" role="group" aria-label="'+t('react')+'"><div class="reaction-row">'
     +REACTIONS.map(r=>'<button class="reaction-btn" data-reaction="'+r.id+'" aria-label="'+t(r.label)+'" title="'+t(r.label)+'">'+r.emoji+'</button>').join('')+'</div></div>';
+}
+/* Everything that is not the current action lives behind one row of tabs, so the
+ * side panel stays one screen tall. On phones an open tab becomes a bottom sheet. */
+function toolPanel(g){
+  const inGame=g.order.includes(ME.pid), canReact=inGame && !!S.seats[ME.pid], hostTools=isHost() && g.status==='play';
+  let tab=S.ui.tool;
+  if((tab==='host' && !hostTools) || (tab==='notes' && !inGame) || (tab==='react' && !canReact)) tab=null;
+  const tabBtn=(id,icon,label,cls)=>'<button class="tool-tab'+(cls?' '+cls:'')+(tab===id?' on':'')+'" data-tool="'+id+'" aria-expanded="'+(tab===id)+'">'+ic(icon)+'<span>'+label+'</span></button>';
+  const tabs=(canReact?tabBtn('react','smile',t('tReact'),'only-narrow'):'')+tabBtn('history','list',t('tHistory'))+(inGame?tabBtn('notes','pencil',t('tNotes')):'')+(hostTools?tabBtn('host','crown',t('tHost')):'')
+    +'<button class="tool-tab" data-a="rules">'+ic('book')+'<span>'+t('tRules')+'</span></button>';
+  const body=tab==='history'?historyBlock(g):tab==='notes'?privateNotesPanel(g):tab==='host'?hostToolsPanel(g):tab==='react'?reactionPanel(g):'';
+  return '<section class="glass card tools">'+(canReact?'<div class="only-wide">'+reactionPanel(g)+'</div>':'')+'<div class="tool-tabs" role="toolbar">'+tabs+'</div>'
+    +(body?'<button class="sheet-backdrop" data-tool="'+tab+'" aria-label="'+t('close')+'"></button><div class="tool-body sheet tool-'+tab+'"><button class="btn ghost icon sheet-close tool-close" data-tool="'+tab+'" aria-label="'+t('close')+'">'+ic('x')+'</button>'+body+'</div>':'')+'</section>';
 }
 function sendReaction(id){
   const def=REACTIONS.find(r=>r.id===id), now=Date.now();
@@ -1137,7 +1215,7 @@ function tableView(g){
     const cls='seatp'+(onTeam?' team':'')+(can?' pick':'')+(picked?' picked':'')+(skillKnown?' skill-known':'')+(p===ME.pid?' me':'')+(g.assassinPick===p?' stabbed':'')+(pm&&!can?' dimmed':'');
     return '<button class="'+cls+'" style="left:'+x.toFixed(2)+'%;top:'+y.toFixed(2)+'%" '+(can?'data-pick="'+esc(p)+'"':'tabindex="-1"')+'>'
       +'<div class="pav player-avatar" style="'+avStyle(p)+'">'+badges+'</div>'
-      +'<div class="pn">'+(i+1)+'·'+esc(nickOf(p))+'</div><div class="pt">'+tags+'</div></button>';
+      +'<div class="pn">'+(p===ME.pid?'<b class="me-chip">'+t('meMark')+'</b>':'')+(i+1)+'·'+esc(nickOf(p))+'</div><div class="pt">'+tags+'</div></button>';
   }).join('');
   const qt=g.quests.map((q,i)=>'<div class="qt '+(q.r||'')+(q.two?' two':'')+(i===g.q&&g.status==='play'&&!q.r?' cur':'')+'">'+(q.r?(q.r==='S'?'✓':'✗'):q.size)
     +'<small>'+(q.r?t('fails',q.fails):t('questN',i+1))+'</small></div>').join('');
@@ -1157,12 +1235,12 @@ function assassinationResult(g, compact=false){
   return '<section class="assassination-result '+(hit?'hit':'miss')+(compact?' compact':'')+'"><div class="assassination-mark">'+(hit?'✓':'✕')+'</div><div class="assassination-copy"><small>'+t('assResult')+'</small><strong>'+(hit?t('assHit'):t('assMiss'))+'</strong><div class="assassination-target"><span class="assassination-avatar player-avatar" style="'+avStyle(target)+'"></span><span><b>'+esc(nickOf(target))+'</b><em>'+t('revealedAs',esc(nickOf(target)),'<b>'+ROLE_META[role].ic+' '+rName(role)+'</b>')+'</em></span></div></div></section>';
 }
 function selectedTeamReview(list,size){
-  return '<section class="selected-team-review"><div class="selected-team-head"><b>'+t('selectedTeam')+' · '+list.length+'/'+size+'</b>'+(list.length?'<small>'+t('tapRemove')+'</small>':'')+'</div><div class="selected-people">'+list.map((pid,i)=>'<button class="selected-person" data-pick="'+esc(pid)+'" aria-label="'+t('tapRemove')+' · '+esc(nickOf(pid))+'"><span class="selected-order">'+(i+1)+'</span><i class="player-avatar" style="'+avStyle(pid)+'"></i><span>'+esc(nickOf(pid))+'</span><em>×</em></button>').join('')+'</div></section>';
+  return '<section class="selected-team-review"><div class="selected-team-head"><b>'+t('selectedTeam')+' · '+list.length+'/'+size+'</b>'+(list.length?'<small>'+t('tapRemove')+'</small>':'')+'</div><div class="selected-people">'+list.map((pid,i)=>'<button class="selected-person" data-pick="'+esc(pid)+'" aria-label="'+t('tapRemove')+' · '+esc(nickOf(pid))+'"><span class="selected-order">'+(i+1)+'</span><i class="player-avatar" style="'+avStyle(pid)+'"></i><span>'+esc(nickOf(pid))+'</span><em>'+ic('x')+'</em></button>').join('')+'</div></section>';
 }
 function actionBlock(g){
   const me=ME.pid, inGame=g.order.includes(me), busy=S.ui.busy, mine=S.ui.myActs[g.step], L=g.order[g.leader];
   if(g.status==='end') return '<div class="glass card act">'+assassinationResult(g,true)+'<h2>'+(g.winner==='good'?'🛡️ '+t('goodWin'):'🗡️ '+t('evilWin'))+'</h2><div class="hint">'+t(g.reason)+'</div>'
-    +'<div class="row">'+(isHost()?'<button class="btn pri big" data-a="again">🔄 '+t('again')+'</button>':'<span class="muted">'+t('waitAgain')+'</span>')+'<button class="btn ghost" data-a="showend">'+t('allRoles')+'</button></div></div>';
+    +'<div class="row">'+(isHost()?'<button class="btn pri big" data-a="again">'+ic('refresh')+t('again')+'</button>':'<span class="muted">'+t('waitAgain')+'</span>')+'<button class="btn ghost" data-a="showend">'+t('allRoles')+'</button></div></div>';
   if(!inGame) return '<div class="glass card act"><h2>👀 '+t('spectator')+'</h2><div class="hint">'+t('ph_'+g.phase)+'</div></div>';
   const prog=(list)=>{ const k=list.filter(acted).length; return '<div class="progress"><b style="width:'+(100*k/list.length)+'%"></b></div>'; };
   const chips=list=>'<div class="pickrow">'+list.map(u=>'<span class="tag" style="font-size:13px;padding:2px 10px">'+esc(nickOf(u))+'</span>').join('')+'</div>';
@@ -1178,8 +1256,8 @@ function actionBlock(g){
     else { const draft=publicDraftTeam(g); h='<h2>⏳ '+t('waitLeader', esc(nickOf(L)), size)+'</h2><div class="hint">'+t('discuss')+'</div>'+(draft.length?'<div class="muted tiny" style="margin-bottom:5px">'+t('leaderDraft')+' · '+draft.length+'/'+size+'</div>'+chips(draft):''); }
   } else if(g.phase==='vote'){
     h='<h2>🗳️ '+t('voteTitle')+'</h2>'+chips(g.team)
-      +'<div class="row"><button class="btn good big '+(mine===true?'sel':'')+'" data-vote="1" '+(busy?'disabled':'')+'>👍 '+t('approve')+'</button>'
-      +'<button class="btn evil big '+(mine===false?'sel':'')+'" data-vote="0" '+(busy?'disabled':'')+'>👎 '+t('reject')+'</button></div>'
+      +'<div class="row"><button class="btn good big '+(mine===true?'sel':'')+'" data-vote="1" '+(busy?'disabled':'')+'>'+ic('check')+t('approve')+'</button>'
+      +'<button class="btn evil big '+(mine===false?'sel':'')+'" data-vote="0" '+(busy?'disabled':'')+'>'+ic('x')+t('reject')+'</button></div>'
       +'<div class="hint" style="margin:10px 0 0">'+(acted(me)?t('voted'):t('pleaseVote'))+' · '+t('votedCount', g.order.filter(acted).length, g.order.length)+'</div>'+prog(g.order);
   } else if(g.phase==='quest'){
     h='<h2>⚔️ '+t('questTitle')+'</h2>'+chips(g.team);
@@ -1190,8 +1268,8 @@ function actionBlock(g){
         const qv=S.ui.questConfirm;
         h+='<div class="quest-confirm '+(qv==='S'?'success':'fail')+'"><div><small>'+t('confirmQuest')+'</small><strong>'+(qv==='S'?'✓ '+t('success'):'✗ '+t('fail'))+'</strong><p>'+t('confirmQuestHint')+'</p></div><button class="btn '+(qv==='S'?'good':'evil')+' big" data-a="questSubmit" '+(busy?'disabled':'')+'>'+(qv==='S'?t('confirmSuccess'):t('confirmFail'))+'</button><button class="btn ghost" data-a="questCancel">'+t('changeChoice')+'</button></div>';
       } else {
-        h+='<div class="row"><button class="btn good big '+(mine==='S'?'sel':'')+'" data-quest="S" '+(!choices.includes('S')||busy?'disabled':'')+'>✓ '+t('success')+'</button>'
-          +'<button class="btn evil big '+(mine==='F'?'sel':'')+'" data-quest="F" '+(!choices.includes('F')||busy?'disabled':'')+'>✗ '+t('fail')+'</button></div>';
+        h+='<div class="row"><button class="btn good big '+(mine==='S'?'sel':'')+'" data-quest="S" '+(!choices.includes('S')||busy?'disabled':'')+'>'+ic('check')+t('success')+'</button>'
+          +'<button class="btn evil big '+(mine==='F'?'sel':'')+'" data-quest="F" '+(!choices.includes('F')||busy?'disabled':'')+'>'+ic('x')+t('fail')+'</button></div>';
       }
       h+='<div class="hint" style="margin:10px 0 0">'+note+(acted(me)?' '+t('youPlayed'):'')+(g.quests[g.q].two?' '+t('twoNote'):'')+'</div>';
     } else h+='<div class="hint">'+t('waitTeam')+' '+t('played', g.team.filter(acted).length, g.team.length)+(g.quests[g.q].two?' · '+t('twoNote'):'')+'</div>';
@@ -1216,12 +1294,14 @@ function actionBlock(g){
   return '<div class="glass card act">'+h+actionStatus(g)+'</div>';
 }
 function roleBar(){
-  const g=S.game; if(!g.order.includes(ME.pid)) return '';
-  if(!S.mine) return '<div class="glass card muted">'+t('loadingRole')+'</div>';
-  const s=S.mine.allegiance||side(S.mine.role);
-  return '<button class="glass card rolebar '+(S.peek?s:'')+'" data-a="peek"><span class="rb-l"><span class="rb-ic">'+(S.peek?roleArt(S.mine.role,'rolebar-art'):'<span class="card-seal">V</span>')+'</span>'
-    +'<span><div class="muted tiny">'+t('myRole')+'</div><b>'+(S.peek?rName(S.mine.role):'••••••')+'</b></span></span><span class="muted small">'+(S.peek?'🙈':t('tapReveal'))+'</span></button>'
-    +(S.peek?'<div class="glass card" style="margin-top:-8px">'+knowBlock()+'</div>':'');
+  const g=S.game, me=ME.pid; if(!g.order.includes(me)) return '';
+  const s=S.mine ? (S.mine.allegiance||side(S.mine.role)) : '';
+  // Who am I at this table: portrait, seat number and name, with rename one tap away.
+  const id='<button class="me-id" data-a="editName" aria-label="'+t('editName')+'"><i class="player-avatar" style="'+avStyle(me)+'"></i><span class="me-text"><small>'+t('youAre')+' · '+t('seatNo', g.order.indexOf(me)+1)+'</small><b><span>'+esc(nickOf(me))+'</span><em>'+ic('pencil')+'</em></b></span></button>';
+  const role=!S.mine ? '<span class="me-role muted small">'+t('loadingRole')+'</span>'
+    : '<button class="me-role '+(S.peek?s:'')+'" data-a="peek" aria-expanded="'+!!S.peek+'"><span class="rb-ic">'+(S.peek?roleArt(S.mine.role,'rolebar-art'):'<span class="card-seal">V</span>')+'</span><span class="me-text"><small>'+t('myRole')+'</small><b>'+(S.peek?rName(S.mine.role):t('tapReveal'))+'</b></span></button>';
+  return '<div class="glass card mebar">'+id+role+'</div>'
+    +(S.peek&&S.mine?'<button class="sheet-backdrop" data-a="peek" aria-label="'+t('hideRole')+'"></button><div class="glass card know-card sheet"><div class="sheet-head"><b class="'+(s==='good'?'res-s':'res-f')+'">'+ROLE_META[S.mine.role].ic+' '+rName(S.mine.role)+' · '+t(s)+'</b><button class="btn ghost sm sheet-close" data-a="peek">'+ic('eyeoff')+t('hideRole')+'</button></div>'+knowBlock()+'</div>':'');
 }
 function hostToolsPanel(g){
   if(!isHost() || g.status!=='play') return '';
@@ -1231,7 +1311,7 @@ function hostToolsPanel(g){
     const name=nickOf(S.ui.hostSuccessor);
     return '<section class="glass card host-tools confirm"><h3>♜ '+t('hostTools')+'</h3><p>'+t('transferWarning')+'</p><div class="row"><button class="btn evil" data-a="transferHost" '+(S.ui.busy?'disabled':'')+'>'+t('confirmTransfer',esc(name))+'</button><button class="btn ghost" data-a="cancelHostTransfer">'+t('close')+'</button></div></section>';
   }
-  return '<section class="glass card host-tools"><h3>♜ '+t('hostTools')+'</h3><div class="row"><select class="host-select" id="hostSuccessor" aria-label="'+t('transferTo')+'">'+options+'</select><button class="btn" data-a="prepareHostTransfer" '+(!candidates.length?'disabled':'')+'>'+t('transferHost')+'</button></div></section>';
+  return '<section class="glass card host-tools"><h3>♜ '+t('hostTools')+'</h3><div class="row"><select class="host-select" id="hostSuccessor" aria-label="'+t('transferTo')+'">'+options+'</select><button class="btn" data-a="prepareHostTransfer" '+(!candidates.length?'disabled':'')+'>'+ic('swap')+t('transferHost')+'</button></div></section>';
 }
 function knowBlock(){
   const m=S.mine; let h='<div class="small" style="margin-bottom:8px">'+rDesc(m.role)+'</div>';
@@ -1290,7 +1370,7 @@ function renderOverlay(){
     const roles=g.roles||{};
     h=(g.assassinPick?'<h2>🗡️ '+t('assResult')+'</h2>'+assassinationResult(g):'<h2>'+(g.winner==='good'?'🛡️':'🗡️')+'</h2>')+'<div class="bigres '+g.winner+'">'+(g.winner==='good'?t('goodWin'):t('evilWin'))+'</div><p class="lead" style="margin-top:8px">'+t(g.reason)+'</p>'
       +'<div class="endroles">'+g.order.map(u=>'<div class="'+((g.allegiances&&g.allegiances[u])||side(roles[u]))+'"><span>'+esc(nickOf(u))+(u===ME.pid?' ('+t('you')+')':'')+'</span><b>'+ROLE_META[roles[u]].ic+' '+rName(roles[u])+'</b></div>').join('')+'</div>'
-      +'<div class="row">'+(isHost()?'<button class="btn pri big" data-a="again">🔄 '+t('again')+'</button>':'')+'<button class="btn big" data-a="ovnext">'+t('close')+'</button></div>';
+      +'<div class="row">'+(isHost()?'<button class="btn pri big" data-a="again">'+ic('refresh')+t('again')+'</button>':'')+'<button class="btn big" data-a="ovnext">'+t('close')+'</button></div>';
   }
   el.innerHTML='<div class="ov"><div class="glass ovbox">'+h+'</div></div>';
 }
@@ -1299,6 +1379,7 @@ function renderOverlay(){
 document.addEventListener('input', e=>{
   if(e.target.id==='nick') S.ui.nick=e.target.value;
   if(e.target.id==='joinCode') S.ui.joinCode=e.target.value.toUpperCase();
+  if(e.target.id==='renameInput' && S.ui.rename) S.ui.rename.draft=e.target.value;
   if(e.target.matches&&e.target.matches('.note-text[data-note-player]')) savePrivateNote(e.target.dataset.notePlayer,'text',e.target.value);
 });
 document.addEventListener('change', e=>{
@@ -1306,6 +1387,8 @@ document.addEventListener('change', e=>{
   if(e.target.id==='hostSuccessor'){ S.ui.hostSuccessor=e.target.value; S.ui.confirmHostTransfer=false; render(); }
 });
 document.addEventListener('keydown', e=>{
+  if(e.key==='Escape' && S.ui.rename) return closeRename();
+  if(e.key==='Enter' && e.target.id==='renameInput') return saveRename();
   if(e.key==='Escape' && S.ui.confirm){ S.ui.confirm=null; renderConfirmModal(); return; }
   if(e.key==='Escape' && S.ui.qrOpen){ S.ui.qrOpen=false; renderQRModal(); return; }
   if(e.key==='Escape' && S.ui.infoOpen){ S.ui.infoOpen=null; renderInfoModal(); return; }
@@ -1324,7 +1407,8 @@ document.addEventListener('toggle', e=>{
   if(e.target.matches && e.target.matches('details.settings-advanced')) S.ui.settingsOpen=e.target.open;
 }, true);
 document.addEventListener('click', e=>{
-  const b=e.target.closest('[data-a],[data-pick],[data-vote],[data-quest],[data-kick],[data-set],[data-preset],[data-excalibur],[data-loyalty],[data-reaction]'); if(!b) return;
+  const b=e.target.closest('[data-a],[data-pick],[data-vote],[data-quest],[data-kick],[data-set],[data-preset],[data-excalibur],[data-loyalty],[data-reaction],[data-tool]'); if(!b) return;
+  if(b.dataset.tool){ S.ui.tool = S.ui.tool===b.dataset.tool ? null : b.dataset.tool; S.ui.notesOpen = S.ui.tool==='notes'; return render(); }
   if(b.dataset.reaction) return sendReaction(b.dataset.reaction);
   if(b.dataset.kick) return askConfirm(t('confirmKick',nickOf(b.dataset.kick)),'kick',b.dataset.kick,[b.dataset.kick]);
   if(b.dataset.set) return toggleSetting(b.dataset.set);
@@ -1362,7 +1446,10 @@ document.addEventListener('click', e=>{
     case 'prepareHostTransfer': if(!S.ui.hostSuccessor) return toast(t('chooseHost')); S.ui.confirmHostTransfer=true; return render();
     case 'cancelHostTransfer': S.ui.confirmHostTransfer=false; return render();
     case 'transferHost': return transferHost();
-    case 'toggleNotes': S.ui.notesOpen=!S.ui.notesOpen; return render();
+    case 'toggleNotes': S.ui.notesOpen=!S.ui.notesOpen; S.ui.tool=S.ui.notesOpen?'notes':null; return render();
+    case 'editName': return openRename();
+    case 'renameCancel': return closeRename();
+    case 'renameSave': return saveRename();
     case 'clearNotes': { const key=notesStorageKey(); if(key) LS.del(key); render(); return toast(t('notesCleared')); }
     case 'create': return createRoom();
     case 'join': return joinRoom();

@@ -63,7 +63,7 @@ The room host's browser advances the game state. Firebase synchronizes the room,
 - Each client generates an ECDH P-256 key pair. The private key remains in that browser's `localStorage`.
 - The host encrypts each role separately with an ephemeral ECDH key and AES-GCM.
 - Player actions are encrypted to the host before being written to Firebase.
-- `database.rules.json` restricts game-state and secret writes to the host and seat writes to the corresponding player.
+- `firebase/database.rules.json` restricts game-state and secret writes to the host and seat writes to the corresponding player.
 - The Firebase Web API key is a public project identifier by design. Authorization depends on Authentication and Security Rules, not on hiding that key; production keys must remain restricted to required Firebase APIs.
 
 This design protects hidden roles from other normal clients and casual database inspection. It does not attempt to defend against a compromised host browser or a user modifying their own client.
@@ -80,7 +80,7 @@ python3 -m http.server 4173
 
 Open <http://localhost:4173>. The checked-in configuration connects to the production Firebase project, so use clearly marked test names when developing against it.
 
-To use a different Firebase project, define `window.AVALON_FIREBASE` before `app.js` loads and deploy the included `database.rules.json` to that project. Anonymous Authentication and Realtime Database must be enabled.
+To use a different Firebase project, define `window.AVALON_FIREBASE` before `app.js` loads and deploy the included `firebase/database.rules.json` to that project. Anonymous Authentication and Realtime Database must be enabled.
 
 ## Deploy
 
@@ -102,7 +102,7 @@ The footer can show a voluntary support button without processing payments on th
 
 Leave it unset to hide the button. Keep the game free and use a hosted payment provider rather than collecting card details on GitHub Pages.
 
-The public footer also links to bilingual privacy and unofficial-project notices. The full privacy notice is in [PRIVACY.md](PRIVACY.md).
+The public footer also links to bilingual privacy and unofficial-project notices. The full privacy notice is in [docs/PRIVACY.md](docs/PRIVACY.md).
 
 ## Project Structure
 
@@ -111,15 +111,18 @@ The public footer also links to bilingual privacy and unofficial-project notices
 ├── index.html                 # document shell and metadata
 ├── app.js                     # UI, encryption, networking, and game engine
 ├── style.css                  # responsive Camelot design system
-├── assets/roles/              # optimized role portraits
-├── database.rules.json        # Firebase Realtime Database rules
+├── service-worker.js          # offline shell for the installable web app
+├── manifest.webmanifest       # web app manifest
+├── robots.txt, sitemap.xml    # search engine hints
+├── assets/                    # role portraits, player avatars, app icon
 ├── vendor/                    # Firebase and QR-code libraries
-├── docs/                      # design notes, rules coverage, and playtests
-├── scripts/                   # source and rules verification
-├── .github/                   # CI and contribution templates
+├── firebase/                  # Realtime Database security rules
+├── tests/                     # automated checks (node tests/run-all.mjs)
+├── dev/                       # offline UI preview for development
+├── docs/                      # design notes, rules coverage, playtests, privacy, third-party notices
+├── .github/                   # security policy, issue and pull request templates
 ├── README.md                  # English documentation
-├── README.zh-CN.md            # Simplified Chinese documentation
-└── THIRD_PARTY_NOTICES.md     # bundled dependency notices
+└── README.zh-CN.md            # Simplified Chinese documentation
 ```
 
 ## Verification
@@ -138,9 +141,9 @@ See the [full multiplayer playtest report](docs/PLAYTEST.md) for covered and def
 
 The new character behavior and the boundary of the current Big Box implementation are documented in [Big Box rules coverage](docs/BIG_BOX_RULES.md). Pure rule tests currently cover 16 character and module invariants.
 
-Project documentation is indexed in [docs/README.md](docs/README.md). Run the repository checks listed in the pull request template before publishing gameplay changes.
+Project documentation is indexed in [docs/README.md](docs/README.md). Run `node tests/run-all.mjs` before publishing gameplay changes.
 
-For the trust model, disclosure process, and production security smoke test, see [SECURITY.md](SECURITY.md).
+For the trust model, disclosure process, and production security smoke test, see [SECURITY.md](.github/SECURITY.md).
 
 ## Contributing
 

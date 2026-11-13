@@ -45,7 +45,7 @@ Neither item has been played by hand in real browsers against live Firebase. Bot
 
 ## Automated Multi-Client Flow Test
 
-`node scripts/multiplayer-flow-test.mjs` runs the unmodified `app.js`, including `boot()`, once per player in separate `node:vm` contexts. The contexts share an in-memory stand-in for Firebase Realtime Database. Every action goes through the rendered UI: a click is dispatched only when the matching enabled control is present in the HTML that client rendered.
+`node tests/multiplayer-flow-test.mjs` runs the unmodified `app.js`, including `boot()`, once per player in separate `node:vm` contexts. The contexts share an in-memory stand-in for Firebase Realtime Database. Every action goes through the rendered UI: a click is dispatched only when the matching enabled control is present in the HTML that client rendered.
 
 | Scenario | Expected result | Actual result |
 | --- | --- | --- |
