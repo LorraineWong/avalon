@@ -1,0 +1,36 @@
+name: Bug report
+description: Report a reproducible gameplay or interface problem
+title: "[Bug] "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: Please do not include room secrets, private notes, or personal information.
+  - type: textarea
+    id: problem
+    attributes:
+      label: What happened?
+      description: Tell us what you expected and what happened instead.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+      placeholder: "1. Create a room\n2. Enable ...\n3. Start a game ..."
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Browser and device
+      placeholder: Safari 18 on iPhone 15
+    validations:
+      required: true
+  - type: dropdown
+    id: language
+    attributes:
+      label: Interface language
+      options: [English, 简体中文, Both]
+    validations:
+      required: true

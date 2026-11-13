@@ -35,7 +35,7 @@ const I18N = {
     played:'已出牌 {0}/{1}', youPlayed:'你已出牌。', waitTeam:'等待队员出牌…', twoNote:'本任务需要 2 张失败才算失败。',
     ladyTitle:'湖中仙女：查验一名玩家', ladyHint:'点击圆桌上的玩家（持有过仙女的人不能选）。', inspect:'查验 {0}', ladyWait:'{0} 正在使用湖中仙女…',
     assTitle:'好人完成了 3 个任务！', assMe:'你是刺客：和队友商量后，选出你认为的梅林。', stab:'刺杀 {0}', assWait:'刺客正在寻找梅林…', assEvil:'坏人可以公开讨论刺谁。',
-    spectator:'你正在观战', myRole:'我的身份', tapReveal:'点击查看身份', yourRole:'你的身份', youSee:'你看到的{0}', none:'无',
+    spectator:'你正在观战', myRole:'我的身份与能力', tapReveal:'查看身份与能力', yourRole:'你的身份', youSee:'你看到的{0}', none:'无',
     inspected:'你查验了 {0}：{1}', good:'好人', evil:'坏人', currentLoyalty:'当前阵营：{0}', gotIt:'我记住了', loadingRole:'正在读取身份…',
     see_evil:'坏人', see_mp:'梅林或莫甘娜', see_allies:'坏人同伴', see_assassin:'刺客', see_lancelot:'另一名兰斯洛特', see_lancelot_allies:'另一名兰斯洛特与坏人同伴', nightTitle:'夜晚降临', nightLead:'悄悄看一下你的身份，别让旁边的人看到。', flip:'翻开身份牌',
     voteReveal:'投票结果', passed:'队伍通过，出发！', rejected:'队伍被否决', yesNo:'{0} 赞成 · {1} 反对',
@@ -46,7 +46,9 @@ const I18N = {
     history:'对局记录', noHistory:'还没有投票记录。', round:'轮次', leaderTeam:'队长 / 队伍', result:'结果',
     rRejected:'否决', rOn:'出发中', try:'第 {0} 次',
     hostOffline:'房主 {0} 似乎掉线了。游戏由房主的设备推进，请房主重新打开链接，游戏会从当前进度继续。',
-    rules:'规则速查', close:'关闭', goodCamp:'正义阵营', evilCamp:'邪恶阵营', gameModules:'组合角色与玩法模块', currentLineup:'本局阵容', rulesAnytime:'规则与角色', ladyLog:'湖中仙女', kicked:'已移出', toMany:'最多选 {0} 人，先取消一个',
+    rules:'规则速查', close:'关闭', goodCamp:'正义阵营', evilCamp:'邪恶阵营', gameModules:'组合角色与玩法模块', currentLineup:'本局身份阵容', lineupHint:'以下身份会在本局出现；重复数量已标出，但不会显示谁拿到哪个身份。', allRoleGuide:'全部角色说明', rulesAnytime:'规则与角色', ladyLog:'湖中仙女', kicked:'已移出', toMany:'最多选 {0} 人，先取消一个',
+    howToPlay:'一局怎么进行', step1Title:'1 · 队长组队', step1Body:'队长按当前任务要求选择队员，可以选择自己。', step2Title:'2 · 全员投票', step2Body:'超过半数赞成，队伍才能出发。一个任务连续 5 次组队被否决，坏人直接获胜。', step3Title:'3 · 秘密任务', step3Body:'获选队员秘密出牌：好人只能出成功，坏人可以出失败。7 人及以上的第 4 个任务需要 2 张失败。', step4Title:'4 · 决定胜负', step4Body:'坏人让 3 个任务失败即获胜；好人完成 3 个任务后，刺客仍可通过刺中梅林翻盘。',
+    privateNotes:'私人推理笔记', openNotes:'打开私人笔记', closeNotes:'收起私人笔记', notesHint:'只保存在这台设备，不会上传，也不会让房主或其他玩家看到。', suspectAs:'怀疑身份', unmarked:'未标记', leanGood:'偏好人', leanEvil:'偏坏人', notePlaceholder:'记录发言、投票或你的推理…', clearNotes:'清空本局笔记', notesCleared:'本局私人笔记已清空',
     rulesP1:'好人要完成 3 个任务，坏人要让 3 个任务失败。每轮由队长挑选队员，所有人公开投票，<b>超过半数</b>赞成才能出发，否则队长顺延到下一位。同一个任务<b>连续 5 次</b>组队被否决，坏人直接获胜。',
     rulesP2:'出任务时队员秘密出牌：好人只能出“成功”，坏人可以选择。7 人及以上时，<b>第 4 个任务需要 2 张失败</b>才算失败。好人完成 3 个任务后，刺客还有一次刺杀梅林的机会，刺中则坏人翻盘。',
     rulesP3:'湖中仙女（可选，7 人以上）：第 2、3、4 个任务结束后，持有者秘密查验一名玩家的阵营，然后把仙女交给对方。持有过仙女的人不能再被查验。',
@@ -79,7 +81,7 @@ const I18N = {
     played:'Played {0}/{1}', youPlayed:'Card played.', waitTeam:'Waiting for the team…', twoNote:'This quest needs 2 fails to fail.',
     ladyTitle:'Lady of the Lake: inspect a player', ladyHint:'Tap a player (former holders cannot be chosen).', inspect:'Inspect {0}', ladyWait:'{0} is using the Lady of the Lake…',
     assTitle:'Good completed 3 quests!', assMe:'You are the Assassin: confer with your team and choose who you think is Merlin.', stab:'Assassinate {0}', assWait:'The Assassin is hunting for Merlin…', assEvil:'Evil may discuss openly.',
-    spectator:'You are spectating', myRole:'My role', tapReveal:'Tap to reveal', yourRole:'Your role', youSee:'You see ({0})', none:'nobody',
+    spectator:'You are spectating', myRole:'My role & ability', tapReveal:'View role & ability', yourRole:'Your role', youSee:'You see ({0})', none:'nobody',
     inspected:'You inspected {0}: {1}', good:'Good', evil:'Evil', currentLoyalty:'Current loyalty: {0}', gotIt:'Got it', loadingRole:'Loading your role…',
     see_evil:'evil', see_mp:'Merlin or Morgana', see_allies:'evil allies', see_assassin:'the Assassin', see_lancelot:'the other Lancelot', see_lancelot_allies:'the other Lancelot and evil allies', nightTitle:'Night falls', nightLead:'Peek at your role — keep it hidden from anyone next to you.', flip:'Reveal my role',
     voteReveal:'Vote results', passed:'Team approved — off they go!', rejected:'Team rejected', yesNo:'{0} approve · {1} reject',
@@ -90,7 +92,9 @@ const I18N = {
     history:'History', noHistory:'No votes yet.', round:'Round', leaderTeam:'Leader / Team', result:'Result',
     rRejected:'Rejected', rOn:'On quest', try:'Try {0}',
     hostOffline:'Host {0} seems offline. The game runs on the host\'s device — ask them to reopen the link and it will resume.',
-    rules:'Quick rules', close:'Close', goodCamp:'Good', evilCamp:'Evil', gameModules:'Paired roles & game modules', currentLineup:'Current lineup', rulesAnytime:'Rules & roles', ladyLog:'Lady of the Lake', kicked:'Removed', toMany:'Max {0} players — deselect one first',
+    rules:'Quick rules', close:'Close', goodCamp:'Good', evilCamp:'Evil', gameModules:'Paired roles & game modules', currentLineup:'Roles in this game', lineupHint:'These roles are in this game. Repeated roles show a count, but no player assignment is revealed.', allRoleGuide:'All role descriptions', rulesAnytime:'Rules & roles', ladyLog:'Lady of the Lake', kicked:'Removed', toMany:'Max {0} players — deselect one first',
+    howToPlay:'How a game works', step1Title:'1 · Build a team', step1Body:'The Leader picks the required number of players and may pick themself.', step2Title:'2 · Everyone votes', step2Body:'The team needs a strict majority to go. Five rejected proposals on one Quest give Evil an immediate win.', step3Title:'3 · Play Quest cards secretly', step3Body:'Selected players submit in secret: Good can only play Success; Evil may play Fail. With 7+ players, Quest 4 needs two Fails.', step4Title:'4 · Decide the winner', step4Body:'Evil wins after three failed Quests. After three successes, the Assassin can still steal the win by finding Merlin.',
+    privateNotes:'Private deduction notes', openNotes:'Open private notes', closeNotes:'Hide private notes', notesHint:'Saved only on this device. Nothing is uploaded or shared with the host or other players.', suspectAs:'Suspected role', unmarked:'Unmarked', leanGood:'Leans Good', leanEvil:'Leans Evil', notePlaceholder:'Record claims, votes, or your reasoning…', clearNotes:'Clear notes for this game', notesCleared:'Private notes for this game were cleared',
     rulesP1:'Good must complete 3 quests; Evil must fail 3. Each round the leader proposes a team and everyone votes openly — a <b>strict majority</b> is needed, otherwise leadership passes on. If <b>5 proposals in a row</b> are rejected for one quest, Evil wins.',
     rulesP2:'Team members play cards secretly: Good can only play Success, Evil may choose. With 7+ players, <b>Quest 4 needs 2 fails</b>. If Good completes 3 quests, the Assassin gets one shot at Merlin — a hit means Evil wins.',
     rulesP3:'Lady of the Lake (optional, 7+): after Quests 2, 3 and 4 the holder secretly checks one player\'s loyalty, then passes the Lady to them. Former holders cannot be checked.',
@@ -238,7 +242,8 @@ function shuffle(arr){ const a=arr.slice(); for(let i=a.length-1;i>0;i--){ const
 function randCode(len=5, A='ABCDEFGHJKMNPQRSTUVWXYZ23456789'){ let s=''; for(let i=0;i<len;i++) s+=A[rnd(A.length)]; return s; }
 const LS = {
   get(k){ try{ return JSON.parse(localStorage.getItem('lwav.'+k)); }catch(e){ return null; } },
-  set(k,v){ try{ localStorage.setItem('lwav.'+k, JSON.stringify(v)); }catch(e){} }
+  set(k,v){ try{ localStorage.setItem('lwav.'+k, JSON.stringify(v)); }catch(e){} },
+  del(k){ try{ localStorage.removeItem('lwav.'+k); }catch(e){} }
 };
 let toastT;
 function toast(msg){ const el=$('#toast'); el.textContent=msg; el.classList.remove('hidden'); clearTimeout(toastT); toastT=setTimeout(()=>el.classList.add('hidden'), 3000); }
@@ -399,7 +404,7 @@ const Net = {
 /* ================= App state ================= */
 const S = {
   view:'home', code:null, joinedAt:0, game:null, seats:{}, secrets:{},
-  mine:null, master:null, ladyMine:[], checksMine:[], ui:{nick:'', joinCode:'', pick:[], pickStep:'', myActs:{}, busy:false, excalibur:null, rulesOpen:false, rulesInlineOpen:false, infoOpen:null, lastReactionAt:0},
+  mine:null, master:null, ladyMine:[], checksMine:[], ui:{nick:'', joinCode:'', pick:[], pickStep:'', myActs:{}, busy:false, excalibur:null, rulesOpen:false, rulesInlineOpen:false, infoOpen:null, lastReactionAt:0, notesOpen:false},
   ov:[], seen:null, notFoundTimer:null, lastGid:null,
 };
 
@@ -790,15 +795,26 @@ function siteFooter(){
   const support = SUPPORT_URL ? '<a class="foot-link support-link" href="'+esc(SUPPORT_URL)+'" target="_blank" rel="noopener noreferrer">♡ '+t('support')+'</a>' : '';
   return '<footer class="foot"><p>'+t('footer')+'</p><nav aria-label="Footer"><button class="foot-link" data-a="info" data-info="privacy">'+t('privacy')+'</button><button class="foot-link" data-a="info" data-info="legal">'+t('legal')+'</button>'+support+'<a class="foot-link" href="https://github.com/LorraineWong/avalon" target="_blank" rel="noopener noreferrer">GitHub</a></nav></footer>';
 }
-function roleGuide(r){
-  return '<div class="role-guide '+side(r)+'">'+roleArt(r,'guide-art')+'<span><b class="'+(side(r)==='good'?'res-s':'res-f')+'">'+rName(r)+'</b><br><span class="muted">'+rDesc(r)+'</span></span></div>';
+function roleGuide(r, count=1){
+  return '<div class="role-guide '+side(r)+'">'+roleArt(r,'guide-art')+'<span><b class="'+(side(r)==='good'?'res-s':'res-f')+'">'+rName(r)+(count>1?' ×'+count:'')+'</b><br><span class="muted">'+rDesc(r)+'</span></span></div>';
+}
+function currentLineupContent(){
+  if(!S.game) return '';
+  const n=S.game.n || (S.game.order&&S.game.order.length) || Object.keys(S.seats||{}).length;
+  const built=buildRoles(n,Object.assign({},DEFAULT_SETTINGS,S.game.settings));
+  if(built.err || !built.roles) return '';
+  const counts={}; built.roles.forEach(r=>counts[r]=(counts[r]||0)+1);
+  const roles=Object.keys(counts);
+  return '<section class="current-lineup-guide"><div class="lineup-guide-head"><div><h3>♟ '+t('currentLineup')+' · '+n+'</h3><p>'+t('lineupHint')+'</p></div><div class="lineup-totals"><span class="tag good">'+built.gd+' '+t('good')+'</span><span class="tag evil">'+built.ev+' '+t('evil')+'</span></div></div><div class="rgrid lineup-guide-grid">'+roles.map(r=>roleGuide(r,counts[r])).join('')+'</div></section>';
 }
 function rulesContent(){
   const good=['merlin','percival','cleric','troublemaker','untrustworthy','lancelotGood','servant'];
   const evil=['assassin','morgana','mordred','oberon','trickster','lunatic','brute','revealer','lancelotEvil','minion'];
-  return '<div class="rules-copy"><p>'+t('rulesP1')+'</p><p>'+t('rulesP2')+'</p><p>'+t('rulesP3')+'</p></div>'
-    +'<div class="rule-camps"><section class="camp good"><h3>🛡️ '+t('goodCamp')+'</h3><div class="rgrid">'+good.map(roleGuide).join('')+'</div></section>'
-    +'<section class="camp evil"><h3>🗡️ '+t('evilCamp')+'</h3><div class="rgrid">'+evil.map(roleGuide).join('')+'</div></section></div>'
+  return currentLineupContent()+'<section class="rules-flow"><h3>⚔ '+t('howToPlay')+'</h3><ol>'
+    +[['step1Title','step1Body'],['step2Title','step2Body'],['step3Title','step3Body'],['step4Title','step4Body']].map(x=>'<li><b>'+t(x[0])+'</b><span>'+t(x[1])+'</span></li>').join('')+'</ol></section>'
+    +'<div class="rules-copy"><p>'+t('rulesP3')+'</p></div><h3 class="all-role-title">'+t('allRoleGuide')+'</h3>'
+    +'<div class="rule-camps"><section class="camp good"><h3>🛡️ '+t('goodCamp')+'</h3><div class="rgrid">'+good.map(r=>roleGuide(r)).join('')+'</div></section>'
+    +'<section class="camp evil"><h3>🗡️ '+t('evilCamp')+'</h3><div class="rgrid">'+evil.map(r=>roleGuide(r)).join('')+'</div></section></div>'
     +'<p class="muted small rules-counts">'+t('rulesP4')+'</p>';
 }
 function rulesBlock(){
@@ -813,9 +829,9 @@ function renderRulesModal(){
   requestAnimationFrame(()=>el.querySelector('.rules-close')?.focus());
 }
 function infoContent(kind){
-  if(LANG==='zh' && kind==='privacy') return '<p>这个网站使用 Firebase 匿名登录来连接游戏。我们会处理随机生成的匿名账号 ID、你输入的昵称、房间状态与加密后的游戏行动。你的身份解密私钥与偏好保存在当前浏览器的 localStorage。</p><p>游戏不要求邮箱或真实姓名，也没有广告追踪器。请不要把真实姓名或敏感资料当作昵称。房间会带有有效期；房主再次连接时，过期房间会被清除，维护期间也可能删除旧房间。</p><p>Firebase 和字体服务可能按其政策处理必要的网络资料（例如 IP 地址）。如需报告隐私或安全问题，请使用 GitHub 仓库 Security 页面中的私密漏洞报告功能。</p>';
+  if(LANG==='zh' && kind==='privacy') return '<p>这个网站使用 Firebase 匿名登录来连接游戏。我们会处理随机生成的匿名账号 ID、你输入的昵称、房间状态与加密后的游戏行动。你的身份解密私钥、偏好和私人推理笔记保存在当前浏览器的 localStorage。</p><p>私人笔记不会上传 Firebase，也不会分享给房主或其他玩家；但能使用这台设备和浏览器的人可能看到它们。你可以在游戏中清空本局笔记，或清除浏览器网站资料。</p><p>游戏不要求邮箱或真实姓名，也没有广告追踪器。请不要把真实姓名或敏感资料当作昵称。房间会带有有效期；房主再次连接时，过期房间会被清除，维护期间也可能删除旧房间。</p><p>Firebase 和字体服务可能按其政策处理必要的网络资料（例如 IP 地址）。如需报告隐私或安全问题，请使用 GitHub 仓库 Security 页面中的私密漏洞报告功能。</p>';
   if(LANG==='zh') return '<p>Avalon Online 是免费的非官方粉丝作品，与《抵抗组织：阿瓦隆》的设计者、发行商或权利方没有隶属、赞助或认可关系。</p><p>相关游戏名称、角色名称与设定权利归各自权利人所有。本站人物插画与网页代码为本项目原创，没有使用官方卡牌图片。请支持正版桌游。</p><p>自愿赞助（启用后）仅用于网站与开发成本，不会解锁游戏功能，也不代表出售或授权原作内容。</p>';
-  if(kind==='privacy') return '<p>This site uses Firebase Anonymous Authentication to connect games. We process a randomly generated anonymous account ID, the nickname you enter, room state, and encrypted game actions. Your role-decryption private key and preferences stay in this browser’s localStorage.</p><p>No email or real name is required, and the site has no advertising trackers. Do not use a real name or sensitive information as your nickname. Rooms carry an expiry time; an expired room is removed when its host reconnects, and old rooms may also be deleted during maintenance.</p><p>Firebase and the font provider may process necessary network data such as IP addresses under their own policies. Report privacy or security issues privately through the repository’s GitHub Security page.</p>';
+  if(kind==='privacy') return '<p>This site uses Firebase Anonymous Authentication to connect games. We process a randomly generated anonymous account ID, the nickname you enter, room state, and encrypted game actions. Your role-decryption private key, preferences, and private deduction notes stay in this browser’s localStorage.</p><p>Private notes are never uploaded to Firebase or shared with the host or other players. Anyone with access to this device and browser may still see them. Clear notes in the game or remove this site’s browser data when needed.</p><p>No email or real name is required, and the site has no advertising trackers. Do not use a real name or sensitive information as your nickname. Rooms carry an expiry time; an expired room is removed when its host reconnects, and old rooms may also be deleted during maintenance.</p><p>Firebase and the font provider may process necessary network data such as IP addresses under their own policies. Report privacy or security issues privately through the repository’s GitHub Security page.</p>';
   return '<p>Avalon Online is a free, unofficial fan project. It is not affiliated with, sponsored, or endorsed by the designers, publishers, or rights holders of The Resistance: Avalon.</p><p>Game, character, and setting names belong to their respective owners. The character art and site code are original to this project; no official card artwork is used. Please support the official board game.</p><p>Voluntary support, when enabled, only helps cover site and development costs. It does not unlock gameplay or sell or license any content from the original game.</p>';
 }
 function renderInfoModal(){
@@ -914,8 +930,39 @@ function viewGame(){
   return (offline?'<div class="banner-off">⚠️ '+t('hostOffline', esc(nickOf(g.host)))+'</div>':'')
     +'<div class="game"><div>'+tableView(g)+'</div><div class="panel">'
     +'<div class="dock '+(g.status==='end'?'dock-end':'')+'">'+actionBlock(g)+'</div>'
-    +roleBar()+reactionPanel(g)+historyBlock(g)
+    +roleBar()+privateNotesPanel(g)+reactionPanel(g)+historyBlock(g)
     +'<div class="glass card">'+rulesBlock()+'</div></div></div>';
+}
+function notesStorageKey(g=S.game){ return g&&S.code ? 'notes.'+S.code+'.'+(g.gid||'lobby') : ''; }
+function readPrivateNotes(){ const key=notesStorageKey(); return key ? (LS.get(key)||{}) : {}; }
+function noteRoleOptions(g){
+  const built=buildRoles(g.n||g.order.length,Object.assign({},DEFAULT_SETTINGS,g.settings));
+  return built.roles ? [...new Set(built.roles)] : [];
+}
+function noteMarkLabel(mark){
+  if(mark==='good') return t('leanGood');
+  if(mark==='evil') return t('leanEvil');
+  return ROLE_META[mark] ? rName(mark) : '';
+}
+function savePrivateNote(pid, field, value){
+  const g=S.game, key=notesStorageKey(g); if(!g||!key||!g.order.includes(pid)) return;
+  const notes=readPrivateNotes(), next=Object.assign({},notes[pid]||{});
+  if(field==='text') next.text=String(value||'').slice(0,240);
+  if(field==='mark'){
+    const allowed=new Set(['','good','evil',...noteRoleOptions(g)]); if(!allowed.has(value)) return;
+    next.mark=value;
+  }
+  if(!next.text&&!next.mark) delete notes[pid]; else notes[pid]=next;
+  LS.set(key,notes);
+}
+function privateNotesPanel(g){
+  if(!g.order||!g.order.length) return '';
+  const open=S.ui.notesOpen;
+  if(!open) return '<button class="glass card private-notes-toggle" data-a="toggleNotes"><span>✎</span><span><b>'+t('privateNotes')+'</b><small>'+t('openNotes')+'</small></span><span>›</span></button>';
+  const notes=readPrivateNotes(), roles=noteRoleOptions(g);
+  const options=(selected)=>'<option value="">'+t('unmarked')+'</option><option value="good" '+(selected==='good'?'selected':'')+'>🛡 '+t('leanGood')+'</option><option value="evil" '+(selected==='evil'?'selected':'')+'>🗡 '+t('leanEvil')+'</option>'+roles.map(r=>'<option value="'+r+'" '+(selected===r?'selected':'')+'>'+ROLE_META[r].ic+' '+rName(r)+'</option>').join('');
+  const rows=g.order.filter(pid=>pid!==ME.pid).map(pid=>{ const note=notes[pid]||{}; return '<div class="private-note-row"><div class="private-note-person"><span class="note-avatar" style="background:'+avColor(pid)+'">'+esc(initials(nickOf(pid)))+'</span><b>'+esc(nickOf(pid))+'</b></div><select class="note-select" data-note-player="'+esc(pid)+'" aria-label="'+t('suspectAs')+' · '+esc(nickOf(pid))+'">'+options(note.mark||'')+'</select><textarea class="note-text" data-note-player="'+esc(pid)+'" maxlength="240" rows="2" aria-label="'+t('privateNotes')+' · '+esc(nickOf(pid))+'" placeholder="'+t('notePlaceholder')+'">'+esc(note.text||'')+'</textarea></div>'; }).join('');
+  return '<section class="glass card private-notes"><div class="private-notes-head"><div><h3>✎ '+t('privateNotes')+'</h3><p>🔒 '+t('notesHint')+'</p></div><button class="btn ghost notes-collapse" data-a="toggleNotes">'+t('closeNotes')+'</button></div><div class="private-note-list">'+rows+'</div><button class="btn link notes-clear" data-a="clearNotes">'+t('clearNotes')+'</button></section>';
 }
 function reactionPanel(g){
   if(!g.order.includes(ME.pid) || !S.seats[ME.pid]) return '';
@@ -934,6 +981,7 @@ function visibleReaction(seat){
 }
 function tableView(g){
   const n=g.order.length, pm=pickMode(g), endRoles=g.status==='end'?(g.roles||{}):null;
+  const privateNotes=S.ui.notesOpen?readPrivateNotes():{};
   const sees=new Set((S.peek&&S.mine&&S.mine.sees)||[]), lady={}; if(S.peek) S.ladyMine.forEach(x=>lady[x.target]=x.side); // private info only while the role card is open
   const last=(g.rounds||[]).slice(-1)[0];
   const showVotes = last && g.status==='play' && (g.phase==='quest' || (g.phase==='propose' && !last.ok && last.q===g.q));
@@ -949,6 +997,8 @@ function tableView(g){
       if(sees.has(p)) tags+='<span class="tag '+(S.mine.role==='percival'?'good':'evil')+'">'+(S.mine.role==='percival'?'🧙?':'👁 '+t('evil'))+'</span>';
       if(lady[p]) tags+='<span class="tag '+lady[p]+'">🧜‍♀️ '+t(lady[p])+'</span>';
       if((g.revealed||[]).includes(p)) tags+='<span class="tag evil">◉ '+rName('revealer')+'</span>';
+      const note=privateNotes[p], noteLabel=note&&noteMarkLabel(note.mark);
+      if(noteLabel) tags+='<span class="tag note-tag '+(note.mark==='good'||side(note.mark)==='good'?'good':note.mark==='evil'||side(note.mark)==='evil'?'evil':'')+'">✎ '+esc(noteLabel)+'</span>';
     }
     let badges='<span class="b-off '+(Net.isOnline(p)?'y':'')+'"></span>';
     const reaction=visibleReaction(S.seats[p]);
@@ -1099,6 +1149,10 @@ function renderOverlay(){
 document.addEventListener('input', e=>{
   if(e.target.id==='nick') S.ui.nick=e.target.value;
   if(e.target.id==='joinCode') S.ui.joinCode=e.target.value.toUpperCase();
+  if(e.target.matches&&e.target.matches('.note-text[data-note-player]')) savePrivateNote(e.target.dataset.notePlayer,'text',e.target.value);
+});
+document.addEventListener('change', e=>{
+  if(e.target.matches&&e.target.matches('.note-select[data-note-player]')){ savePrivateNote(e.target.dataset.notePlayer,'mark',e.target.value); render(); }
 });
 document.addEventListener('keydown', e=>{
   if(e.key==='Escape' && S.ui.infoOpen){ S.ui.infoOpen=null; renderInfoModal(); return; }
@@ -1140,6 +1194,8 @@ document.addEventListener('click', e=>{
     case 'closeRules': S.ui.rulesOpen=false; return renderRulesModal();
     case 'info': S.ui.infoOpen=b.dataset.info; return renderInfoModal();
     case 'closeInfo': S.ui.infoOpen=null; return renderInfoModal();
+    case 'toggleNotes': S.ui.notesOpen=!S.ui.notesOpen; return render();
+    case 'clearNotes': { const key=notesStorageKey(); if(key) LS.del(key); render(); return toast(t('notesCleared')); }
     case 'create': return createRoom();
     case 'join': return joinRoom();
     case 'resume': { const l=LS.get('last'); if(l) enterRoom(l); return; }

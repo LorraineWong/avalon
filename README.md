@@ -22,6 +22,8 @@ An immersive, browser-based implementation of the social-deduction game *The Res
 - **Temporary rooms** — new rooms carry a 72-hour expiry marker; completed games expire after 24 hours and are removed when the host reconnects.
 - **No-account table reactions** — players can send brief emoji reactions around the table without creating a persistent chat history.
 - **Installable web app** — a lightweight PWA shell keeps the home screen and rules available offline; multiplayer still requires a network connection.
+- **In-game role guide** — review your own ability and the exact role lineup for the current game at any time.
+- **Private deduction notebook** — mark suspected alignments or roles and keep per-player notes locally in your own browser.
 
 ## How to Play
 
@@ -31,7 +33,7 @@ An immersive, browser-based implementation of the social-deduction game *The Res
 4. Keep the revealed role private. Discuss, propose teams, vote, and complete quests.
 5. Good wins by completing three quests—unless the Assassin identifies Merlin. Evil wins by failing three quests or rejecting five consecutive proposals.
 
-The in-game **Quick rules** panel includes role descriptions, quest rules, and player-count information.
+The in-game **Quick rules** panel starts with a four-step flow and the exact roles used in the current game, followed by every supported role description. The private notebook is stored only in the current browser and is never shared with the room.
 
 ## Architecture
 
@@ -108,7 +110,9 @@ The public footer also links to bilingual privacy and unofficial-project notices
 ├── assets/roles/              # optimized role portraits
 ├── database.rules.json        # Firebase Realtime Database rules
 ├── vendor/                    # Firebase compat SDK files
-├── DESIGN.md                  # visual-system reference
+├── docs/                      # design notes, rules coverage, and playtests
+├── scripts/                   # source and rules verification
+├── .github/                   # CI and contribution templates
 ├── README.md                  # English documentation
 └── README.zh-CN.md            # Simplified Chinese documentation
 ```
@@ -128,6 +132,8 @@ Result: **3 complete games, 42 state checks, 0 browser console errors, and no ho
 See the [full multiplayer playtest report](docs/PLAYTEST.md) for covered and deferred scenarios.
 
 The new character behavior and the boundary of the current Big Box implementation are documented in [Big Box rules coverage](docs/BIG_BOX_RULES.md). Pure rule tests currently cover 16 character and module invariants.
+
+Project documentation is indexed in [docs/README.md](docs/README.md). Run the repository checks listed in the pull request template before publishing gameplay changes.
 
 For the trust model, disclosure process, and production security smoke test, see [SECURITY.md](SECURITY.md).
 

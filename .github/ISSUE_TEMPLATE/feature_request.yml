@@ -1,0 +1,24 @@
+name: Feature request
+description: Suggest a focused improvement to Avalon Online
+title: "[Feature] "
+labels: [enhancement]
+body:
+  - type: textarea
+    id: need
+    attributes:
+      label: Player need
+      description: What problem would this solve during setup or play?
+    validations:
+      required: true
+  - type: textarea
+    id: idea
+    attributes:
+      label: Suggested experience
+      description: Describe the smallest useful version of the feature.
+    validations:
+      required: true
+  - type: textarea
+    id: privacy
+    attributes:
+      label: Hidden-information or privacy impact
+      description: Could this reveal a role, vote, quest action, or private note?
