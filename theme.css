@@ -541,3 +541,27 @@
 :root[data-theme] .hero h1{font-size:clamp(30px,5vw,58px);letter-spacing:2px}
 @media(max-width:600px){:root[data-theme] .top{flex-wrap:nowrap;gap:8px}:root[data-theme] .top .av-brand small{display:none}:root[data-theme] .top .av-brand b{font-size:12px;letter-spacing:1px}:root[data-theme] .top .av-mark{width:30px;height:30px}:root[data-theme] .top-r{flex-wrap:nowrap;gap:5px}:root[data-theme] .top-r .chip.btn,:root[data-theme] .top-r .theme-toggle{width:32px;height:36px;min-height:36px;padding:0}:root[data-theme] .language-picker select{height:36px;min-height:36px;width:85px;padding:0 5px;font-size:11px}:root[data-theme] .top .av-brand{flex:1;min-width:0}}
 @media(max-width:600px){:root[data-theme] .av-header{flex-wrap:nowrap;gap:8px}:root[data-theme] .av-header .av-brand{flex-basis:auto;min-width:0}:root[data-theme] .av-header .av-brand small{display:none}:root[data-theme] .av-header .av-brand b{font-size:12px;letter-spacing:1px}:root[data-theme] .av-header .av-mark{width:30px;height:30px}:root[data-theme] .av-header .av-nav{display:none}:root[data-theme] .av-controls{width:auto;margin-left:auto;gap:5px}:root[data-theme] .av-controls select{width:85px;height:36px;min-height:36px;padding:0 5px;font-size:11px}:root[data-theme] .av-controls .theme-toggle{width:32px;height:36px;min-height:36px}:root[data-theme] .av-controls .av-status{font-size:0;width:24px;min-height:30px;box-sizing:border-box;padding:7px;gap:0}}
+/* Clear feedback and shared surfaces at every viewport size. */
+:root[data-theme] #rules .grid .card:nth-child(n+5){background:var(--surface);border:1px solid var(--border)}
+:root[data-theme] .confirm-sheet h2{justify-content:center;text-align:center;width:100%}
+:root[data-theme] .act>.row>.btn{min-height:48px;align-self:stretch}
+:root[data-theme] .act .btn[data-vote]{position:relative;min-height:54px;flex:1;gap:8px}
+:root[data-theme] .act .btn[data-vote="1"]{background:#e1f2fb;color:#185b7c;border-color:#80b7d2}
+:root[data-theme] .act .btn[data-vote="0"]{background:#fbe5df;color:#923b32;border-color:#d79d92}
+:root[data-theme] .act .btn[data-vote="1"][aria-pressed="true"]{background:#bce4f8;color:#104d6d;border:2px solid #237da9;box-shadow:0 0 0 3px #237da926}
+:root[data-theme] .act .btn[data-vote="0"][aria-pressed="true"]{background:#f6cfc4;color:#7e2b24;border:2px solid #b65a4c;box-shadow:0 0 0 3px #b65a4c26}
+:root[data-theme] .vote-selected{display:inline-flex;padding:3px 6px;border-radius:5px;background:rgba(255,255,255,.65);font-size:10px;font-weight:700}
+:root[data-theme] .vote-feedback{padding:10px 12px;background:var(--surface-inset);border-radius:8px;color:var(--ink);line-height:1.6}
+:root[data-theme] .reveal-note{display:block!important;visibility:visible!important;font-size:12px;line-height:1.65;padding:12px;margin:12px 0 16px;background:var(--surface-inset);border:1px solid var(--border);border-radius:8px;color:var(--ink-muted);text-align:left}
+:root[data-theme] .seatp .b-off,:root[data-theme] .av .on{background:#c4cdd6;border:2px solid var(--surface);box-shadow:0 0 0 1px #7a8997}
+:root[data-theme] .seatp .b-off.y,:root[data-theme] .av .on.y{background:#37cd88;box-shadow:0 0 0 1px #22845d,0 0 7px #37cd8840}
+:root[data-theme] .seatp .b-vote{display:grid;place-items:center;min-width:5cqw;min-height:3.5cqw;border-radius:5px;font-weight:800;border:1px solid var(--surface);box-shadow:0 1px 4px #10213226;filter:none}
+:root[data-theme] .seatp .b-vote.y{background:#c2ebfb;color:#135477}
+:root[data-theme] .seatp .b-vote.n{background:#ffd4ca;color:#953b2f}
+:root[data-theme] .av-status.is-online{background:var(--success-wash);color:var(--success);border-color:var(--success)}
+:root[data-theme] .av-status.is-online .status-dot{background:#37cd88;box-shadow:0 0 0 1px #22845d}
+:root[data-theme] .act .btn[data-vote="1"]:hover:not(:disabled){background:#cceafb;color:#185b7c;border-color:#237da9}
+:root[data-theme] .act .btn[data-vote="0"]:hover:not(:disabled){background:#f8d9d0;color:#923b32;border-color:#b65a4c}
+:root[data-theme] .act .btn[data-vote][aria-pressed="true"]:hover:not(:disabled){box-shadow:0 0 0 3px currentColor;border-width:2px}
+:root[data-theme] .seatp .b-act{background:#c7f3df;color:#176641;border-color:var(--surface)}
+:root[data-theme] .seatp .b-wait{background:#e5edf5;color:#47617a;border-color:var(--surface)}
