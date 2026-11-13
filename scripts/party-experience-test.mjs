@@ -19,5 +19,8 @@ const transfer=js.slice(js.indexOf('async function transferHost'),js.indexOf('/*
 assert.match(transfer,/await Net\.ref\.update\(\{/,'host transfer must use one atomic database update');
 assert.match(transfer,/'sec\/master':\{j:JSON\.stringify\(\{gid:g\.gid,box\}\)\}/,'atomic host transfer must include the successor-encrypted master');
 assert.match(transfer,/game:\{host:target,j:JSON\.stringify\(next\)\}/,'atomic host transfer must include the new host state');
+assert.match(js,/g\.status!=='lobby' \|\| S\.seats\[ME\.pid\]/,'players may take a seat only while the room is in the lobby');
+assert.match(js,/if\(g && g\.status==='lobby'\)/,'leaving the lobby must release the player seat');
+assert.match(js,/status:'lobby'.*settings:g\.settings/s,'Play again must return the same room to an open lobby');
 
 console.log('Party experience checks passed.');

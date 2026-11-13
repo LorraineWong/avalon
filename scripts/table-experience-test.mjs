@@ -4,6 +4,7 @@ import assert from 'node:assert/strict';
 const js = fs.readFileSync(new URL('../app.js', import.meta.url), 'utf8');
 const css = fs.readFileSync(new URL('../style.css', import.meta.url), 'utf8');
 const html = fs.readFileSync(new URL('../index.html', import.meta.url), 'utf8');
+const sw = fs.readFileSync(new URL('../service-worker.js', import.meta.url), 'utf8');
 
 assert.match(js, /function publicDraftTeam\(/, 'public draft-team projection is missing');
 assert.match(js, /Net\.draftTeam\(ME\.pid,S\.game\.step,S\.ui\.pick\.slice\(\)\)/, 'leader picks are not published live');
@@ -27,5 +28,13 @@ assert.match(js, /confirmAgain/, 'starting another game must require an explicit
 assert.match(html, /id="confirmModal"/, 'the shared confirmation dialog mount is missing');
 assert.match(css, /\.scoreline\{/, 'score styling is missing');
 assert.match(css, /\.wait-person\.offline\{/, 'offline waiting-player styling is missing');
+assert.ok(fs.existsSync(new URL('../assets/player-avatars.webp', import.meta.url)), 'neutral player portrait sprite is missing');
+assert.match(js, /function avStyle\(/, 'players need stable decorative portrait assignments');
+assert.match(js, /function selectedTeamReview\(/, 'the leader needs a prominent selected-team summary');
+assert.match(js, /pending\.action==='propose'/, 'team submission must pass through the confirmation dialog');
+assert.match(css, /\.seatp\.picked \.pav\{outline:/, 'selected players need a high-contrast double ring');
+assert.match(css, /\.b-pick-order\{/, 'selected players need a visible selection-order badge');
+assert.match(css, /\.known-person\.clue\{/, 'private knowledge must share a visual treatment between the table and role panel');
+assert.match(sw, /assets\/player-avatars\.webp/, 'the player portrait sprite must be available offline');
 
 console.log('Round-table experience checks passed.');

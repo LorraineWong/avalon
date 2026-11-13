@@ -25,7 +25,7 @@ const I18N = {
     optLancelot:'兰斯洛特', optLancelotD:'一好一坏，互相认识', optLancelotSwitch:'兰斯洛特·效忠转换', optLancelotSwitchD:'每个任务开始时抽效忠牌；两人互不认识',
     ph_propose:'组队', ph_vote:'投票', ph_quest:'出任务', ph_excalibur:'王者之剑', ph_loyalty:'阵营查验', ph_recruit:'招募判定', ph_lady:'湖中仙女', ph_assassin:'刺杀梅林', ph_end:'游戏结束',
     questN:'任务 {0}', attempt:'第 {0}/5 次组队', needTwo:'需 2 张失败', fails:'{0} 张失败', score:'当前比分', goodNeeds:'好人还需 {0} 次成功', evilNeeds:'坏人还需 {0} 次失败', waitingFor:'等待', allDone:'行动已完成，正在结算…', offlinePlayer:'离线',
-    leaderPick:'你是队长：选 {0} 名队员', leaderHint:'点击圆桌上的玩家选择，可以选自己。', submitTeam:'提交队伍', resubmit:'重新提交',
+    leaderPick:'你是队长：选 {0} 名队员', leaderHint:'点击圆桌上的玩家选择，可以选自己。', submitTeam:'提交队伍', resubmit:'重新提交', selectedTeam:'已选队伍', tapRemove:'点击头像可取消', confirmTeam:'确认派出这支队伍：{0}？', confirmTeamAction:'确认派出',
     waitLeader:'{0} 正在挑选 {1} 名队员', discuss:'队长的暂选名单会实时显示，趁现在讨论一下吧。', leaderDraft:'队长目前暂选', voteTitle:'同意这支队伍出发吗？',
     approve:'赞成', reject:'反对', voted:'已投票，所有人投完前可以修改。', pleaseVote:'请投票，全部投完后统一公开。', votedCount:'已投 {0}/{1}',
     questTitle:'任务进行中', success:'成功', fail:'失败', goodOnly:'好人只能出“成功”。', evilChoice:'你是坏人，可以选择让任务失败。', mustFail:'你的身份在本次任务必须出“失败”。', cannotFail:'你的身份在本次任务不能出“失败”。', confirmQuest:'确认任务牌', confirmQuestHint:'选定后会立即提交，其他玩家只会看到最终统计。', confirmSuccess:'确认提交成功', confirmFail:'确认提交失败', changeChoice:'重新选择',
@@ -72,7 +72,7 @@ const I18N = {
     optLancelot:'Lancelots', optLancelotD:'One Good and one Evil; they know each other', optLancelotSwitch:'Lancelot allegiance variant', optLancelotSwitchD:'Reveal an Allegiance card before each Quest; they do not know each other',
     ph_propose:'Team building', ph_vote:'Voting', ph_quest:'Quest', ph_excalibur:'Excalibur', ph_loyalty:'Loyalty check', ph_recruit:'Recruitment', ph_lady:'Lady of the Lake', ph_assassin:'Assassination', ph_end:'Game over',
     questN:'Quest {0}', attempt:'Proposal {0}/5', needTwo:'Needs 2 fails', fails:'{0} fail(s)', score:'Score', goodNeeds:'Good needs {0} more success(es)', evilNeeds:'Evil needs {0} more fail(s)', waitingFor:'Waiting for', allDone:'Actions complete — resolving…', offlinePlayer:'offline',
-    leaderPick:'You lead: pick {0} players', leaderHint:'Tap players around the table. You may pick yourself.', submitTeam:'Propose team', resubmit:'Propose again',
+    leaderPick:'You lead: pick {0} players', leaderHint:'Tap players around the table. You may pick yourself.', submitTeam:'Propose team', resubmit:'Propose again', selectedTeam:'Selected team', tapRemove:'Tap a portrait to remove', confirmTeam:'Send this team: {0}?', confirmTeamAction:'Send team',
     waitLeader:'{0} is picking {1} players', discuss:'The Leader’s draft team appears live. Discuss while they decide.', leaderDraft:'Leader’s current draft', voteTitle:'Approve this team?',
     approve:'Approve', reject:'Reject', voted:'Vote cast — you can change it until everyone has voted.', pleaseVote:'Cast your vote. All votes are revealed together.', votedCount:'Voted {0}/{1}',
     questTitle:'Quest in progress', success:'Success', fail:'Fail', goodOnly:'Good players can only play Success.', evilChoice:'You are evil — you may sabotage.', mustFail:'Your role must play Fail on this Quest.', cannotFail:'Your role cannot play Fail on this Quest.', confirmQuest:'Confirm Quest card', confirmQuestHint:'This submits immediately. Other players only see the final count.', confirmSuccess:'Submit Success', confirmFail:'Submit Fail', changeChoice:'Choose again',
@@ -259,7 +259,9 @@ const LS = {
 let toastT;
 function toast(msg){ const el=$('#toast'); el.textContent=msg; el.classList.remove('hidden'); clearTimeout(toastT); toastT=setTimeout(()=>el.classList.add('hidden'), 3000); }
 const AV_COLORS=['#0e7490','#1d4ed8','#0f766e','#4338ca','#0369a1','#155e75','#3730a3','#047857','#1e40af','#5b21b6','#0c4a6e','#115e59'];
-function avColor(id){ let h=0; for(const c of String(id)) h=(h*31+c.charCodeAt(0))>>>0; return AV_COLORS[h%AV_COLORS.length]; }
+function avHash(id){ let h=0; for(const c of String(id)) h=(h*31+c.charCodeAt(0))>>>0; return h; }
+function avColor(id){ return AV_COLORS[avHash(id)%AV_COLORS.length]; }
+function avStyle(id){ const i=avHash(id)%16, x=(i%4)*100/3, y=Math.floor(i/4)*100/3; return 'background-color:'+avColor(id)+';background-position:'+x.toFixed(3)+'% '+y.toFixed(3)+'%'; }
 function initials(n){ n=String(n||'?').trim(); const ch=[...n]; return /^[A-Za-z]/.test(n) ? ch.slice(0,2).join('').toUpperCase() : (ch[0]||'?'); }
 
 /* ================= Crypto (ECDH P-256 + AES-GCM) ================= */
@@ -811,7 +813,7 @@ async function computeNext(g){
 
 /* ================= Rendering ================= */
 function nickOf(p){ const g=S.game; return (S.seats[p] && S.seats[p].nick) || (g && g.nicks && g.nicks[p]) || '?'; }
-function avatar(p, cls){ return '<div class="'+(cls||'av')+'" style="background:'+avColor(p)+'">'+esc(initials(nickOf(p)))+'</div>'; }
+function avatar(p, cls){ return '<div class="'+(cls||'av')+' player-avatar" style="'+avStyle(p)+'" aria-hidden="true"></div>'; }
 
 function render(){
   const app=$('#app'); if(!app) return;
@@ -902,8 +904,8 @@ function renderQRModal(){
   el.innerHTML='<div class="rules-modal qr-modal" role="dialog" aria-modal="true" aria-labelledby="qrTitle"><div class="glass qr-sheet"><button class="btn ghost qr-close" data-a="closeQR" aria-label="'+t('close')+'">×</button><div class="eyebrow">AVALON · '+esc(S.game.code)+'</div><h2 id="qrTitle">'+t('scanJoin')+'</h2><div id="qrCanvas" class="qr-canvas"></div><b class="qr-code">'+esc(S.game.code)+'</b><button class="btn pri" data-a="copy">🔗 '+t('copyLink')+'</button></div></div>';
   requestAnimationFrame(()=>{ const box=$('#qrCanvas'); if(box&&window.QRCode) new QRCode(box,{text:link,width:220,height:220,colorDark:'#110d0a',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M}); el.querySelector('.qr-close')?.focus(); });
 }
-function askConfirm(message, action, value=null){
-  S.ui.confirm={message,action,value};
+function askConfirm(message, action, value=null, people=[], confirmLabel=''){
+  S.ui.confirm={message,action,value,people,confirmLabel};
   renderConfirmModal();
 }
 function runConfirmed(){
@@ -912,13 +914,15 @@ function runConfirmed(){
   if(pending.action==='kick') return kick(pending.value);
   if(pending.action==='leave') return leaveRoom();
   if(pending.action==='again') return playAgain();
+  if(pending.action==='propose') return submit(pending.value);
   if(pending.action==='submit') return submit(pending.value);
 }
 function renderConfirmModal(){
   const el=$('#confirmModal'); if(!el) return;
   const pending=S.ui.confirm;
   if(!pending){ el.innerHTML=''; return; }
-  el.innerHTML='<div class="rules-modal confirm-modal" role="dialog" aria-modal="true" aria-labelledby="confirmTitle"><div class="glass confirm-sheet"><div class="confirm-mark">!</div><h2 id="confirmTitle">'+t('confirmTitle')+'</h2><p>'+esc(pending.message)+'</p><div class="row"><button class="btn ghost big" data-a="confirmCancel">'+t('cancel')+'</button><button class="btn evil big" data-a="confirmRun">'+t('confirm')+'</button></div></div></div>';
+  const people=(pending.people||[]).map(pid=>'<span class="confirm-person"><i class="player-avatar" style="'+avStyle(pid)+'"></i><b>'+esc(nickOf(pid))+'</b></span>').join('');
+  el.innerHTML='<div class="rules-modal confirm-modal" role="dialog" aria-modal="true" aria-labelledby="confirmTitle"><div class="glass confirm-sheet '+esc(pending.action)+'"><div class="confirm-mark">!</div><h2 id="confirmTitle">'+t('confirmTitle')+'</h2><p>'+esc(pending.message)+'</p>'+(people?'<div class="confirm-people">'+people+'</div>':'')+'<div class="row"><button class="btn ghost big" data-a="confirmCancel">'+t('cancel')+'</button><button class="btn evil big" data-a="confirmRun">'+esc(pending.confirmLabel||t('confirm'))+'</button></div></div></div>';
   requestAnimationFrame(()=>el.querySelector('[data-a="confirmRun"]')?.focus());
 }
 function privacyCoverHtml(){
@@ -943,7 +947,7 @@ function viewLobby(){
   const br=buildRoles(n, st), pv=buildRoles(Math.min(10,Math.max(5,n)), st);
   let seats=ids.map(p=>{
     const s=S.seats[p];
-    return '<div class="seatcard">'+'<div class="av" style="background:'+avColor(p)+'">'+esc(initials(s.nick))+'<span class="on '+(Net.isOnline(p)?'y':'')+'"></span></div>'
+    return '<div class="seatcard">'+'<div class="av player-avatar" style="'+avStyle(p)+'"><span class="on '+(Net.isOnline(p)?'y':'')+'"></span></div>'
       +'<div><div class="nm">'+esc(s.nick)+'</div>'+(p===g.host?'<span class="tag host">👑 '+t('host')+'</span>':'')+(p===ME.pid?'<span class="tag me">'+t('you')+'</span>':'')+'</div>'
       +(host && p!==ME.pid ? '<button class="x" title="kick" data-kick="'+esc(p)+'">×</button>' : '')+'</div>';
   }).join('');
@@ -1043,7 +1047,7 @@ function privateNotesPanel(g){
   if(!open) return '<button class="glass card private-notes-toggle" data-a="toggleNotes"><span>✎</span><span><b>'+t('privateNotes')+'</b><small>'+t('openNotes')+'</small></span><span>›</span></button>';
   const notes=readPrivateNotes(), roles=noteRoleOptions(g);
   const options=(selected)=>'<option value="">'+t('unmarked')+'</option><option value="good" '+(selected==='good'?'selected':'')+'>🛡 '+t('leanGood')+'</option><option value="evil" '+(selected==='evil'?'selected':'')+'>🗡 '+t('leanEvil')+'</option>'+roles.map(r=>'<option value="'+r+'" '+(selected===r?'selected':'')+'>'+ROLE_META[r].ic+' '+rName(r)+'</option>').join('');
-  const rows=g.order.filter(pid=>pid!==ME.pid).map(pid=>{ const note=notes[pid]||{}; return '<div class="private-note-row"><div class="private-note-person"><span class="note-avatar" style="background:'+avColor(pid)+'">'+esc(initials(nickOf(pid)))+'</span><b>'+esc(nickOf(pid))+'</b></div><select class="note-select" data-note-player="'+esc(pid)+'" aria-label="'+t('suspectAs')+' · '+esc(nickOf(pid))+'">'+options(note.mark||'')+'</select><textarea class="note-text" data-note-player="'+esc(pid)+'" maxlength="240" rows="2" aria-label="'+t('privateNotes')+' · '+esc(nickOf(pid))+'" placeholder="'+t('notePlaceholder')+'">'+esc(note.text||'')+'</textarea></div>'; }).join('');
+  const rows=g.order.filter(pid=>pid!==ME.pid).map(pid=>{ const note=notes[pid]||{}; return '<div class="private-note-row"><div class="private-note-person"><span class="note-avatar player-avatar" style="'+avStyle(pid)+'"></span><b>'+esc(nickOf(pid))+'</b></div><select class="note-select" data-note-player="'+esc(pid)+'" aria-label="'+t('suspectAs')+' · '+esc(nickOf(pid))+'">'+options(note.mark||'')+'</select><textarea class="note-text" data-note-player="'+esc(pid)+'" maxlength="240" rows="2" aria-label="'+t('privateNotes')+' · '+esc(nickOf(pid))+'" placeholder="'+t('notePlaceholder')+'">'+esc(note.text||'')+'</textarea></div>'; }).join('');
   return '<section class="glass card private-notes"><div class="private-notes-head"><div><h3>✎ '+t('privateNotes')+'</h3><p>🔒 '+t('notesHint')+'</p></div><button class="btn ghost notes-collapse" data-a="toggleNotes">'+t('closeNotes')+'</button></div><div class="private-note-list">'+rows+'</div><button class="btn link notes-clear" data-a="clearNotes">'+t('clearNotes')+'</button></section>';
 }
 function reactionPanel(g){
@@ -1087,7 +1091,7 @@ function actionStatus(g){
   const actors=phaseActors(g); if(!actors.length) return '';
   const waiting=actors.filter(pid=>!acted(pid));
   if(!waiting.length) return '<div class="action-status done">✓ '+t('allDone')+'</div>';
-  return '<div class="action-status"><b>'+t('waitingFor')+'</b><div class="wait-people">'+waiting.map(pid=>'<span class="wait-person '+(Net.isOnline(pid)?'':'offline')+'"><i style="background:'+avColor(pid)+'">'+esc(initials(nickOf(pid)))+'</i><span>'+esc(nickOf(pid))+(Net.isOnline(pid)?'':' · '+t('offlinePlayer'))+'</span></span>').join('')+'</div></div>';
+  return '<div class="action-status"><b>'+t('waitingFor')+'</b><div class="wait-people">'+waiting.map(pid=>'<span class="wait-person '+(Net.isOnline(pid)?'':'offline')+'"><i class="player-avatar" style="'+avStyle(pid)+'"></i><span>'+esc(nickOf(pid))+(Net.isOnline(pid)?'':' · '+t('offlinePlayer'))+'</span></span>').join('')+'</div></div>';
 }
 function tableView(g){
   const n=g.order.length, pm=pickMode(g), endRoles=g.status==='end'?(g.roles||{}):null;
@@ -1106,7 +1110,7 @@ function tableView(g){
     let tags='';
     if(endRoles && endRoles[p]) tags+='<span class="tag '+((g.allegiances&&g.allegiances[p])||side(endRoles[p]))+'">'+ROLE_META[endRoles[p]].ic+' '+rName(endRoles[p])+'</span>';
     else {
-      if(sees.has(p)) tags+='<span class="tag '+(S.mine.role==='percival'?'good':'evil')+'">'+(S.mine.role==='percival'?'🧙?':'👁 '+t('evil'))+'</span>';
+      if(sees.has(p)) tags+='<span class="tag clue">'+t(S.mine.see)+'</span>';
       if(lady[p]) tags+='<span class="tag '+lady[p]+'">🧜‍♀️ '+t(lady[p])+'</span>';
       if((g.revealed||[]).includes(p)) tags+='<span class="tag evil">◉ '+rName('revealer')+'</span>';
       const note=privateNotes[p], noteLabel=note&&noteMarkLabel(note.mark);
@@ -1116,6 +1120,7 @@ function tableView(g){
     const reaction=visibleReaction(S.seats[p]);
     if(reaction) badges+='<span class="reaction-bubble" aria-label="'+t(reaction.label)+'">'+reaction.emoji+'</span>';
     if(skillKnown) badges+='<span class="badge b-known" aria-label="'+t('youSee',nickOf(p))+'">👁</span>';
+    if(picked) badges+='<span class="badge b-pick-order" aria-label="'+t('selectedTeam')+'">'+((g.phase==='propose'?draftTeam:S.ui.pick).indexOf(p)+1)+'</span>';
     if(g.status==='play' && p===L && ['propose','vote','quest','excalibur'].includes(g.phase)) badges+='<span class="badge b-crown">👑</span>';
     if(g.lady && g.lady.holder===p && g.status==='play') badges+='<span class="badge b-lady">🧜‍♀️</span>';
     if(g.excaliburHolder===p && g.status==='play') badges+='<span class="badge b-lady">⚔</span>';
@@ -1123,7 +1128,7 @@ function tableView(g){
     if(showVotes && last.votes[p]!==undefined) badges+='<span class="badge b-vote '+(last.votes[p]?'y':'n')+'">'+(last.votes[p]?'✓':'✗')+'</span>';
     const cls='seatp'+(onTeam?' team':'')+(can?' pick':'')+(picked?' picked':'')+(skillKnown?' skill-known':'')+(p===ME.pid?' me':'')+(g.assassinPick===p?' stabbed':'')+(pm&&!can?' dimmed':'');
     return '<button class="'+cls+'" style="left:'+x.toFixed(2)+'%;top:'+y.toFixed(2)+'%" '+(can?'data-pick="'+esc(p)+'"':'tabindex="-1"')+'>'
-      +'<div class="pav" style="background:'+avColor(p)+'">'+esc(initials(nickOf(p)))+badges+'</div>'
+      +'<div class="pav player-avatar" style="'+avStyle(p)+'">'+badges+'</div>'
       +'<div class="pn">'+(i+1)+'·'+esc(nickOf(p))+'</div><div class="pt">'+tags+'</div></button>';
   }).join('');
   const qt=g.quests.map((q,i)=>'<div class="qt '+(q.r||'')+(q.two?' two':'')+(i===g.q&&g.status==='play'&&!q.r?' cur':'')+'">'+(q.r?(q.r==='S'?'✓':'✗'):q.size)
@@ -1141,7 +1146,10 @@ function assassinationResult(g, compact=false){
   const target=g&&g.assassinPick, roles=g&&g.roles;
   if(!target || !roles || !roles[target]) return '';
   const role=roles[target], hit=role==='merlin';
-  return '<section class="assassination-result '+(hit?'hit':'miss')+(compact?' compact':'')+'"><div class="assassination-mark">'+(hit?'✓':'✕')+'</div><div class="assassination-copy"><small>'+t('assResult')+'</small><strong>'+(hit?t('assHit'):t('assMiss'))+'</strong><div class="assassination-target"><span class="assassination-avatar" style="background:'+avColor(target)+'">'+esc(initials(nickOf(target)))+'</span><span><b>'+esc(nickOf(target))+'</b><em>'+t('revealedAs',esc(nickOf(target)),'<b>'+ROLE_META[role].ic+' '+rName(role)+'</b>')+'</em></span></div></div></section>';
+  return '<section class="assassination-result '+(hit?'hit':'miss')+(compact?' compact':'')+'"><div class="assassination-mark">'+(hit?'✓':'✕')+'</div><div class="assassination-copy"><small>'+t('assResult')+'</small><strong>'+(hit?t('assHit'):t('assMiss'))+'</strong><div class="assassination-target"><span class="assassination-avatar player-avatar" style="'+avStyle(target)+'"></span><span><b>'+esc(nickOf(target))+'</b><em>'+t('revealedAs',esc(nickOf(target)),'<b>'+ROLE_META[role].ic+' '+rName(role)+'</b>')+'</em></span></div></div></section>';
+}
+function selectedTeamReview(list,size){
+  return '<section class="selected-team-review"><div class="selected-team-head"><b>'+t('selectedTeam')+' · '+list.length+'/'+size+'</b>'+(list.length?'<small>'+t('tapRemove')+'</small>':'')+'</div><div class="selected-people">'+list.map((pid,i)=>'<button class="selected-person" data-pick="'+esc(pid)+'" aria-label="'+t('tapRemove')+' · '+esc(nickOf(pid))+'"><span class="selected-order">'+(i+1)+'</span><i class="player-avatar" style="'+avStyle(pid)+'"></i><span>'+esc(nickOf(pid))+'</span><em>×</em></button>').join('')+'</div></section>';
 }
 function actionBlock(g){
   const me=ME.pid, inGame=g.order.includes(me), busy=S.ui.busy, mine=S.ui.myActs[g.step], L=g.order[g.leader];
@@ -1156,7 +1164,7 @@ function actionBlock(g){
     if(L===me){
       const sword=g.settings.excalibur && S.ui.pick.length===size ? '<div class="hint" style="margin-top:10px">⚔ '+t('excaliburPick')+'<br><span class="muted small">'+t('excaliburHint')+'</span></div><div class="pickrow">'+S.ui.pick.filter(u=>u!==me).map(u=>'<button class="tag '+(S.ui.excalibur===u?'good':'')+'" data-excalibur="'+esc(u)+'">⚔ '+esc(nickOf(u))+'</button>').join('')+'</div>' : '';
       const ready=S.ui.pick.length===size && (!g.settings.excalibur||!!S.ui.excalibur);
-      h='<h2>👑 '+t('leaderPick', size)+'</h2><div class="hint">'+t('leaderHint')+' ('+S.ui.pick.length+'/'+size+')</div>'+chips(S.ui.pick)+sword
+      h='<h2>👑 '+t('leaderPick', size)+'</h2><div class="hint">'+t('leaderHint')+'</div>'+selectedTeamReview(S.ui.pick,size)+sword
         +'<button class="btn pri big" style="width:100%" data-a="propose" '+(!ready||busy?'disabled':'')+'>'+(acted(me)?t('resubmit'):t('submitTeam'))+'</button>';
     }
     else { const draft=publicDraftTeam(g); h='<h2>⏳ '+t('waitLeader', esc(nickOf(L)), size)+'</h2><div class="hint">'+t('discuss')+'</div>'+(draft.length?'<div class="muted tiny" style="margin-bottom:5px">'+t('leaderDraft')+' · '+draft.length+'/'+size+'</div>'+chips(draft):''); }
@@ -1219,9 +1227,9 @@ function hostToolsPanel(g){
 }
 function knowBlock(){
   const m=S.mine; let h='<div class="small" style="margin-bottom:8px">'+rDesc(m.role)+'</div>';
-  const person=(u,cls,label)=>'<span class="known-person '+cls+'"><span class="known-avatar" style="background:'+avColor(u)+'">'+esc(initials(nickOf(u)))+'</span><span><b>'+esc(nickOf(u))+'</b>'+(label?'<small>'+label+'</small>':'')+'</span></span>';
+  const person=(u,cls,label)=>'<span class="known-person '+cls+'"><span class="known-avatar player-avatar" style="'+avStyle(u)+'"></span><span><b>'+esc(nickOf(u))+'</b>'+(label?'<small>'+label+'</small>':'')+'</span></span>';
   if(m.allegiance&&m.allegiance!==side(m.role)) h+='<div class="know"><b class="'+(m.allegiance==='good'?'res-s':'res-f')+'">'+t('currentLoyalty',t(m.allegiance))+'</b></div>';
-  if(m.see) h+='<div class="know"><div class="kl">'+t('youSee', t(m.see))+'</div><div class="known-people">'+((m.sees||[]).length?m.sees.map(u=>person(u,'','')).join(''):t('none'))+'</div></div>';
+  if(m.see) h+='<div class="know"><div class="kl">'+t('youSee', t(m.see))+'</div><div class="known-people">'+((m.sees||[]).length?m.sees.map(u=>person(u,'clue',t(m.see))).join(''):t('none'))+'</div></div>';
   S.ladyMine.forEach(x=>{ h+='<div class="know"><div class="kl">🧜‍♀️ '+t('ladyLog')+'</div>'+person(x.target,x.side,t(x.side))+'</div>'; });
   S.checksMine.filter(x=>x.source!=='lady').forEach(x=>{ h+='<div class="know"><div class="kl">☩ '+t('inspected',esc(nickOf(x.target)),t(x.side))+'</div>'+person(x.target,x.side,t(x.side))+'</div>'; });
   return h;
@@ -1309,7 +1317,7 @@ document.addEventListener('toggle', e=>{
 document.addEventListener('click', e=>{
   const b=e.target.closest('[data-a],[data-pick],[data-vote],[data-quest],[data-kick],[data-set],[data-preset],[data-excalibur],[data-loyalty],[data-reaction]'); if(!b) return;
   if(b.dataset.reaction) return sendReaction(b.dataset.reaction);
-  if(b.dataset.kick) return askConfirm(t('confirmKick',nickOf(b.dataset.kick)),'kick',b.dataset.kick);
+  if(b.dataset.kick) return askConfirm(t('confirmKick',nickOf(b.dataset.kick)),'kick',b.dataset.kick,[b.dataset.kick]);
   if(b.dataset.set) return toggleSetting(b.dataset.set);
   if(b.dataset.preset) return applyPreset(b.dataset.preset);
   if(b.dataset.excalibur){ S.ui.excalibur=b.dataset.excalibur; return render(); }
@@ -1353,11 +1361,14 @@ document.addEventListener('click', e=>{
     case 'leave': return S.game&&S.game.status!=='lobby' ? askConfirm(t('confirmLeave'),'leave') : leaveRoom();
     case 'start': return startGame();
     case 'again': return askConfirm(t('confirmAgain'),'again');
-    case 'propose': return submit(S.game.settings.excalibur?{team:S.ui.pick.slice(),excalibur:S.ui.excalibur}:S.ui.pick.slice());
+    case 'propose': {
+      const team=S.ui.pick.slice(), value=S.game.settings.excalibur?{team,excalibur:S.ui.excalibur}:team;
+      return askConfirm(t('confirmTeam',team.map(nickOf).join(LANG==='zh'?'、':', ')),'propose',value,team,t('confirmTeamAction'));
+    }
     case 'single': {
       const target=S.ui.pick[0]; if(!target) return;
-      if(S.game.phase==='assassin') return askConfirm(t('confirmAssassin',nickOf(target)),'submit',target);
-      if(S.game.phase==='excalibur') return askConfirm(t('confirmExcalibur',nickOf(target)),'submit',target);
+      if(S.game.phase==='assassin') return askConfirm(t('confirmAssassin',nickOf(target)),'submit',target,[target]);
+      if(S.game.phase==='excalibur') return askConfirm(t('confirmExcalibur',nickOf(target)),'submit',target,[target]);
       return submit(target);
     }
     case 'excaliburSkip': return submit(null);

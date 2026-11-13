@@ -455,6 +455,15 @@ details.rules summary{color:#dbc07c;font-family:var(--serif);letter-spacing:.8px
 .host-tools{padding:14px}.host-tools h3{margin-bottom:8px}.host-tools p{margin:0 0 10px;color:#b9aa90;font-size:11px;line-height:1.5}.host-tools.confirm{border-color:rgba(211,103,83,.48)}.host-select{flex:1;min-width:150px;height:39px;padding:0 9px;border:1px solid rgba(204,166,91,.3);border-radius:4px;background:#17110d;color:#ead9b6}
 
 /* At-a-glance game state and irreversible-action guardrails */
+.player-avatar{background-image:url('assets/player-avatars.webp')!important;background-size:400% 400%!important;background-repeat:no-repeat!important;background-origin:border-box;background-clip:border-box}
+.tag.clue{color:#ead78f;border-color:rgba(229,198,111,.65);background:rgba(108,81,36,.28)}
+.known-person.clue{border-color:rgba(229,198,111,.55);box-shadow:inset 2px 0 #d6b45f}
+.seatp.picked .pav{outline:.65cqw solid #fff0b0;outline-offset:.65cqw;box-shadow:0 0 0 1.55cqw #159ed8,0 0 4.8cqw rgba(36,184,244,.92);transform:scale(1.1)}
+.seatp.picked .pn{border-color:#6fd8ff;background:#075078;color:#fff;box-shadow:0 3px 12px rgba(0,0,0,.55)}
+.seatp .b-pick-order{top:-2.1cqw;right:-2cqw;display:grid;place-items:center;width:5.5cqw;height:5.5cqw;border:.45cqw solid #fff0b0;border-radius:50%;background:#159ed8;color:#fff;font:800 clamp(10px,2.6cqw,15px)/1 var(--sans);filter:drop-shadow(0 3px 5px #000)}
+.selected-team-review{margin:10px 0 13px;padding:11px;border:1px solid rgba(86,204,248,.52);border-radius:7px;background:linear-gradient(135deg,rgba(13,104,144,.28),rgba(7,5,4,.7));box-shadow:inset 3px 0 #2bb8ee}
+.selected-team-head{display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin-bottom:8px}.selected-team-head b{color:#bfeaff;font:700 12px var(--serif);letter-spacing:.5px}.selected-team-head small{color:#9fc2ce;font-size:9px}
+.selected-people{display:flex;flex-wrap:wrap;gap:7px;min-height:44px}.selected-person{position:relative;display:flex;align-items:center;gap:7px;min-width:0;padding:4px 8px 4px 4px;border:1px solid rgba(114,215,251,.5);border-radius:999px;background:rgba(6,42,60,.8);color:#e8f8ff}.selected-person:hover{border-color:#fff0b0;background:#0b668c}.selected-person i{width:34px;height:34px;border:1px solid rgba(255,255,255,.42);border-radius:50%;flex:none}.selected-person>span:not(.selected-order){max-width:96px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:11px;font-weight:700}.selected-person em{color:#a9ddec;font:700 16px/1 var(--sans);font-style:normal}.selected-order{position:absolute;z-index:2;left:-3px;top:-4px;display:grid;place-items:center;width:17px;height:17px;border:1px solid #fff0b0;border-radius:50%;background:#159ed8;color:#fff;font:800 9px var(--sans)}
 .table .disc{gap:1.2cqw}
 .table-kicker{color:#aa9879;font:700 clamp(8px,1.8cqw,10px)/1.2 var(--sans);letter-spacing:.12em;text-transform:uppercase}
 .scoreline{display:flex;align-items:center;gap:1.5cqw;font:700 clamp(14px,3.5cqw,21px)/1 var(--serif);letter-spacing:.04em}
@@ -463,7 +472,7 @@ details.rules summary{color:#dbc07c;font-family:var(--serif);letter-spacing:.8px
 .action-status>b{display:block;margin-bottom:7px;color:#ac9a7a;font:700 10px/1.2 var(--serif);letter-spacing:1.1px;text-transform:uppercase}
 .action-status.done{color:#b7c9a7;font-size:12px}
 .wait-people{display:flex;flex-wrap:wrap;gap:6px}.wait-person{display:inline-flex;align-items:center;gap:6px;padding:4px 8px 4px 4px;border:1px solid rgba(204,166,91,.25);border-radius:999px;background:rgba(8,6,5,.42);color:#d9c9aa;font-size:11px}.wait-person i{display:grid;place-items:center;width:24px;height:24px;border-radius:50%;color:#fff;font:700 8px var(--sans);font-style:normal}.wait-person.offline{border-color:rgba(211,103,83,.42);color:#d99a88;opacity:.82}
-.confirm-sheet{width:min(430px,100%);padding:25px;text-align:center}.confirm-mark{display:grid;place-items:center;width:48px;height:48px;margin:0 auto 12px;border:1px solid #b96552;border-radius:50%;background:rgba(129,57,46,.32);color:#efb09e;font:700 24px var(--serif)}.confirm-sheet h2{margin:0 0 8px;font:700 17px var(--serif);letter-spacing:.8px}.confirm-sheet p{margin:0 0 20px;color:#c8b99e;line-height:1.55}.confirm-sheet .row{display:grid;grid-template-columns:1fr 1fr}.confirm-sheet .btn{width:100%}
+.confirm-sheet{width:min(460px,100%);padding:25px;text-align:center;border-color:rgba(222,171,78,.7);box-shadow:0 0 0 3px rgba(222,171,78,.12),0 25px 90px rgba(0,0,0,.88)}.confirm-mark{display:grid;place-items:center;width:48px;height:48px;margin:0 auto 12px;border:1px solid #b96552;border-radius:50%;background:rgba(129,57,46,.32);color:#efb09e;font:700 24px var(--serif)}.confirm-sheet.propose .confirm-mark{border-color:#57c5ed;background:rgba(13,104,144,.38);color:#c6efff}.confirm-sheet h2{margin:0 0 8px;font:700 17px var(--serif);letter-spacing:.8px}.confirm-sheet p{margin:0 0 14px;color:#e5d4b3;font-size:14px;line-height:1.55}.confirm-people{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:0 0 20px}.confirm-person{display:flex;flex-direction:column;align-items:center;gap:5px;max-width:82px}.confirm-person i{width:48px;height:48px;border:2px solid #d6b566;border-radius:50%;box-shadow:0 4px 16px rgba(0,0,0,.55)}.confirm-person b{max-width:82px;overflow:hidden;text-overflow:ellipsis;color:#f0dfbd;font-size:11px;white-space:nowrap}.confirm-sheet .row{display:grid;grid-template-columns:1fr 1fr}.confirm-sheet .btn{width:100%}.confirm-sheet.propose [data-a="confirmRun"]{color:#07141a;background:linear-gradient(135deg,#a7e4f5,#2ca8d7);border-color:#c5f1ff}
 
 @media(max-width:720px){
   #app{padding-left:11px;padding-right:11px}.top{margin-bottom:12px}.brand .t2{display:none}
@@ -478,6 +487,7 @@ details.rules summary{color:#dbc07c;font-family:var(--serif);letter-spacing:.8px
   .roletiles{grid-template-columns:1fr 1fr}.rt{min-height:75px}.tile-art,.lady-art{width:52px;min-width:52px}
   .privacy-cover-btn span{display:none}.qr-sheet{padding:22px 16px}.qr-canvas{width:216px;height:216px}.qr-canvas img,.qr-canvas canvas{max-width:200px;max-height:200px}
   .action-status{margin-top:9px;padding-top:8px}.wait-person{font-size:10px}.wait-person i{width:21px;height:21px}
+  .selected-team-head{align-items:flex-start;flex-direction:column;gap:2px}.selected-person i{width:31px;height:31px}.confirm-sheet{padding:22px 16px}
 }
 @media(max-width:420px){.roletiles{grid-template-columns:1fr}.hero-art{width:78%}.hero-copy{max-width:320px}}
 @media(max-width:420px){
