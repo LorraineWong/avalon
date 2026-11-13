@@ -743,6 +743,11 @@ button.me-id:hover,button.me-role:hover,button.me-id:focus-visible,button.me-rol
   .lobby-actions .btn.ghost{flex:none}
 }
 .home-grid .row .btn,.seat-join .btn{min-height:44px}
+.top{gap:24px;min-height:72px}
+.top .site-navigation{flex:1;justify-content:center;margin:0;padding:0;border:0;gap:22px}
+.top .site-navigation a,.top .site-navigation button{white-space:nowrap;font:500 14px/1.5 var(--sans)}
+.hero{min-height:260px;padding:24px}.hero .crest,.hero-oath{display:none}.hero h1{font-size:48px}
+@media(max-width:850px){.top{flex-wrap:wrap;gap:12px}.top .brand{flex:1}.top .site-navigation{order:3;flex-basis:100%;justify-content:flex-start;gap:20px;overflow:auto;padding:8px 0}.top .site-navigation a,.top .site-navigation button{font-size:13px}}
 .site-navigation{display:flex;gap:22px;align-items:center;margin:0 0 20px;padding:12px 2px;border-bottom:1px solid var(--line);flex-wrap:wrap}
 .site-navigation a,.site-navigation button{padding:4px 0;border:0;background:none;color:#d7c6a7;text-decoration:none;font-size:14px}
 .site-navigation [aria-current]{color:#f1d38b;border-bottom:2px solid #d8b66b}

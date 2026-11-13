@@ -908,9 +908,9 @@ function topBar(){
   const conn=Net.connected();
   const st = !Net.everConnected ? t('connecting') : (conn ? t('online') : t('offline'));
   return '<div class="top"><button class="brand" data-a="home" aria-label="'+t('home')+'"><div class="mark"><span>V</span></div><div><div class="t1">AVALON</div><div class="t2">'+t('sub')+'</div></div></button>'
+    +(!S.code?'<nav class="site-navigation" aria-label="Main navigation"><button data-a="home" aria-current="page">'+t('home')+'</button><a href="'+(LANG==='zh'?'zh-cn/':'en/')+'">'+t('guide')+'</a><a href="privacy/">'+t('privacy')+'</a><a href="unofficial-notice/">'+t('legal')+'</a></nav>':'')
     +'<div class="top-r">'+(S.code&&S.game?((S.game.status!=='lobby'?'<button class="chip btn privacy-cover-btn" data-a="privacyCover" aria-label="'+t('privacyCover')+'">'+ic('eyeoff')+'<span>'+t('privacyCover')+'</span></button>':'')+'<button class="chip btn rules-access" data-a="rules" aria-label="'+t('rulesAnytime')+'">'+ic('book')+'<span>'+t('rulesAnytime')+'</span></button><span class="chip room-chip"><span class="dot '+(conn?'on':'')+'"></span><b style="letter-spacing:2px">'+esc(S.code)+'</b></span>'):'<span class="chip"><span class="dot '+(conn?'on':'')+'"></span>'+st+'</span>')
     +'<label class="language-picker"><span class="sr-only">Language / 语言</span><select id="siteLanguage" aria-label="Language / 语言"><option value="zh" '+(LANG==='zh'?'selected':'')+'>简体中文</option><option value="en" '+(LANG==='en'?'selected':'')+'>English</option></select></label></div></div>'
-    +(!S.code?'<nav class="site-navigation" aria-label="Main navigation"><button data-a="home" aria-current="page">'+t('home')+'</button><a href="'+(LANG==='zh'?'zh-cn/':'en/')+'">'+t('guide')+'</a><a href="privacy/">'+t('privacy')+'</a><a href="unofficial-notice/">'+t('legal')+'</a></nav>':'')
     +(Net.everConnected && !conn ? '<div class="banner-off">'+t('offline')+'</div>' : '')
     +((Net.authFailed || (!Net.everConnected && S.bootAt && Date.now()-S.bootAt>15000)) ? '<div class="banner-off">'+t('noNet')+'</div>' : '');
 }

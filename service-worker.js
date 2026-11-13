@@ -1,4 +1,4 @@
-const CACHE = 'avalon-shell-v11';
+const CACHE = 'avalon-shell-v12';
 const SHELL = [
   './', './index.html', './style.css', './app.js', './manifest.webmanifest', './assets/app-icon.svg', './assets/player-avatars.webp',
   './vendor/firebase-app-compat.js', './vendor/firebase-auth-compat.js', './vendor/firebase-database-compat.js', './vendor/qrcode.min.js',
@@ -21,8 +21,8 @@ self.addEventListener('fetch', event => {
 
   if(request.mode === 'navigate'){
     event.respondWith(fetch(request).then(response => {
-      const copy=response.clone(); caches.open(CACHE).then(cache=>cache.put('./index.html', copy)); return response;
-    }).catch(()=>caches.match('./index.html')));
+      if(response.ok){ const copy=response.clone(); caches.open(CACHE).then(cache=>cache.put(request, copy)); } return response;
+    }).catch(()=>caches.match(request).then(hit=>hit || caches.match('./index.html'))));
     return;
   }
 
