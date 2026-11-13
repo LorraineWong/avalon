@@ -41,6 +41,28 @@
 
 The later Big Box pass added seven-player and Lady of the Lake coverage.
 
+Neither item has been played by hand in real browsers against live Firebase. Both are now covered by an automated multi-client test instead; see the next section.
+
+## Automated Multi-Client Flow Test
+
+`node tests/multiplayer-flow-test.mjs` runs the unmodified `app.js`, including `boot()`, once per player in separate `node:vm` contexts. The contexts share an in-memory stand-in for Firebase Realtime Database. Every action goes through the rendered UI: a click is dispatched only when the matching enabled control is present in the HTML that client rendered.
+
+| Scenario | Expected result | Actual result |
+| --- | --- | --- |
+| Seven players, Quest 4 team plays exactly one Fail | Quest succeeds; every client shows the two-Fail note and the result reminder | Passed |
+| Same game, third success | Assassination phase; Assassin misses Merlin and Good wins | Passed |
+| Seven players, Quest 4 team plays two Fails | Quest fails; Evil wins on three failed quests | Passed |
+| Five players, host loses its connection during a vote | Others see the host offline; the vote waits; the host's queued vote is counted after reconnecting | Passed |
+| Five players, host closes the page during a quest and reopens the room link | Stored key pair is reused, the role table decrypts, no second night overlay, the quest resolves and the next quest plays normally | Passed |
+
+The run also checks that a player cannot decrypt any other role or the host's role table, and that no client logs a console error or warning.
+
+Limits of this test:
+
+- It does not use live Firebase, so database security rules and real network timing are not exercised.
+- Writes made while offline are queued and applied on reconnect, without the optimistic local events the real SDK fires.
+- There is no layout or visual check; it reads the generated HTML only.
+
 ## Big Box Regression Pass
 
 The expansion implementation was tested from the current local build against the production Firebase project. The repository was private during this pass, so GitHub Pages itself returned 404 and was not used as the page host.
