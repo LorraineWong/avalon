@@ -1,0 +1,14 @@
+.av-header,.av-footer{font:14px/1.5 system-ui,"PingFang SC","Microsoft YaHei",sans-serif;box-sizing:border-box;color:#e9d9ba;width:100%;max-width:1208px;margin:0 auto}
+.av-header{display:grid;grid-template-columns:210px minmax(0,1fr) 210px;align-items:center;text-align:left;gap:24px;min-height:76px;padding:12px 0;margin-bottom:20px;border-bottom:1px solid #b9914a30}
+.av-brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:#ead9b6;flex-shrink:0}.av-brand b{display:block;font:700 18px/1.2 Georgia,serif;letter-spacing:4px}.av-brand small{display:block;font:13px/1.5 Georgia,serif;color:#b4a589;letter-spacing:.4px}
+.av-mark{display:grid;place-items:center;width:39px;height:44px;clip-path:polygon(50% 0,92% 18%,86% 71%,50% 100%,14% 71%,8% 18%);background:linear-gradient(145deg,#d8ba73,#8f682e 58%,#5e421e);color:#170f09;font:700 17px Georgia,serif}
+.av-nav{display:flex;flex:1;justify-content:center;gap:22px}.av-nav a,.av-footer a{color:#cbbb9b;text-decoration:none;white-space:nowrap}.av-nav a{display:flex;align-items:center;min-height:40px;border-bottom:2px solid transparent}.av-nav a[aria-current]{color:#f0d38b;border-color:#d8b66b}.av-nav a:hover,.av-footer a:hover{color:#fff0b0}
+.av-controls{justify-content:flex-end;display:flex;align-items:center;gap:10px}.av-controls select{height:40px;padding:0 12px;border:1px solid #b9914a66;border-radius:8px;background:#211810;color:#ead9b6;font:inherit}.av-status{font-size:12px;color:#a5bc9b;white-space:nowrap}
+.av-footer{display:flex;align-items:flex-start;justify-content:space-between;gap:24px;border-top:1px solid #b9914a30;margin-top:40px;padding:24px 0 32px;color:#a99b83}.av-footer strong{font-size:12px;letter-spacing:2px;color:#d4c09a}.av-footer p{font-size:12px;margin:8px 0}.av-footer nav{display:flex;gap:12px 20px;flex-wrap:wrap;font-size:12px}
+.av-header :focus-visible,.av-footer :focus-visible{outline:2px solid #e0c47f;outline-offset:4px}
+body> .av-header,body>.av-footer{width:min(1208px,calc(100% - 32px))}
+body>.av-header{margin-top:20px}
+@media(max-width:1000px){.av-header{display:flex;flex-wrap:wrap;gap:10px}.av-brand{flex:1}.av-nav{order:3;flex-basis:100%;justify-content:flex-start;gap:20px;overflow:auto}.av-nav a{font-size:13px}.av-status{display:none}.av-footer{flex-direction:column;gap:12px}}
+.home-grid .input,.home-grid .btn{height:48px;min-height:48px;font-size:14px}.home-grid .row{flex-wrap:nowrap}.home-grid .input.code{font-size:14px}.home-grid>.card{min-height:156px}.home-grid>.card:first-child{align-items:start}
+
+body:not(.game-active) #app{padding:20px 16px 40px}

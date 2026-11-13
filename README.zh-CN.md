@@ -12,7 +12,7 @@
 
 - [游戏首页](https://lorrainewong.github.io/avalon/)：创建或加入房间，唯一游戏入口。
 - [玩法与角色指南](https://lorrainewong.github.io/avalon/zh-cn/)：新手规则、角色与人数配置。
-- [隐私说明](https://lorrainewong.github.io/avalon/privacy/) · [非官方声明](https://lorrainewong.github.io/avalon/unofficial-notice/)
+- [隐私政策](https://lorrainewong.github.io/avalon/privacy/) · [使用条款与声明](https://lorrainewong.github.io/avalon/unofficial-notice/)
 - 开发者：[本地运行](#本地运行) · [功能验证](#功能验证) · [文档索引](docs/README.md)
 
 ## 游戏玩法

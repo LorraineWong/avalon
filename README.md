@@ -12,7 +12,7 @@ An immersive, browser-based implementation of the social-deduction game *The Res
 
 - [Play / home](https://lorrainewong.github.io/avalon/) — create or join a room.
 - [Rules and roles](https://lorrainewong.github.io/avalon/en/) — a beginner guide and player counts.
-- [Privacy](https://lorrainewong.github.io/avalon/privacy/) · [Unofficial notice](https://lorrainewong.github.io/avalon/unofficial-notice/)
+- [Privacy Policy](https://lorrainewong.github.io/avalon/privacy/) · [Terms & Notices](https://lorrainewong.github.io/avalon/unofficial-notice/)
 - Developers: [Run locally](#run-locally) · [Verification](#verification) · [Documentation](docs/README.md)
 
 ## Gameplay
@@ -48,7 +48,7 @@ An immersive, browser-based implementation of the social-deduction game *The Res
 4. Keep the revealed role private. Discuss, propose teams, vote, and complete quests.
 5. Good wins by completing three quests—unless the Assassin identifies Merlin. Evil wins by failing three quests or rejecting five consecutive proposals.
 
-The in-game **Quick rules** panel starts with a four-step flow and the exact roles used in the current game, followed by every supported role description. The private notebook is stored only in the current browser and is never shared with the room.
+The **How to play** page contains the four-step flow, all 17 roles, optional modules, and player counts. During a game, the rules panel also shows the exact lineup for that room. The private notebook is stored only in the current browser and is never shared with the room.
 
 ## Architecture
 

@@ -907,7 +907,8 @@ function render(){
 function topBar(){
   const conn=Net.connected();
   const st = !Net.everConnected ? t('connecting') : (conn ? t('online') : t('offline'));
-  return '<div class="top"><button class="brand" data-a="home" aria-label="'+t('home')+'"><div class="mark"><span>V</span></div><div><div class="t1">AVALON</div><div class="t2">'+t('sub')+'</div></div></button>'
+  if(!S.code && typeof AvalonShell!=='undefined') return AvalonShell.header(LANG,'./','home','<span class="av-status">'+st+'</span>')+((Net.authFailed || (!Net.everConnected && S.bootAt && Date.now()-S.bootAt>15000))?'<div class="banner-off">'+t('noNet')+'</div>':'');
+  return '<div class="top"><button class="brand av-brand" data-a="home" aria-label="'+t('home')+'"><span class="av-mark">V</span><span><b>AVALON</b><small>'+t('sub')+'</small></span></button>'
     +(!S.code?'<nav class="site-navigation" aria-label="Main navigation"><button data-a="home" aria-current="page">'+t('home')+'</button><a href="'+(LANG==='zh'?'zh-cn/':'en/')+'">'+t('guide')+'</a><a href="privacy/">'+t('privacy')+'</a><a href="unofficial-notice/">'+t('legal')+'</a></nav>':'')
     +'<div class="top-r">'+(S.code&&S.game?((S.game.status!=='lobby'?'<button class="chip btn privacy-cover-btn" data-a="privacyCover" aria-label="'+t('privacyCover')+'">'+ic('eyeoff')+'<span>'+t('privacyCover')+'</span></button>':'')+'<button class="chip btn rules-access" data-a="rules" aria-label="'+t('rulesAnytime')+'">'+ic('book')+'<span>'+t('rulesAnytime')+'</span></button><span class="chip room-chip"><span class="dot '+(conn?'on':'')+'"></span><b style="letter-spacing:2px">'+esc(S.code)+'</b></span>'):'<span class="chip"><span class="dot '+(conn?'on':'')+'"></span>'+st+'</span>')
     +'<label class="language-picker"><span class="sr-only">Language / 语言</span><select id="siteLanguage" aria-label="Language / 语言"><option value="zh" '+(LANG==='zh'?'selected':'')+'>简体中文</option><option value="en" '+(LANG==='en'?'selected':'')+'>English</option></select></label></div></div>'
@@ -915,6 +916,7 @@ function topBar(){
     +((Net.authFailed || (!Net.everConnected && S.bootAt && Date.now()-S.bootAt>15000)) ? '<div class="banner-off">'+t('noNet')+'</div>' : '');
 }
 function siteFooter(){
+  if(typeof AvalonShell!=='undefined') return AvalonShell.footer(LANG,'./');
   const support = SUPPORT_URL ? '<a class="foot-link support-link" href="'+esc(SUPPORT_URL)+'" target="_blank" rel="noopener noreferrer">♡ '+t('support')+'</a>' : '';
   return '<footer class="foot"><p>'+t('footer')+'</p><nav aria-label="Footer"><button class="foot-link" data-a="info" data-info="privacy">'+t('privacy')+'</button><button class="foot-link" data-a="info" data-info="legal">'+t('legal')+'</button><a class="foot-link" href="'+(LANG==='zh'?'zh-cn/':'en/')+'">'+t('guide')+'</a><a class="foot-link" href="privacy/">'+t('privacyFull')+'</a><a class="foot-link" href="unofficial-notice/">'+t('legalFull')+'</a>'+support+'<a class="foot-link" href="https://github.com/LorraineWong/avalon" target="_blank" rel="noopener noreferrer">GitHub</a></nav></footer>';
 }
@@ -1015,7 +1017,7 @@ function viewHome(){
     +'<button class="btn pri" data-a="create">'+ic('plus')+t('create')+'</button></div>'
     +'<div class="glass card"><h2>'+t('joinTitle')+'</h2><div class="row"><input class="input code" id="joinCode" aria-label="'+t('codePh')+'" maxlength="8" placeholder="'+t('codePh')+'" value="'+esc(S.ui.joinCode)+'" style="flex:1;min-width:0">'
     +'<button class="btn" data-a="join">'+t('join')+'</button></div><p class="muted small" style="margin-bottom:0">'+t('joinHint')+'</p></div></div>'
-    +'<div class="glass card home-rules">'+rulesBlock()+'</div>';
+    ;
 }
 function viewLobby(){
   const g=S.game, ids=lobbyOrder(), n=ids.length, host=isHost(), seated=!!S.seats[ME.pid];
@@ -1390,6 +1392,7 @@ document.addEventListener('input', e=>{
   if(e.target.matches&&e.target.matches('.note-text[data-note-player]')) savePrivateNote(e.target.dataset.notePlayer,'text',e.target.value);
 });
 document.addEventListener('change', e=>{
+  if(e.target.matches('[data-site-language]')){ LANG=e.target.value; LS.set('lang',LANG); document.documentElement.lang=LANG==='zh'?'zh-CN':'en'; return render(); }
   if(e.target.id==='siteLanguage'){ LANG=e.target.value==='en'?'en':'zh'; LS.set('lang',LANG); document.documentElement.lang=LANG==='zh'?'zh-CN':'en'; return render(); }
   if(e.target.matches&&e.target.matches('.note-select[data-note-player]')){ savePrivateNote(e.target.dataset.notePlayer,'mark',e.target.value); render(); }
   if(e.target.id==='hostSuccessor'){ S.ui.hostSuccessor=e.target.value; S.ui.confirmHostTransfer=false; render(); }
