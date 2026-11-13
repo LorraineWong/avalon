@@ -52,3 +52,7 @@ Firebase 配置、部署和多人测试方式见[开发指南](docs/DEVELOPMENT.
 本项目为非官方粉丝作品，与《抵抗组织：阿瓦隆》的创作者及出版商无隶属关系。游戏名称与设定归各自权利人所有，请支持正版桌游。
 
 身份资料在浏览器之间加密，但房主浏览器仍是受信任的一方。威胁模型和私密漏洞报告方式见[安全政策](.github/SECURITY.md)。
+
+<!-- Project-site /avalon/robots.txt is not a host-root robots file. Submit sitemap.xml through Search Console. 项目路径 robots.txt 不是站点根规则；通过 Search Console 提交 sitemap。 -->
+
+授权：尚未选定项目整体开源许可；第三方依赖声明与游戏权利分别处理。

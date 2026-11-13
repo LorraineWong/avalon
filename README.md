@@ -52,3 +52,7 @@ Focused pull requests and reproducible bug reports are welcome. For UI issues, i
 An unofficial fan project, unaffiliated with the creators or publishers of *The Resistance: Avalon*. Game names and concepts belong to their respective rights holders. Please support the official board game.
 
 Roles are encrypted between browsers, but the host browser remains trusted. See the [security policy](.github/SECURITY.md) for the threat model and private vulnerability reporting.
+
+<!-- Project-site /avalon/robots.txt is not a host-root robots file. Submit sitemap.xml through Search Console. 项目路径 robots.txt 不是站点根规则；通过 Search Console 提交 sitemap。 -->
+
+Licensing: no project-wide open-source licence has been selected. Third-party notices and game rights remain separate.
