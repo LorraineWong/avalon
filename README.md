@@ -26,6 +26,7 @@ An immersive, browser-based implementation of the social-deduction game *The Res
 - **Private role delivery** — roles and player actions are encrypted in the browser with ECDH P-256 and AES-GCM.
 - **Reconnect support** — room state is stored in Firebase Realtime Database, so a refreshed browser can resume the game.
 - **Responsive Camelot interface** — optimized for desktop and portrait mobile play.
+- **Light and dark themes** — use the sun/moon button in any header. Starts with your system preference and remembers your choice across pages.
 - **English and Simplified Chinese** — language can be switched at any time.
 - **No build step** — the application is plain HTML, CSS, and JavaScript and can be hosted as a static site.
 - **Temporary rooms** — new rooms carry a 72-hour expiry marker; completed games expire after 24 hours and are removed when the host reconnects.

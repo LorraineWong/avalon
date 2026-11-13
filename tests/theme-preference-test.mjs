@@ -1,0 +1,42 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import vm from 'node:vm';
+
+const source=fs.readFileSync(new URL('../site-shell.js',import.meta.url),'utf8');
+function boot({saved=null,dark=false,blocked=false}={}){
+  const events={}, systemEvents={}, windowEvents={}, data=new Map(saved?[['lwav.theme',JSON.stringify(saved)]]:[]);
+  const root={dataset:{},lang:'en'}, button={attributes:{},setAttribute(k,v){this.attributes[k]=v;}};
+  const system={matches:dark,addEventListener(k,fn){systemEvents[k]=fn;}};
+  const window={matchMedia:()=>system,addEventListener(k,fn){windowEvents[k]=fn;}};
+  const document={documentElement:root,querySelector:()=>null,querySelectorAll:()=>[button],addEventListener(k,fn){events[k]=fn;}};
+  const localStorage={getItem(k){if(blocked) throw Error('Unavailable');return data.get(k)||null;},setItem(k,v){if(blocked) throw Error('Unavailable');data.set(k,v);}};
+  vm.runInNewContext(source,{window,document,localStorage});
+  return {root,button,data,window,toggle(){events.click({target:{closest:()=>button}});},system(dark){system.matches=dark;systemEvents.change();},storage(value){if(value) data.set('lwav.theme',JSON.stringify(value));else data.delete('lwav.theme');windowEvents.storage({key:'lwav.theme'});}};
+}
+const app=boot();
+assert.equal(app.root.dataset.theme,'light');
+app.system(true);
+assert.equal(app.root.dataset.theme,'dark');
+app.toggle();
+assert.equal(app.root.dataset.theme,'light');
+assert.equal(app.data.get('lwav.theme'),'"light"');
+assert.equal(app.button.attributes['aria-pressed'],'false');
+app.system(true);
+assert.equal(app.root.dataset.theme,'light','explicit preference must override system changes');
+app.storage('dark');
+assert.equal(app.root.dataset.theme,'dark','other tabs must update the current theme');
+app.root.lang='zh-CN';
+app.toggle();
+assert.equal(app.button.attributes['aria-label'],'深色模式');
+assert.equal(app.button.title,'切换深色模式');
+app.storage(null);
+assert.equal(app.root.dataset.theme,'dark','clearing preference must restore system behavior');
+assert.equal(boot({saved:'light',dark:true}).root.dataset.theme,'light');
+assert.equal(boot({saved:'dark'}).root.dataset.theme,'dark');
+assert.equal(boot({saved:'invalid'}).root.dataset.theme,'light');
+const privateMode=boot({blocked:true});
+privateMode.toggle();
+assert.equal(privateMode.root.dataset.theme,'dark','unavailable storage must not break switching');
+assert.match(app.window.AvalonShell.header('en','./','home'),/data-theme-toggle/);
+assert.match(app.window.AvalonShell.themeControl('en'),/aria-label="Dark mode"/);
+console.log('Theme preference checks passed: system, persistence, cross-tab sync, accessibility and unavailable storage.');
