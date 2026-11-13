@@ -179,7 +179,7 @@ const ROLE_META = {
   troublemaker:{side:'good',ic:'⚡',art:'assets/roles/troublemaker.webp'},
   untrustworthy:{side:'good',ic:'⚜',art:'assets/roles/untrustworthy.webp'},
 };
-let LANG = 'zh';
+let LANG = 'en';
 function t(k, ...a){ const s = (I18N[LANG][k] ?? I18N.zh[k] ?? k); return s.replace(/\{(\d)\}/g, (_,i)=>a[+i] ?? ''); }
 const rName = r => ROLE_TXT[LANG][r][0];
 const rDesc = r => ROLE_TXT[LANG][r][1];
@@ -476,7 +476,7 @@ const S = {
 
 /* ================= Boot ================= */
 async function boot(){
-  LANG = LS.get('lang') || ((navigator.language||'zh').toLowerCase().startsWith('zh') ? 'zh' : 'en');
+  LANG = LS.get('lang')==='zh' ? 'zh' : 'en';
   document.documentElement.lang = LANG==='zh' ? 'zh-CN' : 'en';
   if(!window.crypto || !crypto.subtle){ $('#app').innerHTML='<div class="glass card">This browser does not support Web Crypto. Please use a recent Chrome / Safari / Edge (https).</div>'; return; }
   render();
@@ -882,6 +882,7 @@ function avatar(p, cls){ return '<div class="'+(cls||'av')+' player-avatar" styl
 
 function render(){
   const app=$('#app'); if(!app) return;
+  document.title=LANG==='zh'?'阿瓦隆在线玩｜免费、无需注册、5–10 人好友房':'Avalon Online | Free 5–10 Player Social Deduction Game';
   const gameActive=!!(S.code && S.game && S.game.status!=='lobby');
   document.body.classList.toggle('game-active', gameActive);
   document.body.classList.toggle('game-ended', gameActive && S.game.status==='end');
@@ -907,7 +908,7 @@ function render(){
 function topBar(){
   const conn=Net.connected();
   const st = !Net.everConnected ? t('connecting') : (conn ? t('online') : t('offline'));
-  if(!S.code && typeof AvalonShell!=='undefined') return AvalonShell.header(LANG,'./','home','<span class="av-status">'+st+'</span>')+((Net.authFailed || (!Net.everConnected && S.bootAt && Date.now()-S.bootAt>15000))?'<div class="banner-off">'+t('noNet')+'</div>':'');
+  if(!S.code && typeof AvalonShell!=='undefined') return AvalonShell.header(LANG,'./','home','<span class="av-status '+(conn?'is-online':Net.everConnected?'is-offline':'is-connecting')+'" role="status"><span class="status-dot" aria-hidden="true"></span>'+st+'</span>')+((Net.authFailed || (!Net.everConnected && S.bootAt && Date.now()-S.bootAt>15000))?'<div class="banner-off">'+t('noNet')+'</div>':'');
   return '<div class="top"><button class="brand av-brand" data-a="home" aria-label="'+t('home')+'"><span class="av-mark">V</span><span><b>AVALON</b><small>'+t('sub')+'</small></span></button>'
     +(!S.code?'<nav class="site-navigation" aria-label="Main navigation"><button data-a="home" aria-current="page">'+t('home')+'</button><a href="'+(LANG==='zh'?'zh-cn/':'en/')+'">'+t('guide')+'</a><a href="privacy/">'+t('privacy')+'</a><a href="unofficial-notice/">'+t('legal')+'</a></nav>':'')
     +'<div class="top-r">'+(S.code&&S.game?((S.game.status!=='lobby'?'<button class="chip btn privacy-cover-btn" data-a="privacyCover" aria-label="'+t('privacyCover')+'">'+ic('eyeoff')+'<span>'+t('privacyCover')+'</span></button>':'')+'<button class="chip btn rules-access" data-a="rules" aria-label="'+t('rulesAnytime')+'">'+ic('book')+'<span>'+t('rulesAnytime')+'</span></button><span class="chip room-chip"><span class="dot '+(conn?'on':'')+'"></span><b style="letter-spacing:2px">'+esc(S.code)+'</b></span>'):'<span class="chip"><span class="dot '+(conn?'on':'')+'"></span>'+st+'</span>')
@@ -936,7 +937,7 @@ function rulesContent(){
   const good=['merlin','percival','cleric','troublemaker','untrustworthy','lancelotGood','servant'];
   const evil=['assassin','morgana','mordred','oberon','trickster','lunatic','brute','revealer','lancelotEvil','minion'];
   return '<section class="rules-flow"><h3>⚔ '+t('howToPlay')+'</h3><ol>'
-    +[['step1Title','step1Body'],['step2Title','step2Body'],['step3Title','step3Body'],['step4Title','step4Body']].map(x=>'<li><b>'+t(x[0])+'</b><span>'+t(x[1])+'</span></li>').join('')+'</ol></section>'
+    +[['step1Title','step1Body'],['step2Title','step2Body'],['step3Title','step3Body'],['step4Title','step4Body']].map(x=>'<li><b>'+t(x[0]).replace(/^\d · /,'')+'</b><span>'+t(x[1])+'</span></li>').join('')+'</ol></section>'
     +'<div class="rules-copy"><p>'+t('rulesP3')+'</p></div><h3 class="all-role-title">'+t('allRoleGuide')+'</h3>'
     +'<div class="rule-camps"><section class="camp good"><h3>🛡️ '+t('goodCamp')+'</h3><div class="rgrid">'+good.map(r=>roleGuide(r)).join('')+'</div></section>'
     +'<section class="camp evil"><h3>🗡️ '+t('evilCamp')+'</h3><div class="rgrid">'+evil.map(r=>roleGuide(r)).join('')+'</div></section></div>'

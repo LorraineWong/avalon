@@ -786,3 +786,21 @@ button.me-id:hover,button.me-role:hover,button.me-id:focus-visible,button.me-rol
   .party-grid{gap:8px}.landing-trust{align-items:stretch;flex-direction:column;padding:22px}.landing-actions{min-width:0;width:100%}
 }
 @media(max-width:720px){.hero-lead{display:block}.hero-oath{display:none}}
+
+/* Guide dialog: fixed header and tabs, one clear reading surface. */
+.rules-modal{overscroll-behavior:contain}
+.rules-sheet{display:flex;flex-direction:column;overflow:hidden;padding:0;max-height:calc(100dvh - 36px)}
+.rules-head{position:static;flex:none;margin:0;padding:20px 24px;background:#2b2017;align-items:center}
+.rules-head h2{font-size:20px;line-height:1.4}.rules-head .eyebrow{margin-bottom:4px}
+.rules-sheet>.rules-tabs{position:static;flex:none;margin:14px 24px 0;background:#17110c}
+.rules-tab-content{overflow-y:auto;overscroll-behavior:contain;padding:20px 24px 28px;scrollbar-color:#79603b #17110c;scrollbar-width:thin;min-height:0}
+.rules-flow h3,.all-role-title{font-size:17px;line-height:1.5}.rules-flow ol{gap:12px}.rules-flow li{padding:16px;min-height:0}.rules-flow li b{font:700 13px/1.5 var(--sans)}.rules-flow li span{font-size:13px;line-height:1.65}
+.rules-copy{font:400 14px/1.75 var(--sans);color:var(--muted);padding:2px 0}
+.rule-camps .camp{border-radius:10px;padding:14px;background:rgba(12,9,7,.45)}.camp h3{font-size:15px;margin:0 0 12px}
+.rgrid .role-guide{gap:0;min-height:136px;border-radius:8px;align-items:stretch;background:rgba(10,8,6,.7)}
+.role-guide .guide-art{width:96px;min-width:96px;object-fit:cover;object-position:50% 18%}.role-guide>span{padding:14px;min-width:0;font-size:13px;line-height:1.65}.role-guide b{font-size:14px;line-height:1.4}.role-guide .muted{display:inline-block;margin-top:6px}
+.info-sheet .info-copy{overflow:auto;padding:20px 24px;min-height:0}
+@media(max-width:720px){.rules-sheet{max-height:calc(100dvh - 16px)}.rules-head{padding:14px 16px}.rules-head h2{font-size:17px}.rules-sheet>.rules-tabs{margin:12px 12px 0}.rules-tabs .btn{font-size:12px;min-height:44px}.rules-tab-content{padding:16px 12px 22px}.rules-flow ol{grid-template-columns:1fr 1fr}.rule-camps{gap:14px}.rule-camps .camp{padding:10px}.role-guide .guide-art{width:88px;min-width:88px}.role-guide>span{padding:12px}.info-sheet .info-copy{padding:16px}.hero{min-height:310px;padding:28px 16px}.hero h1{font-size:44px;letter-spacing:6px}.hero-lead{max-width:350px}.home-grid{gap:12px}}
+@media(max-width:420px){.rules-flow ol{grid-template-columns:1fr}.home-grid>.card:first-child{grid-template-columns:1fr;gap:10px}.home-grid>.card:first-child .btn{width:100%}.home-grid>.card:first-child h2{margin-bottom:0}}
+.rules-flow li{padding-top:44px}.rules-flow li::before{top:14px;left:16px;width:22px;height:22px;font-size:11px}
+.rules-copy p{font:400 14px/1.75 var(--sans);color:var(--muted)}
