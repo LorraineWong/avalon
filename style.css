@@ -454,6 +454,17 @@ details.rules summary{color:#dbc07c;font-family:var(--serif);letter-spacing:.8px
 .qr-sheet{position:relative;width:min(360px,100%);padding:27px;text-align:center}.qr-sheet h2{margin:5px 0 15px;font:700 17px var(--serif);color:#ead9b6}.qr-close{position:absolute;right:10px;top:10px;width:38px;height:38px;padding:0;font-size:23px}.qr-canvas{display:grid;place-items:center;width:236px;height:236px;margin:0 auto 10px;padding:8px;border-radius:7px;background:#fff}.qr-canvas img,.qr-canvas canvas{max-width:220px;max-height:220px}.qr-code{display:block;margin:3px 0 13px;color:#d9bf7c;font:700 22px ui-monospace,monospace;letter-spacing:5px}.qr-sheet .eyebrow{font-size:9px;letter-spacing:2px;color:#927e59}
 .host-tools{padding:14px}.host-tools h3{margin-bottom:8px}.host-tools p{margin:0 0 10px;color:#b9aa90;font-size:11px;line-height:1.5}.host-tools.confirm{border-color:rgba(211,103,83,.48)}.host-select{flex:1;min-width:150px;height:39px;padding:0 9px;border:1px solid rgba(204,166,91,.3);border-radius:4px;background:#17110d;color:#ead9b6}
 
+/* At-a-glance game state and irreversible-action guardrails */
+.table .disc{gap:1.2cqw}
+.table-kicker{color:#aa9879;font:700 clamp(8px,1.8cqw,10px)/1.2 var(--sans);letter-spacing:.12em;text-transform:uppercase}
+.scoreline{display:flex;align-items:center;gap:1.5cqw;font:700 clamp(14px,3.5cqw,21px)/1 var(--serif);letter-spacing:.04em}
+.scoreline i{color:#826e4d;font-style:normal;font-size:.75em}.score-good{color:#b9d4dc}.score-evil{color:#e2a08d}
+.action-status{margin-top:13px;padding-top:12px;border-top:1px solid rgba(204,166,91,.22)}
+.action-status>b{display:block;margin-bottom:7px;color:#ac9a7a;font:700 10px/1.2 var(--serif);letter-spacing:1.1px;text-transform:uppercase}
+.action-status.done{color:#b7c9a7;font-size:12px}
+.wait-people{display:flex;flex-wrap:wrap;gap:6px}.wait-person{display:inline-flex;align-items:center;gap:6px;padding:4px 8px 4px 4px;border:1px solid rgba(204,166,91,.25);border-radius:999px;background:rgba(8,6,5,.42);color:#d9c9aa;font-size:11px}.wait-person i{display:grid;place-items:center;width:24px;height:24px;border-radius:50%;color:#fff;font:700 8px var(--sans);font-style:normal}.wait-person.offline{border-color:rgba(211,103,83,.42);color:#d99a88;opacity:.82}
+.confirm-sheet{width:min(430px,100%);padding:25px;text-align:center}.confirm-mark{display:grid;place-items:center;width:48px;height:48px;margin:0 auto 12px;border:1px solid #b96552;border-radius:50%;background:rgba(129,57,46,.32);color:#efb09e;font:700 24px var(--serif)}.confirm-sheet h2{margin:0 0 8px;font:700 17px var(--serif);letter-spacing:.8px}.confirm-sheet p{margin:0 0 20px;color:#c8b99e;line-height:1.55}.confirm-sheet .row{display:grid;grid-template-columns:1fr 1fr}.confirm-sheet .btn{width:100%}
+
 @media(max-width:720px){
   #app{padding-left:11px;padding-right:11px}.top{margin-bottom:12px}.brand .t2{display:none}
   .hero{min-height:500px;padding:36px 14px;margin-left:-2px;margin-right:-2px}
@@ -466,6 +477,7 @@ details.rules summary{color:#dbc07c;font-family:var(--serif);letter-spacing:.8px
   .rules-flow ol{grid-template-columns:1fr 1fr}.private-note-row{grid-template-columns:1fr 1fr}.private-note-person{grid-column:1/-1}.note-text{min-height:58px}.lineup-guide-head{flex-direction:column}.lineup-totals{justify-content:flex-start}
   .roletiles{grid-template-columns:1fr 1fr}.rt{min-height:75px}.tile-art,.lady-art{width:52px;min-width:52px}
   .privacy-cover-btn span{display:none}.qr-sheet{padding:22px 16px}.qr-canvas{width:216px;height:216px}.qr-canvas img,.qr-canvas canvas{max-width:200px;max-height:200px}
+  .action-status{margin-top:9px;padding-top:8px}.wait-person{font-size:10px}.wait-person i{width:21px;height:21px}
 }
 @media(max-width:420px){.roletiles{grid-template-columns:1fr}.hero-art{width:78%}.hero-copy{max-width:320px}}
 @media(max-width:420px){
