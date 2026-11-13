@@ -35,3 +35,6 @@ window.AvalonShell = (() => {
   function footer(lang,base){const w=words[lang]||words.en;return '<footer class="av-footer"><div><strong>AVALON ONLINE</strong><p>'+w[5]+'</p></div><nav aria-label="Footer">'+links(lang,base,'')+'<a href="https://github.com/LorraineWong/avalon" target="_blank" rel="noopener noreferrer">GitHub</a></nav></footer>';}
   return {header,footer,languages,themeControl};
 })();
+
+// Use the project title in the hero; retain the original game name only in prose.
+if(typeof MutationObserver!=='undefined') new MutationObserver(()=>{const hero=document.querySelector('.hero');if(!hero)return;const title=hero.querySelector('h1'),eyebrow=hero.querySelector('.eyebrow');const zh=document.documentElement.lang.startsWith('zh');const lead=hero.querySelector('.hero-lead');const copy=zh?'免费、非官方的粉丝项目，在浏览器里与朋友游玩 The Resistance: Avalon。':'A free, unofficial fan-made way to play The Resistance: Avalon online.';if(lead&&lead.textContent!==copy)lead.textContent=copy;if(title&&title.textContent!=='Avalon Online')title.textContent='Avalon Online';if(eyebrow&&eyebrow.textContent!==(zh?'阿瓦隆在线版':'UNOFFICIAL FAN PROJECT'))eyebrow.textContent=zh?'阿瓦隆在线版':'UNOFFICIAL FAN PROJECT';}).observe(document.documentElement,{childList:true,subtree:true});

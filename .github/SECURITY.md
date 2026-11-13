@@ -1,49 +1,37 @@
-# Security Policy
+# Security policy
 
-## Reporting a Vulnerability
+## Report privately
 
-Please do not open a public issue for an unpatched vulnerability. Use GitHub's **Report a vulnerability** feature on the repository's Security tab so the report and any proof of concept remain private.
+Use [GitHub private vulnerability reporting](https://github.com/LorraineWong/avalon/security/advisories/new). Include reproduction steps, affected version, browser and impact. Do not publish secrets or other players’ room data.
 
-Include the affected URL or room flow, reproduction steps, expected impact, and browser details. Do not access other players' rooms or data while testing.
+## Trust boundary
 
-## Firebase Web API Key
+Firebase Anonymous Authentication identifies clients. Database rules restrict host writes and player-owned seats. Browser ECDH P-256 and AES-GCM encrypt roles and actions. The host browser remains trusted; compromised hosts, modified clients and malicious hosting-origin code are outside this protection. Host handoff requires explicit re-encryption; unexpected takeover is unsupported.
 
-The Firebase Web API key in `app.js` is a public client identifier, not an authorization credential. Firebase documents that Web API keys are public by design and that access to Realtime Database must be enforced with Authentication, Security Rules, and App Check.
+## Configuration
 
-The production key must:
+The Firebase web API key is a public client identifier, not an authorization secret. Authentication and database rules enforce access. Restrict keys to required Firebase APIs and deployment origins. Review App Check before enforcement. Cloud Console restrictions and production configuration must be verified by the maintainer; repository text is not evidence of current deployed settings.
 
-- be restricted to the Firebase APIs required by this application;
-- never allow the Generative Language API or unrelated Google APIs;
-- be paired with the deployed `firebase/database.rules.json` rules;
-- be monitored through Firebase App Check before enforcement is enabled.
+## Checks
 
-Current production restrictions (Google Cloud Console → APIs & Services → Credentials → "Browser key (auto created by Firebase)"):
+`node tests/run-all.mjs` runs offline checks. `node tests/run-all.mjs --live` also creates temporary Firebase test users and a room, verifies allowed/denied operations and cleans them up. Run live checks only against an authorized project.
 
-- **API restrictions:** Identity Toolkit API, Token Service API, Firebase App Check API only. Everything else, including Firebase AI Logic / Gemini, is blocked.
-- **Website restrictions:** `https://lorrainewong.github.io/*`, `https://lw-avalon.firebaseapp.com/*`, `http://localhost/*`.
+---
 
-If you serve the game from another domain, add it to the website list first, or anonymous sign-in will fail. GitHub secret scanning flags this key as a "Google API Key"; that alert is a false positive for the reasons above.
+# 安全政策
 
-Moving this key to a frontend environment variable would not make it secret because every browser must receive it.
+## 私密报告
 
-## Data and Trust Model
+请使用 [GitHub 私密漏洞报告](https://github.com/LorraineWong/avalon/security/advisories/new)，提供复现步骤、版本、浏览器与影响。不要公开密钥或其他玩家的房间资料。
 
-- Every player signs in with Firebase Anonymous Authentication.
-- Realtime Database rules deny unauthenticated room reads.
-- Only the room host can write game state and encrypted secret payloads.
-- A player can write only their own seat and presence records; the host may remove seats.
-- Role and action payloads use ECDH P-256 and AES-GCM in the browser.
-- An intentional host transfer re-encrypts the master role map to the successor's ECDH public key and atomically commits that ciphertext with the new host pointer. Unexpected automatic takeover is deliberately unsupported because another browser does not possess the existing master key.
+## 信任边界
 
-This model does not protect against a compromised host browser, malicious code served from the hosting origin, or a player modifying their own client.
+Firebase 匿名认证识别客户端，数据库规则限制房主写入及玩家自己的座位。浏览器使用 ECDH P-256 与 AES-GCM 加密身份和行动。房主浏览器仍受信任；被入侵的房主、主动修改的客户端和托管源恶意代码不在保护范围内。转移房主需要明确重新加密，不支持意外自动接管。
 
-## Verification
+## 配置
 
-Run the production-rule smoke test with Node.js 18 or newer:
+Firebase 网页 API Key 是公开项目标识，不是授权秘密。权限由认证与数据库规则控制。应限制 Key 的 API 与部署来源，并在强制启用前评估 App Check。云控制台限制与生产配置需维护者实际核验，仓库文字不证明当前线上设置。
 
-```bash
-node tests/security-smoke-test.mjs
-```
+## 检查
 
-The test creates a temporary room and two anonymous users, verifies allowed and denied operations, then removes the room data and test accounts.
-
+`node tests/run-all.mjs` 仅运行离线检查。加上 `--live` 会创建临时 Firebase 测试用户和房间、验证访问规则并清理数据。仅在获授权的项目运行线上测试。

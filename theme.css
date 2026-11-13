@@ -532,3 +532,12 @@
 :root[data-theme] .quest-confirm .btn.good:hover:not(:disabled){background:#145e95;color:#fff}
 :root[data-theme] .quest-confirm .btn.evil:hover:not(:disabled){background:#91352d;color:#fff}
 :root[data-theme] .seatp.me .pn{max-width:24cqw}
+/* Consistent, restrained interaction colors. Focus rings are keyboard-only. */
+:root[data-theme] .btn:where(:not(.quest-choice)):hover:not(:disabled),:root[data-theme] .tool-tab:hover{background:var(--surface-raised);border-color:var(--border-strong);box-shadow:none}
+:root[data-theme] .rules-tabs .btn:hover:not(:disabled){background:transparent;color:var(--accent);border-color:transparent;box-shadow:inset 0 -2px var(--border-strong)}
+:root[data-theme] .rules-tabs .btn.active:hover:not(:disabled){border-color:var(--accent);box-shadow:none}
+:root[data-theme] select:focus:not(:focus-visible),:root[data-theme] button:focus:not(:focus-visible){outline:none;box-shadow:none}
+:root[data-theme] select:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+:root[data-theme] .hero h1{font-size:clamp(30px,5vw,58px);letter-spacing:2px}
+@media(max-width:600px){:root[data-theme] .top{flex-wrap:nowrap;gap:8px}:root[data-theme] .top .av-brand small{display:none}:root[data-theme] .top .av-brand b{font-size:12px;letter-spacing:1px}:root[data-theme] .top .av-mark{width:30px;height:30px}:root[data-theme] .top-r{flex-wrap:nowrap;gap:5px}:root[data-theme] .top-r .chip.btn,:root[data-theme] .top-r .theme-toggle{width:32px;height:36px;min-height:36px;padding:0}:root[data-theme] .language-picker select{height:36px;min-height:36px;width:85px;padding:0 5px;font-size:11px}:root[data-theme] .top .av-brand{flex:1;min-width:0}}
+@media(max-width:600px){:root[data-theme] .av-header{flex-wrap:nowrap;gap:8px}:root[data-theme] .av-header .av-brand{flex-basis:auto;min-width:0}:root[data-theme] .av-header .av-brand small{display:none}:root[data-theme] .av-header .av-brand b{font-size:12px;letter-spacing:1px}:root[data-theme] .av-header .av-mark{width:30px;height:30px}:root[data-theme] .av-header .av-nav{display:none}:root[data-theme] .av-controls{width:auto;margin-left:auto;gap:5px}:root[data-theme] .av-controls select{width:85px;height:36px;min-height:36px;padding:0 5px;font-size:11px}:root[data-theme] .av-controls .theme-toggle{width:32px;height:36px;min-height:36px}:root[data-theme] .av-controls .av-status{font-size:0;width:24px;min-height:30px;box-sizing:border-box;padding:7px;gap:0}}
