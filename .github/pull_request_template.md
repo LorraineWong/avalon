@@ -10,5 +10,6 @@ Describe the player-visible outcome.
 - [ ] `node scripts/private-notes-test.mjs`
 - [ ] `node scripts/table-experience-test.mjs`
 - [ ] `node scripts/assassination-result-test.mjs`
+- [ ] `node scripts/party-experience-test.mjs`
 - [ ] Tested a relevant mobile viewport
 - [ ] Checked that hidden roles, actions, and private notes are not exposed

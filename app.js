@@ -16,9 +16,9 @@ const I18N = {
     needNick:'请先填写昵称', badCode:'请输入正确的房间号', notFound:'房间 {0} 不存在或已解散',
     connecting:'连接服务器中…', online:'已连接', offline:'连接断开，重连中…', noNet:'无法连接游戏服务器，请检查网络后刷新。',
     entering:'正在进入房间 {0}…', home:'首页', roomCode:'房间号', copyLink:'复制邀请链接', copied:'邀请链接已复制',
-    share:'分享', inviteHint:'把链接发给朋友，打开就能加入。', players:'玩家', host:'房主', you:'你', seat:'入座', rename:'改名',
+    share:'分享', showQR:'扫码加入', scanJoin:'扫描二维码加入房间', inviteHint:'把链接发给朋友，打开就能加入。', players:'玩家', host:'房主', you:'你', seat:'入座', rename:'改名',
     leave:'离开房间', start:'开始游戏', dealing:'发牌中…', waitHost:'等待房主开始游戏…', full:'房间已满（最多 10 人）',
-    renamed:'昵称已更新', roleSettings:'角色配置', hostOnly:'仅房主可修改', emptySeat:'等待加入',
+    renamed:'昵称已更新', roleSettings:'角色配置', hostOnly:'仅房主可修改', emptySeat:'等待加入', presets:'推荐配置', presetNew:'新手局', presetClassic:'经典局', presetBig:'扩展局', presetApplied:'已应用「{0}」配置',
     needPlayers:'需要 5–10 名玩家（当前 {0} 人）', tooManyEvil:'{0} 人局只有 {1} 个坏人，勾选的坏人角色太多了', tooManyGood:'好人特殊角色太多了',
     comp:'{0} 人局：{1} 好人 · {2} 坏人', compPrev:'按 {0} 人预览：{1} 好人 · {2} 坏人',
     optMerlin:'梅林 + 刺客', optMerlinD:'经典核心', optLady:'湖中仙女', optLadyD:'7 人及以上生效', optExcalibur:'王者之剑', optExcaliburD:'持剑者可换掉另一名队员的任务牌',
@@ -28,7 +28,7 @@ const I18N = {
     leaderPick:'你是队长：选 {0} 名队员', leaderHint:'点击圆桌上的玩家选择，可以选自己。', submitTeam:'提交队伍', resubmit:'重新提交',
     waitLeader:'{0} 正在挑选 {1} 名队员', discuss:'队长的暂选名单会实时显示，趁现在讨论一下吧。', leaderDraft:'队长目前暂选', voteTitle:'同意这支队伍出发吗？',
     approve:'赞成', reject:'反对', voted:'已投票，所有人投完前可以修改。', pleaseVote:'请投票，全部投完后统一公开。', votedCount:'已投 {0}/{1}',
-    questTitle:'任务进行中', success:'成功', fail:'失败', goodOnly:'好人只能出“成功”。', evilChoice:'你是坏人，可以选择让任务失败。', mustFail:'你的身份在本次任务必须出“失败”。', cannotFail:'你的身份在本次任务不能出“失败”。',
+    questTitle:'任务进行中', success:'成功', fail:'失败', goodOnly:'好人只能出“成功”。', evilChoice:'你是坏人，可以选择让任务失败。', mustFail:'你的身份在本次任务必须出“失败”。', cannotFail:'你的身份在本次任务不能出“失败”。', confirmQuest:'确认任务牌', confirmQuestHint:'选定后会立即提交，其他玩家只会看到最终统计。', confirmSuccess:'确认提交成功', confirmFail:'确认提交失败', changeChoice:'重新选择',
     excaliburPick:'把王者之剑交给一名队员', excaliburHint:'持剑者不能是队长，出牌后可换掉另一名队员的牌。', excaliburUse:'要换掉谁的任务牌？', excaliburSkip:'不使用王者之剑', excaliburWait:'{0} 正在决定是否使用王者之剑…',
     loyaltyChoose:'你的阵营正在被查验', loyaltyHint:'骗术师可以向查验者展示任意阵营。', showGood:'展示好人', showEvil:'展示坏人', loyaltyWait:'等待被查验者选择要展示的阵营…',
     recruitTitle:'刺客先寻找“不可信的仆人”', recruitMe:'选出你认为的不可信仆人。猜中后，他会倒戈并接替你刺杀梅林；猜错则仍由你刺杀。', recruitWait:'刺客正在尝试招募不可信的仆人…',
@@ -45,7 +45,8 @@ const I18N = {
     again:'再来一局', waitAgain:'等待房主开新局', backHome:'回首页', allRoles:'身份揭晓',
     history:'对局记录', noHistory:'还没有投票记录。', round:'轮次', leaderTeam:'队长 / 队伍', result:'结果',
     rRejected:'否决', rOn:'出发中', try:'第 {0} 次',
-    hostOffline:'房主 {0} 似乎掉线了。游戏由房主的设备推进，请房主重新打开链接，游戏会从当前进度继续。',
+    hostOffline:'房主 {0} 似乎掉线了。为保护隐藏身份，意外掉线后不能自动接管；请房主重新打开链接。', hostTools:'房主管理', transferHost:'转交房主', transferTo:'选择新房主', transferWarning:'转交后由对方设备推进游戏；你的主密钥会安全地重新加密给对方。', confirmTransfer:'确认转交给 {0}', hostTransferred:'房主已转交给 {0}', hostChanged:'房主已转交', chooseHost:'请先选择一名在线玩家',
+    privacyCover:'遮挡屏幕', revealScreen:'恢复游戏', coveredTitle:'私人信息已遮挡', coveredHint:'只有点击下方按钮才会重新显示身份、技能与笔记。',
     rules:'规则速查', close:'关闭', goodCamp:'正义阵营', evilCamp:'邪恶阵营', gameModules:'组合角色与玩法模块', currentLineup:'本局身份阵容', lineupHint:'以下身份会在本局出现；重复数量已标出，但不会显示谁拿到哪个身份。', allRoleGuide:'全部角色说明', rulesAnytime:'规则与角色', ladyLog:'湖中仙女', kicked:'已移出', toMany:'最多选 {0} 人，先取消一个',
     howToPlay:'一局怎么进行', step1Title:'1 · 队长组队', step1Body:'队长按当前任务要求选择队员，可以选择自己。', step2Title:'2 · 全员投票', step2Body:'超过半数赞成，队伍才能出发。一个任务连续 5 次组队被否决，坏人直接获胜。', step3Title:'3 · 秘密任务', step3Body:'获选队员秘密出牌：好人只能出成功，坏人可以出失败。7 人及以上的第 4 个任务需要 2 张失败。', step4Title:'4 · 决定胜负', step4Body:'坏人让 3 个任务失败即获胜；好人完成 3 个任务后，刺客仍可通过刺中梅林翻盘。',
     privateNotes:'私人推理笔记', openNotes:'打开私人笔记', closeNotes:'收起私人笔记', notesHint:'只保存在这台设备，不会上传，也不会让房主或其他玩家看到。', suspectAs:'怀疑身份', unmarked:'未标记', leanGood:'偏好人', leanEvil:'偏坏人', notePlaceholder:'记录发言、投票或你的推理…', clearNotes:'清空本局笔记', notesCleared:'本局私人笔记已清空',
@@ -62,9 +63,9 @@ const I18N = {
     needNick:'Please enter your name first', badCode:'Please enter a valid room code', notFound:'Room {0} does not exist or was closed',
     connecting:'Connecting…', online:'Online', offline:'Connection lost, reconnecting…', noNet:'Cannot reach the game server. Check your network and refresh.',
     entering:'Joining room {0}…', home:'Home', roomCode:'Room code', copyLink:'Copy invite link', copied:'Invite link copied',
-    share:'Share', inviteHint:'Send the link to friends — opening it joins the room.', players:'Players', host:'Host', you:'You', seat:'Take a seat', rename:'Rename',
+    share:'Share', showQR:'Join QR', scanJoin:'Scan to join this room', inviteHint:'Send the link to friends — opening it joins the room.', players:'Players', host:'Host', you:'You', seat:'Take a seat', rename:'Rename',
     leave:'Leave room', start:'Start game', dealing:'Dealing…', waitHost:'Waiting for the host to start…', full:'Room is full (max 10)',
-    renamed:'Name updated', roleSettings:'Roles', hostOnly:'Host only', emptySeat:'Open seat',
+    renamed:'Name updated', roleSettings:'Roles', hostOnly:'Host only', emptySeat:'Open seat', presets:'Recommended setups', presetNew:'Beginner', presetClassic:'Classic', presetBig:'Expansion', presetApplied:'Applied “{0}” setup',
     needPlayers:'Need 5–10 players (now {0})', tooManyEvil:'A {0}-player game has only {1} evil players — too many evil roles selected', tooManyGood:'Too many special good roles',
     comp:'{0} players: {1} good · {2} evil', compPrev:'Preview for {0}: {1} good · {2} evil',
     optMerlin:'Merlin + Assassin', optMerlinD:'The classic core', optLady:'Lady of the Lake', optLadyD:'7+ players', optExcalibur:'Excalibur', optExcaliburD:'Its holder may switch another member\'s Quest card',
@@ -74,7 +75,7 @@ const I18N = {
     leaderPick:'You lead: pick {0} players', leaderHint:'Tap players around the table. You may pick yourself.', submitTeam:'Propose team', resubmit:'Propose again',
     waitLeader:'{0} is picking {1} players', discuss:'The Leader’s draft team appears live. Discuss while they decide.', leaderDraft:'Leader’s current draft', voteTitle:'Approve this team?',
     approve:'Approve', reject:'Reject', voted:'Vote cast — you can change it until everyone has voted.', pleaseVote:'Cast your vote. All votes are revealed together.', votedCount:'Voted {0}/{1}',
-    questTitle:'Quest in progress', success:'Success', fail:'Fail', goodOnly:'Good players can only play Success.', evilChoice:'You are evil — you may sabotage.', mustFail:'Your role must play Fail on this Quest.', cannotFail:'Your role cannot play Fail on this Quest.',
+    questTitle:'Quest in progress', success:'Success', fail:'Fail', goodOnly:'Good players can only play Success.', evilChoice:'You are evil — you may sabotage.', mustFail:'Your role must play Fail on this Quest.', cannotFail:'Your role cannot play Fail on this Quest.', confirmQuest:'Confirm Quest card', confirmQuestHint:'This submits immediately. Other players only see the final count.', confirmSuccess:'Submit Success', confirmFail:'Submit Fail', changeChoice:'Choose again',
     excaliburPick:'Give Excalibur to a team member', excaliburHint:'The Leader cannot hold it. After cards are played, its holder may switch another member\'s card.', excaliburUse:'Whose Quest card will you switch?', excaliburSkip:'Do not use Excalibur', excaliburWait:'{0} is deciding whether to use Excalibur…',
     loyaltyChoose:'Your loyalty is being checked', loyaltyHint:'The Trickster may show either loyalty to the examiner.', showGood:'Show Good', showEvil:'Show Evil', loyaltyWait:'Waiting for the checked player to choose a loyalty…',
     recruitTitle:'The Assassin first seeks the Untrustworthy Servant', recruitMe:'Choose the Untrustworthy Servant. If correct, they turn Evil and take over the assassination; if wrong, you still hunt Merlin.', recruitWait:'The Assassin is attempting to recruit the Untrustworthy Servant…',
@@ -91,7 +92,8 @@ const I18N = {
     again:'Play again', waitAgain:'Waiting for the host', backHome:'Home', allRoles:'Roles revealed',
     history:'History', noHistory:'No votes yet.', round:'Round', leaderTeam:'Leader / Team', result:'Result',
     rRejected:'Rejected', rOn:'On quest', try:'Try {0}',
-    hostOffline:'Host {0} seems offline. The game runs on the host\'s device — ask them to reopen the link and it will resume.',
+    hostOffline:'Host {0} seems offline. To protect hidden roles, an unexpected disconnect cannot be taken over automatically; ask the host to reopen the link.', hostTools:'Host controls', transferHost:'Transfer host', transferTo:'Choose the new host', transferWarning:'Their device will advance the game. Your master key is securely re-encrypted for them.', confirmTransfer:'Confirm transfer to {0}', hostTransferred:'Host transferred to {0}', hostChanged:'Host transferred', chooseHost:'Choose an online player first',
+    privacyCover:'Hide screen', revealScreen:'Return to game', coveredTitle:'Private information hidden', coveredHint:'Your role, knowledge, and notes stay covered until you return.',
     rules:'Quick rules', close:'Close', goodCamp:'Good', evilCamp:'Evil', gameModules:'Paired roles & game modules', currentLineup:'Roles in this game', lineupHint:'These roles are in this game. Repeated roles show a count, but no player assignment is revealed.', allRoleGuide:'All role descriptions', rulesAnytime:'Rules & roles', ladyLog:'Lady of the Lake', kicked:'Removed', toMany:'Max {0} players — deselect one first',
     howToPlay:'How a game works', step1Title:'1 · Build a team', step1Body:'The Leader picks the required number of players and may pick themself.', step2Title:'2 · Everyone votes', step2Body:'The team needs a strict majority to go. Five rejected proposals on one Quest give Evil an immediate win.', step3Title:'3 · Play Quest cards secretly', step3Body:'Selected players submit in secret: Good can only play Success; Evil may play Fail. With 7+ players, Quest 4 needs two Fails.', step4Title:'4 · Decide the winner', step4Body:'Evil wins after three failed Quests. After three successes, the Assassin can still steal the win by finding Merlin.',
     privateNotes:'Private deduction notes', openNotes:'Open private notes', closeNotes:'Hide private notes', notesHint:'Saved only on this device. Nothing is uploaded or shared with the host or other players.', suspectAs:'Suspected role', unmarked:'Unmarked', leanGood:'Leans Good', leanEvil:'Leans Evil', notePlaceholder:'Record claims, votes, or your reasoning…', clearNotes:'Clear notes for this game', notesCleared:'Private notes for this game were cleared',
@@ -183,6 +185,15 @@ const DEFAULT_SETTINGS = {
   cleric:false, trickster:false, troublemaker:false, untrustworthy:false,
   lady:false, excalibur:false
 };
+function presetSettings(id,n){
+  const st=Object.assign({},DEFAULT_SETTINGS,{percival:false,morgana:false});
+  if(id==='classic'){ st.percival=true; st.morgana=true; }
+  if(id==='big'){
+    st.percival=true; st.morgana=true; st.excalibur=true;
+    if(n>=7){ st.morgana=false; st.lancelot=true; st.lady=true; }
+  }
+  return st;
+}
 function buildRoles(n, st){
   if(n<5 || n>10) return {err:t('needPlayers', n)};
   const ev=EVIL_N[n], gd=n-ev, good=[], evil=[];
@@ -416,7 +427,7 @@ const Net = {
 /* ================= App state ================= */
 const S = {
   view:'home', code:null, joinedAt:0, game:null, seats:{}, secrets:{},
-  mine:null, master:null, ladyMine:[], checksMine:[], ui:{nick:'', joinCode:'', pick:[], pickStep:'', myActs:{}, busy:false, excalibur:null, rulesOpen:false, rulesInlineOpen:false, infoOpen:null, lastReactionAt:0, notesOpen:false},
+  mine:null, master:null, ladyMine:[], checksMine:[], ui:{nick:'', joinCode:'', pick:[], pickStep:'', myActs:{}, busy:false, excalibur:null, rulesOpen:false, rulesInlineOpen:false, infoOpen:null, qrOpen:false, privacyCover:false, questConfirm:null, hostSuccessor:'', confirmHostTransfer:false, lastReactionAt:0, notesOpen:false},
   ov:[], seen:null, notFoundTimer:null, lastGid:null,
 };
 
@@ -451,7 +462,7 @@ function sync(){
     if(!S.game && Net.loaded){ toast(t('notFound', S.code)); return goHome(true); } // room missing or closed
     if(S.game && S.game.host===ME.pid && S.game.expires && Date.now()>S.game.expires){ Net.dropRoom().then(()=>goHome(true)); return; }
     if(S.game && S.game.status==='lobby' && S.autoSeat && !S.seats[ME.pid] && Net.loaded){ S.autoSeat=false; takeSeat(); }
-    if(S.game && S.game.step!==S.ui.pickStep){ S.ui.pick=[]; S.ui.excalibur=null; S.ui.pickStep=S.game.step; }
+    if(S.game && S.game.step!==S.ui.pickStep){ S.ui.pick=[]; S.ui.excalibur=null; S.ui.questConfirm=null; S.ui.pickStep=S.game.step; }
     decryptSecrets().then(()=>{ detect(); render(); hostTick(); });
   }
   render();
@@ -557,6 +568,12 @@ function toggleSetting(k){
   if(k==='untrustworthy' && st.untrustworthy) st.merlin=true;
   Net.pub('game', Object.assign({}, S.game, {settings:st}));
 }
+function applyPreset(id){
+  if(!isHost() || S.game.status!=='lobby') return;
+  const n=Math.min(10,Math.max(5,lobbyOrder().length)), st=presetSettings(id,n);
+  Net.pub('game',Object.assign({},S.game,{settings:st}));
+  toast(t('presetApplied',t(id==='new'?'presetNew':id==='classic'?'presetClassic':'presetBig')));
+}
 async function startGame(){
   const g=S.game; if(!isHost() || g.status!=='lobby' || S.ui.busy) return;
   const ids=lobbyOrder(), n=ids.length, st=Object.assign({}, DEFAULT_SETTINGS, g.settings);
@@ -602,6 +619,26 @@ function playAgain(){
   for(const id of Object.keys(S.secrets)) Net.pub('sec/'+id, null);
   Net.pub('game', {code:g.code, host:ME.pid, hostPub:ME.pub, status:'lobby', created:g.created||Date.now(), expires:Date.now()+ROOM_TTL_MS, settings:g.settings||DEFAULT_SETTINGS, gid:''});
   S.ov=[];
+}
+async function transferHost(){
+  const g=S.game, target=S.ui.hostSuccessor;
+  if(!isHost() || !g || g.status!=='play' || !S.master || S.ui.busy) return;
+  if(!target || !g.order.includes(target) || target===ME.pid || !Net.isOnline(target)) return toast(t('chooseHost'));
+  const seat=S.seats[target]; if(!seat||!seat.pub) return toast(t('chooseHost'));
+  S.ui.busy=true; render();
+  try{
+    const box=await enc(seat.pub,S.master);
+    const next=Object.assign({},g,{host:target,hostPub:seat.pub,events:(g.events||[]).concat([{type:'hostChanged',player:target}])});
+    if(!Net.ref) throw new Error('room unavailable');
+    // Keep the encrypted host key and the public host pointer in one atomic
+    // database update. A dropped connection can never leave half a transfer.
+    await Net.ref.update({
+      'sec/master':{j:JSON.stringify({gid:g.gid,box})},
+      game:{host:target,j:JSON.stringify(next)}
+    });
+    S.ui.confirmHostTransfer=false; toast(t('hostTransferred',nickOf(target)));
+  }catch(e){ console.error(e); toast(t('writeFail')); }
+  S.ui.busy=false; render();
 }
 
 /* Player action, encrypted to the host. */
@@ -787,18 +824,19 @@ function render(){
   else if(!S.game) html+='<div class="glass card" style="text-align:center;max-width:480px;margin:40px auto">'+t('entering', esc(S.code))+'<div class="muted small" style="margin-top:6px">'+(Net.connected()?'':t('connecting'))+'</div></div>';
   else if(S.game.status==='lobby') html+=viewLobby();
   else html+=viewGame();
-  html+=siteFooter();
+  html+=siteFooter()+privacyCoverHtml();
   app.innerHTML=html;
   renderOverlay();
   renderRulesModal();
   renderInfoModal();
+  renderQRModal();
   if(fid){ const el=document.getElementById(fid); if(el){ el.focus(); try{ el.setSelectionRange(fsel,fsel); }catch(e){} } }
 }
 function topBar(){
   const conn=Net.connected();
   const st = !Net.everConnected ? t('connecting') : (conn ? t('online') : t('offline'));
   return '<div class="top"><button class="brand" data-a="home" aria-label="'+t('home')+'"><div class="mark"><span>V</span></div><div><div class="t1">AVALON</div><div class="t2">'+t('sub')+'</div></div></button>'
-    +'<div class="top-r">'+(S.code&&S.game?'<button class="chip btn rules-access" data-a="rules" aria-label="'+t('rulesAnytime')+'">📜 <span>'+t('rulesAnytime')+'</span></button><span class="chip room-chip"><span class="dot '+(conn?'on':'')+'"></span><b style="letter-spacing:2px">'+esc(S.code)+'</b></span>':'<span class="chip"><span class="dot '+(conn?'on':'')+'"></span>'+st+'</span>')
+    +'<div class="top-r">'+(S.code&&S.game?((S.game.status!=='lobby'?'<button class="chip btn privacy-cover-btn" data-a="privacyCover" aria-label="'+t('privacyCover')+'">◉ <span>'+t('privacyCover')+'</span></button>':'')+'<button class="chip btn rules-access" data-a="rules" aria-label="'+t('rulesAnytime')+'">📜 <span>'+t('rulesAnytime')+'</span></button><span class="chip room-chip"><span class="dot '+(conn?'on':'')+'"></span><b style="letter-spacing:2px">'+esc(S.code)+'</b></span>'):'<span class="chip"><span class="dot '+(conn?'on':'')+'"></span>'+st+'</span>')
     +'<button class="chip btn" data-a="lang">'+(LANG==='zh'?'EN':'中文')+'</button></div></div>'
     +(Net.everConnected && !conn ? '<div class="banner-off">'+t('offline')+'</div>' : '')
     +((Net.authFailed || (!Net.everConnected && S.bootAt && Date.now()-S.bootAt>15000)) ? '<div class="banner-off">'+t('noNet')+'</div>' : '');
@@ -855,6 +893,18 @@ function renderInfoModal(){
   el.innerHTML='<div class="rules-modal info-modal" role="dialog" aria-modal="true" aria-labelledby="infoTitle"><div class="glass rules-sheet info-sheet"><div class="rules-head"><div><div class="eyebrow">AVALON ONLINE</div><h2 id="infoTitle">'+title+'</h2></div><button class="btn ghost rules-close" data-a="closeInfo" aria-label="'+t('close')+'">×</button></div><div class="info-copy">'+infoContent(kind)+'</div></div></div>';
   requestAnimationFrame(()=>el.querySelector('.rules-close')?.focus());
 }
+function renderQRModal(){
+  const el=$('#qrModal'); if(!el) return;
+  if(!S.ui.qrOpen || !S.game){ el.innerHTML=''; el._key=null; return; }
+  const link=location.origin+location.pathname+'#'+S.game.code, key=LANG+':'+link;
+  if(el._key===key && el.innerHTML) return; el._key=key;
+  el.innerHTML='<div class="rules-modal qr-modal" role="dialog" aria-modal="true" aria-labelledby="qrTitle"><div class="glass qr-sheet"><button class="btn ghost qr-close" data-a="closeQR" aria-label="'+t('close')+'">×</button><div class="eyebrow">AVALON · '+esc(S.game.code)+'</div><h2 id="qrTitle">'+t('scanJoin')+'</h2><div id="qrCanvas" class="qr-canvas"></div><b class="qr-code">'+esc(S.game.code)+'</b><button class="btn pri" data-a="copy">🔗 '+t('copyLink')+'</button></div></div>';
+  requestAnimationFrame(()=>{ const box=$('#qrCanvas'); if(box&&window.QRCode) new QRCode(box,{text:link,width:220,height:220,colorDark:'#110d0a',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M}); el.querySelector('.qr-close')?.focus(); });
+}
+function privacyCoverHtml(){
+  if(!S.ui.privacyCover) return '';
+  return '<div class="privacy-cover" role="dialog" aria-modal="true"><div class="privacy-cover-crest">V</div><h2>'+t('coveredTitle')+'</h2><p>'+t('coveredHint')+'</p><button class="btn pri big" data-a="privacyCover">'+t('revealScreen')+'</button></div>';
+}
 function viewHome(){
   const last=LS.get('last');
   return '<div class="hero"><div class="hero-art hero-art-good"><img src="'+ROLE_META.merlin.art+'" alt="Merlin"></div><div class="hero-art hero-art-evil"><img src="'+ROLE_META.morgana.art+'" alt="Morgana"></div>'
@@ -900,7 +950,7 @@ function viewLobby(){
     +'<button class="rt neutral'+(st.lady?' on':'')+'" '+(host?'data-set="lady"':'disabled')+'><span class="lady-art">◯</span><span><b>'+t('optLady')+'</b><span>'+t('optLadyD')+'</span></span></button>'
     +'<button class="rt neutral'+(st.excalibur?' on':'')+'" '+(host?'data-set="excalibur"':'disabled')+'><span class="lady-art">⚔</span><span><b>'+t('optExcalibur')+'</b><span>'+t('optExcaliburD')+'</span></span></button>';
   return '<div class="glass card roomcode"><div><div class="muted small">'+t('roomCode')+'</div><div class="code">'+esc(g.code)+'</div><div class="muted small">'+t('inviteHint')+'</div></div>'
-    +'<div class="row"><button class="btn pri" data-a="copy">🔗 '+t('copyLink')+'</button>'+(navigator.share?'<button class="btn" data-a="share">'+t('share')+'</button>':'')+'</div></div>'
+    +'<div class="row"><button class="btn pri" data-a="copy">🔗 '+t('copyLink')+'</button><button class="btn" data-a="qr">▦ '+t('showQR')+'</button>'+(navigator.share?'<button class="btn" data-a="share">'+t('share')+'</button>':'')+'</div></div>'
     +'<div class="lobby"><div class="glass card"><h2>'+t('players')+' · '+n+'/10</h2><div class="seats">'+seats+'</div>'
     +'<div class="row" style="margin-top:14px"><input class="input" id="nick" maxlength="12" placeholder="'+t('nickPh')+'" value="'+esc(S.ui.nick)+'" style="flex:1;min-width:120px">'
     +(seated?'<button class="btn" data-a="rename">'+t('rename')+'</button>':'<button class="btn pri" data-a="seat">'+t('seat')+'</button>')+'</div>'
@@ -908,7 +958,7 @@ function viewLobby(){
     +(host?'<button class="btn pri big" data-a="start" '+(br.err||S.ui.busy?'disabled':'')+'>'+(S.ui.busy?t('dealing'):'⚔️ '+t('start'))+'</button>':'<span class="muted" style="flex:1">⏳ '+t('waitHost')+'</span>')
     +'<button class="btn ghost" data-a="leave">'+t('leave')+'</button></div>'
     +(host&&br.err?'<p class="warn small" style="margin-bottom:0">'+esc(br.err)+'</p>':'')+'</div>'
-    +'<div class="glass card"><h2>'+t('roleSettings')+(host?'':' <span class="muted small">· '+t('hostOnly')+'</span>')+'</h2><div class="settings-camps">'
+    +'<div class="glass card"><h2>'+t('roleSettings')+(host?'':' <span class="muted small">· '+t('hostOnly')+'</span>')+'</h2><div class="preset-wrap"><span class="muted tiny">'+t('presets')+'</span><div class="preset-row"><button class="btn preset-btn" data-preset="new" '+(host?'':'disabled')+'>🛡 '+t('presetNew')+'</button><button class="btn preset-btn" data-preset="classic" '+(host?'':'disabled')+'>⚔ '+t('presetClassic')+'</button><button class="btn preset-btn" data-preset="big" '+(host?'':'disabled')+'>✦ '+t('presetBig')+'</button></div></div><div class="settings-camps">'
     +'<section class="setting-camp good"><h3>🛡️ '+t('goodCamp')+'</h3><div class="roletiles">'+goodSettings+'</div></section>'
     +'<section class="setting-camp evil"><h3>🗡️ '+t('evilCamp')+'</h3><div class="roletiles">'+evilSettings+'</div></section></div>'
     +'<section class="setting-camp modules"><h3>✦ '+t('gameModules')+'</h3><div class="roletiles">'+modules+'</div></section>'+compHtml+'</div></div>'
@@ -942,7 +992,7 @@ function viewGame(){
   return (offline?'<div class="banner-off">⚠️ '+t('hostOffline', esc(nickOf(g.host)))+'</div>':'')
     +'<div class="game"><div>'+tableView(g)+'</div><div class="panel">'
     +'<div class="dock '+(g.status==='end'?'dock-end':'')+'">'+actionBlock(g)+'</div>'
-    +roleBar()+privateNotesPanel(g)+reactionPanel(g)+historyBlock(g)
+    +roleBar()+hostToolsPanel(g)+privateNotesPanel(g)+reactionPanel(g)+historyBlock(g)
     +'<div class="glass card">'+rulesBlock()+'</div></div></div>';
 }
 function notesStorageKey(g=S.game){ return g&&S.code ? 'notes.'+S.code+'.'+(g.gid||'lobby') : ''; }
@@ -1080,9 +1130,14 @@ function actionBlock(g){
     if(g.team.includes(me)){
       const allegiance=(S.mine&&S.mine.allegiance)||side(S.mine&&S.mine.role), choices=S.mine?questChoices(S.mine.role,g.q,allegiance,g.settings):['S'];
       const note=choices.length===1?(choices[0]==='F'?t('mustFail'):t(allegiance==='evil'?'cannotFail':'goodOnly')):t('evilChoice');
-      h+='<div class="row"><button class="btn good big '+(mine==='S'?'sel':'')+'" data-quest="S" '+(!choices.includes('S')||busy?'disabled':'')+'>✓ '+t('success')+'</button>'
-        +'<button class="btn evil big '+(mine==='F'?'sel':'')+'" data-quest="F" '+(!choices.includes('F')||busy?'disabled':'')+'>✗ '+t('fail')+'</button></div>'
-        +'<div class="hint" style="margin:10px 0 0">'+note+(acted(me)?' '+t('youPlayed'):'')+(g.quests[g.q].two?' '+t('twoNote'):'')+'</div>';
+      if(S.ui.questConfirm){
+        const qv=S.ui.questConfirm;
+        h+='<div class="quest-confirm '+(qv==='S'?'success':'fail')+'"><div><small>'+t('confirmQuest')+'</small><strong>'+(qv==='S'?'✓ '+t('success'):'✗ '+t('fail'))+'</strong><p>'+t('confirmQuestHint')+'</p></div><button class="btn '+(qv==='S'?'good':'evil')+' big" data-a="questSubmit" '+(busy?'disabled':'')+'>'+(qv==='S'?t('confirmSuccess'):t('confirmFail'))+'</button><button class="btn ghost" data-a="questCancel">'+t('changeChoice')+'</button></div>';
+      } else {
+        h+='<div class="row"><button class="btn good big '+(mine==='S'?'sel':'')+'" data-quest="S" '+(!choices.includes('S')||busy?'disabled':'')+'>✓ '+t('success')+'</button>'
+          +'<button class="btn evil big '+(mine==='F'?'sel':'')+'" data-quest="F" '+(!choices.includes('F')||busy?'disabled':'')+'>✗ '+t('fail')+'</button></div>';
+      }
+      h+='<div class="hint" style="margin:10px 0 0">'+note+(acted(me)?' '+t('youPlayed'):'')+(g.quests[g.q].two?' '+t('twoNote'):'')+'</div>';
     } else h+='<div class="hint">'+t('waitTeam')+' '+t('played', g.team.filter(acted).length, g.team.length)+(g.quests[g.q].two?' · '+t('twoNote'):'')+'</div>';
     h+=prog(g.team);
   } else if(g.phase==='excalibur'){
@@ -1111,6 +1166,16 @@ function roleBar(){
   return '<button class="glass card rolebar '+(S.peek?s:'')+'" data-a="peek"><span class="rb-l"><span class="rb-ic">'+(S.peek?roleArt(S.mine.role,'rolebar-art'):'<span class="card-seal">V</span>')+'</span>'
     +'<span><div class="muted tiny">'+t('myRole')+'</div><b>'+(S.peek?rName(S.mine.role):'••••••')+'</b></span></span><span class="muted small">'+(S.peek?'🙈':t('tapReveal'))+'</span></button>'
     +(S.peek?'<div class="glass card" style="margin-top:-8px">'+knowBlock()+'</div>':'');
+}
+function hostToolsPanel(g){
+  if(!isHost() || g.status!=='play') return '';
+  const candidates=g.order.filter(p=>p!==ME.pid&&Net.isOnline(p));
+  const options='<option value="">'+t('transferTo')+'</option>'+candidates.map(p=>'<option value="'+esc(p)+'" '+(S.ui.hostSuccessor===p?'selected':'')+'>'+esc(nickOf(p))+'</option>').join('');
+  if(S.ui.confirmHostTransfer){
+    const name=nickOf(S.ui.hostSuccessor);
+    return '<section class="glass card host-tools confirm"><h3>♜ '+t('hostTools')+'</h3><p>'+t('transferWarning')+'</p><div class="row"><button class="btn evil" data-a="transferHost" '+(S.ui.busy?'disabled':'')+'>'+t('confirmTransfer',esc(name))+'</button><button class="btn ghost" data-a="cancelHostTransfer">'+t('close')+'</button></div></section>';
+  }
+  return '<section class="glass card host-tools"><h3>♜ '+t('hostTools')+'</h3><div class="row"><select class="host-select" id="hostSuccessor" aria-label="'+t('transferTo')+'">'+options+'</select><button class="btn" data-a="prepareHostTransfer" '+(!candidates.length?'disabled':'')+'>'+t('transferHost')+'</button></div></section>';
 }
 function knowBlock(){
   const m=S.mine; let h='<div class="small" style="margin-bottom:8px">'+rDesc(m.role)+'</div>';
@@ -1182,8 +1247,10 @@ document.addEventListener('input', e=>{
 });
 document.addEventListener('change', e=>{
   if(e.target.matches&&e.target.matches('.note-select[data-note-player]')){ savePrivateNote(e.target.dataset.notePlayer,'mark',e.target.value); render(); }
+  if(e.target.id==='hostSuccessor'){ S.ui.hostSuccessor=e.target.value; S.ui.confirmHostTransfer=false; render(); }
 });
 document.addEventListener('keydown', e=>{
+  if(e.key==='Escape' && S.ui.qrOpen){ S.ui.qrOpen=false; renderQRModal(); return; }
   if(e.key==='Escape' && S.ui.infoOpen){ S.ui.infoOpen=null; renderInfoModal(); return; }
   if(e.key==='Escape' && S.ui.rulesOpen){ S.ui.rulesOpen=false; renderRulesModal(); return; }
   if(e.key==='Tab' && (S.ui.infoOpen || S.ui.rulesOpen)){
@@ -1199,10 +1266,11 @@ document.addEventListener('toggle', e=>{
   if(e.target.matches && e.target.matches('details.rules')) S.ui.rulesInlineOpen=e.target.open;
 }, true);
 document.addEventListener('click', e=>{
-  const b=e.target.closest('[data-a],[data-pick],[data-vote],[data-quest],[data-kick],[data-set],[data-excalibur],[data-loyalty],[data-reaction]'); if(!b) return;
+  const b=e.target.closest('[data-a],[data-pick],[data-vote],[data-quest],[data-kick],[data-set],[data-preset],[data-excalibur],[data-loyalty],[data-reaction]'); if(!b) return;
   if(b.dataset.reaction) return sendReaction(b.dataset.reaction);
   if(b.dataset.kick) return kick(b.dataset.kick);
   if(b.dataset.set) return toggleSetting(b.dataset.set);
+  if(b.dataset.preset) return applyPreset(b.dataset.preset);
   if(b.dataset.excalibur){ S.ui.excalibur=b.dataset.excalibur; return render(); }
   if(b.dataset.loyalty) return submit(b.dataset.loyalty);
   if(b.dataset.pick){
@@ -1216,7 +1284,7 @@ document.addEventListener('click', e=>{
     return render();
   }
   if(b.dataset.vote) return submit(b.dataset.vote==='1');
-  if(b.dataset.quest) return submit(b.dataset.quest);
+  if(b.dataset.quest){ S.ui.questConfirm=b.dataset.quest; return render(); }
   switch(b.dataset.a){
     case 'home': return S.code ? goHome(false) : render();
     case 'lang': LANG = LANG==='zh'?'en':'zh'; LS.set('lang', LANG); document.documentElement.lang = LANG==='zh'?'zh-CN':'en'; return render();
@@ -1224,6 +1292,14 @@ document.addEventListener('click', e=>{
     case 'closeRules': S.ui.rulesOpen=false; return renderRulesModal();
     case 'info': S.ui.infoOpen=b.dataset.info; return renderInfoModal();
     case 'closeInfo': S.ui.infoOpen=null; return renderInfoModal();
+    case 'qr': S.ui.qrOpen=true; return renderQRModal();
+    case 'closeQR': S.ui.qrOpen=false; return renderQRModal();
+    case 'privacyCover': S.ui.privacyCover=!S.ui.privacyCover; if(S.ui.privacyCover) S.peek=false; return render();
+    case 'questSubmit': { const v=S.ui.questConfirm; S.ui.questConfirm=null; return v?submit(v):render(); }
+    case 'questCancel': S.ui.questConfirm=null; return render();
+    case 'prepareHostTransfer': if(!S.ui.hostSuccessor) return toast(t('chooseHost')); S.ui.confirmHostTransfer=true; return render();
+    case 'cancelHostTransfer': S.ui.confirmHostTransfer=false; return render();
+    case 'transferHost': return transferHost();
     case 'toggleNotes': S.ui.notesOpen=!S.ui.notesOpen; return render();
     case 'clearNotes': { const key=notesStorageKey(); if(key) LS.del(key); render(); return toast(t('notesCleared')); }
     case 'create': return createRoom();

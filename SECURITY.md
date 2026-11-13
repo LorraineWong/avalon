@@ -33,6 +33,7 @@ Moving this key to a frontend environment variable would not make it secret beca
 - Only the room host can write game state and encrypted secret payloads.
 - A player can write only their own seat and presence records; the host may remove seats.
 - Role and action payloads use ECDH P-256 and AES-GCM in the browser.
+- An intentional host transfer re-encrypts the master role map to the successor's ECDH public key and atomically commits that ciphertext with the new host pointer. Unexpected automatic takeover is deliberately unsupported because another browser does not possess the existing master key.
 
 This model does not protect against a compromised host browser, malicious code served from the hosting origin, or a player modifying their own client.
 

@@ -24,12 +24,16 @@ An immersive, browser-based implementation of the social-deduction game *The Res
 - **Installable web app** — a lightweight PWA shell keeps the home screen and rules available offline; multiplayer still requires a network connection.
 - **In-game role guide** — review your own ability and the exact role lineup for the current game at any time.
 - **Private deduction notebook** — mark suspected alignments or roles and keep per-player notes locally in your own browser.
+- **Faster room setup** — apply beginner, classic, or expanded role presets, then fine-tune individual modules.
+- **Table-ready sharing and privacy** — invite players with an on-screen QR code and cover all private information with one tap before passing a device.
+- **Safer quest cards** — Success and Fail use clear blue/red treatments and require an explicit confirmation before submission.
+- **Secure host handoff** — the current host can transfer an active game to another online player without revealing the role map.
 
 ## How to Play
 
 1. Open the [live game](https://lorrainewong.github.io/avalon/), enter a name, and create a room.
-2. Share the invite link or five-character room code.
-3. Wait for 5–10 players, configure optional roles, and start the game.
+2. Share the invite link, five-character room code, or on-screen QR code.
+3. Wait for 5–10 players, choose a recommended role preset or configure roles manually, and start the game.
 4. Keep the revealed role private. Discuss, propose teams, vote, and complete quests.
 5. Good wins by completing three quests—unless the Assassin identifies Merlin. Evil wins by failing three quests or rejecting five consecutive proposals.
 
@@ -51,7 +55,7 @@ Firebase Realtime Database (Asia Southeast)
   └─ encrypted private payloads
 ```
 
-The room host's browser advances the game state. Firebase synchronizes the room, seats, encrypted actions, and online presence between clients. If the host disconnects during a game, reopening the room link resumes host-side processing.
+The room host's browser advances the game state. Firebase synchronizes the room, seats, encrypted actions, and online presence between clients. The host may securely hand an active game to another online player: the master role map is re-encrypted for the successor and committed atomically with the host change. If the host disconnects unexpectedly before transferring, that host must reopen the room link; automatic takeover would not have the encryption key needed to continue safely.
 
 ## Security Model
 
@@ -109,12 +113,13 @@ The public footer also links to bilingual privacy and unofficial-project notices
 ├── style.css                  # responsive Camelot design system
 ├── assets/roles/              # optimized role portraits
 ├── database.rules.json        # Firebase Realtime Database rules
-├── vendor/                    # Firebase compat SDK files
+├── vendor/                    # Firebase and QR-code libraries
 ├── docs/                      # design notes, rules coverage, and playtests
 ├── scripts/                   # source and rules verification
 ├── .github/                   # CI and contribution templates
 ├── README.md                  # English documentation
-└── README.zh-CN.md            # Simplified Chinese documentation
+├── README.zh-CN.md            # Simplified Chinese documentation
+└── THIRD_PARTY_NOTICES.md     # bundled dependency notices
 ```
 
 ## Verification
