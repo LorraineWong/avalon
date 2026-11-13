@@ -11,7 +11,7 @@
 const I18N = {
   zh: {
     tHistory:'记录', tNotes:'笔记', tHost:'房主', tRules:'规则', tReact:'表情', editName:'改名', renameTitle:'修改昵称', renameHint:'其他玩家会立刻看到新名字，座位和身份不变。', save:'保存', youAre:'你是', seatNo:'{0} 号位', meMark:'我', roleInfo:'角色说明', hideRole:'收起',
-    lobbyNeed:'还差 {0} 人即可开始', lobbyReady:'人数已够，等待房主开始', lobbyReadyHost:'人数已够，可以开始了', lobbySteps:'等人到齐 → 房主开始 → 各自查看秘密身份',
+    lobbyNeedOne:'还差 1 人即可开始', lineupWaiting:'人数增加时，阵容会自动更新。', lineupPreviewTitle:'{0} 人阵容预览', lobbyNeed:'还差 {0} 人即可开始', lobbyReady:'人数已够，等待房主开始', lobbyReadyHost:'人数已够，可以开始了', lobbySteps:'等人到齐 → 房主开始 → 各自查看秘密身份',
     sub:'阿瓦隆 · 在线版', tagline:'免费在线玩阿瓦隆', heroLead:'5–10 人，无需注册或下载。每人打开手机，分享房间号就能开始。', feat1:'5–10 人', feat2:'无需注册', feat3:'手机电脑都能玩', feat4:'身份加密，无法偷看',
     startTitle:'朋友到齐，30 秒开局', startLead:'不需要账号、不需要主持人发牌，也不用下载安装。', start1:'输入昵称', start1d:'使用游戏昵称即可，不要填写真实姓名或敏感资料。', start2:'创建并邀请', start2d:'分享房间链接、五位房间号或桌面二维码。', start3:'秘密身份开局', start3d:'每个人只在自己的设备上查看身份，然后围桌讨论。',
     madeFor:'适合你的下一场聚会', party1:'面对面聚会', party1d:'每人一台手机，讨论仍然发生在真实圆桌旁。', party2:'远程语音局', party2d:'把房间链接发进群聊，配合语音或视频通话。', party3:'新手与老玩家', party3d:'从推荐阵容开始，也可启用 17 种角色与扩展模块。',
@@ -63,7 +63,7 @@ const I18N = {
   },
   en: {
     tHistory:'History', tNotes:'Notes', tHost:'Host', tRules:'Rules', tReact:'React', editName:'Rename', renameTitle:'Change your name', renameHint:'Everyone sees the new name right away. Your seat and role stay the same.', save:'Save', youAre:'You are', seatNo:'Seat {0}', meMark:'YOU', roleInfo:'Role guide', hideRole:'Hide',
-    lobbyNeed:'{0} more player(s) needed to start', lobbyReady:'Enough players — waiting for the host to start', lobbyReadyHost:'Enough players — you can start', lobbySteps:'Gather players → host starts → everyone checks their secret role',
+    lobbyNeedOne:'Waiting for 1 more player', lineupWaiting:'The lineup updates as players join.', lineupPreviewTitle:'{0}-player lineup preview', lobbyNeed:'Waiting for {0} more players', lobbyReady:'Enough players — waiting for the host to start', lobbyReadyHost:'Enough players — you can start', lobbySteps:'Gather players → host starts → everyone checks their secret role',
     sub:'Avalon · Online', tagline:'Play Avalon online for free', heroLead:'5–10 players, no sign-up or download. Open a room, share the code, and start on any phone.', feat1:'5–10 players', feat2:'No sign-up', feat3:'Phone & desktop', feat4:'Encrypted roles',
     startTitle:'From group chat to game in 30 seconds', startLead:'No accounts, app download, or human dealer required.', start1:'Choose a game name', start1d:'A nickname is enough — never enter real or sensitive information.', start2:'Create and invite', start2d:'Share the room link, five-character code, or table-ready QR.', start3:'Reveal roles privately', start3d:'Everyone checks their own device, then the discussion begins.',
     madeFor:'Made for your next game night', party1:'Around one table', party1d:'One phone each; the bluffing and debate stay face to face.', party2:'Remote game night', party2d:'Drop the room link in chat and keep a voice or video call open.', party3:'New and experienced groups', party3d:'Start with recommended lineups or explore 17 roles and modules.',
@@ -81,7 +81,7 @@ const I18N = {
     optMerlin:'Merlin + Assassin', optMerlinD:'The classic core', optLady:'Lady of the Lake', optLadyD:'7+ players', optExcalibur:'Excalibur', optExcaliburD:'Its holder may switch another member\'s Quest card',
     optLancelot:'Lancelots', optLancelotD:'One Good and one Evil; they know each other', optLancelotSwitch:'Lancelot allegiance variant', optLancelotSwitchD:'Reveal an Allegiance card before each Quest; they do not know each other',
     ph_propose:'Team building', ph_vote:'Voting', ph_quest:'Quest', ph_excalibur:'Excalibur', ph_loyalty:'Loyalty check', ph_recruit:'Recruitment', ph_lady:'Lady of the Lake', ph_assassin:'Assassination', ph_end:'Game over',
-    questN:'Quest {0}', attempt:'Proposal {0}/5', needTwo:'Needs 2 fails', fails:'{0} fail(s)', score:'Score', goodNeeds:'Good needs {0} more success(es)', evilNeeds:'Evil needs {0} more fail(s)', waitingFor:'Waiting for', allDone:'Actions complete — resolving…', offlinePlayer:'offline',
+    questN:'Quest {0}', attempt:'Proposal {0}/5', needTwo:'Needs 2 fails', fails:'Fails: {0}', score:'Score', goodNeeds:'Good needs {0} successful Quests', evilNeeds:'Evil needs {0} failed Quests', waitingFor:'Waiting for', allDone:'Actions complete — resolving…', offlinePlayer:'offline',
     leaderPick:'You lead: pick {0} players', leaderHint:'Tap players around the table. You may pick yourself.', submitTeam:'Propose team', resubmit:'Propose again', selectedTeam:'Selected team', tapRemove:'Tap a portrait to remove', confirmTeam:'Send this team: {0}?', confirmTeamAction:'Send team',
     waitLeader:'{0} is picking {1} players', discuss:'The Leader’s draft team appears live. Discuss while they decide.', leaderDraft:'Leader’s current draft', voteTitle:'Approve this team?',
     approve:'Approve', reject:'Reject', voted:'Vote cast — you can change it until everyone has voted.', pleaseVote:'Cast your vote. All votes are revealed together.', votedCount:'Voted {0}/{1}',
@@ -115,9 +115,9 @@ const I18N = {
   }
 };
 const REACTIONS = [
-  {id:'agree', emoji:'👍', label:'reactAgree'}, {id:'think', emoji:'🤔', label:'reactThink'},
-  {id:'sus', emoji:'🤨', label:'reactSus'}, {id:'shock', emoji:'😱', label:'reactShock'},
-  {id:'laugh', emoji:'😂', label:'reactLaugh'}, {id:'sword', emoji:'⚔️', label:'reactSword'}
+  {id:'agree', icon:'agree', label:'reactAgree'}, {id:'think', icon:'think', label:'reactThink'},
+  {id:'sus', icon:'sus', label:'reactSus'}, {id:'shock', icon:'shock', label:'reactShock'},
+  {id:'laugh', icon:'laugh', label:'reactLaugh'}, {id:'sword', icon:'sword', label:'reactSword'}
 ];
 const REACTION_MS = 5000;
 const ROLE_TXT = {
@@ -161,26 +161,26 @@ const ROLE_TXT = {
   }
 };
 const ROLE_META = {
-  merlin:{side:'good',ic:'✦',art:'assets/roles/merlin.webp'},
-  percival:{side:'good',ic:'◈',art:'assets/roles/percival.webp'},
-  servant:{side:'good',ic:'⚔',art:'assets/roles/servant.webp'},
-  assassin:{side:'evil',ic:'†',art:'assets/roles/assassin.webp'},
-  morgana:{side:'evil',ic:'☾',art:'assets/roles/morgana.webp'},
-  mordred:{side:'evil',ic:'♜',art:'assets/roles/mordred.webp'},
-  oberon:{side:'evil',ic:'♠',art:'assets/roles/oberon.webp'},
-  minion:{side:'evil',ic:'◆',art:'assets/roles/minion.webp'},
-  lancelotGood:{side:'good',ic:'♞',art:'assets/roles/lancelot-good.webp'},
-  lancelotEvil:{side:'evil',ic:'♞',art:'assets/roles/lancelot-evil.webp'},
-  lunatic:{side:'evil',ic:'☄',art:'assets/roles/lunatic.webp'},
-  brute:{side:'evil',ic:'⚒',art:'assets/roles/brute.webp'},
-  revealer:{side:'evil',ic:'◉',art:'assets/roles/revealer.webp'},
-  cleric:{side:'good',ic:'☩',art:'assets/roles/cleric.webp'},
-  trickster:{side:'evil',ic:'☿',art:'assets/roles/trickster.webp'},
-  troublemaker:{side:'good',ic:'⚡',art:'assets/roles/troublemaker.webp'},
-  untrustworthy:{side:'good',ic:'⚜',art:'assets/roles/untrustworthy.webp'},
+  merlin:{side:'good',icon:'sparkle',art:'assets/roles/merlin.webp'},
+  percival:{side:'good',icon:'eye',art:'assets/roles/percival.webp'},
+  servant:{side:'good',icon:'shield',art:'assets/roles/servant.webp'},
+  assassin:{side:'evil',icon:'sword',art:'assets/roles/assassin.webp'},
+  morgana:{side:'evil',icon:'moon',art:'assets/roles/morgana.webp'},
+  mordred:{side:'evil',icon:'crown',art:'assets/roles/mordred.webp'},
+  oberon:{side:'evil',icon:'eyeoff',art:'assets/roles/oberon.webp'},
+  minion:{side:'evil',icon:'sword',art:'assets/roles/minion.webp'},
+  lancelotGood:{side:'good',icon:'shield',art:'assets/roles/lancelot-good.webp'},
+  lancelotEvil:{side:'evil',icon:'sword',art:'assets/roles/lancelot-evil.webp'},
+  lunatic:{side:'evil',icon:'sus',art:'assets/roles/lunatic.webp'},
+  brute:{side:'evil',icon:'sword',art:'assets/roles/brute.webp'},
+  revealer:{side:'evil',icon:'flag',art:'assets/roles/revealer.webp'},
+  cleric:{side:'good',icon:'droplet',art:'assets/roles/cleric.webp'},
+  trickster:{side:'evil',icon:'swap',art:'assets/roles/trickster.webp'},
+  troublemaker:{side:'good',icon:'smile',art:'assets/roles/troublemaker.webp'},
+  untrustworthy:{side:'good',icon:'lock',art:'assets/roles/untrustworthy.webp'},
 };
 let LANG = 'en';
-function t(k, ...a){ const s = (I18N[LANG][k] ?? I18N.zh[k] ?? k); return s.replace(/\{(\d)\}/g, (_,i)=>a[+i] ?? ''); }
+function t(k, ...a){ let s = (I18N[LANG][k] ?? I18N.zh[k] ?? k); if(LANG==='en' && a[0]===1 && ['goodNeeds','evilNeeds'].includes(k)) s=s.replace('Quests','Quest'); return s.replace(/\{(\d)\}/g, (_,i)=>a[+i] ?? ''); }
 const rName = r => ROLE_TXT[LANG][r][0];
 const rDesc = r => ROLE_TXT[LANG][r][1];
 const side = r => ROLE_META[r] ? ROLE_META[r].side : null;
@@ -260,6 +260,23 @@ const $ = s => document.querySelector(s);
 /* One small line-icon set for every button, so controls do not depend on how a
  * platform happens to draw emoji. */
 const ICONS = {
+  agree:'<path d="M8 10 12 3c2 0 2 2 1 6h5a2 2 0 0 1 2 2l-1 7a2 2 0 0 1-2 2H8Z"/><rect x="3" y="10" width="5" height="10" rx="1"/>',
+  think:'<path d="M9 20a8.5 8.5 0 1 1 12-8"/><path d="m7 8 3 1m5-1 2 1M9 11v.5m6-.5v.5M8 16h4m3 6v-7a1.5 1.5 0 0 1 3 0v3l2-1a2 2 0 0 1 2 2l-1 3"/>',
+  sus:'<circle cx="12" cy="12" r="8.5"/><path d="m6.5 8 4 1.5m3-1 4-1M9 11v.5m6-.5v.5m-6 5 6-1"/>',
+  shock:'<circle cx="12" cy="12" r="8.5"/><path d="M8 8h2m4 0h2M9 11h.01M15 11h.01"/><ellipse cx="12" cy="16" rx="2" ry="2.5"/>',
+  laugh:'<circle cx="12" cy="12" r="8.5"/><path d="m6.5 10 2-2 2 2m3 0 2-2 2 2M7.5 14h9a4.5 4.5 0 0 1-9 0Z"/>',
+  shield:'<path d="M12 3 20 6v6c0 4.5-4 7.5-8 9-4-1.5-8-4.5-8-9V6Z"/><path d="m8.5 11 2.5 3 4.5-5"/>',
+  sword:'<path d="m14 4 6-1-1 6-9.5 9.5-4-4Z"/><path d="m4 13 7 7M3 21l4-4M12 10l3 3"/>',
+  moon:'<path d="M20 14.5A8.5 8.5 0 0 1 9.5 4 8.5 8.5 0 1 0 20 14.5Z"/>',
+  clock:'<circle cx="12" cy="12" r="8.5"/><path d="M12 7v5l3 2"/>',
+  lock:'<rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3M12 14v3"/>',
+  device:'<rect x="3" y="4" width="14" height="11" rx="2"/><path d="M7 20h6M10 15v5"/><rect x="16" y="10" width="5" height="10" rx="1"/>',
+  globe:'<circle cx="12" cy="12" r="9"/><ellipse cx="12" cy="12" rx="4" ry="9"/><path d="M3 12h18"/>',
+  sparkle:'<path d="m12 3 2.5 6.5L21 12l-6.5 2.5L12 21l-2.5-6.5L3 12l6.5-2.5Z"/>',
+  settings:'<path d="M4 7h16M4 17h16"/><circle cx="9" cy="7" r="3"/><circle cx="15" cy="17" r="3"/>',
+  droplet:'<path d="M12 3c-2 4-7 7.5-7 12a7 7 0 0 0 14 0c0-4.5-5-8-7-12Z"/><path d="M9 15a3 3 0 0 0 3 3"/>',
+  vote:'<path d="m9 3 7 4-4 7-7-4Z"/><path d="M4 13 2 17v4h20v-4l-3-5M2 17h20M14 16h4"/>',
+  flag:'<path d="M5 21V3c5-3 9 4 14 0v10c-5 4-9-3-14 0"/>',
   check:'<path d="M5 12.5l4.5 4.5L19 7.5"/>',
   x:'<path d="M6 6l12 12M18 6L6 18"/>',
   link:'<path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/>',
@@ -279,6 +296,7 @@ const ICONS = {
   exit:'<path d="M14 4.500H6.500v15H14"/><path d="M10 12h10M17 8.500l3.500 3.500-3.500 3.500"/>',
   swap:'<path d="M4 8.500h14M14.500 5L18 8.500 14.500 12"/><path d="M20 15.500H6M9.500 12L6 15.500 9.500 19"/>',
 };
+const roleIcon = r => ic(ROLE_META[r]?.icon || 'shield');
 const ic = n => '<svg class="ic" viewBox="0 0 24 24" aria-hidden="true">'+ICONS[n]+'</svg>';
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 function rnd(n){ const a=new Uint32Array(1); crypto.getRandomValues(a); return a[0]%n; }
@@ -931,20 +949,25 @@ function currentLineupContent(){
   if(built.err || !built.roles) return '';
   const counts={}; built.roles.forEach(r=>counts[r]=(counts[r]||0)+1);
   const roles=Object.keys(counts);
-  return '<section class="current-lineup-guide"><div class="lineup-guide-head"><div><h3>♟ '+t('currentLineup')+' · '+n+'</h3><p>'+t('lineupHint')+(actual<5?' '+t('lineupPreview',n):'')+'</p></div><div class="lineup-totals"><span class="tag good">'+built.gd+' '+t('good')+'</span><span class="tag evil">'+built.ev+' '+t('evil')+'</span></div></div><div class="rgrid lineup-guide-grid">'+roles.map(r=>roleGuide(r,counts[r])).join('')+'</div></section>';
+  return '<section class="current-lineup-guide"><div class="lineup-guide-head"><div><h3>'+ic('users')+' '+t('currentLineup')+' · '+n+'</h3><p>'+t('lineupHint')+(actual<5?' '+t('lineupPreview',n):'')+'</p></div><div class="lineup-totals"><span class="tag good">'+built.gd+' '+t('good')+'</span><span class="tag evil">'+built.ev+' '+t('evil')+'</span></div></div><div class="rgrid lineup-guide-grid">'+roles.map(r=>roleGuide(r,counts[r])).join('')+'</div></section>';
+}
+function setupTable(){
+  return '<section class="setup-reference"><h3>'+ic('users')+(LANG==='zh'?'人数与任务配置':'Player & Quest reference')+'</h3><div class="setup-table-wrap"><table class="setup-table"><thead><tr><th scope="col">'+t('players')+'</th><th scope="col" class="good-text">'+ic('shield')+t('good')+'</th><th scope="col" class="evil-text">'+ic('sword')+t('evil')+'</th><th scope="col">'+(LANG==='zh'?'任务队伍':'Quest teams')+'</th></tr></thead><tbody>'
+    +[5,6,7,8,9,10].map(n=>'<tr><th scope="row">'+n+'</th><td class="good-text">'+(n-EVIL_N[n])+'</td><td class="evil-text">'+EVIL_N[n]+'</td><td><div class="quest-sizes">'+SIZES[n].map((size,i)=>'<span class="'+(n>=7&&i===3?'two-fails':'')+'" title="'+t('questN',i+1)+(n>=7&&i===3?' · '+t('needTwo'):'')+'">'+size+'</span>').join('')+'</div></td></tr>').join('')
+    +'</tbody></table></div><p class="setup-footnote">'+(LANG==='zh'?'队伍人数按任务 1–5 排列。7 人及以上，第 4 个任务需要两张失败牌。':'Team sizes run from Quest 1 to 5. With 7+ players, Quest 4 needs two Fail cards.')+'</p></section>';
 }
 function rulesContent(){
   const good=['merlin','percival','cleric','troublemaker','untrustworthy','lancelotGood','servant'];
   const evil=['assassin','morgana','mordred','oberon','trickster','lunatic','brute','revealer','lancelotEvil','minion'];
-  return '<section class="rules-flow"><h3>⚔ '+t('howToPlay')+'</h3><ol>'
+  return '<section class="rules-flow"><h3>'+ic('sword')+' '+t('howToPlay')+'</h3><ol>'
     +[['step1Title','step1Body'],['step2Title','step2Body'],['step3Title','step3Body'],['step4Title','step4Body']].map(x=>'<li><b>'+t(x[0]).replace(/^\d · /,'')+'</b><span>'+t(x[1])+'</span></li>').join('')+'</ol></section>'
     +'<div class="rules-copy"><p>'+t('rulesP3')+'</p></div><h3 class="all-role-title">'+t('allRoleGuide')+'</h3>'
-    +'<div class="rule-camps"><section class="camp good"><h3>🛡️ '+t('goodCamp')+'</h3><div class="rgrid">'+good.map(r=>roleGuide(r)).join('')+'</div></section>'
-    +'<section class="camp evil"><h3>🗡️ '+t('evilCamp')+'</h3><div class="rgrid">'+evil.map(r=>roleGuide(r)).join('')+'</div></section></div>'
-    +'<p class="muted small rules-counts">'+t('rulesP4')+'</p>';
+    +'<div class="rule-camps"><section class="camp good"><h3>'+ic('shield')+' '+t('goodCamp')+'</h3><div class="rgrid">'+good.map(r=>roleGuide(r)).join('')+'</div></section>'
+    +'<section class="camp evil"><h3>'+ic('sword')+' '+t('evilCamp')+'</h3><div class="rgrid">'+evil.map(r=>roleGuide(r)).join('')+'</div></section></div>'
+    +setupTable();
 }
 function rulesBlock(){
-  return '<details class="rules" '+(S.ui.rulesInlineOpen?'open':'')+'><summary><span class="summary-mark">✦</span> '+t('rules')+'</summary>'+rulesContent()+'</details>';
+  return '<details class="rules" '+(S.ui.rulesInlineOpen?'open':'')+'><summary><span class="summary-mark">'+ic('sparkle')+'</span> '+t('rules')+'</summary>'+rulesContent()+'</details>';
 }
 function lobbyGuideBar(){
   return '<div class="lobby-guide-links"><button class="btn sm" data-a="rulesLineup">'+ic('users')+t('roleInfo')+'</button><button class="btn ghost sm" data-a="rulesFull">'+ic('book')+t('fullRules')+'</button></div>';
@@ -957,7 +980,7 @@ function renderRulesModal(){
   el._key=key;
   const tabs='<div class="rules-tabs" role="tablist"><button class="btn '+(tab==='lineup'?'active':'')+'" role="tab" aria-selected="'+(tab==='lineup')+'" data-a="rulesLineup">'+ic('users')+t('currentLineup')+'</button><button class="btn '+(tab==='rules'?'active':'')+'" role="tab" aria-selected="'+(tab==='rules')+'" data-a="rulesFull">'+ic('book')+t('fullRules')+'</button></div>';
   const content=tab==='lineup'?currentLineupContent():rulesContent();
-  el.innerHTML='<div class="rules-modal" role="dialog" aria-modal="true" aria-label="'+t('rulesAnytime')+'"><div class="glass rules-sheet"><div class="rules-head"><div><div class="eyebrow">AVALON GUIDE</div><h2>'+(tab==='lineup'?'♟ '+t('currentLineup'):'📜 '+t('fullRules'))+'</h2></div><button class="btn ghost icon rules-close" data-a="closeRules" aria-label="'+t('close')+'">'+ic('x')+'</button></div>'+tabs+'<div class="rules-tab-content">'+content+'</div></div></div>';
+  el.innerHTML='<div class="rules-modal" role="dialog" aria-modal="true" aria-label="'+t('rulesAnytime')+'"><div class="glass rules-sheet"><div class="rules-head"><div><div class="eyebrow">AVALON GUIDE</div><h2>'+(tab==='lineup'?ic('users')+' '+t('currentLineup'):ic('book')+' '+t('fullRules'))+'</h2></div><button class="btn ghost icon rules-close" data-a="closeRules" aria-label="'+t('close')+'">'+ic('x')+'</button></div>'+tabs+'<div class="rules-tab-content">'+content+'</div></div></div>';
   requestAnimationFrame(()=>el.querySelector('.rules-close')?.focus());
 }
 function infoContent(kind){
@@ -1012,7 +1035,7 @@ function viewHome(){
   const last=LS.get('last');
   return '<div class="hero"><div class="hero-art hero-art-good"><img src="'+ROLE_META.merlin.art+'" alt="Merlin"></div><div class="hero-art hero-art-evil"><img src="'+ROLE_META.morgana.art+'" alt="Morgana"></div>'
     +'<div class="hero-copy"><div class="eyebrow">THE RESISTANCE</div><div class="crest"><span>V</span></div><h1>AVALON</h1><div class="sub">'+t('tagline')+'</div><p class="hero-lead">'+t('heroLead')+'</p><p class="hero-oath">'+(LANG==='zh'?'忠诚藏于誓言，背叛隐于圆桌。':'Loyalty hides in every oath. Treachery sits at the table.')+'</p>'
-    +'<div class="feature"><span>♟ '+t('feat1')+'</span><span>✦ '+t('feat2')+'</span><span>⌁ '+t('feat3')+'</span><span>⌘ '+t('feat4')+'</span></div></div></div>'
+    +'<div class="feature"><span>'+ic('users')+' '+t('feat1')+'</span><span>'+ic('sparkle')+' '+t('feat2')+'</span><span>'+ic('device')+' '+t('feat3')+'</span><span>'+ic('lock')+' '+t('feat4')+'</span></div></div></div>'
     +(last ? '<div class="glass resume"><span>'+t('resume','<b style="letter-spacing:2px">'+esc(last)+'</b>')+'</span><button class="btn pri" data-a="resume">'+t('resumeBtn')+'</button></div>' : '')
     +'<div class="home-grid"><div class="glass card"><h2>'+t('nick')+'</h2><input class="input" id="nick" aria-label="'+t('nick')+'" maxlength="12" placeholder="'+t('nickPh')+'" value="'+esc(S.ui.nick)+'">'
     +'<button class="btn pri" data-a="create">'+ic('plus')+t('create')+'</button></div>'
@@ -1027,16 +1050,16 @@ function viewLobby(){
   let seats=ids.map(p=>{
     const s=S.seats[p], mine=p===ME.pid;
     return '<div class="seatcard'+(mine?' me':'')+'">'+'<div class="av player-avatar" style="'+avStyle(p)+'"><span class="on '+(Net.isOnline(p)?'y':'')+'"></span></div>'
-      +'<div class="seat-info"><div class="nm">'+esc(s.nick)+'</div>'+(p===g.host?'<span class="tag host">👑 '+t('host')+'</span>':'')+(mine?'<span class="tag me">'+t('you')+'</span>':'')+'</div>'
+      +'<div class="seat-info"><div class="nm">'+esc(s.nick)+'</div>'+(p===g.host?'<span class="tag host">'+ic('crown')+' '+t('host')+'</span>':'')+(mine?'<span class="tag me">'+t('you')+'</span>':'')+'</div>'
       +(mine?'<button class="seat-edit" data-a="editName" aria-label="'+t('editName')+'">'+ic('pencil')+t('editName')+'</button>':'')
       +(host && !mine ? '<button class="x" title="kick" aria-label="kick" data-kick="'+esc(p)+'">'+ic('x')+'</button>' : '')+'</div>';
   }).join('');
   for(let i=n;i<Math.max(5,Math.min(10,n+1));i++) seats+='<div class="seatcard empty tiny">'+t('emptySeat')+'</div>';
   const tile=(k,role,name,desc,cls)=>'<button class="rt '+cls+(st[k]?' on':'')+'" '+(host?'data-set="'+k+'"':'disabled')+'>'+roleArt(role,'tile-art')+'<span><b>'+name+'</b><span>'+desc+'</span></span></button>';
-  const lineupSide=(s,label,count)=>'<section class="lineup-side '+s+'"><h3><span>'+(s==='good'?'🛡️':'🗡️')+' '+label+'</span><b>'+count+'</b></h3><div class="lineup-roles">'+pv.roles.filter(r=>side(r)===s).map(r=>'<span class="tag '+s+'">'+ROLE_META[r].ic+' '+rName(r)+'</span>').join('')+'</div></section>';
+  const lineupSide=(s,label,count)=>'<section class="lineup-side '+s+'"><h3><span>'+(s==='good'?ic('shield'):ic('sword'))+' '+label+'</span><b>'+count+'</b></h3><div class="lineup-roles">'+pv.roles.filter(r=>side(r)===s).map(r=>'<span class="lineup-character">'+roleArt(r,'lineup-art')+'<span>'+rName(r)+'</span></span>').join('')+'</div></section>';
   const compHtml = pv.err ? '<p class="warn small">'+esc(pv.err)+'</p>' :
-    '<div class="lineup-title">'+t('currentLineup')+' · '+Math.min(10,Math.max(5,n))+'</div><div class="lineup">'+lineupSide('good',t('goodCamp'),pv.gd)+lineupSide('evil',t('evilCamp'),pv.ev)+'</div>'
-    +'<p class="muted small" style="margin:7px 0 0">'+(n>=5&&n<=10 ? t('comp', n, pv.gd, pv.ev) : t('compPrev', Math.min(10,Math.max(5,n)), pv.gd, pv.ev))+'</p>';
+    '<div class="lineup-title">'+(n<5?t('lineupPreviewTitle',5):t('currentLineup')+' · '+n)+'</div><div class="lineup">'+lineupSide('good',t('goodCamp'),pv.gd)+lineupSide('evil',t('evilCamp'),pv.ev)+'</div>'
+    +'<p class="muted small" style="margin:7px 0 0">'+(n<5?t('lineupWaiting'):'')+'</p>';
   const goodSettings=tile('percival','percival',rName('percival'),rDesc('percival').split(/[。.]/)[0],'good')
     +tile('cleric','cleric',rName('cleric'),rDesc('cleric').split(/[。.]/)[0],'good')
     +tile('troublemaker','troublemaker',rName('troublemaker'),rDesc('troublemaker').split(/[。.]/)[0],'good')
@@ -1051,15 +1074,18 @@ function viewLobby(){
   const modules=tile('merlin','merlin',t('optMerlin'),t('optMerlinD'),'neutral')
     +tile('lancelot','lancelotGood',t('optLancelot'),t('optLancelotD'),'neutral')
     +tile('lancelotSwitch','lancelotEvil',t('optLancelotSwitch'),t('optLancelotSwitchD'),'neutral')
-    +'<button class="rt neutral'+(st.lady?' on':'')+'" '+(host?'data-set="lady"':'disabled')+'><span class="lady-art">◯</span><span><b>'+t('optLady')+'</b><span>'+t('optLadyD')+'</span></span></button>'
-    +'<button class="rt neutral'+(st.excalibur?' on':'')+'" '+(host?'data-set="excalibur"':'disabled')+'><span class="lady-art">⚔</span><span><b>'+t('optExcalibur')+'</b><span>'+t('optExcaliburD')+'</span></span></button>';
+    +'<button class="rt neutral'+(st.lady?' on':'')+'" '+(host?'data-set="lady"':'disabled')+'><span class="lady-art">'+ic('droplet')+'</span><span><b>'+t('optLady')+'</b><span>'+t('optLadyD')+'</span></span></button>'
+    +'<button class="rt neutral'+(st.excalibur?' on':'')+'" '+(host?'data-set="excalibur"':'disabled')+'><span class="lady-art">'+ic('sword')+'</span><span><b>'+t('optExcalibur')+'</b><span>'+t('optExcaliburD')+'</span></span></button>';
   const need=Math.max(0,5-n);
-  const status='<div class="lobby-status'+(need?'':' ready')+'"><b>'+(need?t('lobbyNeed',need):t(host?'lobbyReadyHost':'lobbyReady'))+'</b><span>'+t('lobbySteps')+'</span></div>';
-  const presets='<div class="preset-wrap"><span class="muted tiny">'+t('presets')+'</span><div class="preset-row"><button class="btn sm preset-btn" data-preset="new">'+t('presetNew')+'</button><button class="btn sm preset-btn" data-preset="classic">'+t('presetClassic')+'</button><button class="btn sm preset-btn" data-preset="big">'+t('presetBig')+'</button></div></div>';
-  const advanced='<details class="settings-advanced" '+(S.ui.settingsOpen?'open':'')+'><summary><span><b>⚙ '+t('advancedRoles')+'</b><small>'+t('advancedRolesHint')+'</small></span><i>⌄</i></summary><div class="settings-advanced-body"><div class="settings-camps">'
-    +'<section class="setting-camp good"><h3>🛡️ '+t('goodCamp')+'</h3><div class="roletiles">'+goodSettings+'</div></section>'
-    +'<section class="setting-camp evil"><h3>🗡️ '+t('evilCamp')+'</h3><div class="roletiles">'+evilSettings+'</div></section></div>'
-    +'<section class="setting-camp modules"><h3>✦ '+t('gameModules')+'</h3><div class="roletiles">'+modules+'</div></section></div></details>';
+  const status='<div class="lobby-status'+(need?'':' ready')+'"><b>'+(need?(need===1?t('lobbyNeedOne'):t('lobbyNeed',need)):t(host?'lobbyReadyHost':'lobbyReady'))+'</b><span>'+t('lobbySteps')+'</span></div>';
+  const presets='<div class="preset-wrap"><span class="muted tiny">'+t('presets')+'</span><div class="preset-row">'+['new','classic','big'].map(id=>{
+    const expected=presetSettings(id,Math.min(10,Math.max(5,n))), active=Object.keys(expected).every(k=>!!st[k]===!!expected[k]);
+    return '<button class="btn sm preset-btn'+(active?' active':'')+'" data-preset="'+id+'" aria-pressed="'+active+'">'+(active?ic('check'):'')+t(id==='new'?'presetNew':id==='classic'?'presetClassic':'presetBig')+'</button>';
+  }).join('')+'</div></div>';
+  const advanced='<details class="settings-advanced" '+(S.ui.settingsOpen?'open':'')+'><summary><span><b>'+ic('settings')+' '+t('advancedRoles')+'</b><small>'+t('advancedRolesHint')+'</small></span><i>⌄</i></summary><div class="settings-advanced-body"><div class="settings-camps">'
+    +'<section class="setting-camp good"><h3>'+ic('shield')+' '+t('goodCamp')+'</h3><div class="roletiles">'+goodSettings+'</div></section>'
+    +'<section class="setting-camp evil"><h3>'+ic('sword')+' '+t('evilCamp')+'</h3><div class="roletiles">'+evilSettings+'</div></section></div>'
+    +'<section class="setting-camp modules"><h3>'+ic('sparkle')+' '+t('gameModules')+'</h3><div class="roletiles">'+modules+'</div></section></div></details>';
   // Guests only need to see what is in play; the controls stay with the host.
   const roleSetup=host ? presets+compHtml+lobbyGuideBar()+advanced : compHtml+lobbyGuideBar();
   return '<div class="glass card roomcode"><div class="roomcode-main"><div class="muted small">'+t('roomCode')+'</div><div class="code">'+esc(g.code)+'</div></div>'
@@ -1067,7 +1093,7 @@ function viewLobby(){
     +'<div class="lobby"><div class="glass card lobby-players">'+status+'<h2>'+t('players')+' · '+n+'/10</h2><div class="seats">'+seats+'</div>'
     +(seated?'':'<div class="row seat-join"><input class="input" id="nick" maxlength="12" placeholder="'+t('nickPh')+'" value="'+esc(S.ui.nick)+'" style="flex:1;min-width:120px"><button class="btn pri" data-a="seat">'+t('seat')+'</button></div>')
     +'<div class="row lobby-actions">'
-    +(host?'<button class="btn pri big" data-a="start" '+(br.err||S.ui.busy?'disabled':'')+'>'+(S.ui.busy?t('dealing'):ic('play')+t('start'))+'</button>':'<span class="muted lobby-wait">⏳ '+t('waitHost')+'</span>')
+    +(host?'<button class="btn pri big" data-a="start" '+(br.err||S.ui.busy?'disabled':'')+'>'+(S.ui.busy?t('dealing'):ic('play')+t('start'))+'</button>':'<span class="muted lobby-wait">'+ic('clock')+' '+t('waitHost')+'</span>')
     +'<button class="btn ghost" data-a="leave">'+ic('exit')+t('leave')+'</button></div>'
     +(host&&br.err&&!need?'<p class="warn small" style="margin-bottom:0">'+esc(br.err)+'</p>':'')+'</div>'
     +'<div class="glass card lobby-roles"><h2>'+t('roleSettings')+(host?'':' <span class="muted small">· '+t('hostOnly')+'</span>')+'</h2>'+roleSetup+'</div></div>';
@@ -1127,16 +1153,16 @@ function savePrivateNote(pid, field, value){
 function privateNotesPanel(g){
   if(!g.order||!g.order.length) return '';
   const open=S.ui.notesOpen;
-  if(!open) return '<button class="glass card private-notes-toggle" data-a="toggleNotes"><span>✎</span><span><b>'+t('privateNotes')+'</b><small>'+t('openNotes')+'</small></span><span>›</span></button>';
+  if(!open) return '<button class="glass card private-notes-toggle" data-a="toggleNotes"><span>'+ic('pencil')+'</span><span><b>'+t('privateNotes')+'</b><small>'+t('openNotes')+'</small></span><span>›</span></button>';
   const notes=readPrivateNotes(), roles=noteRoleOptions(g);
-  const options=(selected)=>'<option value="">'+t('unmarked')+'</option><option value="good" '+(selected==='good'?'selected':'')+'>🛡 '+t('leanGood')+'</option><option value="evil" '+(selected==='evil'?'selected':'')+'>🗡 '+t('leanEvil')+'</option>'+roles.map(r=>'<option value="'+r+'" '+(selected===r?'selected':'')+'>'+ROLE_META[r].ic+' '+rName(r)+'</option>').join('');
+  const options=(selected)=>'<option value="">'+t('unmarked')+'</option><option value="good" '+(selected==='good'?'selected':'')+'>'+t('leanGood')+'</option><option value="evil" '+(selected==='evil'?'selected':'')+'>'+t('leanEvil')+'</option>'+roles.map(r=>'<option value="'+r+'" '+(selected===r?'selected':'')+'>'+rName(r)+'</option>').join('');
   const rows=g.order.filter(pid=>pid!==ME.pid).map(pid=>{ const note=notes[pid]||{}; return '<div class="private-note-row"><div class="private-note-person"><span class="note-avatar player-avatar" style="'+avStyle(pid)+'"></span><b>'+esc(nickOf(pid))+'</b></div><select class="note-select" id="note-mark-'+esc(pid)+'" data-note-player="'+esc(pid)+'" aria-label="'+t('suspectAs')+' · '+esc(nickOf(pid))+'">'+options(note.mark||'')+'</select><textarea class="note-text" id="note-text-'+esc(pid)+'" data-note-player="'+esc(pid)+'" maxlength="240" rows="1" aria-label="'+t('privateNotes')+' · '+esc(nickOf(pid))+'" placeholder="'+t('notePlaceholder')+'">'+esc(note.text||'')+'</textarea></div>'; }).join('');
-  return '<section class="glass card private-notes"><div class="private-notes-head"><div><h3>✎ '+t('privateNotes')+'</h3><p>🔒 '+t('notesHint')+'</p></div></div><div class="private-note-list">'+rows+'</div><button class="btn link notes-clear" data-a="clearNotes">'+t('clearNotes')+'</button></section>';
+  return '<section class="glass card private-notes"><div class="private-notes-head"><div><h3>'+ic('pencil')+' '+t('privateNotes')+'</h3><p>'+ic('lock')+' '+t('notesHint')+'</p></div></div><div class="private-note-list">'+rows+'</div><button class="btn link notes-clear" data-a="clearNotes">'+t('clearNotes')+'</button></section>';
 }
 function reactionPanel(g){
   if(!g.order.includes(ME.pid) || !S.seats[ME.pid]) return '';
   return '<div class="reactions" role="group" aria-label="'+t('react')+'"><div class="reaction-row">'
-    +REACTIONS.map(r=>'<button class="reaction-btn" data-reaction="'+r.id+'" aria-label="'+t(r.label)+'" title="'+t(r.label)+'">'+r.emoji+'</button>').join('')+'</div></div>';
+    +REACTIONS.map(r=>'<button class="reaction-btn" data-reaction="'+r.id+'" aria-label="'+t(r.label)+'" title="'+t(r.label)+'">'+ic(r.icon)+'</button>').join('')+'</div></div>';
 }
 /* Everything that is not the current action lives behind one row of tabs, so the
  * side panel stays one screen tall. On phones an open tab becomes a bottom sheet. */
@@ -1184,7 +1210,7 @@ function phaseActors(g){
   return [];
 }
 function actionStatus(g){
-  const actors=phaseActors(g); if(!actors.length) return '';
+  const actors=phaseActors(g); if(!actors.length || g.phase==='propose') return '';
   const waiting=actors.filter(pid=>!acted(pid));
   if(!waiting.length) return '<div class="action-status done">✓ '+t('allDone')+'</div>';
   return '<div class="action-status"><b>'+t('waitingFor')+'</b><div class="wait-people">'+waiting.map(pid=>'<span class="wait-person '+(Net.isOnline(pid)?'':'offline')+'"><i class="player-avatar" style="'+avStyle(pid)+'"></i><span>'+esc(nickOf(pid))+(Net.isOnline(pid)?'':' · '+t('offlinePlayer'))+'</span></span>').join('')+'</div></div>';
@@ -1204,23 +1230,23 @@ function tableView(g){
     const onTeam=['vote','quest','excalibur'].includes(g.phase) && (g.team||[]).includes(p);
     const can=pm && pm.ok(p), picked=(g.phase==='propose'?draftTeam:S.ui.pick).includes(p), skillKnown=sees.has(p)||!!lady[p]||!!checked[p];
     let tags='';
-    if(endRoles && endRoles[p]) tags+='<span class="tag '+((g.allegiances&&g.allegiances[p])||side(endRoles[p]))+'">'+ROLE_META[endRoles[p]].ic+' '+rName(endRoles[p])+'</span>';
+    if(endRoles && endRoles[p]) tags+='<span class="tag '+((g.allegiances&&g.allegiances[p])||side(endRoles[p]))+'">'+roleIcon(endRoles[p])+' '+rName(endRoles[p])+'</span>';
     else {
       if(sees.has(p)) tags+='<span class="tag clue">'+t(S.mine.see)+'</span>';
-      if(lady[p]) tags+='<span class="tag '+lady[p]+'">🧜‍♀️ '+t(lady[p])+'</span>';
+      if(lady[p]) tags+='<span class="tag '+lady[p]+'">'+ic('droplet')+' '+t(lady[p])+'</span>';
       if((g.revealed||[]).includes(p)) tags+='<span class="tag evil">◉ '+rName('revealer')+'</span>';
       const note=privateNotes[p], noteLabel=note&&noteMarkLabel(note.mark);
-      if(noteLabel) tags+='<span class="tag note-tag '+(note.mark==='good'||side(note.mark)==='good'?'good':note.mark==='evil'||side(note.mark)==='evil'?'evil':'')+'">✎ '+esc(noteLabel)+'</span>';
+      if(noteLabel) tags+='<span class="tag note-tag '+(note.mark==='good'||side(note.mark)==='good'?'good':note.mark==='evil'||side(note.mark)==='evil'?'evil':'')+'">'+ic('pencil')+' '+esc(noteLabel)+'</span>';
     }
     let badges='<span class="b-off '+(Net.isOnline(p)?'y':'')+'"></span>';
     const reaction=visibleReaction(S.seats[p]);
-    if(reaction) badges+='<span class="reaction-bubble" aria-label="'+t(reaction.label)+'">'+reaction.emoji+'</span>';
-    if(skillKnown) badges+='<span class="badge b-known" aria-label="'+t('youSee',nickOf(p))+'">👁</span>';
+    if(reaction) badges+='<span class="reaction-bubble" aria-label="'+t(reaction.label)+'">'+ic(reaction.icon)+'</span>';
+    if(skillKnown) badges+='<span class="badge b-known" aria-label="'+t('youSee',nickOf(p))+'">'+ic('eye')+'</span>';
     if(picked) badges+='<span class="badge b-pick-order" aria-label="'+t('selectedTeam')+'">'+((g.phase==='propose'?draftTeam:S.ui.pick).indexOf(p)+1)+'</span>';
-    if(g.status==='play' && p===L && ['propose','vote','quest','excalibur'].includes(g.phase)) badges+='<span class="badge b-crown">👑</span>';
-    if(g.lady && g.lady.holder===p && g.status==='play') badges+='<span class="badge b-lady">🧜‍♀️</span>';
-    if(g.excaliburHolder===p && g.status==='play') badges+='<span class="badge b-lady">⚔</span>';
-    if(g.status==='play' && needsAct(g,p)) badges+= acted(p) ? '<span class="badge b-act">✓</span>' : '<span class="badge b-wait">⏳</span>';
+    if(g.status==='play' && p===L && ['propose','vote','quest','excalibur'].includes(g.phase)) badges+='<span class="badge b-crown">'+ic('crown')+'</span>';
+    if(g.lady && g.lady.holder===p && g.status==='play') badges+='<span class="badge b-lady">'+ic('droplet')+'</span>';
+    if(g.excaliburHolder===p && g.status==='play') badges+='<span class="badge b-lady">'+ic('sword')+'</span>';
+    if(g.status==='play' && needsAct(g,p)) badges+= acted(p) ? '<span class="badge b-act">✓</span>' : '<span class="badge b-wait">'+ic('clock')+'</span>';
     if(showVotes && last.votes[p]!==undefined) badges+='<span class="badge b-vote '+(last.votes[p]?'y':'n')+'">'+(last.votes[p]?'✓':'✗')+'</span>';
     const cls='seatp'+(onTeam?' team':'')+(can?' pick':'')+(picked?' picked':'')+(skillKnown?' skill-known':'')+(p===ME.pid?' me':'')+(g.assassinPick===p?' stabbed':'')+(pm&&!can?' dimmed':'');
     return '<button class="'+cls+'" style="left:'+x.toFixed(2)+'%;top:'+y.toFixed(2)+'%" '+(can?'data-pick="'+esc(p)+'"':'tabindex="-1"')+'>'
@@ -1231,46 +1257,46 @@ function tableView(g){
     +'<small>'+(q.r?t('fails',q.fails):t('questN',i+1))+'</small></div>').join('');
   const rej=[1,2,3,4,5].map(i=>'<i class="'+(i<g.att&&g.status==='play'?'x':'')+(i===5?' last':'')+'"></i>').join('');
   const score=questScore(g), scoreLabel=t('good')+' '+score.good+' · '+t('evil')+' '+score.evil, scoreHint=score.good>=3?t('r3s'):score.evil>=3?t('r3f'):t('goodNeeds',3-score.good)+' · '+t('evilNeeds',3-score.evil); let center;
-  if(g.status==='end') center='<div class="table-kicker">'+t('score')+'</div><div class="ph '+(g.winner==='good'?'res-s':'res-f')+'">'+(g.winner==='good'?'🛡️ '+t('goodWin'):'🗡️ '+t('evilWin'))+'</div><div class="scoreline" aria-label="'+esc(scoreLabel)+'"><span class="score-good">🛡 '+score.good+'</span><i>:</i><span class="score-evil">'+score.evil+' 🗡</span></div><div class="phs">'+t(g.reason)+'</div>';
-  else center='<div class="table-kicker">'+t('questN', g.q+1)+' · '+t('attempt',g.att)+'</div><div class="ph">'+t('ph_'+g.phase)+'</div><div class="scoreline" aria-label="'+esc(scoreLabel)+'"><span class="score-good">🛡 '+score.good+'</span><i>:</i><span class="score-evil">'+score.evil+' 🗡</span></div><div class="phs">'+scoreHint+'</div>';
+  if(g.status==='end') center='<div class="table-kicker">'+t('score')+'</div><div class="ph '+(g.winner==='good'?'res-s':'res-f')+'">'+(g.winner==='good'?ic('shield')+' '+t('goodWin'):ic('sword')+' '+t('evilWin'))+'</div><div class="scoreline" aria-label="'+esc(scoreLabel)+'"><span class="score-good">'+ic('shield')+' '+score.good+'</span><i>:</i><span class="score-evil">'+score.evil+' '+ic('sword')+'</span></div><div class="phs">'+t(g.reason)+'</div>';
+  else center='<div class="table-kicker">'+t('questN', g.q+1)+' · '+t('attempt',g.att)+'</div><div class="ph">'+t('ph_'+g.phase)+'</div><div class="scoreline" aria-label="'+esc(scoreLabel)+'"><span class="score-good">'+ic('shield')+' '+score.good+'</span><i>:</i><span class="score-evil">'+score.evil+' '+ic('sword')+'</span></div><div class="phs">'+scoreHint+'</div>';
   return '<div class="glass card" style="padding:10px"><div class="tablewrap"><div class="table"><div class="disc">'+center+'<div class="qtoks">'+qt+'</div>'
     +(g.status==='play'?'<div class="rejs">'+rej+'<span>'+t('attempt', g.att)+'</span></div>':'')+'</div>'+seats+'</div></div>'
-    +(g.lady&&g.lady.log&&g.lady.log.length?'<p class="muted small" style="text-align:center;margin:4px 0 6px">🧜‍♀️ '+g.lady.log.map(x=>esc(nickOf(x.from))+' → '+esc(nickOf(x.to))).join(' · ')+'</p>':'')
-    +(g.events&&g.events.length?'<p class="muted small" style="text-align:center;margin:4px 0 6px">'+g.events.slice(-3).map(x=>'✦ '+t(x.type)+(x.player?' · '+esc(nickOf(x.player)):'')).join(' · ')+'</p>':'')+'</div>';
+    +(g.lady&&g.lady.log&&g.lady.log.length?'<p class="muted small" style="text-align:center;margin:4px 0 6px">'+ic('droplet')+' '+g.lady.log.map(x=>esc(nickOf(x.from))+' → '+esc(nickOf(x.to))).join(' · ')+'</p>':'')
+    +(g.events&&g.events.length?'<p class="muted small" style="text-align:center;margin:4px 0 6px">'+g.events.slice(-3).map(x=>ic('sparkle')+' '+t(x.type)+(x.player?' · '+esc(nickOf(x.player)):'')).join(' · ')+'</p>':'')+'</div>';
 }
 function assassinationResult(g, compact=false){
   const target=g&&g.assassinPick, roles=g&&g.roles;
   if(!target || !roles || !roles[target]) return '';
   const role=roles[target], hit=role==='merlin';
-  return '<section class="assassination-result '+(hit?'hit':'miss')+(compact?' compact':'')+'"><div class="assassination-mark">'+(hit?'✓':'✕')+'</div><div class="assassination-copy"><small>'+t('assResult')+'</small><strong>'+(hit?t('assHit'):t('assMiss'))+'</strong><div class="assassination-target"><span class="assassination-avatar player-avatar" style="'+avStyle(target)+'"></span><span><b>'+esc(nickOf(target))+'</b><em>'+t('revealedAs',esc(nickOf(target)),'<b>'+ROLE_META[role].ic+' '+rName(role)+'</b>')+'</em></span></div></div></section>';
+  return '<section class="assassination-result '+(hit?'hit':'miss')+(compact?' compact':'')+'"><div class="assassination-mark">'+(hit?'✓':'✕')+'</div><div class="assassination-copy"><small>'+t('assResult')+'</small><strong>'+(hit?t('assHit'):t('assMiss'))+'</strong><div class="assassination-target"><span class="assassination-avatar player-avatar" style="'+avStyle(target)+'"></span><span><b>'+esc(nickOf(target))+'</b><em>'+t('revealedAs',esc(nickOf(target)),'<b>'+roleIcon(role)+' '+rName(role)+'</b>')+'</em></span></div></div></section>';
 }
 function selectedTeamReview(list,size){
   return '<section class="selected-team-review"><div class="selected-team-head"><b>'+t('selectedTeam')+' · '+list.length+'/'+size+'</b>'+(list.length?'<small>'+t('tapRemove')+'</small>':'')+'</div><div class="selected-people">'+list.map((pid,i)=>'<button class="selected-person" data-pick="'+esc(pid)+'" aria-label="'+t('tapRemove')+' · '+esc(nickOf(pid))+'"><span class="selected-order">'+(i+1)+'</span><i class="player-avatar" style="'+avStyle(pid)+'"></i><span>'+esc(nickOf(pid))+'</span><em>'+ic('x')+'</em></button>').join('')+'</div></section>';
 }
 function actionBlock(g){
   const me=ME.pid, inGame=g.order.includes(me), busy=S.ui.busy, mine=S.ui.myActs[g.step], L=g.order[g.leader];
-  if(g.status==='end') return '<div class="glass card act">'+assassinationResult(g,true)+'<h2>'+(g.winner==='good'?'🛡️ '+t('goodWin'):'🗡️ '+t('evilWin'))+'</h2><div class="hint">'+t(g.reason)+'</div>'
+  if(g.status==='end') return '<div class="glass card act">'+assassinationResult(g,true)+'<h2>'+(g.winner==='good'?ic('shield')+' '+t('goodWin'):ic('sword')+' '+t('evilWin'))+'</h2><div class="hint">'+t(g.reason)+'</div>'
     +'<div class="row">'+(isHost()?'<button class="btn pri big" data-a="again">'+ic('refresh')+t('again')+'</button>':'<span class="muted">'+t('waitAgain')+'</span>')+'<button class="btn ghost" data-a="showend">'+t('allRoles')+'</button></div></div>';
-  if(!inGame) return '<div class="glass card act"><h2>👀 '+t('spectator')+'</h2><div class="hint">'+t('ph_'+g.phase)+'</div></div>';
+  if(!inGame) return '<div class="glass card act"><h2>'+ic('eye')+' '+t('spectator')+'</h2><div class="hint">'+t('ph_'+g.phase)+'</div></div>';
   const prog=(list)=>{ const k=list.filter(acted).length; return '<div class="progress"><b style="width:'+(100*k/list.length)+'%"></b></div>'; };
   const chips=list=>'<div class="pickrow">'+list.map(u=>'<span class="tag" style="font-size:13px;padding:2px 10px">'+esc(nickOf(u))+'</span>').join('')+'</div>';
   let h='';
   if(g.phase==='propose'){
     const size=g.quests[g.q].size;
     if(L===me){
-      const sword=g.settings.excalibur && S.ui.pick.length===size ? '<div class="hint" style="margin-top:10px">⚔ '+t('excaliburPick')+'<br><span class="muted small">'+t('excaliburHint')+'</span></div><div class="pickrow">'+S.ui.pick.filter(u=>u!==me).map(u=>'<button class="tag '+(S.ui.excalibur===u?'good':'')+'" data-excalibur="'+esc(u)+'">⚔ '+esc(nickOf(u))+'</button>').join('')+'</div>' : '';
+      const sword=g.settings.excalibur && S.ui.pick.length===size ? '<div class="hint" style="margin-top:10px">'+ic('sword')+' '+t('excaliburPick')+'<br><span class="muted small">'+t('excaliburHint')+'</span></div><div class="pickrow">'+S.ui.pick.filter(u=>u!==me).map(u=>'<button class="tag '+(S.ui.excalibur===u?'good':'')+'" data-excalibur="'+esc(u)+'">'+ic('sword')+' '+esc(nickOf(u))+'</button>').join('')+'</div>' : '';
       const ready=S.ui.pick.length===size && (!g.settings.excalibur||!!S.ui.excalibur);
-      h='<h2>👑 '+t('leaderPick', size)+'</h2><div class="hint">'+t('leaderHint')+'</div>'+selectedTeamReview(S.ui.pick,size)+sword
+      h='<h2>'+ic('crown')+' '+t('leaderPick', size)+'</h2><div class="hint">'+t('leaderHint')+'</div>'+selectedTeamReview(S.ui.pick,size)+sword
         +'<button class="btn pri big" style="width:100%" data-a="propose" '+(!ready||busy?'disabled':'')+'>'+(acted(me)?t('resubmit'):t('submitTeam'))+'</button>';
     }
-    else { const draft=publicDraftTeam(g); h='<h2>⏳ '+t('waitLeader', esc(nickOf(L)), size)+'</h2><div class="hint">'+t('discuss')+'</div>'+(draft.length?'<div class="muted tiny" style="margin-bottom:5px">'+t('leaderDraft')+' · '+draft.length+'/'+size+'</div>'+chips(draft):''); }
+    else { const draft=publicDraftTeam(g); h='<h2>'+ic('clock')+' '+t('waitLeader', esc(nickOf(L)), size)+'</h2><div class="hint">'+t('discuss')+'</div>'+(draft.length?'<div class="muted tiny" style="margin-bottom:5px">'+t('leaderDraft')+' · '+draft.length+'/'+size+'</div>'+chips(draft):''); }
   } else if(g.phase==='vote'){
-    h='<h2>🗳️ '+t('voteTitle')+'</h2>'+chips(g.team)
+    h='<h2>'+ic('vote')+' '+t('voteTitle')+'</h2>'+chips(g.team)
       +'<div class="row"><button class="btn good big '+(mine===true?'sel':'')+'" data-vote="1" '+(busy?'disabled':'')+'>'+ic('check')+t('approve')+'</button>'
       +'<button class="btn evil big '+(mine===false?'sel':'')+'" data-vote="0" '+(busy?'disabled':'')+'>'+ic('x')+t('reject')+'</button></div>'
       +'<div class="hint" style="margin:10px 0 0">'+(acted(me)?t('voted'):t('pleaseVote'))+' · '+t('votedCount', g.order.filter(acted).length, g.order.length)+'</div>'+prog(g.order);
   } else if(g.phase==='quest'){
-    h='<h2>⚔️ '+t('questTitle')+'</h2>'+chips(g.team);
+    h='<h2>'+ic('sword')+' '+t('questTitle')+'</h2>'+chips(g.team);
     if(g.team.includes(me)){
       const allegiance=(S.mine&&S.mine.allegiance)||side(S.mine&&S.mine.role), choices=S.mine?questChoices(S.mine.role,g.q,allegiance,g.settings):['S'];
       const note=choices.length===1?(choices[0]==='F'?t('mustFail'):t(allegiance==='evil'?'cannotFail':'goodOnly')):t('evilChoice');
@@ -1285,21 +1311,21 @@ function actionBlock(g){
     } else h+='<div class="hint">'+t('waitTeam')+' '+t('played', g.team.filter(acted).length, g.team.length)+(g.quests[g.q].two?' · '+t('twoNote'):'')+'</div>';
     h+=prog(g.team);
   } else if(g.phase==='excalibur'){
-    if(g.excaliburHolder===me) h='<h2>⚔ '+t('excaliburUse')+'</h2>'+chips(g.team.filter(u=>u!==me))+'<button class="btn pri big" style="width:100%" data-a="single" '+(S.ui.pick.length!==1||busy?'disabled':'')+'>⚔ '+(S.ui.pick[0]?esc(nickOf(S.ui.pick[0])):'…')+'</button><button class="btn ghost" style="width:100%;margin-top:8px" data-a="excaliburSkip" '+(busy?'disabled':'')+'>'+t('excaliburSkip')+'</button>';
-    else h='<h2>⚔ '+t('ph_excalibur')+'</h2><div class="hint">'+t('excaliburWait',esc(nickOf(g.excaliburHolder)))+'</div>';
+    if(g.excaliburHolder===me) h='<h2>'+ic('sword')+' '+t('excaliburUse')+'</h2>'+chips(g.team.filter(u=>u!==me))+'<button class="btn pri big" style="width:100%" data-a="single" '+(S.ui.pick.length!==1||busy?'disabled':'')+'>'+ic('sword')+' '+(S.ui.pick[0]?esc(nickOf(S.ui.pick[0])):'…')+'</button><button class="btn ghost" style="width:100%;margin-top:8px" data-a="excaliburSkip" '+(busy?'disabled':'')+'>'+t('excaliburSkip')+'</button>';
+    else h='<h2>'+ic('sword')+' '+t('ph_excalibur')+'</h2><div class="hint">'+t('excaliburWait',esc(nickOf(g.excaliburHolder)))+'</div>';
   } else if(g.phase==='lady'){
     const ho=g.lady.holder;
-    if(ho===me) h='<h2>🧜‍♀️ '+t('ladyTitle')+'</h2><div class="hint">'+t('ladyHint')+'</div><button class="btn pri big" style="width:100%" data-a="single" '+(S.ui.pick.length!==1||busy?'disabled':'')+'>'+t('inspect', S.ui.pick[0]?esc(nickOf(S.ui.pick[0])):'…')+'</button>';
-    else h='<h2>🧜‍♀️ '+t('ph_lady')+'</h2><div class="hint" style="margin-bottom:0">'+t('ladyWait', esc(nickOf(ho)))+'</div>';
+    if(ho===me) h='<h2>'+ic('droplet')+' '+t('ladyTitle')+'</h2><div class="hint">'+t('ladyHint')+'</div><button class="btn pri big" style="width:100%" data-a="single" '+(S.ui.pick.length!==1||busy?'disabled':'')+'>'+t('inspect', S.ui.pick[0]?esc(nickOf(S.ui.pick[0])):'…')+'</button>';
+    else h='<h2>'+ic('droplet')+' '+t('ph_lady')+'</h2><div class="hint" style="margin-bottom:0">'+t('ladyWait', esc(nickOf(ho)))+'</div>';
   } else if(g.phase==='loyalty'){
-    if(g.loyalty&&g.loyalty.target===me) h='<h2>◐ '+t('loyaltyChoose')+'</h2><div class="hint">'+t('loyaltyHint')+'</div><div class="row"><button class="btn good big" data-loyalty="good" '+(busy?'disabled':'')+'>'+t('showGood')+'</button><button class="btn evil big" data-loyalty="evil" '+(busy?'disabled':'')+'>'+t('showEvil')+'</button></div>';
-    else h='<h2>◐ '+t('ph_loyalty')+'</h2><div class="hint">'+t('loyaltyWait')+'</div>';
+    if(g.loyalty&&g.loyalty.target===me) h='<h2>'+ic('shield')+' '+t('loyaltyChoose')+'</h2><div class="hint">'+t('loyaltyHint')+'</div><div class="row"><button class="btn good big" data-loyalty="good" '+(busy?'disabled':'')+'>'+t('showGood')+'</button><button class="btn evil big" data-loyalty="evil" '+(busy?'disabled':'')+'>'+t('showEvil')+'</button></div>';
+    else h='<h2>'+ic('shield')+' '+t('ph_loyalty')+'</h2><div class="hint">'+t('loyaltyWait')+'</div>';
   } else if(g.phase==='recruit'){
-    if(S.mine&&S.mine.role==='assassin') h='<h2>🗡️ '+t('recruitTitle')+'</h2><div class="hint">'+t('recruitMe')+'</div><button class="btn evil big" style="width:100%" data-a="single" '+(S.ui.pick.length!==1||busy?'disabled':'')+'>'+t('inspect',S.ui.pick[0]?esc(nickOf(S.ui.pick[0])):'…')+'</button>';
-    else h='<h2>🗡️ '+t('recruitTitle')+'</h2><div class="hint">'+t('recruitWait')+'</div>';
+    if(S.mine&&S.mine.role==='assassin') h='<h2>'+ic('sword')+' '+t('recruitTitle')+'</h2><div class="hint">'+t('recruitMe')+'</div><button class="btn evil big" style="width:100%" data-a="single" '+(S.ui.pick.length!==1||busy?'disabled':'')+'>'+t('inspect',S.ui.pick[0]?esc(nickOf(S.ui.pick[0])):'…')+'</button>';
+    else h='<h2>'+ic('sword')+' '+t('recruitTitle')+'</h2><div class="hint">'+t('recruitWait')+'</div>';
   } else if(g.phase==='assassin'){
-    if((g.recruitedPlayer&&g.recruitedPlayer===me)||(!g.recruitedPlayer&&S.mine&&S.mine.role==='assassin')) h='<h2>🗡️ '+t('assTitle')+'</h2><div class="hint">'+t('assMe')+'</div><button class="btn evil big" style="width:100%" data-a="single" '+(S.ui.pick.length!==1||busy?'disabled':'')+'>'+t('stab', S.ui.pick[0]?esc(nickOf(S.ui.pick[0])):'…')+'</button>';
-    else h='<h2>🗡️ '+t('assTitle')+'</h2><div class="hint" style="margin-bottom:0">'+t('assWait')+(S.mine&&((S.mine.allegiance||side(S.mine.role))==='evil')?' '+t('assEvil'):'')+'</div>';
+    if((g.recruitedPlayer&&g.recruitedPlayer===me)||(!g.recruitedPlayer&&S.mine&&S.mine.role==='assassin')) h='<h2>'+ic('sword')+' '+t('assTitle')+'</h2><div class="hint">'+t('assMe')+'</div><button class="btn evil big" style="width:100%" data-a="single" '+(S.ui.pick.length!==1||busy?'disabled':'')+'>'+t('stab', S.ui.pick[0]?esc(nickOf(S.ui.pick[0])):'…')+'</button>';
+    else h='<h2>'+ic('sword')+' '+t('assTitle')+'</h2><div class="hint" style="margin-bottom:0">'+t('assWait')+(S.mine&&((S.mine.allegiance||side(S.mine.role))==='evil')?' '+t('assEvil'):'')+'</div>';
   }
   return '<div class="glass card act">'+h+actionStatus(g)+'</div>';
 }
@@ -1311,7 +1337,7 @@ function roleBar(){
   const role=!S.mine ? '<span class="me-role muted small">'+t('loadingRole')+'</span>'
     : '<button class="me-role '+(S.peek?s:'')+'" data-a="peek" aria-expanded="'+!!S.peek+'"><span class="rb-ic">'+(S.peek?roleArt(S.mine.role,'rolebar-art'):'<span class="card-seal">V</span>')+'</span><span class="me-text"><small>'+t('myRole')+'</small><b>'+(S.peek?rName(S.mine.role):t('tapReveal'))+'</b></span></button>';
   return '<div class="glass card mebar">'+id+role+'</div>'
-    +(S.peek&&S.mine?'<button class="sheet-backdrop" data-a="peek" aria-label="'+t('hideRole')+'"></button><div class="glass card know-card sheet"><div class="sheet-head"><b class="'+(s==='good'?'res-s':'res-f')+'">'+ROLE_META[S.mine.role].ic+' '+rName(S.mine.role)+' · '+t(s)+'</b><button class="btn ghost sm sheet-close" data-a="peek">'+ic('eyeoff')+t('hideRole')+'</button></div>'+knowBlock()+'</div>':'');
+    +(S.peek&&S.mine?'<button class="sheet-backdrop" data-a="peek" aria-label="'+t('hideRole')+'"></button><div class="glass card know-card sheet"><div class="sheet-head"><b class="'+(s==='good'?'res-s':'res-f')+'">'+roleIcon(S.mine.role)+' '+rName(S.mine.role)+' · '+t(s)+'</b><button class="btn ghost sm sheet-close" data-a="peek">'+ic('eyeoff')+t('hideRole')+'</button></div><div class="identity-detail"><div class="identity-portrait '+s+'">'+roleArt(S.mine.role,'identity-art')+'<span>'+t(s)+'</span></div><div class="identity-knowledge">'+knowBlock()+'</div></div></div>':'');
 }
 function hostToolsPanel(g){
   if(!isHost() || g.status!=='play') return '';
@@ -1319,27 +1345,27 @@ function hostToolsPanel(g){
   const options='<option value="">'+t('transferTo')+'</option>'+candidates.map(p=>'<option value="'+esc(p)+'" '+(S.ui.hostSuccessor===p?'selected':'')+'>'+esc(nickOf(p))+'</option>').join('');
   if(S.ui.confirmHostTransfer){
     const name=nickOf(S.ui.hostSuccessor);
-    return '<section class="glass card host-tools confirm"><h3>♜ '+t('hostTools')+'</h3><p>'+t('transferWarning')+'</p><div class="row"><button class="btn evil" data-a="transferHost" '+(S.ui.busy?'disabled':'')+'>'+t('confirmTransfer',esc(name))+'</button><button class="btn ghost" data-a="cancelHostTransfer">'+t('close')+'</button></div></section>';
+    return '<section class="glass card host-tools confirm"><h3>'+ic('crown')+' '+t('hostTools')+'</h3><p>'+t('transferWarning')+'</p><div class="row"><button class="btn evil" data-a="transferHost" '+(S.ui.busy?'disabled':'')+'>'+t('confirmTransfer',esc(name))+'</button><button class="btn ghost" data-a="cancelHostTransfer">'+t('close')+'</button></div></section>';
   }
-  return '<section class="glass card host-tools"><h3>♜ '+t('hostTools')+'</h3><div class="row"><select class="host-select" id="hostSuccessor" aria-label="'+t('transferTo')+'">'+options+'</select><button class="btn" data-a="prepareHostTransfer" '+(!candidates.length?'disabled':'')+'>'+ic('swap')+t('transferHost')+'</button></div></section>';
+  return '<section class="glass card host-tools"><h3>'+ic('crown')+' '+t('hostTools')+'</h3><div class="row"><select class="host-select" id="hostSuccessor" aria-label="'+t('transferTo')+'">'+options+'</select><button class="btn" data-a="prepareHostTransfer" '+(!candidates.length?'disabled':'')+'>'+ic('swap')+t('transferHost')+'</button></div></section>';
 }
 function knowBlock(){
   const m=S.mine; let h='<div class="small" style="margin-bottom:8px">'+rDesc(m.role)+'</div>';
   const person=(u,cls,label)=>'<span class="known-person '+cls+'"><span class="known-avatar player-avatar" style="'+avStyle(u)+'"></span><span><b>'+esc(nickOf(u))+'</b>'+(label?'<small>'+label+'</small>':'')+'</span></span>';
   if(m.allegiance&&m.allegiance!==side(m.role)) h+='<div class="know"><b class="'+(m.allegiance==='good'?'res-s':'res-f')+'">'+t('currentLoyalty',t(m.allegiance))+'</b></div>';
   if(m.see) h+='<div class="know"><div class="kl">'+t('youSee', t(m.see))+'</div><div class="known-people">'+((m.sees||[]).length?m.sees.map(u=>person(u,'clue',t(m.see))).join(''):t('none'))+'</div></div>';
-  S.ladyMine.forEach(x=>{ h+='<div class="know"><div class="kl">🧜‍♀️ '+t('ladyLog')+'</div>'+person(x.target,x.side,t(x.side))+'</div>'; });
-  S.checksMine.filter(x=>x.source!=='lady').forEach(x=>{ h+='<div class="know"><div class="kl">☩ '+t('inspected',esc(nickOf(x.target)),t(x.side))+'</div>'+person(x.target,x.side,t(x.side))+'</div>'; });
+  S.ladyMine.forEach(x=>{ h+='<div class="know"><div class="kl">'+ic('droplet')+' '+t('ladyLog')+'</div>'+person(x.target,x.side,t(x.side))+'</div>'; });
+  S.checksMine.filter(x=>x.source!=='lady').forEach(x=>{ h+='<div class="know"><div class="kl">'+ic('droplet')+' '+t('inspected',esc(nickOf(x.target)),t(x.side))+'</div>'+person(x.target,x.side,t(x.side))+'</div>'; });
   return h;
 }
 function historyBlock(g){
   const rounds=g.rounds||[];
-  if(!rounds.length) return '<div class="glass card log"><h3>'+t('history')+'</h3><div class="muted small">'+t('noHistory')+'</div></div>';
+  if(!rounds.length) return '<div class="glass card log"><h3>'+t('history')+'</h3><div class="history-empty">'+ic('list')+'<b>'+t('noHistory')+'</b><p>'+(LANG==='zh'?'第一轮投票结束后，队伍、投票与任务结果会显示在这里。':'Teams, votes and Quest results appear here after the first vote.')+'</p></div></div>';
   const rows=rounds.slice().reverse().map(r=>{
     const qr=g.quests[r.q];
     const res = r.ok ? (qr && qr.r ? (qr.r==='S'?'<span class="res-s">✓ '+t('qSuccess')+'</span>':'<span class="res-f">✗ '+t('fails',qr.fails)+'</span>') : t('rOn')) : '<span class="res-r">'+t('rRejected')+'</span>';
     const yes=g.order.filter(u=>r.votes[u]), no=g.order.filter(u=>r.votes[u]===false);
-    return '<tr><td><b>Q'+(r.q+1)+'</b><br><span class="muted tiny">'+t('try', r.att)+'</span></td><td>👑 '+esc(nickOf(r.leader))+'<br><span class="muted">'+r.team.map(u=>esc(nickOf(u))).join(', ')+'</span><br>'
+    return '<tr><td><b>Q'+(r.q+1)+'</b><br><span class="muted tiny">'+t('try', r.att)+'</span></td><td>'+ic('crown')+' '+esc(nickOf(r.leader))+'<br><span class="muted">'+r.team.map(u=>esc(nickOf(u))).join(', ')+'</span><br>'
       +yes.map(u=>'<span class="vchip y">✓'+esc(nickOf(u))+'</span>').join('')+no.map(u=>'<span class="vchip n">✗'+esc(nickOf(u))+'</span>').join('')+'</td><td>'+res+'</td></tr>';
   }).join('');
   return '<div class="glass card log"><h3>'+t('history')+'</h3><table><tr><th>'+t('round')+'</th><th>'+t('leaderTeam')+'</th><th>'+t('result')+'</th></tr>'+rows+'</table></div>';
@@ -1358,31 +1384,32 @@ function renderOverlay(){
   if(o.type==='night'){
     const m=S.mine; if(!m){ S.ov.shift(); return renderOverlay(); }
     const s=m.allegiance||side(m.role);
-    h='<h2>🌙 '+t('nightTitle')+'</h2><p class="lead">'+t('nightLead')+'</p>'
-      +'<div class="rolecard '+(o.flipped?'flip':'')+'" data-a="flipcard"><div class="in"><div class="face back"><div class="card-seal large">V</div><span>AVALON</span></div>'
-      +'<div class="face front '+s+'">'+roleArt(m.role,'rolecard-art')+'<div class="rolecard-caption"><div class="rs">'+t(s)+'</div><div class="rn">'+rName(m.role)+'</div></div></div></div></div>'
+    h='<h2>'+ic('moon')+' '+t('nightTitle')+'</h2><p class="lead">'+t('nightLead')+'</p>'
+      +'<button type="button" class="rolecard '+(o.flipped?'flip':'')+'" data-a="flipcard" aria-label="'+(o.flipped?rName(m.role):t('flip'))+'"><span class="in"><span class="face back"><span class="card-orbit" aria-hidden="true"></span><span class="card-seal large">V</span><span class="card-wordmark">AVALON</span><span class="card-secret">'+ic('lock')+(LANG==='zh'?'秘密身份':'SECRET IDENTITY')+'</span></span>'
+      +'<span class="face front '+s+'">'+roleArt(m.role,'rolecard-art')+'<span class="rolecard-caption"><span class="rs">'+ic(s==='good'?'shield':'sword')+t(s)+'</span><span class="rn">'+rName(m.role)+'</span></span></span></span></button>'
       +(o.flipped?knowBlock()+'<button class="btn pri big" style="width:100%" data-a="ovnext">'+t('gotIt')+'</button>':'<button class="btn pri big" style="width:100%" data-a="flipcard">'+t('flip')+'</button>');
   } else if(o.type==='vote'){
     const r=o.r, yes=Object.values(r.votes).filter(Boolean).length, no=Object.keys(r.votes).length-yes;
-    h='<h2>🗳️ '+t('voteReveal')+'</h2><p class="lead">'+t('questN', r.q+1)+' · '+t('try', r.att)+'</p>'
+    h='<h2>'+ic('vote')+' '+t('voteReveal')+'</h2><p class="lead">'+t('questN', r.q+1)+' · '+t('try', r.att)+'</p>'
       +'<div class="bigres '+(r.ok?'good':'evil')+'">'+(r.ok?t('passed'):t('rejected'))+'</div><p class="muted">'+t('yesNo', yes, no)+'</p>'
       +'<div class="vlist">'+g.order.map((u,i)=>'<div style="animation-delay:'+(i*60)+'ms"><span>'+esc(nickOf(u))+'</span><span class="vchip '+(r.votes[u]?'y':'n')+'">'+(r.votes[u]?'✓ '+t('approve'):'✗ '+t('reject'))+'</span></div>').join('')+'</div>'
       +'<button class="btn pri big" style="width:100%" data-a="ovnext">OK</button>';
   } else if(o.type==='quest'){
     const q=g.quests[o.qi]; const cards=shuffle(Array(q.size).fill('S').map((c,i)=>i<q.fails?'F':'S'));
-    h='<h2>⚔️ '+t('questReveal', o.qi+1)+'</h2><p class="lead">'+q.team.map(u=>esc(nickOf(u))).join(' · ')+'</p>'
+    h='<h2>'+ic('sword')+' '+t('questReveal', o.qi+1)+'</h2><p class="lead">'+q.team.map(u=>esc(nickOf(u))).join(' · ')+'</p>'
       +'<div class="cards">'+cards.map((c,i)=>'<div class="qcard" style="animation-delay:'+(400+i*450)+'ms"><div class="f b"></div><div class="f '+(c==='S'?'s':'x')+'">'+(c==='S'?'✓':'✗')+'</div></div>').join('')+'</div>'
       +'<div class="bigres '+(q.r==='S'?'good':'evil')+'" style="animation-delay:'+(600+q.size*450)+'ms">'+(q.r==='S'?t('qSuccess'):t('qFail'))+'</div>'
       +'<p class="muted">'+t('fails', q.fails)+(q.two?' · '+t('needTwo'):'')+'</p><button class="btn pri big" style="width:100%" data-a="ovnext">OK</button>';
   } else if(o.type==='lady'){
-    const x=o.x; h='<h2>🧜‍♀️ '+t('ph_lady')+'</h2><div class="bigres '+x.side+'" style="margin:18px 0">'+esc(nickOf(x.target))+' · '+t(x.side)+'</div><button class="btn pri big" style="width:100%" data-a="ovnext">OK</button>';
+    const x=o.x; h='<h2>'+ic('droplet')+' '+t('ph_lady')+'</h2><div class="bigres '+x.side+'" style="margin:18px 0">'+esc(nickOf(x.target))+' · '+t(x.side)+'</div><button class="btn pri big" style="width:100%" data-a="ovnext">OK</button>';
   } else if(o.type==='end'){
     const roles=g.roles||{};
-    h=(g.assassinPick?'<h2>🗡️ '+t('assResult')+'</h2>'+assassinationResult(g):'<h2>'+(g.winner==='good'?'🛡️':'🗡️')+'</h2>')+'<div class="bigres '+g.winner+'">'+(g.winner==='good'?t('goodWin'):t('evilWin'))+'</div><p class="lead" style="margin-top:8px">'+t(g.reason)+'</p>'
-      +'<div class="endroles">'+g.order.map(u=>'<div class="'+((g.allegiances&&g.allegiances[u])||side(roles[u]))+'"><span>'+esc(nickOf(u))+(u===ME.pid?' ('+t('you')+')':'')+'</span><b>'+ROLE_META[roles[u]].ic+' '+rName(roles[u])+'</b></div>').join('')+'</div>'
+    h=(g.assassinPick?'<h2>'+ic('sword')+' '+t('assResult')+'</h2>'+assassinationResult(g):'<h2>'+(g.winner==='good'?ic('shield'):ic('sword'))+'</h2>')+'<div class="bigres '+g.winner+'">'+(g.winner==='good'?t('goodWin'):t('evilWin'))+'</div><p class="lead" style="margin-top:8px">'+t(g.reason)+'</p>'
+      +'<div class="endroles">'+g.order.map(u=>'<div class="'+((g.allegiances&&g.allegiances[u])||side(roles[u]))+'"><span>'+esc(nickOf(u))+(u===ME.pid?' ('+t('you')+')':'')+'</span><b>'+roleIcon(roles[u])+' '+rName(roles[u])+'</b></div>').join('')+'</div>'
       +'<div class="row">'+(isHost()?'<button class="btn pri big" data-a="again">'+ic('refresh')+t('again')+'</button>':'')+'<button class="btn big" data-a="ovnext">'+t('close')+'</button></div>';
   }
-  el.innerHTML='<div class="ov"><div class="glass ovbox">'+h+'</div></div>';
+  el.innerHTML='<div class="ov" role="dialog" aria-modal="true" aria-label="'+(o.type==='night'?t('yourRole'):t('result'))+'"><div class="glass ovbox '+(o.type==='night'?'night-sheet':'')+'">'+h+'</div></div>';
+  requestAnimationFrame(()=>{ const primary=o.type==='night'&&!o.flipped?el.querySelector?.('.rolecard'):(el.querySelector?.('[data-a="ovnext"]')||el.querySelector?.('button')); primary?.focus?.(); });
 }
 
 /* ================= Events ================= */
@@ -1405,8 +1432,8 @@ document.addEventListener('keydown', e=>{
   if(e.key==='Escape' && S.ui.qrOpen){ S.ui.qrOpen=false; renderQRModal(); return; }
   if(e.key==='Escape' && S.ui.infoOpen){ S.ui.infoOpen=null; renderInfoModal(); return; }
   if(e.key==='Escape' && S.ui.rulesOpen){ S.ui.rulesOpen=false; renderRulesModal(); return; }
-  if(e.key==='Tab' && (S.ui.confirm || S.ui.qrOpen || S.ui.infoOpen || S.ui.rulesOpen)){
-    const root=S.ui.confirm?$('#confirmModal'):S.ui.qrOpen?$('#qrModal'):S.ui.infoOpen?$('#infoModal'):$('#rulesModal');
+  if(e.key==='Tab' && (S.ui.confirm || S.ui.qrOpen || S.ui.infoOpen || S.ui.rulesOpen || S.ov.length)){
+    const root=S.ui.confirm?$('#confirmModal'):S.ui.qrOpen?$('#qrModal'):S.ui.infoOpen?$('#infoModal'):S.ui.rulesOpen?$('#rulesModal'):$('#ov');
     const items=root&&[...root.querySelectorAll('button,a[href],[tabindex]:not([tabindex="-1"])')].filter(x=>!x.disabled);
     if(items&&items.length){ const first=items[0], last=items[items.length-1]; if(e.shiftKey&&document.activeElement===first){ e.preventDefault(); last.focus(); } else if(!e.shiftKey&&document.activeElement===last){ e.preventDefault(); first.focus(); } }
   }
