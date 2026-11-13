@@ -41,7 +41,7 @@ const I18N = {
     voteReveal:'投票结果', passed:'队伍通过，出发！', rejected:'队伍被否决', yesNo:'{0} 赞成 · {1} 反对',
     questReveal:'任务 {0} 结果', qSuccess:'任务成功', qFail:'任务失败',
     goodWin:'好人阵营获胜', evilWin:'坏人阵营获胜', r5:'连续 5 次组队被否决', r3f:'3 个任务失败', r3s:'3 个任务成功', recruited:'不可信的仆人已倒戈', revealerShown:'揭示者公开了身份', lancelotSwitchLog:'兰斯洛特转换了阵营', lancelotNoChange:'兰斯洛特阵营不变',
-    rhit:'刺客刺中了梅林，坏人翻盘！', rmiss:'刺客没有找到梅林！', stabbedX:'刺客刺杀了 {0}',
+    rhit:'杀对了：刺杀命中梅林，坏人翻盘！', rmiss:'杀错了：目标不是梅林，好人获胜！', stabbedX:'刺客刺杀了 {0}', assResult:'刺杀结果', assHit:'杀对了！刺杀命中梅林', assMiss:'杀错了！目标不是梅林', revealedAs:'真实身份：{1}',
     again:'再来一局', waitAgain:'等待房主开新局', backHome:'回首页', allRoles:'身份揭晓',
     history:'对局记录', noHistory:'还没有投票记录。', round:'轮次', leaderTeam:'队长 / 队伍', result:'结果',
     rRejected:'否决', rOn:'出发中', try:'第 {0} 次',
@@ -87,7 +87,7 @@ const I18N = {
     voteReveal:'Vote results', passed:'Team approved — off they go!', rejected:'Team rejected', yesNo:'{0} approve · {1} reject',
     questReveal:'Quest {0} result', qSuccess:'Quest succeeded', qFail:'Quest failed',
     goodWin:'Good wins', evilWin:'Evil wins', r5:'5 proposals in a row were rejected', r3f:'3 quests failed', r3s:'3 quests succeeded', recruited:'The Untrustworthy Servant changed sides', revealerShown:'The Revealer exposed their identity', lancelotSwitchLog:'The Lancelots switched allegiance', lancelotNoChange:'The Lancelots kept their allegiance',
-    rhit:'The Assassin found Merlin — Evil steals the win!', rmiss:'The Assassin missed Merlin!', stabbedX:'The Assassin chose {0}',
+    rhit:'Correct target: the Assassin found Merlin, so Evil steals the win!', rmiss:'Wrong target: the Assassin missed Merlin, so Good wins!', stabbedX:'The Assassin chose {0}', assResult:'Assassination result', assHit:'Correct! Merlin was assassinated', assMiss:'Wrong! The target was not Merlin', revealedAs:'True role: {1}',
     again:'Play again', waitAgain:'Waiting for the host', backHome:'Home', allRoles:'Roles revealed',
     history:'History', noHistory:'No votes yet.', round:'Round', leaderTeam:'Leader / Team', result:'Result',
     rRejected:'Rejected', rOn:'On quest', try:'Try {0}',
@@ -1040,16 +1040,22 @@ function tableView(g){
     +'<small>'+(q.r?t('fails',q.fails):t('questN',i+1))+'</small></div>').join('');
   const rej=[1,2,3,4,5].map(i=>'<i class="'+(i<g.att&&g.status==='play'?'x':'')+(i===5?' last':'')+'"></i>').join('');
   let center;
-  if(g.status==='end') center='<div class="ph" style="color:'+(g.winner==='good'?'#7dd3fc':'#c4b5fd')+'">'+(g.winner==='good'?'🛡️ '+t('goodWin'):'🗡️ '+t('evilWin'))+'</div><div class="phs">'+t(g.reason)+'</div>';
+  if(g.status==='end') center='<div class="ph" style="color:'+(g.winner==='good'?'#7dd3fc':'#ff756a')+'">'+(g.winner==='good'?'🛡️ '+t('goodWin'):'🗡️ '+t('evilWin'))+'</div><div class="phs">'+t(g.reason)+'</div>';
   else center='<div class="ph">'+t('questN', g.q+1)+' · '+t('ph_'+g.phase)+'</div>';
   return '<div class="glass card" style="padding:10px"><div class="tablewrap"><div class="table"><div class="disc">'+center+'<div class="qtoks">'+qt+'</div>'
     +(g.status==='play'?'<div class="rejs">'+rej+'<span>'+t('attempt', g.att)+'</span></div>':'')+'</div>'+seats+'</div></div>'
     +(g.lady&&g.lady.log&&g.lady.log.length?'<p class="muted small" style="text-align:center;margin:4px 0 6px">🧜‍♀️ '+g.lady.log.map(x=>esc(nickOf(x.from))+' → '+esc(nickOf(x.to))).join(' · ')+'</p>':'')
     +(g.events&&g.events.length?'<p class="muted small" style="text-align:center;margin:4px 0 6px">'+g.events.slice(-3).map(x=>'✦ '+t(x.type)+(x.player?' · '+esc(nickOf(x.player)):'')).join(' · ')+'</p>':'')+'</div>';
 }
+function assassinationResult(g, compact=false){
+  const target=g&&g.assassinPick, roles=g&&g.roles;
+  if(!target || !roles || !roles[target]) return '';
+  const role=roles[target], hit=role==='merlin';
+  return '<section class="assassination-result '+(hit?'hit':'miss')+(compact?' compact':'')+'"><div class="assassination-mark">'+(hit?'✓':'✕')+'</div><div class="assassination-copy"><small>'+t('assResult')+'</small><strong>'+(hit?t('assHit'):t('assMiss'))+'</strong><div class="assassination-target"><span class="assassination-avatar" style="background:'+avColor(target)+'">'+esc(initials(nickOf(target)))+'</span><span><b>'+esc(nickOf(target))+'</b><em>'+t('revealedAs',esc(nickOf(target)),'<b>'+ROLE_META[role].ic+' '+rName(role)+'</b>')+'</em></span></div></div></section>';
+}
 function actionBlock(g){
   const me=ME.pid, inGame=g.order.includes(me), busy=S.ui.busy, mine=S.ui.myActs[g.step], L=g.order[g.leader];
-  if(g.status==='end') return '<div class="glass card act"><h2>'+(g.winner==='good'?'🛡️ '+t('goodWin'):'🗡️ '+t('evilWin'))+'</h2><div class="hint">'+t(g.reason)+'</div>'
+  if(g.status==='end') return '<div class="glass card act">'+assassinationResult(g,true)+'<h2>'+(g.winner==='good'?'🛡️ '+t('goodWin'):'🗡️ '+t('evilWin'))+'</h2><div class="hint">'+t(g.reason)+'</div>'
     +'<div class="row">'+(isHost()?'<button class="btn pri big" data-a="again">🔄 '+t('again')+'</button>':'<span class="muted">'+t('waitAgain')+'</span>')+'<button class="btn ghost" data-a="showend">'+t('allRoles')+'</button></div></div>';
   if(!inGame) return '<div class="glass card act"><h2>👀 '+t('spectator')+'</h2><div class="hint">'+t('ph_'+g.phase)+'</div></div>';
   const prog=(list)=>{ const k=list.filter(acted).length; return '<div class="progress"><b style="width:'+(100*k/list.length)+'%"></b></div>'; };
@@ -1161,8 +1167,7 @@ function renderOverlay(){
     const x=o.x; h='<h2>🧜‍♀️ '+t('ph_lady')+'</h2><div class="bigres '+x.side+'" style="margin:18px 0">'+esc(nickOf(x.target))+' · '+t(x.side)+'</div><button class="btn pri big" style="width:100%" data-a="ovnext">OK</button>';
   } else if(o.type==='end'){
     const roles=g.roles||{};
-    h='<h2>'+(g.winner==='good'?'🛡️':'🗡️')+'</h2><div class="bigres '+g.winner+'">'+(g.winner==='good'?t('goodWin'):t('evilWin'))+'</div><p class="lead" style="margin-top:8px">'+t(g.reason)
-      +(g.assassinPick?'<br>'+t('stabbedX','<b>'+esc(nickOf(g.assassinPick))+'</b>'):'')+'</p>'
+    h=(g.assassinPick?'<h2>🗡️ '+t('assResult')+'</h2>'+assassinationResult(g):'<h2>'+(g.winner==='good'?'🛡️':'🗡️')+'</h2>')+'<div class="bigres '+g.winner+'">'+(g.winner==='good'?t('goodWin'):t('evilWin'))+'</div><p class="lead" style="margin-top:8px">'+t(g.reason)+'</p>'
       +'<div class="endroles">'+g.order.map(u=>'<div class="'+((g.allegiances&&g.allegiances[u])||side(roles[u]))+'"><span>'+esc(nickOf(u))+(u===ME.pid?' ('+t('you')+')':'')+'</span><b>'+ROLE_META[roles[u]].ic+' '+rName(roles[u])+'</b></div>').join('')+'</div>'
       +'<div class="row">'+(isHost()?'<button class="btn pri big" data-a="again">🔄 '+t('again')+'</button>':'')+'<button class="btn big" data-a="ovnext">'+t('close')+'</button></div>';
   }
