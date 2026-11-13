@@ -14,7 +14,7 @@ The production key must:
 
 - be restricted to the Firebase APIs required by this application;
 - never allow the Generative Language API or unrelated Google APIs;
-- be paired with the deployed `database.rules.json` rules;
+- be paired with the deployed `firebase/database.rules.json` rules;
 - be monitored through Firebase App Check before enforcement is enabled.
 
 Current production restrictions (Google Cloud Console → APIs & Services → Credentials → "Browser key (auto created by Firebase)"):
@@ -42,7 +42,7 @@ This model does not protect against a compromised host browser, malicious code s
 Run the production-rule smoke test with Node.js 18 or newer:
 
 ```bash
-node scripts/security-smoke-test.mjs
+node tests/security-smoke-test.mjs
 ```
 
 The test creates a temporary room and two anonymous users, verifies allowed and denied operations, then removes the room data and test accounts.

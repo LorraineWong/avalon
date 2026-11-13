@@ -63,7 +63,7 @@ Firebase Realtime Database（亚洲东南区）
 - 每个客户端生成一组 ECDH P-256 密钥，私钥只保存在该浏览器的 `localStorage`。
 - 房主使用临时 ECDH 密钥和 AES-GCM 分别加密每名玩家的身份。
 - 玩家行动会先加密给房主，再写入 Firebase。
-- `database.rules.json` 限制只有房主能够写入游戏状态与秘密数据，每名玩家只能写入自己的座位数据。
+- `firebase/database.rules.json` 限制只有房主能够写入游戏状态与秘密数据，每名玩家只能写入自己的座位数据。
 - Firebase Web API Key 按设计就是公开的项目标识；权限由身份验证和 Security Rules 控制，不能依靠隐藏前端 Key。生产 Key 必须只允许本项目需要的 Firebase API。
 
 该设计可以避免普通玩家客户端或简单数据库查看直接读取他人身份，但不防御被入侵的房主浏览器，也不阻止玩家修改自己的前端代码。
@@ -80,7 +80,7 @@ python3 -m http.server 4173
 
 打开 <http://localhost:4173>。仓库中的默认配置会连接生产 Firebase，开发测试时请使用明显的测试昵称。
 
-如需使用自己的 Firebase 项目，请在 `app.js` 加载前定义 `window.AVALON_FIREBASE`，并把仓库中的 `database.rules.json` 部署到对应项目。项目需要启用匿名身份验证和 Realtime Database。
+如需使用自己的 Firebase 项目，请在 `app.js` 加载前定义 `window.AVALON_FIREBASE`，并把仓库中的 `firebase/database.rules.json` 部署到对应项目。项目需要启用匿名身份验证和 Realtime Database。
 
 ## 部署
 
@@ -102,7 +102,7 @@ GitHub Pages 设置：
 
 不设置时按钮会自动隐藏。游戏应保持免费，并使用托管支付平台，不要在 GitHub Pages 上自行收集信用卡资料。
 
-公开页尾也提供中英双语的隐私说明和非官方作品声明。完整隐私说明请查看 [PRIVACY.md](PRIVACY.md)。
+公开页尾也提供中英双语的隐私说明和非官方作品声明。完整隐私说明请查看 [docs/PRIVACY.md](docs/PRIVACY.md)。
 
 ## 项目结构
 
@@ -111,15 +111,18 @@ GitHub Pages 设置：
 ├── index.html                 # 页面外壳与元数据
 ├── app.js                     # 界面、加密、网络和游戏引擎
 ├── style.css                  # 响应式 Camelot 视觉系统
-├── assets/roles/              # 优化后的身份人物图片
-├── database.rules.json        # Firebase Realtime Database 规则
+├── service-worker.js          # 可安装网页应用的离线外壳
+├── manifest.webmanifest       # 网页应用清单
+├── robots.txt, sitemap.xml    # 搜索引擎提示
+├── assets/                    # 身份插画、玩家头像与应用图标
 ├── vendor/                    # Firebase 与二维码依赖文件
-├── docs/                      # 设计说明、规则覆盖与测试报告
-├── scripts/                   # 源码与规则检查脚本
-├── .github/                   # 自动检查和贡献模板
+├── firebase/                  # Realtime Database 安全规则
+├── tests/                     # 自动化检查（node tests/run-all.mjs）
+├── dev/                       # 开发用的离线界面预览页
+├── docs/                      # 设计说明、规则覆盖、测试报告、隐私说明与第三方声明
+├── .github/                   # 安全策略、Issue 与 PR 模板
 ├── README.md                  # 英文主文档
-├── README.zh-CN.md            # 简体中文文档
-└── THIRD_PARTY_NOTICES.md     # 第三方依赖声明
+└── README.zh-CN.md            # 简体中文文档
 ```
 
 ## 功能验证
@@ -140,7 +143,7 @@ GitHub Pages 设置：
 
 全部项目文档集中在 [docs/README.md](docs/README.md)。发布游戏流程改动前，请运行 Pull Request 模板中列出的仓库检查。
 
-安全边界、漏洞报告方式和生产规则回归测试请查看 [SECURITY.md](SECURITY.md)。
+安全边界、漏洞报告方式和生产规则回归测试请查看 [SECURITY.md](.github/SECURITY.md)。
 
 ## 参与贡献
 
