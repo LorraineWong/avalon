@@ -10,6 +10,7 @@
 /* ================= i18n ================= */
 const I18N = {
   zh: {
+    shuffledNote:'任务牌已洗混：翻开的顺序与上方队员名单无关，只能看出失败牌的张数。',
     tHistory:'记录', tNotes:'笔记', tHost:'房主', tRules:'规则', tReact:'表情', editName:'改名', renameTitle:'修改昵称', renameHint:'其他玩家会立刻看到新名字，座位和身份不变。', save:'保存', youAre:'你是', seatNo:'{0} 号位', meMark:'我', roleInfo:'角色说明', hideRole:'收起',
     lobbyNeed:'还差 {0} 人即可开始', lobbyReady:'人数已够，等待房主开始', lobbyReadyHost:'人数已够，可以开始了', lobbySteps:'等人到齐 → 房主开始 → 各自查看秘密身份',
     sub:'阿瓦隆 · 在线版', tagline:'抵抗组织：阿瓦隆', feat1:'5–10 人', feat2:'无需注册', feat3:'手机电脑都能玩', feat4:'身份加密，无法偷看',
@@ -59,6 +60,7 @@ const I18N = {
     writeFail:'保存失败，请检查网络后重试', footer:'非官方粉丝作品，与原版游戏发行方无关联。相关名称与设定权利归各自权利人所有。', privacy:'隐私', legal:'非官方声明', support:'支持开发', react:'圆桌表情', reactHint:'只显示几秒，不保存聊天记录', reactAgree:'赞成', reactThink:'思考', reactSus:'怀疑', reactShock:'震惊', reactLaugh:'大笑', reactSword:'出发', tooLong:'昵称最多 12 个字',
   },
   en: {
+    shuffledNote:'Cards are shuffled: their order has nothing to do with the team list above. Only the number of Fail cards is known.',
     tHistory:'History', tNotes:'Notes', tHost:'Host', tRules:'Rules', tReact:'React', editName:'Rename', renameTitle:'Change your name', renameHint:'Everyone sees the new name right away. Your seat and role stay the same.', save:'Save', youAre:'You are', seatNo:'Seat {0}', meMark:'YOU', roleInfo:'Role guide', hideRole:'Hide',
     lobbyNeed:'{0} more player(s) needed to start', lobbyReady:'Enough players — waiting for the host to start', lobbyReadyHost:'Enough players — you can start', lobbySteps:'Gather players → host starts → everyone checks their secret role',
     sub:'Avalon · Online', tagline:'The Resistance: Avalon', feat1:'5–10 players', feat2:'No sign-up', feat3:'Phone & desktop', feat4:'Encrypted roles',
@@ -1359,11 +1361,15 @@ function renderOverlay(){
       +'<div class="vlist">'+g.order.map((u,i)=>'<div style="animation-delay:'+(i*60)+'ms"><span>'+esc(nickOf(u))+'</span><span class="vchip '+(r.votes[u]?'y':'n')+'">'+(r.votes[u]?'✓ '+t('approve'):'✗ '+t('reject'))+'</span></div>').join('')+'</div>'
       +'<button class="btn pri big" style="width:100%" data-a="ovnext">OK</button>';
   } else if(o.type==='quest'){
-    const q=g.quests[o.qi]; const cards=shuffle(Array(q.size).fill('S').map((c,i)=>i<q.fails?'F':'S'));
+    const q=g.quests[o.qi];
+    // The host only ever publishes how many Fail cards were played, never who played what.
+    // Show them in one fixed order (Success first, Fail last) on every screen, so the row can
+    // neither line up with the team list by chance nor differ between players at the table.
+    const cards=Array.from({length:q.size},(c,i)=>i<q.size-q.fails?'S':'F');
     h='<h2>⚔️ '+t('questReveal', o.qi+1)+'</h2><p class="lead">'+q.team.map(u=>esc(nickOf(u))).join(' · ')+'</p>'
       +'<div class="cards">'+cards.map((c,i)=>'<div class="qcard" style="animation-delay:'+(400+i*450)+'ms"><div class="f b"></div><div class="f '+(c==='S'?'s':'x')+'">'+(c==='S'?'✓':'✗')+'</div></div>').join('')+'</div>'
       +'<div class="bigres '+(q.r==='S'?'good':'evil')+'" style="animation-delay:'+(600+q.size*450)+'ms">'+(q.r==='S'?t('qSuccess'):t('qFail'))+'</div>'
-      +'<p class="muted">'+t('fails', q.fails)+(q.two?' · '+t('needTwo'):'')+'</p><button class="btn pri big" style="width:100%" data-a="ovnext">OK</button>';
+      +'<p class="muted">'+t('fails', q.fails)+(q.two?' · '+t('needTwo'):'')+'</p><p class="muted tiny reveal-note">'+t('shuffledNote')+'</p><button class="btn pri big" style="width:100%" data-a="ovnext">OK</button>';
   } else if(o.type==='lady'){
     const x=o.x; h='<h2>🧜‍♀️ '+t('ph_lady')+'</h2><div class="bigres '+x.side+'" style="margin:18px 0">'+esc(nickOf(x.target))+' · '+t(x.side)+'</div><button class="btn pri big" style="width:100%" data-a="ovnext">OK</button>';
   } else if(o.type==='end'){

@@ -334,8 +334,10 @@ const cardsFor=(team,failers=[])=>Object.fromEntries(team.map(p=>[p,failers.incl
   await until(()=>!host.app.Net.connected()&&host.html().includes(host.app.t('offline')),'C: host sees the connection-lost banner');
   await until(()=>others.every(c=>!c.app.Net.isOnline(host.uid)),'C: other players see the host offline');
   await voteAll(room);
+  // Wait for the four online votes to arrive instead of a fixed delay, which was flaky on a busy machine.
+  await until(()=>others.every(c=>c.g.order.filter(p=>c.S.seats[p].act&&c.S.seats[p].act.k===c.g.step).length===4),'C: the four online votes reach every player');
   await sleep(150);
-  assert(others.every(c=>c.g.phase==='vote'&&c.g.order.filter(p=>c.S.seats[p].act&&c.S.seats[p].act.k===c.g.step).length===4),'C: the vote waits for the host while it is offline');
+  assert(others.every(c=>c.g.phase==='vote'),'C: the vote waits for the host while it is offline');
   assert(host.conn.queue.length>0,'C: the host vote is queued, not lost');
   host.conn.setConnected(true);
   await until(()=>clients.every(c=>c.g.phase==='quest'),'C: the engine resumes after the host reconnects');

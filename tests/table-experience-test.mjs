@@ -37,4 +37,11 @@ assert.match(css, /\.b-pick-order\{/, 'selected players need a visible selection
 assert.match(css, /\.known-person\.clue\{/, 'private knowledge must share a visual treatment between the table and role panel');
 assert.match(sw, /assets\/player-avatars\.webp/, 'the player portrait sprite must be available offline');
 
+// Quest reveal must not hint at who played which card.
+const reveal=js.slice(js.indexOf("} else if(o.type==='quest'){"),js.indexOf("} else if(o.type==='lady'){"));
+assert.match(reveal, /i<q\.size-q\.fails\?'S':'F'/, 'revealed quest cards must use one fixed order derived only from the Fail count');
+assert.ok(!/shuffle\(/.test(reveal), 'the reveal must not differ between players at the same table');
+assert.match(reveal, /t\('shuffledNote'\)/, 'the reveal must say that card order is unrelated to the team list');
+assert.match(js, /Object\.assign\(\{\},x,\{r:failed\?'F':'S',fails,team:g\.team,excalibur:excaliburTarget\|\|null\}\)/, 'the public quest record may only carry the result, the Fail count, the team and the Excalibur target');
+
 console.log('Round-table experience checks passed.');
