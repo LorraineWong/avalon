@@ -26,7 +26,7 @@ const I18N = {
     ph_propose:'组队', ph_vote:'投票', ph_quest:'出任务', ph_excalibur:'王者之剑', ph_loyalty:'阵营查验', ph_recruit:'招募判定', ph_lady:'湖中仙女', ph_assassin:'刺杀梅林', ph_end:'游戏结束',
     questN:'任务 {0}', attempt:'第 {0}/5 次组队', needTwo:'需 2 张失败', fails:'{0} 张失败',
     leaderPick:'你是队长：选 {0} 名队员', leaderHint:'点击圆桌上的玩家选择，可以选自己。', submitTeam:'提交队伍', resubmit:'重新提交',
-    waitLeader:'{0} 正在挑选 {1} 名队员', discuss:'趁现在讨论一下吧。', voteTitle:'同意这支队伍出发吗？',
+    waitLeader:'{0} 正在挑选 {1} 名队员', discuss:'队长的暂选名单会实时显示，趁现在讨论一下吧。', leaderDraft:'队长目前暂选', voteTitle:'同意这支队伍出发吗？',
     approve:'赞成', reject:'反对', voted:'已投票，所有人投完前可以修改。', pleaseVote:'请投票，全部投完后统一公开。', votedCount:'已投 {0}/{1}',
     questTitle:'任务进行中', success:'成功', fail:'失败', goodOnly:'好人只能出“成功”。', evilChoice:'你是坏人，可以选择让任务失败。', mustFail:'你的身份在本次任务必须出“失败”。', cannotFail:'你的身份在本次任务不能出“失败”。',
     excaliburPick:'把王者之剑交给一名队员', excaliburHint:'持剑者不能是队长，出牌后可换掉另一名队员的牌。', excaliburUse:'要换掉谁的任务牌？', excaliburSkip:'不使用王者之剑', excaliburWait:'{0} 正在决定是否使用王者之剑…',
@@ -72,7 +72,7 @@ const I18N = {
     ph_propose:'Team building', ph_vote:'Voting', ph_quest:'Quest', ph_excalibur:'Excalibur', ph_loyalty:'Loyalty check', ph_recruit:'Recruitment', ph_lady:'Lady of the Lake', ph_assassin:'Assassination', ph_end:'Game over',
     questN:'Quest {0}', attempt:'Proposal {0}/5', needTwo:'Needs 2 fails', fails:'{0} fail(s)',
     leaderPick:'You lead: pick {0} players', leaderHint:'Tap players around the table. You may pick yourself.', submitTeam:'Propose team', resubmit:'Propose again',
-    waitLeader:'{0} is picking {1} players', discuss:'Discuss while you wait.', voteTitle:'Approve this team?',
+    waitLeader:'{0} is picking {1} players', discuss:'The Leader’s draft team appears live. Discuss while they decide.', leaderDraft:'Leader’s current draft', voteTitle:'Approve this team?',
     approve:'Approve', reject:'Reject', voted:'Vote cast — you can change it until everyone has voted.', pleaseVote:'Cast your vote. All votes are revealed together.', votedCount:'Voted {0}/{1}',
     questTitle:'Quest in progress', success:'Success', fail:'Fail', goodOnly:'Good players can only play Success.', evilChoice:'You are evil — you may sabotage.', mustFail:'Your role must play Fail on this Quest.', cannotFail:'Your role cannot play Fail on this Quest.',
     excaliburPick:'Give Excalibur to a team member', excaliburHint:'The Leader cannot hold it. After cards are played, its holder may switch another member\'s card.', excaliburUse:'Whose Quest card will you switch?', excaliburSkip:'Do not use Excalibur', excaliburWait:'{0} is deciding whether to use Excalibur…',
@@ -310,7 +310,7 @@ const SUPPORT_URL = (typeof window!=='undefined' && window.AVALON_SUPPORT_URL) |
 const ROOM_TTL_MS = 72 * 60 * 60 * 1000;
 const END_TTL_MS = 24 * 60 * 60 * 1000;
 const Net = {
-  db:null, auth:null, ref:null, onlineRef:null, reactionTimer:null, code:null, loaded:false, conn:false, everConnected:false, authFailed:false,
+  db:null, auth:null, ref:null, onlineRef:null, reactionTimer:null, draftWrite:Promise.resolve(), code:null, loaded:false, conn:false, everConnected:false, authFailed:false,
   raw:new Map(), parsed:new Map(), revs:new Map(), online:new Set(),
   async init(){
     firebase.initializeApp(FIREBASE_CONFIG);
@@ -377,6 +377,18 @@ const Net = {
       if(!raw) return raw;
       try{ const seat=JSON.parse(raw); seat.reaction={id,at}; return JSON.stringify(seat); }catch(e){ return; }
     }).catch(e=>{ console.warn('reaction failed', e); toast(t('writeFail')); });
+  },
+  draftTeam(pid, step, picks){
+    if(!this.ref) return Promise.resolve();
+    const code=this.code;
+    this.draftWrite=this.draftWrite.catch(()=>{}).then(()=>{
+      if(code!==this.code || !this.ref) return;
+      return this.ref.child('seats/'+pid+'/j').transaction(raw=>{
+        if(!raw) return raw;
+        try{ const seat=JSON.parse(raw); seat.draftTeam={step,picks}; return JSON.stringify(seat); }catch(e){ return; }
+      });
+    }).catch(e=>{ console.warn('draft team failed', e); });
+    return this.draftWrite;
   },
   dropRoom(){
     if(!this.ref) return Promise.resolve();
@@ -979,10 +991,20 @@ function visibleReaction(seat){
   const r=seat&&seat.reaction, def=r&&REACTIONS.find(x=>x.id===r.id);
   return def && Date.now()-r.at<REACTION_MS ? def : null;
 }
+function publicDraftTeam(g){
+  if(!g || g.phase!=='propose') return [];
+  const leader=g.order[g.leader], max=g.quests[g.q].size;
+  if(leader===ME.pid) return S.ui.pick.slice(0,max);
+  const draft=S.seats[leader]&&S.seats[leader].draftTeam;
+  if(!draft || draft.step!==g.step || !Array.isArray(draft.picks)) return [];
+  return [...new Set(draft.picks)].filter(pid=>g.order.includes(pid)).slice(0,max);
+}
 function tableView(g){
   const n=g.order.length, pm=pickMode(g), endRoles=g.status==='end'?(g.roles||{}):null;
   const privateNotes=S.ui.notesOpen?readPrivateNotes():{};
   const sees=new Set((S.peek&&S.mine&&S.mine.sees)||[]), lady={}; if(S.peek) S.ladyMine.forEach(x=>lady[x.target]=x.side); // private info only while the role card is open
+  const checked={}; if(S.peek) S.checksMine.filter(x=>x.source!=='lady').forEach(x=>checked[x.target]=x.side);
+  const draftTeam=publicDraftTeam(g);
   const last=(g.rounds||[]).slice(-1)[0];
   const showVotes = last && g.status==='play' && (g.phase==='quest' || (g.phase==='propose' && !last.ok && last.q===g.q));
   const L=g.order[g.leader];
@@ -990,7 +1012,7 @@ function tableView(g){
     const ang=(-90 + i*360/n)*Math.PI/180, R=41;
     const x=50+R*Math.cos(ang), y=50+R*Math.sin(ang);
     const onTeam=['vote','quest','excalibur'].includes(g.phase) && (g.team||[]).includes(p);
-    const can=pm && pm.ok(p), picked=S.ui.pick.includes(p);
+    const can=pm && pm.ok(p), picked=(g.phase==='propose'?draftTeam:S.ui.pick).includes(p), skillKnown=sees.has(p)||!!lady[p]||!!checked[p];
     let tags='';
     if(endRoles && endRoles[p]) tags+='<span class="tag '+((g.allegiances&&g.allegiances[p])||side(endRoles[p]))+'">'+ROLE_META[endRoles[p]].ic+' '+rName(endRoles[p])+'</span>';
     else {
@@ -1003,12 +1025,13 @@ function tableView(g){
     let badges='<span class="b-off '+(Net.isOnline(p)?'y':'')+'"></span>';
     const reaction=visibleReaction(S.seats[p]);
     if(reaction) badges+='<span class="reaction-bubble" aria-label="'+t(reaction.label)+'">'+reaction.emoji+'</span>';
+    if(skillKnown) badges+='<span class="badge b-known" aria-label="'+t('youSee',nickOf(p))+'">👁</span>';
     if(g.status==='play' && p===L && ['propose','vote','quest','excalibur'].includes(g.phase)) badges+='<span class="badge b-crown">👑</span>';
     if(g.lady && g.lady.holder===p && g.status==='play') badges+='<span class="badge b-lady">🧜‍♀️</span>';
     if(g.excaliburHolder===p && g.status==='play') badges+='<span class="badge b-lady">⚔</span>';
     if(g.status==='play' && needsAct(g,p)) badges+= acted(p) ? '<span class="badge b-act">✓</span>' : '<span class="badge b-wait">⏳</span>';
     if(showVotes && last.votes[p]!==undefined) badges+='<span class="badge b-vote '+(last.votes[p]?'y':'n')+'">'+(last.votes[p]?'✓':'✗')+'</span>';
-    const cls='seatp'+(onTeam?' team':'')+(can?' pick':'')+(picked?' picked':'')+(p===ME.pid?' me':'')+(g.assassinPick===p?' stabbed':'')+(pm&&!can?' dimmed':'');
+    const cls='seatp'+(onTeam?' team':'')+(can?' pick':'')+(picked?' picked':'')+(skillKnown?' skill-known':'')+(p===ME.pid?' me':'')+(g.assassinPick===p?' stabbed':'')+(pm&&!can?' dimmed':'');
     return '<button class="'+cls+'" style="left:'+x.toFixed(2)+'%;top:'+y.toFixed(2)+'%" '+(can?'data-pick="'+esc(p)+'"':'tabindex="-1"')+'>'
       +'<div class="pav" style="background:'+avColor(p)+'">'+esc(initials(nickOf(p)))+badges+'</div>'
       +'<div class="pn">'+(i+1)+'·'+esc(nickOf(p))+'</div><div class="pt">'+tags+'</div></button>';
@@ -1040,7 +1063,7 @@ function actionBlock(g){
       h='<h2>👑 '+t('leaderPick', size)+'</h2><div class="hint">'+t('leaderHint')+' ('+S.ui.pick.length+'/'+size+')</div>'+chips(S.ui.pick)+sword
         +'<button class="btn pri big" style="width:100%" data-a="propose" '+(!ready||busy?'disabled':'')+'>'+(acted(me)?t('resubmit'):t('submitTeam'))+'</button>';
     }
-    else h='<h2>⏳ '+t('waitLeader', esc(nickOf(L)), size)+'</h2><div class="hint" style="margin-bottom:0">'+t('discuss')+'</div>';
+    else { const draft=publicDraftTeam(g); h='<h2>⏳ '+t('waitLeader', esc(nickOf(L)), size)+'</h2><div class="hint">'+t('discuss')+'</div>'+(draft.length?'<div class="muted tiny" style="margin-bottom:5px">'+t('leaderDraft')+' · '+draft.length+'/'+size+'</div>'+chips(draft):''); }
   } else if(g.phase==='vote'){
     h='<h2>🗳️ '+t('voteTitle')+'</h2>'+chips(g.team)
       +'<div class="row"><button class="btn good big '+(mine===true?'sel':'')+'" data-vote="1" '+(busy?'disabled':'')+'>👍 '+t('approve')+'</button>'
@@ -1085,10 +1108,11 @@ function roleBar(){
 }
 function knowBlock(){
   const m=S.mine; let h='<div class="small" style="margin-bottom:8px">'+rDesc(m.role)+'</div>';
+  const person=(u,cls,label)=>'<span class="known-person '+cls+'"><span class="known-avatar" style="background:'+avColor(u)+'">'+esc(initials(nickOf(u)))+'</span><span><b>'+esc(nickOf(u))+'</b>'+(label?'<small>'+label+'</small>':'')+'</span></span>';
   if(m.allegiance&&m.allegiance!==side(m.role)) h+='<div class="know"><b class="'+(m.allegiance==='good'?'res-s':'res-f')+'">'+t('currentLoyalty',t(m.allegiance))+'</b></div>';
-  if(m.see) h+='<div class="know"><div class="kl">'+t('youSee', t(m.see))+'</div>'+((m.sees||[]).length?m.sees.map(u=>'<span class="tag '+(m.role==='percival'?'good':'evil')+'" style="font-size:13px">'+esc(nickOf(u))+'</span>').join(' '):t('none'))+'</div>';
-  S.ladyMine.forEach(x=>{ h+='<div class="know">🧜‍♀️ '+t('inspected', '<b>'+esc(nickOf(x.target))+'</b>', '<b class="'+(x.side==='good'?'res-s':'res-f')+'">'+t(x.side)+'</b>')+'</div>'; });
-  S.checksMine.filter(x=>x.source!=='lady').forEach(x=>{ h+='<div class="know">☩ '+t('inspected','<b>'+esc(nickOf(x.target))+'</b>','<b class="'+(x.side==='good'?'res-s':'res-f')+'">'+t(x.side)+'</b>')+'</div>'; });
+  if(m.see) h+='<div class="know"><div class="kl">'+t('youSee', t(m.see))+'</div><div class="known-people">'+((m.sees||[]).length?m.sees.map(u=>person(u,'','')).join(''):t('none'))+'</div></div>';
+  S.ladyMine.forEach(x=>{ h+='<div class="know"><div class="kl">🧜‍♀️ '+t('ladyLog')+'</div>'+person(x.target,x.side,t(x.side))+'</div>'; });
+  S.checksMine.filter(x=>x.source!=='lady').forEach(x=>{ h+='<div class="know"><div class="kl">☩ '+t('inspected',esc(nickOf(x.target)),t(x.side))+'</div>'+person(x.target,x.side,t(x.side))+'</div>'; });
   return h;
 }
 function historyBlock(g){
@@ -1183,6 +1207,7 @@ document.addEventListener('click', e=>{
     else if(S.ui.pick.length<pm.max) S.ui.pick=S.ui.pick.concat([u]);
     else toast(t('toMany', pm.max));
     if(S.ui.excalibur && !S.ui.pick.includes(S.ui.excalibur)) S.ui.excalibur=null;
+    if(S.game.phase==='propose' && S.game.order[S.game.leader]===ME.pid) Net.draftTeam(ME.pid,S.game.step,S.ui.pick.slice());
     return render();
   }
   if(b.dataset.vote) return submit(b.dataset.vote==='1');
