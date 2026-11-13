@@ -18,7 +18,7 @@ const I18N = {
     entering:'正在进入房间 {0}…', home:'首页', roomCode:'房间号', copyLink:'复制邀请链接', copied:'邀请链接已复制',
     share:'分享', showQR:'扫码加入', scanJoin:'扫描二维码加入房间', inviteHint:'把链接发给朋友，打开就能加入。', players:'玩家', host:'房主', you:'你', seat:'入座', rename:'改名',
     leave:'离开房间', start:'开始游戏', dealing:'发牌中…', waitHost:'等待房主开始游戏…', full:'房间已满（最多 10 人）',
-    renamed:'昵称已更新', roleSettings:'角色配置', hostOnly:'仅房主可修改', emptySeat:'等待加入', presets:'推荐配置', presetNew:'新手局', presetClassic:'经典局', presetBig:'扩展局', presetApplied:'已应用「{0}」配置',
+    renamed:'昵称已更新', roleSettings:'角色配置', hostOnly:'仅房主可修改', advancedRoles:'高级角色配置', advancedRolesHint:'需要逐个调整角色或玩法模块时再展开', emptySeat:'等待加入', presets:'推荐配置', presetNew:'新手局', presetClassic:'经典局', presetBig:'扩展局', presetApplied:'已应用「{0}」配置',
     needPlayers:'需要 5–10 名玩家（当前 {0} 人）', tooManyEvil:'{0} 人局只有 {1} 个坏人，勾选的坏人角色太多了', tooManyGood:'好人特殊角色太多了',
     comp:'{0} 人局：{1} 好人 · {2} 坏人', compPrev:'按 {0} 人预览：{1} 好人 · {2} 坏人',
     optMerlin:'梅林 + 刺客', optMerlinD:'经典核心', optLady:'湖中仙女', optLadyD:'7 人及以上生效', optExcalibur:'王者之剑', optExcaliburD:'持剑者可换掉另一名队员的任务牌',
@@ -47,7 +47,7 @@ const I18N = {
     rRejected:'否决', rOn:'出发中', try:'第 {0} 次',
     hostOffline:'房主 {0} 似乎掉线了。为保护隐藏身份，意外掉线后不能自动接管；请房主重新打开链接。', hostTools:'房主管理', transferHost:'转交房主', transferTo:'选择新房主', transferWarning:'转交后由对方设备推进游戏；你的主密钥会安全地重新加密给对方。', confirmTransfer:'确认转交给 {0}', hostTransferred:'房主已转交给 {0}', hostChanged:'房主已转交', chooseHost:'请先选择一名在线玩家',
     privacyCover:'遮挡屏幕', revealScreen:'恢复游戏', coveredTitle:'私人信息已遮挡', coveredHint:'只有点击下方按钮才会重新显示身份、技能与笔记。',
-    rules:'规则速查', close:'关闭', goodCamp:'正义阵营', evilCamp:'邪恶阵营', gameModules:'组合角色与玩法模块', currentLineup:'本局身份阵容', lineupHint:'以下身份会在本局出现；重复数量已标出，但不会显示谁拿到哪个身份。', allRoleGuide:'全部角色说明', rulesAnytime:'规则与角色', ladyLog:'湖中仙女', kicked:'已移出', toMany:'最多选 {0} 人，先取消一个', confirmTitle:'请确认操作', confirm:'确认', cancel:'取消', confirmKick:'确定将 {0} 移出房间吗？', confirmLeave:'确定离开正在进行的游戏吗？重新打开邀请链接仍可回来。', confirmAgain:'确定结束本局结果并返回大厅吗？', confirmAssassin:'确认刺杀 {0}？提交后会立即决定胜负，无法撤销。', confirmExcalibur:'确认替换 {0} 的任务牌？提交后无法撤销。',
+    rules:'规则速查', close:'关闭', goodCamp:'正义阵营', evilCamp:'邪恶阵营', gameModules:'组合角色与玩法模块', currentLineup:'本局角色', lineupHint:'只显示这局会出现的身份；不会显示谁拿到哪个身份。', lineupPreview:'当前人数不足，先按 {0} 人阵容预览。', lobbyGuideHint:'角色说明与完整玩法改为按需查看，不再占满大厅。', openLineup:'查看本局角色', fullRules:'完整规则', allRoleGuide:'全部角色说明', rulesAnytime:'规则与角色', ladyLog:'湖中仙女', kicked:'已移出', toMany:'最多选 {0} 人，先取消一个', confirmTitle:'请确认操作', confirm:'确认', cancel:'取消', confirmKick:'确定将 {0} 移出房间吗？', confirmLeave:'确定离开正在进行的游戏吗？重新打开邀请链接仍可回来。', confirmAgain:'确定结束本局结果并返回大厅吗？', confirmAssassin:'确认刺杀 {0}？提交后会立即决定胜负，无法撤销。', confirmExcalibur:'确认替换 {0} 的任务牌？提交后无法撤销。',
     howToPlay:'一局怎么进行', step1Title:'1 · 队长组队', step1Body:'队长按当前任务要求选择队员，可以选择自己。', step2Title:'2 · 全员投票', step2Body:'超过半数赞成，队伍才能出发。一个任务连续 5 次组队被否决，坏人直接获胜。', step3Title:'3 · 秘密任务', step3Body:'获选队员秘密出牌：好人只能出成功，坏人可以出失败。7 人及以上的第 4 个任务需要 2 张失败。', step4Title:'4 · 决定胜负', step4Body:'坏人让 3 个任务失败即获胜；好人完成 3 个任务后，刺客仍可通过刺中梅林翻盘。',
     privateNotes:'私人推理笔记', openNotes:'打开私人笔记', closeNotes:'收起私人笔记', notesHint:'只保存在这台设备，不会上传，也不会让房主或其他玩家看到。', suspectAs:'怀疑身份', unmarked:'未标记', leanGood:'偏好人', leanEvil:'偏坏人', notePlaceholder:'记录发言、投票或你的推理…', clearNotes:'清空本局笔记', notesCleared:'本局私人笔记已清空',
     rulesP1:'好人要完成 3 个任务，坏人要让 3 个任务失败。每轮由队长挑选队员，所有人公开投票，<b>超过半数</b>赞成才能出发，否则队长顺延到下一位。同一个任务<b>连续 5 次</b>组队被否决，坏人直接获胜。',
@@ -65,7 +65,7 @@ const I18N = {
     entering:'Joining room {0}…', home:'Home', roomCode:'Room code', copyLink:'Copy invite link', copied:'Invite link copied',
     share:'Share', showQR:'Join QR', scanJoin:'Scan to join this room', inviteHint:'Send the link to friends — opening it joins the room.', players:'Players', host:'Host', you:'You', seat:'Take a seat', rename:'Rename',
     leave:'Leave room', start:'Start game', dealing:'Dealing…', waitHost:'Waiting for the host to start…', full:'Room is full (max 10)',
-    renamed:'Name updated', roleSettings:'Roles', hostOnly:'Host only', emptySeat:'Open seat', presets:'Recommended setups', presetNew:'Beginner', presetClassic:'Classic', presetBig:'Expansion', presetApplied:'Applied “{0}” setup',
+    renamed:'Name updated', roleSettings:'Roles', hostOnly:'Host only', advancedRoles:'Advanced role setup', advancedRolesHint:'Expand only when you need to adjust individual roles or modules', emptySeat:'Open seat', presets:'Recommended setups', presetNew:'Beginner', presetClassic:'Classic', presetBig:'Expansion', presetApplied:'Applied “{0}” setup',
     needPlayers:'Need 5–10 players (now {0})', tooManyEvil:'A {0}-player game has only {1} evil players — too many evil roles selected', tooManyGood:'Too many special good roles',
     comp:'{0} players: {1} good · {2} evil', compPrev:'Preview for {0}: {1} good · {2} evil',
     optMerlin:'Merlin + Assassin', optMerlinD:'The classic core', optLady:'Lady of the Lake', optLadyD:'7+ players', optExcalibur:'Excalibur', optExcaliburD:'Its holder may switch another member\'s Quest card',
@@ -94,7 +94,7 @@ const I18N = {
     rRejected:'Rejected', rOn:'On quest', try:'Try {0}',
     hostOffline:'Host {0} seems offline. To protect hidden roles, an unexpected disconnect cannot be taken over automatically; ask the host to reopen the link.', hostTools:'Host controls', transferHost:'Transfer host', transferTo:'Choose the new host', transferWarning:'Their device will advance the game. Your master key is securely re-encrypted for them.', confirmTransfer:'Confirm transfer to {0}', hostTransferred:'Host transferred to {0}', hostChanged:'Host transferred', chooseHost:'Choose an online player first',
     privacyCover:'Hide screen', revealScreen:'Return to game', coveredTitle:'Private information hidden', coveredHint:'Your role, knowledge, and notes stay covered until you return.',
-    rules:'Quick rules', close:'Close', goodCamp:'Good', evilCamp:'Evil', gameModules:'Paired roles & game modules', currentLineup:'Roles in this game', lineupHint:'These roles are in this game. Repeated roles show a count, but no player assignment is revealed.', allRoleGuide:'All role descriptions', rulesAnytime:'Rules & roles', ladyLog:'Lady of the Lake', kicked:'Removed', toMany:'Max {0} players — deselect one first', confirmTitle:'Confirm action', confirm:'Confirm', cancel:'Cancel', confirmKick:'Remove {0} from the room?', confirmLeave:'Leave this game in progress? You can return with the invite link.', confirmAgain:'End this result and return everyone to the lobby?', confirmAssassin:'Assassinate {0}? This decides the game immediately and cannot be undone.', confirmExcalibur:'Switch {0}’s Quest card? This cannot be undone.',
+    rules:'Quick rules', close:'Close', goodCamp:'Good', evilCamp:'Evil', gameModules:'Paired roles & game modules', currentLineup:'This game’s roles', lineupHint:'Only roles present in this game are shown; player assignments stay hidden.', lineupPreview:'Not enough players yet — previewing the {0}-player lineup.', lobbyGuideHint:'Role explanations and full rules now open only when needed.', openLineup:'View this game’s roles', fullRules:'Full rules', allRoleGuide:'All role descriptions', rulesAnytime:'Rules & roles', ladyLog:'Lady of the Lake', kicked:'Removed', toMany:'Max {0} players — deselect one first', confirmTitle:'Confirm action', confirm:'Confirm', cancel:'Cancel', confirmKick:'Remove {0} from the room?', confirmLeave:'Leave this game in progress? You can return with the invite link.', confirmAgain:'End this result and return everyone to the lobby?', confirmAssassin:'Assassinate {0}? This decides the game immediately and cannot be undone.', confirmExcalibur:'Switch {0}’s Quest card? This cannot be undone.',
     howToPlay:'How a game works', step1Title:'1 · Build a team', step1Body:'The Leader picks the required number of players and may pick themself.', step2Title:'2 · Everyone votes', step2Body:'The team needs a strict majority to go. Five rejected proposals on one Quest give Evil an immediate win.', step3Title:'3 · Play Quest cards secretly', step3Body:'Selected players submit in secret: Good can only play Success; Evil may play Fail. With 7+ players, Quest 4 needs two Fails.', step4Title:'4 · Decide the winner', step4Body:'Evil wins after three failed Quests. After three successes, the Assassin can still steal the win by finding Merlin.',
     privateNotes:'Private deduction notes', openNotes:'Open private notes', closeNotes:'Hide private notes', notesHint:'Saved only on this device. Nothing is uploaded or shared with the host or other players.', suspectAs:'Suspected role', unmarked:'Unmarked', leanGood:'Leans Good', leanEvil:'Leans Evil', notePlaceholder:'Record claims, votes, or your reasoning…', clearNotes:'Clear notes for this game', notesCleared:'Private notes for this game were cleared',
     rulesP1:'Good must complete 3 quests; Evil must fail 3. Each round the leader proposes a team and everyone votes openly — a <b>strict majority</b> is needed, otherwise leadership passes on. If <b>5 proposals in a row</b> are rejected for one quest, Evil wins.',
@@ -429,7 +429,7 @@ const Net = {
 /* ================= App state ================= */
 const S = {
   view:'home', code:null, joinedAt:0, game:null, seats:{}, secrets:{},
-  mine:null, master:null, ladyMine:[], checksMine:[], ui:{nick:'', joinCode:'', pick:[], pickStep:'', myActs:{}, busy:false, excalibur:null, rulesOpen:false, rulesInlineOpen:false, infoOpen:null, qrOpen:false, privacyCover:false, questConfirm:null, confirm:null, hostSuccessor:'', confirmHostTransfer:false, lastReactionAt:0, notesOpen:false},
+  mine:null, master:null, ladyMine:[], checksMine:[], ui:{nick:'', joinCode:'', pick:[], pickStep:'', myActs:{}, busy:false, excalibur:null, rulesOpen:false, guideTab:'rules', rulesInlineOpen:false, settingsOpen:false, infoOpen:null, qrOpen:false, privacyCover:false, questConfirm:null, confirm:null, hostSuccessor:'', confirmHostTransfer:false, lastReactionAt:0, notesOpen:false},
   ov:[], seen:null, notFoundTimer:null, lastGid:null,
 };
 
@@ -853,17 +853,17 @@ function roleGuide(r, count=1){
 }
 function currentLineupContent(){
   if(!S.game) return '';
-  const n=S.game.n || (S.game.order&&S.game.order.length) || Object.keys(S.seats||{}).length;
+  const actual=S.game.n || (S.game.order&&S.game.order.length) || Object.keys(S.seats||{}).length, n=Math.min(10,Math.max(5,actual));
   const built=buildRoles(n,Object.assign({},DEFAULT_SETTINGS,S.game.settings));
   if(built.err || !built.roles) return '';
   const counts={}; built.roles.forEach(r=>counts[r]=(counts[r]||0)+1);
   const roles=Object.keys(counts);
-  return '<section class="current-lineup-guide"><div class="lineup-guide-head"><div><h3>♟ '+t('currentLineup')+' · '+n+'</h3><p>'+t('lineupHint')+'</p></div><div class="lineup-totals"><span class="tag good">'+built.gd+' '+t('good')+'</span><span class="tag evil">'+built.ev+' '+t('evil')+'</span></div></div><div class="rgrid lineup-guide-grid">'+roles.map(r=>roleGuide(r,counts[r])).join('')+'</div></section>';
+  return '<section class="current-lineup-guide"><div class="lineup-guide-head"><div><h3>♟ '+t('currentLineup')+' · '+n+'</h3><p>'+t('lineupHint')+(actual<5?' '+t('lineupPreview',n):'')+'</p></div><div class="lineup-totals"><span class="tag good">'+built.gd+' '+t('good')+'</span><span class="tag evil">'+built.ev+' '+t('evil')+'</span></div></div><div class="rgrid lineup-guide-grid">'+roles.map(r=>roleGuide(r,counts[r])).join('')+'</div></section>';
 }
 function rulesContent(){
   const good=['merlin','percival','cleric','troublemaker','untrustworthy','lancelotGood','servant'];
   const evil=['assassin','morgana','mordred','oberon','trickster','lunatic','brute','revealer','lancelotEvil','minion'];
-  return currentLineupContent()+'<section class="rules-flow"><h3>⚔ '+t('howToPlay')+'</h3><ol>'
+  return '<section class="rules-flow"><h3>⚔ '+t('howToPlay')+'</h3><ol>'
     +[['step1Title','step1Body'],['step2Title','step2Body'],['step3Title','step3Body'],['step4Title','step4Body']].map(x=>'<li><b>'+t(x[0])+'</b><span>'+t(x[1])+'</span></li>').join('')+'</ol></section>'
     +'<div class="rules-copy"><p>'+t('rulesP3')+'</p></div><h3 class="all-role-title">'+t('allRoleGuide')+'</h3>'
     +'<div class="rule-camps"><section class="camp good"><h3>🛡️ '+t('goodCamp')+'</h3><div class="rgrid">'+good.map(r=>roleGuide(r)).join('')+'</div></section>'
@@ -873,12 +873,20 @@ function rulesContent(){
 function rulesBlock(){
   return '<details class="rules" '+(S.ui.rulesInlineOpen?'open':'')+'><summary><span class="summary-mark">✦</span> '+t('rules')+'</summary>'+rulesContent()+'</details>';
 }
+function lobbyGuideBar(){
+  const actual=Object.keys(S.seats||{}).length, n=Math.min(10,Math.max(5,actual)), built=buildRoles(n,Object.assign({},DEFAULT_SETTINGS,S.game&&S.game.settings));
+  const totals=built.err?'':('<span class="tag good">'+built.gd+' '+t('good')+'</span><span class="tag evil">'+built.ev+' '+t('evil')+'</span>');
+  return '<section class="glass card lobby-guide-bar"><div class="lobby-guide-copy"><span class="lobby-guide-icon">♟</span><span><b>'+t('currentLineup')+'</b><small>'+t('lobbyGuideHint')+(actual<5?' '+t('lineupPreview',n):'')+'</small></span><span class="lobby-guide-totals">'+totals+'</span></div><div class="lobby-guide-actions"><button class="btn pri" data-a="rulesLineup">♟ '+t('openLineup')+'</button><button class="btn" data-a="rulesFull">📜 '+t('fullRules')+'</button></div></section>';
+}
 function renderRulesModal(){
   const el=$('#rulesModal'); if(!el) return;
-  if(!S.ui.rulesOpen){ if(el.innerHTML) el.innerHTML=''; el._lang=null; return; }
-  if(el._lang===LANG && el.innerHTML) return;
-  el._lang=LANG;
-  el.innerHTML='<div class="rules-modal" role="dialog" aria-modal="true" aria-label="'+t('rulesAnytime')+'"><div class="glass rules-sheet"><div class="rules-head"><div><div class="eyebrow">AVALON GUIDE</div><h2>📜 '+t('rulesAnytime')+'</h2></div><button class="btn ghost rules-close" data-a="closeRules" aria-label="'+t('close')+'">×</button></div>'+rulesContent()+'</div></div>';
+  if(!S.ui.rulesOpen){ if(el.innerHTML) el.innerHTML=''; el._key=null; return; }
+  const tab=S.ui.guideTab==='lineup'?'lineup':'rules', key=LANG+':'+tab+':'+JSON.stringify(S.game&&S.game.settings)+':'+Object.keys(S.seats||{}).length;
+  if(el._key===key && el.innerHTML) return;
+  el._key=key;
+  const tabs='<div class="rules-tabs" role="tablist"><button class="btn '+(tab==='lineup'?'active':'')+'" role="tab" aria-selected="'+(tab==='lineup')+'" data-a="rulesLineup">♟ '+t('currentLineup')+'</button><button class="btn '+(tab==='rules'?'active':'')+'" role="tab" aria-selected="'+(tab==='rules')+'" data-a="rulesFull">📜 '+t('fullRules')+'</button></div>';
+  const content=tab==='lineup'?currentLineupContent():rulesContent();
+  el.innerHTML='<div class="rules-modal" role="dialog" aria-modal="true" aria-label="'+t('rulesAnytime')+'"><div class="glass rules-sheet"><div class="rules-head"><div><div class="eyebrow">AVALON GUIDE</div><h2>'+(tab==='lineup'?'♟ '+t('currentLineup'):'📜 '+t('fullRules'))+'</h2></div><button class="btn ghost rules-close" data-a="closeRules" aria-label="'+t('close')+'">×</button></div>'+tabs+'<div class="rules-tab-content">'+content+'</div></div></div>';
   requestAnimationFrame(()=>el.querySelector('.rules-close')?.focus());
 }
 function infoContent(kind){
@@ -975,18 +983,18 @@ function viewLobby(){
     +'<button class="rt neutral'+(st.excalibur?' on':'')+'" '+(host?'data-set="excalibur"':'disabled')+'><span class="lady-art">⚔</span><span><b>'+t('optExcalibur')+'</b><span>'+t('optExcaliburD')+'</span></span></button>';
   return '<div class="glass card roomcode"><div><div class="muted small">'+t('roomCode')+'</div><div class="code">'+esc(g.code)+'</div><div class="muted small">'+t('inviteHint')+'</div></div>'
     +'<div class="row"><button class="btn pri" data-a="copy">🔗 '+t('copyLink')+'</button><button class="btn" data-a="qr">▦ '+t('showQR')+'</button>'+(navigator.share?'<button class="btn" data-a="share">'+t('share')+'</button>':'')+'</div></div>'
-    +'<div class="lobby"><div class="glass card"><h2>'+t('players')+' · '+n+'/10</h2><div class="seats">'+seats+'</div>'
+    +lobbyGuideBar()+'<div class="lobby"><div class="glass card"><h2>'+t('players')+' · '+n+'/10</h2><div class="seats">'+seats+'</div>'
     +'<div class="row" style="margin-top:14px"><input class="input" id="nick" maxlength="12" placeholder="'+t('nickPh')+'" value="'+esc(S.ui.nick)+'" style="flex:1;min-width:120px">'
     +(seated?'<button class="btn" data-a="rename">'+t('rename')+'</button>':'<button class="btn pri" data-a="seat">'+t('seat')+'</button>')+'</div>'
     +'<div class="row" style="margin-top:14px">'
     +(host?'<button class="btn pri big" data-a="start" '+(br.err||S.ui.busy?'disabled':'')+'>'+(S.ui.busy?t('dealing'):'⚔️ '+t('start'))+'</button>':'<span class="muted" style="flex:1">⏳ '+t('waitHost')+'</span>')
     +'<button class="btn ghost" data-a="leave">'+t('leave')+'</button></div>'
     +(host&&br.err?'<p class="warn small" style="margin-bottom:0">'+esc(br.err)+'</p>':'')+'</div>'
-    +'<div class="glass card"><h2>'+t('roleSettings')+(host?'':' <span class="muted small">· '+t('hostOnly')+'</span>')+'</h2><div class="preset-wrap"><span class="muted tiny">'+t('presets')+'</span><div class="preset-row"><button class="btn preset-btn" data-preset="new" '+(host?'':'disabled')+'>🛡 '+t('presetNew')+'</button><button class="btn preset-btn" data-preset="classic" '+(host?'':'disabled')+'>⚔ '+t('presetClassic')+'</button><button class="btn preset-btn" data-preset="big" '+(host?'':'disabled')+'>✦ '+t('presetBig')+'</button></div></div><div class="settings-camps">'
+    +'<div class="glass card"><h2>'+t('roleSettings')+(host?'':' <span class="muted small">· '+t('hostOnly')+'</span>')+'</h2><div class="preset-wrap"><span class="muted tiny">'+t('presets')+'</span><div class="preset-row"><button class="btn preset-btn" data-preset="new" '+(host?'':'disabled')+'>🛡 '+t('presetNew')+'</button><button class="btn preset-btn" data-preset="classic" '+(host?'':'disabled')+'>⚔ '+t('presetClassic')+'</button><button class="btn preset-btn" data-preset="big" '+(host?'':'disabled')+'>✦ '+t('presetBig')+'</button></div></div>'+compHtml
+    +'<details class="settings-advanced" '+(S.ui.settingsOpen?'open':'')+'><summary><span><b>⚙ '+t('advancedRoles')+'</b><small>'+t('advancedRolesHint')+'</small></span><i>⌄</i></summary><div class="settings-advanced-body"><div class="settings-camps">'
     +'<section class="setting-camp good"><h3>🛡️ '+t('goodCamp')+'</h3><div class="roletiles">'+goodSettings+'</div></section>'
     +'<section class="setting-camp evil"><h3>🗡️ '+t('evilCamp')+'</h3><div class="roletiles">'+evilSettings+'</div></section></div>'
-    +'<section class="setting-camp modules"><h3>✦ '+t('gameModules')+'</h3><div class="roletiles">'+modules+'</div></section>'+compHtml+'</div></div>'
-    +'<div class="glass card">'+rulesBlock()+'</div>';
+    +'<section class="setting-camp modules"><h3>✦ '+t('gameModules')+'</h3><div class="roletiles">'+modules+'</div></section></div></details></div></div>';
 }
 
 function pickMode(g){
@@ -1313,6 +1321,7 @@ document.addEventListener('keydown', e=>{
 });
 document.addEventListener('toggle', e=>{
   if(e.target.matches && e.target.matches('details.rules')) S.ui.rulesInlineOpen=e.target.open;
+  if(e.target.matches && e.target.matches('details.settings-advanced')) S.ui.settingsOpen=e.target.open;
 }, true);
 document.addEventListener('click', e=>{
   const b=e.target.closest('[data-a],[data-pick],[data-vote],[data-quest],[data-kick],[data-set],[data-preset],[data-excalibur],[data-loyalty],[data-reaction]'); if(!b) return;
@@ -1337,7 +1346,9 @@ document.addEventListener('click', e=>{
   switch(b.dataset.a){
     case 'home': return S.code ? goHome(false) : render();
     case 'lang': LANG = LANG==='zh'?'en':'zh'; LS.set('lang', LANG); document.documentElement.lang = LANG==='zh'?'zh-CN':'en'; return render();
-    case 'rules': S.ui.rulesOpen=true; return renderRulesModal();
+    case 'rules': S.ui.guideTab=S.game&&S.game.status==='lobby'?'lineup':'rules'; S.ui.rulesOpen=true; return renderRulesModal();
+    case 'rulesLineup': S.ui.guideTab='lineup'; S.ui.rulesOpen=true; return renderRulesModal();
+    case 'rulesFull': S.ui.guideTab='rules'; S.ui.rulesOpen=true; return renderRulesModal();
     case 'closeRules': S.ui.rulesOpen=false; return renderRulesModal();
     case 'info': S.ui.infoOpen=b.dataset.info; return renderInfoModal();
     case 'closeInfo': S.ui.infoOpen=null; return renderInfoModal();
