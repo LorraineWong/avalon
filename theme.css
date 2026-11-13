@@ -1,0 +1,124 @@
+/* Semantic colors shared by every page. Applied before the first body paint. */
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --page:#18212b;--surface:#232f3c;--surface-raised:#2b3948;--surface-inset:#1c2733;
+  --ink:#edf1f5;--ink-muted:#bbc7d3;--ink-dim:#a3b1c1;--accent:#e7c77f;--accent-ink:#241b0b;
+  --border:#46576a;--border-strong:#667b91;--hover:#34465a;--good-ink:#9ed5ed;--evil-ink:#f3ae9d;
+  --good-wash:#203e4b;--evil-wash:#492f34;--success:#b4d9b2;--success-wash:#293f36;
+  --overlay:rgba(9,16,24,.76);--hero-fade:#18212b;--hero-veil:rgba(24,33,43,.9);
+  --table-center:#3a5062;--table-edge:#293d4e;--theme-shadow:0 12px 32px rgba(4,12,20,.2);
+}
+:root[data-theme="light"]{
+  color-scheme:light;
+  --page:#f6f3eb;--surface:#fffdf8;--surface-raised:#eee9dd;--surface-inset:#f3efe5;
+  --ink:#293542;--ink-muted:#526170;--ink-dim:#647180;--accent:#78551d;--accent-ink:#241b0b;
+  --border:#d5cdbd;--border-strong:#b3a58d;--hover:#e8e1d2;--good-ink:#235e78;--evil-ink:#963e36;
+  --good-wash:#e4eff3;--evil-wash:#f7e7e1;--success:#35623e;--success-wash:#e8f1e5;
+  --overlay:rgba(38,48,58,.42);--hero-fade:#f6f3eb;--hero-veil:rgba(246,243,235,.94);
+  --table-center:#e5e8e4;--table-edge:#cbd7d9;--theme-shadow:0 10px 30px rgba(68,58,38,.08);
+}
+:root[data-theme]{
+  --av-bg:var(--page);--av-text:var(--ink);--av-muted:var(--ink-muted);--av-line:var(--border);
+  --bg:var(--page);--bg0:var(--page);--bg1:var(--surface-inset);--bg2:var(--surface);
+  --panel:var(--surface);--glass:var(--surface);--glass2:var(--surface-raised);--text:var(--ink);
+  --muted:var(--ink-muted);--dim:var(--ink-dim);--gold:var(--accent);--teal:var(--accent);--cyan:var(--accent);
+  --line:var(--border);--line2:var(--border-strong);--good:var(--good-ink);--evil:var(--evil-ink);--ok:var(--success);--shadow:var(--theme-shadow);
+  background:var(--page);
+}
+:root[data-theme] body{background:var(--page);color:var(--ink)}
+:root[data-theme] :is(.glass,.grid .card,.facts,.notice,.guide-camp,.ovbox,.rules-sheet,.sheet,.qr-sheet,.confirm-sheet,.name-sheet){background:var(--surface);border-color:var(--border);box-shadow:var(--theme-shadow)}
+:root[data-theme] .glass::after{border-color:var(--border);opacity:.28}
+:root[data-theme] :is(.card h2,.card h3,.av-brand,.brand .t1,.av-footer strong,.rules-head h2,.facts b,.notice strong,.faq summary,.grid .card strong,.rules-flow li b,.known-person b,.me-text b,.private-note-person b,.sheet-head b){color:var(--ink)}
+:root[data-theme] :is(.av-header,.av-footer,.top,.av-nav a,.av-footer a,.av-brand small,.facts span,.grid .card p,.lead,.legal-main p,.legal-main li,.guide-camp .character-card p,.rules-flow li span,.rules-copy p,.info-copy,.known-person small,.me-text small,.private-notes-head p,.lineup-guide-head p,.lobby-status span,.lobby-guide-copy small,.roomcode-hint,.wait-person,.hint,.foot,.hero-oath){color:var(--ink-muted)}
+:root[data-theme] :is(.av-header,.av-footer,.top,.facts div,.faq details,.legal-main h2,.guide-jump){border-color:var(--border)}
+:root[data-theme] :is(.av-nav a[aria-current],.guide-jump .guide-play,.kicker,.section-kicker,.guide-camp summary,.rules-flow>h3,.all-role-title,.lineup-title,.lineup-guide-head h3,.private-notes-head h3,.lobby-guide-copy b,.rules-tabs .btn.active,.tool-tab .ic,.me-text em,.rules-head .eyebrow,.info-copy a,.foot-link){color:var(--accent)}
+:root[data-theme] :is(.av-nav a:hover,.av-footer a:hover,.guide-jump a:hover){color:var(--accent)}
+:root[data-theme] :is(.input,.note-select,.note-text,.host-select,.av-controls select,.language-picker select){background:var(--surface-inset);border-color:var(--border-strong);color:var(--ink)}
+:root[data-theme] :is(.input,.note-text)::placeholder{color:var(--ink-dim);opacity:1}
+:root[data-theme] :is(.input,.note-text,.note-select):focus{border-color:var(--accent);box-shadow:0 0 0 2px color-mix(in srgb,var(--accent) 20%,transparent)}
+:root[data-theme] :focus-visible{outline-color:var(--accent)}
+:root[data-theme] :is(.btn,.button.alt,.seat-edit,.tool-tab,.reaction-btn,.chip,.chip.btn){background:var(--surface-raised);border-color:var(--border-strong);color:var(--ink);box-shadow:none}
+:root[data-theme] :is(.btn,.seat-edit,.tool-tab,.reaction-btn,.chip.btn):hover:not(:disabled){background:var(--hover);border-color:var(--accent);color:var(--ink)}
+:root[data-theme] :is(.btn.pri,.button:not(.alt)){background:linear-gradient(135deg,#e9cf8d,#c6a25b);border-color:#b58c40;color:#241b0b;box-shadow:0 3px 10px rgba(112,82,30,.12)}
+:root[data-theme] .btn.pri:hover:not(:disabled){background:linear-gradient(135deg,#f1dca4,#d5b36e);color:#241b0b}
+:root[data-theme] .btn.good{background:#356a84;border-color:#5489a2;color:#fff}
+:root[data-theme] .btn.evil{background:#943f38;border-color:#ae6056;color:#fff}
+:root[data-theme] .btn.good:hover:not(:disabled){background:#2b5971;color:#fff}
+:root[data-theme] .btn.evil:hover:not(:disabled){background:#7e342f;color:#fff}
+:root[data-theme] :is(.btn.ghost,.btn.link){background:transparent;color:var(--ink-muted)}
+:root[data-theme] :is(.btn.link,.button.alt){color:var(--accent)}
+:root[data-theme] :is(.btn.sel,.tool-tab.on,.rules-tabs .btn.active){background:var(--hover);border-color:var(--accent);color:var(--accent)}
+:root[data-theme] .av-status{background:var(--success-wash);border-color:var(--success);color:var(--success)}
+:root[data-theme] .av-status.is-connecting{background:var(--surface-raised);border-color:var(--border-strong);color:var(--accent)}
+:root[data-theme] :is(.av-status.is-offline,.banner-off){background:var(--evil-wash);border-color:var(--evil-ink);color:var(--evil-ink)}
+/* A quiet illustration treatment preserves the artwork in both themes. */
+:root[data-theme] .hero{background:var(--surface-raised);border-color:var(--border);box-shadow:var(--theme-shadow)}
+:root[data-theme] .hero::before{background:linear-gradient(90deg,transparent 18%,var(--hero-veil) 39% 61%,transparent 82%),linear-gradient(0deg,var(--hero-fade),transparent 70%)}
+:root[data-theme] .hero-art::after{background:linear-gradient(90deg,transparent,var(--hero-fade)),linear-gradient(0deg,var(--hero-fade),transparent 70%)}
+:root[data-theme] .hero-art-evil::after{background:linear-gradient(270deg,transparent,var(--hero-fade)),linear-gradient(0deg,var(--hero-fade),transparent 70%)}
+:root[data-theme] .hero-copy{text-shadow:none}
+:root[data-theme] .hero h1{background:none;color:var(--ink);-webkit-text-fill-color:var(--ink)}
+:root[data-theme] :is(.hero .eyebrow,.hero .sub){color:var(--accent)}
+:root[data-theme] .hero-lead{color:var(--ink)}
+:root[data-theme] .feature span{color:var(--ink-muted);background:var(--surface);border-color:var(--border)}
+:root[data-theme] :is(.character-card h3,.character-alignment,.setting-camp h3,.camp h3,.lineup-side h3,.res-s){color:var(--good-ink)}
+:root[data-theme] :is(.character-card.evil h3,.evil .character-alignment,.setting-camp.evil h3,.camp.evil h3,.lineup-side.evil h3,.res-f){color:var(--evil-ink)}
+:root[data-theme] :is(.setting-camp.modules h3,.res-r){color:var(--accent)}
+:root[data-theme] :is(.role-list .character-card,.rgrid .role-guide,.rule-camps .camp,.rules-flow li,.current-lineup-guide,.setting-camp,.lineup-side,.rules-counts,.seatcard,.rt,.me-id,.me-role,.know,.known-person,.tool-body,.private-note-row,.reaction-bubble,.selected-team-review,.selected-person,.confirm-person,.action-status,.wait-person,.assassination-result,.vlist div){background:var(--surface-inset);border-color:var(--border)}
+:root[data-theme] .role-list .character-copy{background:none}
+:root[data-theme] :is(.tag.good,.rt.on.good,.vchip.y){color:var(--good-ink);background:var(--good-wash);border-color:var(--good-ink)}
+:root[data-theme] :is(.tag.evil,.rt.on.evil,.vchip.n){color:var(--evil-ink);background:var(--evil-wash);border-color:var(--evil-ink)}
+:root[data-theme] :is(.rt.on.neutral,.seatcard.me,.lobby-status,.lobby-guide-bar){background:var(--surface-raised);border-color:var(--accent)}
+:root[data-theme] .lobby-status b{color:var(--accent)}
+:root[data-theme] .lobby-status.ready{background:var(--success-wash);border-color:var(--success)}
+:root[data-theme] .lobby-status.ready b{color:var(--success)}
+:root[data-theme] .roomcode .code{background:none;color:var(--accent);-webkit-text-fill-color:var(--accent)}
+:root[data-theme] :is(.act,.rules-head,.rules-sheet>.rules-tabs){background:var(--surface-raised);border-color:var(--border)}
+:root[data-theme] .rules-flow li::before{border-color:var(--accent);color:var(--accent)}
+:root[data-theme] :is(.rules-modal,.ov){background:var(--overlay)}
+:root[data-theme] .toast{background:var(--surface-raised);color:var(--ink);border-color:var(--accent)}
+/* Game colors remain semantic: blue is Success and red is Fail. */
+:root[data-theme] .table .disc{background:radial-gradient(circle at 48% 42%,var(--table-center),var(--table-edge));border-color:var(--border-strong);box-shadow:0 0 0 1.4cqw var(--border),0 0 0 2.7cqw var(--surface-raised),var(--theme-shadow)}
+:root[data-theme] :is(.disc .ph,.disc .phs){color:var(--ink);text-shadow:none}
+:root[data-theme] .qt:not(.S):not(.F){background:var(--surface-raised);border-color:var(--border-strong);color:var(--ink);box-shadow:none}
+:root[data-theme] .qt.cur{border-color:var(--accent)}
+:root[data-theme] .seatp .pn{background:var(--surface);color:var(--ink);border-color:var(--border-strong)}
+:root[data-theme] .seatp.me:not(.picked) .pn{background:#e9cf8d;color:#241b0b;border-color:#ac8137}
+:root[data-theme] .selected-person b{color:var(--ink)}
+:root[data-theme="light"] :is(.rolecard .back,.qcard .f.b){background:repeating-linear-gradient(45deg,#e6decb 0 10px,#f3ecdc 10px 20px);color:#78551d;text-shadow:none}
+:root[data-theme="light"] .rolecard .front .rn{color:#fff0cf}
+:root[data-theme="light"] .privacy-cover{background:var(--page);color:var(--ink)}
+:root[data-theme="light"] .privacy-cover :is(h2,p){color:var(--ink)}
+.theme-toggle{display:inline-grid;place-items:center;flex:none;width:40px;height:40px;padding:0;border:1px solid var(--border-strong);border-radius:8px;background:var(--surface-raised);color:var(--ink);cursor:pointer}
+.theme-toggle:hover{background:var(--hover);border-color:var(--accent)}
+.theme-toggle:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.theme-toggle svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.theme-toggle .theme-sun{display:none}
+[data-theme="dark"] .theme-toggle .theme-sun{display:block}
+[data-theme="dark"] .theme-toggle .theme-moon{display:none}
+@media(max-width:900px){:root[data-theme] .dock{background:linear-gradient(180deg,transparent,var(--page) 18%)}:root[data-theme] .sheet{background:var(--surface);box-shadow:0 -10px 30px var(--overlay)}}
+@media(max-width:600px){.av-controls{gap:7px}.theme-toggle{width:36px;height:40px}.top-r{flex-wrap:wrap}}
+@media(max-width:380px){.av-header .av-brand{flex-basis:100%}.av-controls{width:100%;margin-left:0}.av-controls .av-status{margin-right:auto}.av-controls select{margin-left:auto}.av-nav{gap:17px}}
+/* Setup, confirmations and results use the same readable text hierarchy. */
+:root[data-theme] :is(.preset-wrap,.settings-advanced,.settings-advanced[open]>summary,.quest-confirm){background:var(--surface-inset);border-color:var(--border)}
+:root[data-theme] :is(.settings-advanced>summary b,.settings-advanced>summary i,.selected-team-head b){color:var(--accent)}
+:root[data-theme] :is(.settings-advanced>summary small,.selected-team-head small,.quest-confirm small,.quest-confirm p,.assassination-copy>small,.assassination-target em,.info-copy p,.confirm-sheet p,.notes-clear){color:var(--ink-muted)}
+:root[data-theme] :is(.selected-person,.selected-person em,.assassination-copy>strong,.assassination-target b,.confirm-person b){color:var(--ink)}
+:root[data-theme] .assassination-target em b{color:var(--accent)}
+:root[data-theme] :is(.score-good,.bigres.good,.quest-confirm.success strong){color:var(--good-ink);text-shadow:none}
+:root[data-theme] :is(.score-evil,.bigres.evil,.quest-confirm.fail strong){color:var(--evil-ink);text-shadow:none}
+:root[data-theme] .disc .ph.res-s{color:var(--good-ink)}
+:root[data-theme] .disc .ph.res-f{color:var(--evil-ink)}
+:root[data-theme] .scoreline i{color:var(--ink-muted)}
+:root[data-theme] .privacy-cover{background:var(--page);color:var(--ink)}
+:root[data-theme] .privacy-cover p{color:var(--ink-muted)}
+:root[data-theme] .confirm-mark{background:var(--evil-wash);color:var(--evil-ink);border-color:var(--evil-ink)}
+:root[data-theme] .confirm-sheet.propose .confirm-mark{background:var(--good-wash);color:var(--good-ink);border-color:var(--good-ink)}
+:root[data-theme] .assassination-result.hit{border-color:var(--success)}
+:root[data-theme] .assassination-result.miss{border-color:var(--evil-ink)}
+@media(max-width:600px){.av-status{max-width:140px;white-space:normal;overflow-wrap:anywhere;line-height:1.3}}
+:root[data-theme] :is(.table-kicker,.action-status>b){color:var(--ink-muted)}
+:root[data-theme] .action-status.done{color:var(--success)}
+:root[data-theme] :is(.tag.clue,details.rules summary){color:var(--accent)}
+:root[data-theme] .tag.clue{background:var(--surface-raised);border-color:var(--accent)}
+:root[data-theme] .seatp.picked .pn{background:#075078;color:#fff;border-color:#6fd8ff}
