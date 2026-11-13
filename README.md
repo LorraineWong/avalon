@@ -20,6 +20,8 @@ An immersive, browser-based implementation of the social-deduction game *The Res
 - **English and Simplified Chinese** — language can be switched at any time.
 - **No build step** — the application is plain HTML, CSS, and JavaScript and can be hosted as a static site.
 - **Temporary rooms** — new rooms carry a 72-hour expiry marker; completed games expire after 24 hours and are removed when the host reconnects.
+- **No-account table reactions** — players can send brief emoji reactions around the table without creating a persistent chat history.
+- **Installable web app** — a lightweight PWA shell keeps the home screen and rules available offline; multiplayer still requires a network connection.
 
 ## How to Play
 

@@ -51,7 +51,7 @@ const I18N = {
     rulesP2:'出任务时队员秘密出牌：好人只能出“成功”，坏人可以选择。7 人及以上时，<b>第 4 个任务需要 2 张失败</b>才算失败。好人完成 3 个任务后，刺客还有一次刺杀梅林的机会，刺中则坏人翻盘。',
     rulesP3:'湖中仙女（可选，7 人以上）：第 2、3、4 个任务结束后，持有者秘密查验一名玩家的阵营，然后把仙女交给对方。持有过仙女的人不能再被查验。',
     rulesP4:'人数配置：5 人 3 好 2 坏 · 6 人 4 好 2 坏 · 7 人 4 好 3 坏 · 8 人 5 好 3 坏 · 9 人 6 好 3 坏 · 10 人 6 好 4 坏',
-    writeFail:'保存失败，请检查网络后重试', footer:'非官方粉丝作品，与原版游戏发行方无关联。相关名称与设定权利归各自权利人所有。', privacy:'隐私', legal:'非官方声明', support:'支持开发', tooLong:'昵称最多 12 个字',
+    writeFail:'保存失败，请检查网络后重试', footer:'非官方粉丝作品，与原版游戏发行方无关联。相关名称与设定权利归各自权利人所有。', privacy:'隐私', legal:'非官方声明', support:'支持开发', react:'圆桌表情', reactHint:'只显示几秒，不保存聊天记录', reactAgree:'赞成', reactThink:'思考', reactSus:'怀疑', reactShock:'震惊', reactLaugh:'大笑', reactSword:'出发', tooLong:'昵称最多 12 个字',
   },
   en: {
     sub:'Avalon · Online', tagline:'The Resistance: Avalon', feat1:'5–10 players', feat2:'No sign-up', feat3:'Phone & desktop', feat4:'Encrypted roles',
@@ -95,9 +95,15 @@ const I18N = {
     rulesP2:'Team members play cards secretly: Good can only play Success, Evil may choose. With 7+ players, <b>Quest 4 needs 2 fails</b>. If Good completes 3 quests, the Assassin gets one shot at Merlin — a hit means Evil wins.',
     rulesP3:'Lady of the Lake (optional, 7+): after Quests 2, 3 and 4 the holder secretly checks one player\'s loyalty, then passes the Lady to them. Former holders cannot be checked.',
     rulesP4:'Teams: 5p 3G/2E · 6p 4G/2E · 7p 4G/3E · 8p 5G/3E · 9p 6G/3E · 10p 6G/4E',
-    writeFail:'Could not save — check your network and try again', footer:'Unofficial fan project, not affiliated with the original game publisher. Names and settings belong to their respective owners.', privacy:'Privacy', legal:'Unofficial notice', support:'Support development', tooLong:'Name: max 12 characters',
+    writeFail:'Could not save — check your network and try again', footer:'Unofficial fan project, not affiliated with the original game publisher. Names and settings belong to their respective owners.', privacy:'Privacy', legal:'Unofficial notice', support:'Support development', react:'Table reactions', reactHint:'Shown briefly; no chat history is stored', reactAgree:'Agree', reactThink:'Thinking', reactSus:'Suspicious', reactShock:'Shocked', reactLaugh:'Laugh', reactSword:'Onward', tooLong:'Name: max 12 characters',
   }
 };
+const REACTIONS = [
+  {id:'agree', emoji:'👍', label:'reactAgree'}, {id:'think', emoji:'🤔', label:'reactThink'},
+  {id:'sus', emoji:'🤨', label:'reactSus'}, {id:'shock', emoji:'😱', label:'reactShock'},
+  {id:'laugh', emoji:'😂', label:'reactLaugh'}, {id:'sword', emoji:'⚔️', label:'reactSword'}
+];
+const REACTION_MS = 5000;
 const ROLE_TXT = {
   zh: {
     merlin:['梅林','你知道谁是坏人（莫德雷德除外）。别暴露自己，否则好人赢了也会被刺客翻盘。'],
@@ -299,7 +305,7 @@ const SUPPORT_URL = (typeof window!=='undefined' && window.AVALON_SUPPORT_URL) |
 const ROOM_TTL_MS = 72 * 60 * 60 * 1000;
 const END_TTL_MS = 24 * 60 * 60 * 1000;
 const Net = {
-  db:null, auth:null, ref:null, onlineRef:null, code:null, loaded:false, conn:false, everConnected:false, authFailed:false,
+  db:null, auth:null, ref:null, onlineRef:null, reactionTimer:null, code:null, loaded:false, conn:false, everConnected:false, authFailed:false,
   raw:new Map(), parsed:new Map(), revs:new Map(), online:new Set(),
   async init(){
     firebase.initializeApp(FIREBASE_CONFIG);
@@ -319,6 +325,7 @@ const Net = {
   connected(){ return this.conn; },
   join(code){
     if(this.ref){ this.ref.off(); this.ref=null; }
+    clearTimeout(this.reactionTimer); this.reactionTimer=null;
     if(this.onlineRef){ this.onlineRef.onDisconnect().cancel(); this.onlineRef.remove().catch(()=>{}); this.onlineRef=null; }
     this.code=code; this.loaded=false; this.raw=new Map(); this.parsed=new Map(); this.revs=new Map(); this.online=new Set();
     if(!code) return;
@@ -338,6 +345,12 @@ const Net = {
     this.raw=next;
     this.online=new Set(Object.keys(v.online||{}));
     this.loaded=true;
+    clearTimeout(this.reactionTimer); this.reactionTimer=null;
+    const now=Date.now(); let nextExpiry=Infinity;
+    for(const x of Object.values(v.seats||{})){
+      try{ const seat=x&&x.j&&JSON.parse(x.j), at=seat&&seat.reaction&&seat.reaction.at; if(at&&at+REACTION_MS>now) nextExpiry=Math.min(nextExpiry,at+REACTION_MS-now); }catch(e){}
+    }
+    if(Number.isFinite(nextExpiry)) this.reactionTimer=setTimeout(()=>render(), nextExpiry+80);
     changed();
   },
   get(key){
@@ -352,6 +365,13 @@ const Net = {
     const path = key==='game' ? 'game' : key.startsWith('seat/') ? 'seats/'+key.slice(5) : 'sec/'+key.slice(4);
     const val = d==null ? null : (key==='game' ? {host:d.host, j:JSON.stringify(d)} : {j:JSON.stringify(d)});
     return this.ref.child(path).set(val).catch(e=>{ console.warn('write failed', key, e); toast(t('writeFail')); });
+  },
+  react(pid, id, at){
+    if(!this.ref) return Promise.resolve();
+    return this.ref.child('seats/'+pid+'/j').transaction(raw=>{
+      if(!raw) return raw;
+      try{ const seat=JSON.parse(raw); seat.reaction={id,at}; return JSON.stringify(seat); }catch(e){ return; }
+    }).catch(e=>{ console.warn('reaction failed', e); toast(t('writeFail')); });
   },
   dropRoom(){
     if(!this.ref) return Promise.resolve();
@@ -379,7 +399,7 @@ const Net = {
 /* ================= App state ================= */
 const S = {
   view:'home', code:null, joinedAt:0, game:null, seats:{}, secrets:{},
-  mine:null, master:null, ladyMine:[], checksMine:[], ui:{nick:'', joinCode:'', pick:[], pickStep:'', myActs:{}, busy:false, excalibur:null, rulesOpen:false, rulesInlineOpen:false, infoOpen:null},
+  mine:null, master:null, ladyMine:[], checksMine:[], ui:{nick:'', joinCode:'', pick:[], pickStep:'', myActs:{}, busy:false, excalibur:null, rulesOpen:false, rulesInlineOpen:false, infoOpen:null, lastReactionAt:0},
   ov:[], seen:null, notFoundTimer:null, lastGid:null,
 };
 
@@ -894,8 +914,23 @@ function viewGame(){
   return (offline?'<div class="banner-off">⚠️ '+t('hostOffline', esc(nickOf(g.host)))+'</div>':'')
     +'<div class="game"><div>'+tableView(g)+'</div><div class="panel">'
     +'<div class="dock '+(g.status==='end'?'dock-end':'')+'">'+actionBlock(g)+'</div>'
-    +roleBar()+historyBlock(g)
+    +roleBar()+reactionPanel(g)+historyBlock(g)
     +'<div class="glass card">'+rulesBlock()+'</div></div></div>';
+}
+function reactionPanel(g){
+  if(!g.order.includes(ME.pid) || !S.seats[ME.pid]) return '';
+  return '<div class="glass card reactions"><div class="reaction-head"><h3>'+t('react')+'</h3><span class="muted tiny">'+t('reactHint')+'</span></div><div class="reaction-row">'
+    +REACTIONS.map(r=>'<button class="reaction-btn" data-reaction="'+r.id+'" aria-label="'+t(r.label)+'" title="'+t(r.label)+'">'+r.emoji+'</button>').join('')+'</div></div>';
+}
+function sendReaction(id){
+  const def=REACTIONS.find(r=>r.id===id), now=Date.now();
+  if(!def || !S.seats[ME.pid] || now-S.ui.lastReactionAt<700) return;
+  S.ui.lastReactionAt=now;
+  Net.react(ME.pid,id,now);
+}
+function visibleReaction(seat){
+  const r=seat&&seat.reaction, def=r&&REACTIONS.find(x=>x.id===r.id);
+  return def && Date.now()-r.at<REACTION_MS ? def : null;
 }
 function tableView(g){
   const n=g.order.length, pm=pickMode(g), endRoles=g.status==='end'?(g.roles||{}):null;
@@ -916,6 +951,8 @@ function tableView(g){
       if((g.revealed||[]).includes(p)) tags+='<span class="tag evil">◉ '+rName('revealer')+'</span>';
     }
     let badges='<span class="b-off '+(Net.isOnline(p)?'y':'')+'"></span>';
+    const reaction=visibleReaction(S.seats[p]);
+    if(reaction) badges+='<span class="reaction-bubble" aria-label="'+t(reaction.label)+'">'+reaction.emoji+'</span>';
     if(g.status==='play' && p===L && ['propose','vote','quest','excalibur'].includes(g.phase)) badges+='<span class="badge b-crown">👑</span>';
     if(g.lady && g.lady.holder===p && g.status==='play') badges+='<span class="badge b-lady">🧜‍♀️</span>';
     if(g.excaliburHolder===p && g.status==='play') badges+='<span class="badge b-lady">⚔</span>';
@@ -1079,7 +1116,8 @@ document.addEventListener('toggle', e=>{
   if(e.target.matches && e.target.matches('details.rules')) S.ui.rulesInlineOpen=e.target.open;
 }, true);
 document.addEventListener('click', e=>{
-  const b=e.target.closest('[data-a],[data-pick],[data-vote],[data-quest],[data-kick],[data-set],[data-excalibur],[data-loyalty]'); if(!b) return;
+  const b=e.target.closest('[data-a],[data-pick],[data-vote],[data-quest],[data-kick],[data-set],[data-excalibur],[data-loyalty],[data-reaction]'); if(!b) return;
+  if(b.dataset.reaction) return sendReaction(b.dataset.reaction);
   if(b.dataset.kick) return kick(b.dataset.kick);
   if(b.dataset.set) return toggleSetting(b.dataset.set);
   if(b.dataset.excalibur){ S.ui.excalibur=b.dataset.excalibur; return render(); }
@@ -1136,4 +1174,5 @@ window.addEventListener('hashchange', ()=>{
 });
 
 S.bootAt=Date.now();
+if('serviceWorker' in navigator && location.protocol==='https:') window.addEventListener('load',()=>navigator.serviceWorker.register('service-worker.js').catch(e=>console.warn('service worker',e)));
 boot();

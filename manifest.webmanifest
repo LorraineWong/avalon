@@ -1,0 +1,15 @@
+{
+  "name": "Avalon Online · 阿瓦隆在线版",
+  "short_name": "Avalon",
+  "description": "Free, unofficial Avalon for 5–10 players. No account required.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0b0907",
+  "theme_color": "#110d0a",
+  "lang": "zh-CN",
+  "categories": ["games", "entertainment"],
+  "icons": [
+    { "src": "assets/app-icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}
