@@ -506,3 +506,156 @@ details.rules summary{color:#dbc07c;font-family:var(--serif);letter-spacing:.8px
   .dock.dock-end{position:static;padding:0;background:none}
   .dock.dock-end .act{box-shadow:var(--shadow)}
 }
+
+/* ================================================================
+   Compact play surface — one-screen side panel, "this is me" marker,
+   bottom sheets on phones, calmer lobby and home
+   ================================================================ */
+.chip{white-space:nowrap}
+.only-narrow{display:none!important}
+.game .card{margin-bottom:10px}
+
+/* Who am I + my role */
+.mebar{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px;padding:8px}
+.me-id,.me-role{display:flex;align-items:center;gap:10px;min-width:0;min-height:58px;padding:8px 10px;border:1px solid var(--line);border-radius:6px;background:rgba(10,8,6,.5);color:var(--text);text-align:left;transition:border-color .15s,background .15s}
+button.me-id:hover,button.me-role:hover,button.me-id:focus-visible,button.me-role:focus-visible{border-color:#d8b86e;background:rgba(57,42,25,.6);outline:none}
+.me-id i{flex:none;width:40px;height:40px;border-radius:50%;border:2px solid #d6b566;box-shadow:0 0 0 2px rgba(214,181,102,.18)}
+.me-text{display:flex;flex-direction:column;gap:1px;min-width:0}
+.me-text small{color:#a99b83;font-size:10.5px;letter-spacing:.3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.me-text b{display:flex;align-items:center;gap:6px;min-width:0;font-size:14px;line-height:1.3}
+.me-text b span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.me-text em{flex:none;font-style:normal;color:#c8ab68;font-size:12px}
+.me-role .rb-ic{flex:none;width:40px;height:40px;border-radius:6px;display:grid;place-items:center;overflow:hidden;background:linear-gradient(145deg,#5c4728,#1d140d);border:1px solid rgba(210,176,104,.35)}
+.me-role.good{border-color:rgba(138,173,184,.6)}.me-role.evil{border-color:rgba(190,100,82,.6)}
+.know-card{padding:14px}
+.know-card .know:last-child{margin-bottom:0}
+.sheet-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+.sheet-head b{font:700 14px var(--serif);letter-spacing:.5px}
+.sheet-close{flex:none;padding:5px 10px;font-size:12px}
+.sheet-backdrop{display:none}
+
+/* Tool tabs */
+.tools{padding:8px}
+.game .tools{margin-bottom:0}
+.tools .reactions{padding:0;margin:0 0 8px;border:0;background:none}
+.tools .reaction-btn{padding:6px 4px;font-size:19px}
+.tool-tabs{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:6px}
+.tool-tab{display:flex;align-items:center;justify-content:center;gap:6px;min-width:0;min-height:40px;padding:6px 8px;border:1px solid var(--line);border-radius:6px;background:rgba(10,8,6,.5);color:#d9c9aa;font-size:12.5px;font-weight:600;transition:border-color .15s,background .15s}
+.tool-tab i{font-style:normal;color:#c8ab68;font-size:14px;line-height:1}
+.tool-tab span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tool-tab:hover,.tool-tab:focus-visible{border-color:#d8b86e;outline:none}
+.tool-tab.on{background:linear-gradient(#5a4326,#3a2a18);border-color:#e1c276;color:#fff3d0}
+.tool-body{position:relative;margin-top:8px;padding:12px;border:1px solid var(--line);border-radius:6px;background:rgba(8,6,5,.5);max-height:min(44vh,420px);overflow:auto}
+.tool-body .glass{background:none;border:0;box-shadow:none;padding:0;margin:0;backdrop-filter:none;-webkit-backdrop-filter:none}
+.tool-body .glass::after{display:none}
+.tool-body h3{padding-right:38px}
+.tool-close{position:absolute;top:6px;right:6px;z-index:1;width:30px;height:30px;padding:0;font-size:18px;line-height:1}
+.tool-body .private-notes-head{padding-right:38px;margin-bottom:10px}
+.tool-body .private-note-row{grid-template-columns:minmax(0,1fr) minmax(0,1fr);padding:7px}
+.tool-body .private-note-person{grid-column:auto}
+.tool-body .note-text{grid-column:1/-1;min-height:34px}
+.tool-react{padding:10px 44px 10px 10px}
+
+/* Round table: my own seat is unmistakable */
+.seatp .me-chip{display:inline-block;margin-right:.9cqw;padding:0 1.1cqw;border-radius:2px;background:#1a1108;color:#f3dfa8;font:800 .82em/1.55 var(--sans);letter-spacing:.04em;vertical-align:.08em}
+.seatp.me .pn{max-width:25cqw}
+.seatp.me:not(.picked) .pn{background:linear-gradient(#e9d08c,#b98a3e);border-color:#fff0b0;color:#1a1108;box-shadow:0 2px 10px rgba(214,181,102,.45)}
+.seatp.me.picked .me-chip{background:#fff0b0;color:#075078}
+.seatp.me:not(.team):not(.picked) .pav{box-shadow:0 0 0 .75cqw #d6b566,0 0 2.6cqw rgba(214,181,102,.4),0 7px 20px rgba(0,0,0,.55)}
+
+/* Rename dialog */
+.name-sheet .name-avatar{display:block;width:64px;height:64px;margin:0 auto 12px;border-radius:50%;border:2px solid #d6b566}
+.name-sheet .input{margin-bottom:16px;text-align:center;font-size:17px}
+
+/* Lobby */
+.roomcode{padding:14px 18px;gap:10px 18px}
+.roomcode .code{font-size:30px;line-height:1.15}
+.roomcode-side{display:flex;flex-direction:column;align-items:flex-end;gap:6px}
+.lobby-status{display:flex;flex-direction:column;gap:2px;margin:-4px 0 14px;padding:10px 12px;border:1px solid rgba(214,181,102,.4);border-left:3px solid #d6b566;border-radius:5px;background:rgba(86,62,34,.22)}
+.lobby-status b{font-size:14px;color:#f1dfae}
+.lobby-status span{font-size:11.5px;color:#a99b83}
+.lobby-status.ready{border-color:rgba(127,166,129,.5);border-left-color:#7fa681;background:rgba(62,86,60,.2)}
+.lobby-status.ready b{color:#cfe3c9}
+.seats{grid-template-columns:repeat(auto-fill,minmax(172px,1fr))}
+.seatcard.me{border-color:#d6b566;background:rgba(86,62,34,.38)}
+.seat-info{flex:1;min-width:0}
+.seat-edit{flex:none;padding:5px 8px;border:1px solid var(--line2);border-radius:4px;background:rgba(10,8,6,.55);color:#e2c87f;font-size:11.5px;white-space:nowrap}
+.seat-edit:hover,.seat-edit:focus-visible{border-color:#e1c276;outline:none}
+.seat-join{margin-top:12px}
+.lobby-actions{margin-top:14px}
+.lobby-wait{flex:1}
+.lobby-guide-links{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.lobby-guide-links .btn{padding:8px 12px;font-size:12.5px}
+.lobby-roles>.lineup-title:first-of-type{margin-top:4px}
+
+/* Home: the form is reachable without scrolling past the artwork */
+.hero{min-height:340px;padding:26px 24px 30px;margin-bottom:16px}
+.hero h1{font-size:clamp(40px,6.5vw,68px)}
+.hero .eyebrow{margin-bottom:10px}
+
+@media(max-width:900px){
+  .only-narrow{display:flex!important}
+  .only-wide{display:none!important}
+  .game{gap:10px}
+  body.game-active:not(.game-ended) #app{padding-bottom:calc(var(--dock-h,260px) + 14px)}
+  /* The fixed sheets below must anchor to the viewport, not to a blurred card. */
+  .tools{backdrop-filter:none;-webkit-backdrop-filter:none}
+  .sheet-backdrop{display:block;position:fixed;inset:0;z-index:38;width:100%;border:0;padding:0;background:rgba(5,3,2,.62);animation:fade .18s ease}
+  .sheet{position:fixed;left:0;right:0;bottom:0;z-index:40;margin:0;max-height:78vh;overflow:auto;padding:16px 14px calc(16px + env(safe-area-inset-bottom));border:1px solid var(--line2);border-bottom:0;border-radius:14px 14px 0 0;background:linear-gradient(180deg,#32251a,#17110d);box-shadow:0 -14px 44px rgba(0,0,0,.75);animation:sheetUp .2s ease}
+  .tool-body.sheet{max-height:78vh}
+  .tool-close{top:10px;right:10px;width:36px;height:36px;font-size:21px}
+  .tool-react{padding:16px 56px calc(16px + env(safe-area-inset-bottom)) 14px}
+  .tool-react .reaction-btn{padding:10px 4px;font-size:24px}
+  /* Tighter action dock: the table already shows who is on the team and who has acted. */
+  .dock .act{padding:12px 14px}
+  .dock .act h2{font-size:13.5px;margin-bottom:6px}
+  .dock .act .hint{font-size:12.5px;margin:2px 0 8px}
+  .dock .act .pickrow{margin-bottom:8px;min-height:0}
+  .dock .progress{display:none}
+  .dock .btn.big{padding:11px 14px;font-size:15px}
+  .dock .action-status{display:flex;align-items:center;gap:8px;margin-top:8px;padding-top:8px}
+  .dock .action-status>b{flex:none;margin:0}
+  .dock .wait-people{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}
+  .dock .wait-people::-webkit-scrollbar{display:none}
+  .dock .wait-person{flex:none}
+  .dock .selected-team-review{margin:6px 0 8px;padding:8px}
+  .dock .selected-people{min-height:36px}
+}
+@keyframes sheetUp{from{transform:translateY(24px);opacity:0}to{transform:none;opacity:1}}
+@media(max-width:720px){
+  .card{padding:16px}
+  .mebar,.tools{padding:8px}
+  .me-id,.me-role{min-height:52px;padding:6px 8px;gap:8px}
+  .me-id i,.me-role .rb-ic{width:36px;height:36px}
+  .me-text b{font-size:13px}
+  .tool-tab{flex-direction:column;gap:2px;min-height:46px;padding:5px 4px;font-size:11px}
+  .roomcode{padding:12px 14px}
+  .roomcode .code{font-size:26px;letter-spacing:6px}
+  .roomcode-side{align-items:stretch;width:100%}
+  .roomcode-actions .btn{flex:1;padding:10px 8px}
+  .roomcode-hint{display:none}
+  .seats{grid-template-columns:1fr 1fr}
+  .seatcard{padding:8px;gap:8px}
+  .seatcard.me{grid-column:1/-1}
+  .hero{min-height:0;padding:22px 14px 24px;margin-bottom:12px}
+  .hero .eyebrow{margin-bottom:8px}
+  .hero .crest{width:40px;height:46px;font-size:18px}
+  .hero h1{font-size:36px}
+  .hero-oath,.feature{display:none}
+}
+.tool-body{max-height:min(36vh,360px)}
+.selected-people:empty{display:none}
+.selected-team-review:has(.selected-people:empty){padding:8px 11px}
+.selected-team-review:has(.selected-people:empty) .selected-team-head{margin-bottom:0}
+@media(max-width:900px){
+  .top{padding-bottom:10px;margin-bottom:10px}
+  .game .card{margin-bottom:8px}
+  .game-table>.card{padding:6px}
+  .sheet{min-height:32vh}
+  .tool-body.sheet{max-height:78vh}
+  .tool-react.sheet{min-height:0}
+  /* Seat badges on the table already show who still has to act. */
+  .dock .action-status{display:none}
+}
+.seatcard.me{grid-column:span 2}
+.seatcard .nm{overflow-wrap:anywhere;word-break:normal}

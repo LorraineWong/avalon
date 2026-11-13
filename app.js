@@ -10,6 +10,8 @@
 /* ================= i18n ================= */
 const I18N = {
   zh: {
+    tHistory:'记录', tNotes:'笔记', tHost:'房主', tRules:'规则', tReact:'表情', editName:'改名', renameTitle:'修改昵称', renameHint:'其他玩家会立刻看到新名字，座位和身份不变。', save:'保存', youAre:'你是', seatNo:'{0} 号位', meMark:'我', roleInfo:'角色说明', hideRole:'收起',
+    lobbyNeed:'还差 {0} 人即可开始', lobbyReady:'人数已够，等待房主开始', lobbyReadyHost:'人数已够，可以开始了', lobbySteps:'等人到齐 → 房主开始 → 各自查看秘密身份',
     sub:'阿瓦隆 · 在线版', tagline:'抵抗组织：阿瓦隆', feat1:'5–10 人', feat2:'无需注册', feat3:'手机电脑都能玩', feat4:'身份加密，无法偷看',
     nick:'你的昵称', nickPh:'比如：小明', create:'创建房间', joinTitle:'加入房间', codePh:'房间号', join:'加入',
     joinHint:'输入朋友发来的房间号，或直接打开邀请链接。', resume:'你上次在房间 {0}', resumeBtn:'回到房间',
@@ -57,6 +59,8 @@ const I18N = {
     writeFail:'保存失败，请检查网络后重试', footer:'非官方粉丝作品，与原版游戏发行方无关联。相关名称与设定权利归各自权利人所有。', privacy:'隐私', legal:'非官方声明', support:'支持开发', react:'圆桌表情', reactHint:'只显示几秒，不保存聊天记录', reactAgree:'赞成', reactThink:'思考', reactSus:'怀疑', reactShock:'震惊', reactLaugh:'大笑', reactSword:'出发', tooLong:'昵称最多 12 个字',
   },
   en: {
+    tHistory:'History', tNotes:'Notes', tHost:'Host', tRules:'Rules', tReact:'React', editName:'Rename', renameTitle:'Change your name', renameHint:'Everyone sees the new name right away. Your seat and role stay the same.', save:'Save', youAre:'You are', seatNo:'Seat {0}', meMark:'YOU', roleInfo:'Role guide', hideRole:'Hide',
+    lobbyNeed:'{0} more player(s) needed to start', lobbyReady:'Enough players — waiting for the host to start', lobbyReadyHost:'Enough players — you can start', lobbySteps:'Gather players → host starts → everyone checks their secret role',
     sub:'Avalon · Online', tagline:'The Resistance: Avalon', feat1:'5–10 players', feat2:'No sign-up', feat3:'Phone & desktop', feat4:'Encrypted roles',
     nick:'Your name', nickPh:'e.g. Alex', create:'Create room', joinTitle:'Join a room', codePh:'Room code', join:'Join',
     joinHint:'Enter the code a friend sent you, or just open their invite link.', resume:'You were in room {0}', resumeBtn:'Rejoin',
@@ -391,6 +395,14 @@ const Net = {
       try{ const seat=JSON.parse(raw); seat.reaction={id,at}; return JSON.stringify(seat); }catch(e){ return; }
     }).catch(e=>{ console.warn('reaction failed', e); toast(t('writeFail')); });
   },
+  rename(pid, nick){
+    if(!this.ref) return Promise.resolve();
+    // Merge into the latest seat so a rename can never overwrite a vote or quest card.
+    return this.ref.child('seats/'+pid+'/j').transaction(raw=>{
+      if(!raw) return raw;
+      try{ const seat=JSON.parse(raw); seat.nick=nick; return JSON.stringify(seat); }catch(e){ return; }
+    }).catch(e=>{ console.warn('rename failed', e); toast(t('writeFail')); });
+  },
   draftTeam(pid, step, picks){
     if(!this.ref) return Promise.resolve();
     const code=this.code;
@@ -429,7 +441,7 @@ const Net = {
 /* ================= App state ================= */
 const S = {
   view:'home', code:null, joinedAt:0, game:null, seats:{}, secrets:{},
-  mine:null, master:null, ladyMine:[], checksMine:[], ui:{nick:'', joinCode:'', pick:[], pickStep:'', myActs:{}, busy:false, excalibur:null, rulesOpen:false, guideTab:'rules', rulesInlineOpen:false, settingsOpen:false, infoOpen:null, qrOpen:false, privacyCover:false, questConfirm:null, confirm:null, hostSuccessor:'', confirmHostTransfer:false, lastReactionAt:0, notesOpen:false},
+  mine:null, master:null, ladyMine:[], checksMine:[], ui:{nick:'', joinCode:'', pick:[], pickStep:'', myActs:{}, busy:false, excalibur:null, rulesOpen:false, guideTab:'rules', rulesInlineOpen:false, settingsOpen:false, infoOpen:null, qrOpen:false, privacyCover:false, questConfirm:null, confirm:null, hostSuccessor:'', confirmHostTransfer:false, lastReactionAt:0, notesOpen:false, tool:null, rename:null},
   ov:[], seen:null, notFoundTimer:null, lastGid:null,
 };
 
@@ -542,7 +554,31 @@ function takeSeat(){
 function renameSeat(){
   const nick=cleanNick(); if(!nick) return toast(t('needNick'));
   LS.set('nick', nick);
-  const s=S.seats[ME.pid]; if(s && s.nick!==nick){ Net.pub('seat/'+ME.pid, Object.assign({}, s, {nick})); toast(t('renamed')); }
+  const s=S.seats[ME.pid]; if(s && s.nick!==nick){ Net.rename(ME.pid, nick); toast(t('renamed')); }
+}
+function openRename(){
+  const s=S.seats[ME.pid];
+  S.ui.rename={draft:(s&&s.nick)||S.ui.nick||''};
+  renderNameModal();
+}
+function closeRename(){ S.ui.rename=null; renderNameModal(); }
+function saveRename(){
+  const r=S.ui.rename; if(!r) return;
+  const nick=String(r.draft||'').trim().slice(0,12); if(!nick) return toast(t('needNick'));
+  closeRename();
+  S.ui.nick=nick; LS.set('nick', nick);
+  const s=S.seats[ME.pid]; if(s && s.nick!==nick){ Net.rename(ME.pid, nick); toast(t('renamed')); }
+  render();
+}
+function renderNameModal(){
+  let el=$('#nameModal');
+  if(!el){ if(!S.ui.rename || !document.body || !document.createElement) return; el=document.createElement('div'); el.id='nameModal'; document.body.appendChild(el); }
+  const r=S.ui.rename;
+  if(!r){ el.innerHTML=''; return; }
+  el.innerHTML='<div class="rules-modal confirm-modal" role="dialog" aria-modal="true" aria-labelledby="nameTitle"><div class="glass confirm-sheet name-sheet"><i class="player-avatar name-avatar" style="'+avStyle(ME.pid)+'"></i><h2 id="nameTitle">'+t('renameTitle')+'</h2><p>'+t('renameHint')+'</p>'
+    +'<input class="input" id="renameInput" maxlength="12" autocomplete="off" aria-label="'+t('nick')+'" placeholder="'+t('nickPh')+'" value="'+esc(r.draft)+'">'
+    +'<div class="row"><button class="btn ghost big" data-a="renameCancel">'+t('cancel')+'</button><button class="btn pri big" data-a="renameSave">'+t('save')+'</button></div></div></div>';
+  requestAnimationFrame(()=>{ const i=$('#renameInput'); if(i){ i.focus(); try{ i.select(); }catch(e){} } });
 }
 function lobbyOrder(){ return Object.values(S.seats).sort((a,b)=>(a.joined||0)-(b.joined||0) || String(a.pid).localeCompare(b.pid)).map(s=>s.pid); }
 const isHost = () => !!(S.game && S.game.host===ME.pid);
@@ -828,6 +864,10 @@ function render(){
   else html+=viewGame();
   html+=siteFooter()+privacyCoverHtml();
   app.innerHTML=html;
+  try{
+    const dock=document.querySelector('.dock'), fixed=dock && getComputedStyle(dock).position==='fixed';
+    document.documentElement.style.setProperty('--dock-h', (fixed?dock.offsetHeight:0)+'px');
+  }catch(e){}
   renderOverlay();
   renderRulesModal();
   renderInfoModal();
@@ -874,9 +914,7 @@ function rulesBlock(){
   return '<details class="rules" '+(S.ui.rulesInlineOpen?'open':'')+'><summary><span class="summary-mark">✦</span> '+t('rules')+'</summary>'+rulesContent()+'</details>';
 }
 function lobbyGuideBar(){
-  const actual=Object.keys(S.seats||{}).length, n=Math.min(10,Math.max(5,actual)), built=buildRoles(n,Object.assign({},DEFAULT_SETTINGS,S.game&&S.game.settings));
-  const totals=built.err?'':('<span class="tag good">'+built.gd+' '+t('good')+'</span><span class="tag evil">'+built.ev+' '+t('evil')+'</span>');
-  return '<section class="glass card lobby-guide-bar"><div class="lobby-guide-copy"><span class="lobby-guide-icon">♟</span><span><b>'+t('currentLineup')+'</b><small>'+t('lobbyGuideHint')+(actual<5?' '+t('lineupPreview',n):'')+'</small></span><span class="lobby-guide-totals">'+totals+'</span></div><div class="lobby-guide-actions"><button class="btn pri" data-a="rulesLineup">♟ '+t('openLineup')+'</button><button class="btn" data-a="rulesFull">📜 '+t('fullRules')+'</button></div></section>';
+  return '<div class="lobby-guide-links"><button class="btn" data-a="rulesLineup">♟ '+t('roleInfo')+'</button><button class="btn ghost" data-a="rulesFull">📜 '+t('fullRules')+'</button></div>';
 }
 function renderRulesModal(){
   const el=$('#rulesModal'); if(!el) return;
@@ -954,10 +992,11 @@ function viewLobby(){
   const st=Object.assign({}, DEFAULT_SETTINGS, g.settings);
   const br=buildRoles(n, st), pv=buildRoles(Math.min(10,Math.max(5,n)), st);
   let seats=ids.map(p=>{
-    const s=S.seats[p];
-    return '<div class="seatcard">'+'<div class="av player-avatar" style="'+avStyle(p)+'"><span class="on '+(Net.isOnline(p)?'y':'')+'"></span></div>'
-      +'<div><div class="nm">'+esc(s.nick)+'</div>'+(p===g.host?'<span class="tag host">👑 '+t('host')+'</span>':'')+(p===ME.pid?'<span class="tag me">'+t('you')+'</span>':'')+'</div>'
-      +(host && p!==ME.pid ? '<button class="x" title="kick" data-kick="'+esc(p)+'">×</button>' : '')+'</div>';
+    const s=S.seats[p], mine=p===ME.pid;
+    return '<div class="seatcard'+(mine?' me':'')+'">'+'<div class="av player-avatar" style="'+avStyle(p)+'"><span class="on '+(Net.isOnline(p)?'y':'')+'"></span></div>'
+      +'<div class="seat-info"><div class="nm">'+esc(s.nick)+'</div>'+(p===g.host?'<span class="tag host">👑 '+t('host')+'</span>':'')+(mine?'<span class="tag me">'+t('you')+'</span>':'')+'</div>'
+      +(mine?'<button class="seat-edit" data-a="editName" aria-label="'+t('editName')+'">✎ '+t('editName')+'</button>':'')
+      +(host && !mine ? '<button class="x" title="kick" data-kick="'+esc(p)+'">×</button>' : '')+'</div>';
   }).join('');
   for(let i=n;i<Math.max(5,Math.min(10,n+1));i++) seats+='<div class="seatcard empty tiny">'+t('emptySeat')+'</div>';
   const tile=(k,role,name,desc,cls)=>'<button class="rt '+cls+(st[k]?' on':'')+'" '+(host?'data-set="'+k+'"':'disabled')+'>'+roleArt(role,'tile-art')+'<span><b>'+name+'</b><span>'+desc+'</span></span></button>';
@@ -981,20 +1020,24 @@ function viewLobby(){
     +tile('lancelotSwitch','lancelotEvil',t('optLancelotSwitch'),t('optLancelotSwitchD'),'neutral')
     +'<button class="rt neutral'+(st.lady?' on':'')+'" '+(host?'data-set="lady"':'disabled')+'><span class="lady-art">◯</span><span><b>'+t('optLady')+'</b><span>'+t('optLadyD')+'</span></span></button>'
     +'<button class="rt neutral'+(st.excalibur?' on':'')+'" '+(host?'data-set="excalibur"':'disabled')+'><span class="lady-art">⚔</span><span><b>'+t('optExcalibur')+'</b><span>'+t('optExcaliburD')+'</span></span></button>';
-  return '<div class="glass card roomcode"><div><div class="muted small">'+t('roomCode')+'</div><div class="code">'+esc(g.code)+'</div><div class="muted small">'+t('inviteHint')+'</div></div>'
-    +'<div class="row"><button class="btn pri" data-a="copy">🔗 '+t('copyLink')+'</button><button class="btn" data-a="qr">▦ '+t('showQR')+'</button>'+(navigator.share?'<button class="btn" data-a="share">'+t('share')+'</button>':'')+'</div></div>'
-    +lobbyGuideBar()+'<div class="lobby"><div class="glass card"><h2>'+t('players')+' · '+n+'/10</h2><div class="seats">'+seats+'</div>'
-    +'<div class="row" style="margin-top:14px"><input class="input" id="nick" maxlength="12" placeholder="'+t('nickPh')+'" value="'+esc(S.ui.nick)+'" style="flex:1;min-width:120px">'
-    +(seated?'<button class="btn" data-a="rename">'+t('rename')+'</button>':'<button class="btn pri" data-a="seat">'+t('seat')+'</button>')+'</div>'
-    +'<div class="row" style="margin-top:14px">'
-    +(host?'<button class="btn pri big" data-a="start" '+(br.err||S.ui.busy?'disabled':'')+'>'+(S.ui.busy?t('dealing'):'⚔️ '+t('start'))+'</button>':'<span class="muted" style="flex:1">⏳ '+t('waitHost')+'</span>')
-    +'<button class="btn ghost" data-a="leave">'+t('leave')+'</button></div>'
-    +(host&&br.err?'<p class="warn small" style="margin-bottom:0">'+esc(br.err)+'</p>':'')+'</div>'
-    +'<div class="glass card"><h2>'+t('roleSettings')+(host?'':' <span class="muted small">· '+t('hostOnly')+'</span>')+'</h2><div class="preset-wrap"><span class="muted tiny">'+t('presets')+'</span><div class="preset-row"><button class="btn preset-btn" data-preset="new" '+(host?'':'disabled')+'>🛡 '+t('presetNew')+'</button><button class="btn preset-btn" data-preset="classic" '+(host?'':'disabled')+'>⚔ '+t('presetClassic')+'</button><button class="btn preset-btn" data-preset="big" '+(host?'':'disabled')+'>✦ '+t('presetBig')+'</button></div></div>'+compHtml
-    +'<details class="settings-advanced" '+(S.ui.settingsOpen?'open':'')+'><summary><span><b>⚙ '+t('advancedRoles')+'</b><small>'+t('advancedRolesHint')+'</small></span><i>⌄</i></summary><div class="settings-advanced-body"><div class="settings-camps">'
+  const need=Math.max(0,5-n);
+  const status='<div class="lobby-status'+(need?'':' ready')+'"><b>'+(need?t('lobbyNeed',need):t(host?'lobbyReadyHost':'lobbyReady'))+'</b><span>'+t('lobbySteps')+'</span></div>';
+  const presets='<div class="preset-wrap"><span class="muted tiny">'+t('presets')+'</span><div class="preset-row"><button class="btn preset-btn" data-preset="new">🛡 '+t('presetNew')+'</button><button class="btn preset-btn" data-preset="classic">⚔ '+t('presetClassic')+'</button><button class="btn preset-btn" data-preset="big">✦ '+t('presetBig')+'</button></div></div>';
+  const advanced='<details class="settings-advanced" '+(S.ui.settingsOpen?'open':'')+'><summary><span><b>⚙ '+t('advancedRoles')+'</b><small>'+t('advancedRolesHint')+'</small></span><i>⌄</i></summary><div class="settings-advanced-body"><div class="settings-camps">'
     +'<section class="setting-camp good"><h3>🛡️ '+t('goodCamp')+'</h3><div class="roletiles">'+goodSettings+'</div></section>'
     +'<section class="setting-camp evil"><h3>🗡️ '+t('evilCamp')+'</h3><div class="roletiles">'+evilSettings+'</div></section></div>'
-    +'<section class="setting-camp modules"><h3>✦ '+t('gameModules')+'</h3><div class="roletiles">'+modules+'</div></section></div></details></div></div>';
+    +'<section class="setting-camp modules"><h3>✦ '+t('gameModules')+'</h3><div class="roletiles">'+modules+'</div></section></div></details>';
+  // Guests only need to see what is in play; the controls stay with the host.
+  const roleSetup=host ? presets+compHtml+lobbyGuideBar()+advanced : compHtml+lobbyGuideBar();
+  return '<div class="glass card roomcode"><div class="roomcode-main"><div class="muted small">'+t('roomCode')+'</div><div class="code">'+esc(g.code)+'</div></div>'
+    +'<div class="roomcode-side"><div class="row roomcode-actions"><button class="btn pri" data-a="copy">🔗 '+t('copyLink')+'</button><button class="btn" data-a="qr">▦ '+t('showQR')+'</button>'+(navigator.share?'<button class="btn" data-a="share">'+t('share')+'</button>':'')+'</div><div class="muted small roomcode-hint">'+t('inviteHint')+'</div></div></div>'
+    +'<div class="lobby"><div class="glass card lobby-players">'+status+'<h2>'+t('players')+' · '+n+'/10</h2><div class="seats">'+seats+'</div>'
+    +(seated?'':'<div class="row seat-join"><input class="input" id="nick" maxlength="12" placeholder="'+t('nickPh')+'" value="'+esc(S.ui.nick)+'" style="flex:1;min-width:120px"><button class="btn pri" data-a="seat">'+t('seat')+'</button></div>')
+    +'<div class="row lobby-actions">'
+    +(host?'<button class="btn pri big" data-a="start" '+(br.err||S.ui.busy?'disabled':'')+'>'+(S.ui.busy?t('dealing'):'⚔️ '+t('start'))+'</button>':'<span class="muted lobby-wait">⏳ '+t('waitHost')+'</span>')
+    +'<button class="btn ghost" data-a="leave">'+t('leave')+'</button></div>'
+    +(host&&br.err&&!need?'<p class="warn small" style="margin-bottom:0">'+esc(br.err)+'</p>':'')+'</div>'
+    +'<div class="glass card lobby-roles"><h2>'+t('roleSettings')+(host?'':' <span class="muted small">· '+t('hostOnly')+'</span>')+'</h2>'+roleSetup+'</div></div>';
 }
 
 function pickMode(g){
@@ -1019,13 +1062,12 @@ function needsAct(g,u){
   return false;
 }
 function viewGame(){
-  const g=S.game, n=g.order.length;
+  const g=S.game;
   const offline = g.status==='play' && !isHost() && Net.connected() && Date.now()-S.joinedAt>25000 && !Net.isOnline(g.host);
   return (offline?'<div class="banner-off">⚠️ '+t('hostOffline', esc(nickOf(g.host)))+'</div>':'')
-    +'<div class="game"><div>'+tableView(g)+'</div><div class="panel">'
+    +'<div class="game"><div class="game-table">'+tableView(g)+'</div><div class="panel">'
     +'<div class="dock '+(g.status==='end'?'dock-end':'')+'">'+actionBlock(g)+'</div>'
-    +roleBar()+hostToolsPanel(g)+privateNotesPanel(g)+reactionPanel(g)+historyBlock(g)
-    +'<div class="glass card">'+rulesBlock()+'</div></div></div>';
+    +roleBar()+toolPanel(g)+'</div></div>';
 }
 function notesStorageKey(g=S.game){ return g&&S.code ? 'notes.'+S.code+'.'+(g.gid||'lobby') : ''; }
 function readPrivateNotes(){ const key=notesStorageKey(); return key ? (LS.get(key)||{}) : {}; }
@@ -1055,13 +1097,26 @@ function privateNotesPanel(g){
   if(!open) return '<button class="glass card private-notes-toggle" data-a="toggleNotes"><span>✎</span><span><b>'+t('privateNotes')+'</b><small>'+t('openNotes')+'</small></span><span>›</span></button>';
   const notes=readPrivateNotes(), roles=noteRoleOptions(g);
   const options=(selected)=>'<option value="">'+t('unmarked')+'</option><option value="good" '+(selected==='good'?'selected':'')+'>🛡 '+t('leanGood')+'</option><option value="evil" '+(selected==='evil'?'selected':'')+'>🗡 '+t('leanEvil')+'</option>'+roles.map(r=>'<option value="'+r+'" '+(selected===r?'selected':'')+'>'+ROLE_META[r].ic+' '+rName(r)+'</option>').join('');
-  const rows=g.order.filter(pid=>pid!==ME.pid).map(pid=>{ const note=notes[pid]||{}; return '<div class="private-note-row"><div class="private-note-person"><span class="note-avatar player-avatar" style="'+avStyle(pid)+'"></span><b>'+esc(nickOf(pid))+'</b></div><select class="note-select" data-note-player="'+esc(pid)+'" aria-label="'+t('suspectAs')+' · '+esc(nickOf(pid))+'">'+options(note.mark||'')+'</select><textarea class="note-text" data-note-player="'+esc(pid)+'" maxlength="240" rows="2" aria-label="'+t('privateNotes')+' · '+esc(nickOf(pid))+'" placeholder="'+t('notePlaceholder')+'">'+esc(note.text||'')+'</textarea></div>'; }).join('');
-  return '<section class="glass card private-notes"><div class="private-notes-head"><div><h3>✎ '+t('privateNotes')+'</h3><p>🔒 '+t('notesHint')+'</p></div><button class="btn ghost notes-collapse" data-a="toggleNotes">'+t('closeNotes')+'</button></div><div class="private-note-list">'+rows+'</div><button class="btn link notes-clear" data-a="clearNotes">'+t('clearNotes')+'</button></section>';
+  const rows=g.order.filter(pid=>pid!==ME.pid).map(pid=>{ const note=notes[pid]||{}; return '<div class="private-note-row"><div class="private-note-person"><span class="note-avatar player-avatar" style="'+avStyle(pid)+'"></span><b>'+esc(nickOf(pid))+'</b></div><select class="note-select" id="note-mark-'+esc(pid)+'" data-note-player="'+esc(pid)+'" aria-label="'+t('suspectAs')+' · '+esc(nickOf(pid))+'">'+options(note.mark||'')+'</select><textarea class="note-text" id="note-text-'+esc(pid)+'" data-note-player="'+esc(pid)+'" maxlength="240" rows="1" aria-label="'+t('privateNotes')+' · '+esc(nickOf(pid))+'" placeholder="'+t('notePlaceholder')+'">'+esc(note.text||'')+'</textarea></div>'; }).join('');
+  return '<section class="glass card private-notes"><div class="private-notes-head"><div><h3>✎ '+t('privateNotes')+'</h3><p>🔒 '+t('notesHint')+'</p></div></div><div class="private-note-list">'+rows+'</div><button class="btn link notes-clear" data-a="clearNotes">'+t('clearNotes')+'</button></section>';
 }
 function reactionPanel(g){
   if(!g.order.includes(ME.pid) || !S.seats[ME.pid]) return '';
-  return '<div class="glass card reactions"><div class="reaction-head"><h3>'+t('react')+'</h3><span class="muted tiny">'+t('reactHint')+'</span></div><div class="reaction-row">'
+  return '<div class="reactions" role="group" aria-label="'+t('react')+'"><div class="reaction-row">'
     +REACTIONS.map(r=>'<button class="reaction-btn" data-reaction="'+r.id+'" aria-label="'+t(r.label)+'" title="'+t(r.label)+'">'+r.emoji+'</button>').join('')+'</div></div>';
+}
+/* Everything that is not the current action lives behind one row of tabs, so the
+ * side panel stays one screen tall. On phones an open tab becomes a bottom sheet. */
+function toolPanel(g){
+  const inGame=g.order.includes(ME.pid), canReact=inGame && !!S.seats[ME.pid], hostTools=isHost() && g.status==='play';
+  let tab=S.ui.tool;
+  if((tab==='host' && !hostTools) || (tab==='notes' && !inGame) || (tab==='react' && !canReact)) tab=null;
+  const tabBtn=(id,ic,label,cls)=>'<button class="tool-tab'+(cls?' '+cls:'')+(tab===id?' on':'')+'" data-tool="'+id+'" aria-expanded="'+(tab===id)+'"><i>'+ic+'</i><span>'+label+'</span></button>';
+  const tabs=(canReact?tabBtn('react','☺',t('tReact'),'only-narrow'):'')+tabBtn('history','☰',t('tHistory'))+(inGame?tabBtn('notes','✎',t('tNotes')):'')+(hostTools?tabBtn('host','♜',t('tHost')):'')
+    +'<button class="tool-tab" data-a="rules"><i>❖</i><span>'+t('tRules')+'</span></button>';
+  const body=tab==='history'?historyBlock(g):tab==='notes'?privateNotesPanel(g):tab==='host'?hostToolsPanel(g):tab==='react'?reactionPanel(g):'';
+  return '<section class="glass card tools">'+(canReact?'<div class="only-wide">'+reactionPanel(g)+'</div>':'')+'<div class="tool-tabs" role="toolbar">'+tabs+'</div>'
+    +(body?'<button class="sheet-backdrop" data-tool="'+tab+'" aria-label="'+t('close')+'"></button><div class="tool-body sheet tool-'+tab+'"><button class="btn ghost sheet-close tool-close" data-tool="'+tab+'" aria-label="'+t('close')+'">×</button>'+body+'</div>':'')+'</section>';
 }
 function sendReaction(id){
   const def=REACTIONS.find(r=>r.id===id), now=Date.now();
@@ -1137,7 +1192,7 @@ function tableView(g){
     const cls='seatp'+(onTeam?' team':'')+(can?' pick':'')+(picked?' picked':'')+(skillKnown?' skill-known':'')+(p===ME.pid?' me':'')+(g.assassinPick===p?' stabbed':'')+(pm&&!can?' dimmed':'');
     return '<button class="'+cls+'" style="left:'+x.toFixed(2)+'%;top:'+y.toFixed(2)+'%" '+(can?'data-pick="'+esc(p)+'"':'tabindex="-1"')+'>'
       +'<div class="pav player-avatar" style="'+avStyle(p)+'">'+badges+'</div>'
-      +'<div class="pn">'+(i+1)+'·'+esc(nickOf(p))+'</div><div class="pt">'+tags+'</div></button>';
+      +'<div class="pn">'+(p===ME.pid?'<b class="me-chip">'+t('meMark')+'</b>':'')+(i+1)+'·'+esc(nickOf(p))+'</div><div class="pt">'+tags+'</div></button>';
   }).join('');
   const qt=g.quests.map((q,i)=>'<div class="qt '+(q.r||'')+(q.two?' two':'')+(i===g.q&&g.status==='play'&&!q.r?' cur':'')+'">'+(q.r?(q.r==='S'?'✓':'✗'):q.size)
     +'<small>'+(q.r?t('fails',q.fails):t('questN',i+1))+'</small></div>').join('');
@@ -1216,12 +1271,14 @@ function actionBlock(g){
   return '<div class="glass card act">'+h+actionStatus(g)+'</div>';
 }
 function roleBar(){
-  const g=S.game; if(!g.order.includes(ME.pid)) return '';
-  if(!S.mine) return '<div class="glass card muted">'+t('loadingRole')+'</div>';
-  const s=S.mine.allegiance||side(S.mine.role);
-  return '<button class="glass card rolebar '+(S.peek?s:'')+'" data-a="peek"><span class="rb-l"><span class="rb-ic">'+(S.peek?roleArt(S.mine.role,'rolebar-art'):'<span class="card-seal">V</span>')+'</span>'
-    +'<span><div class="muted tiny">'+t('myRole')+'</div><b>'+(S.peek?rName(S.mine.role):'••••••')+'</b></span></span><span class="muted small">'+(S.peek?'🙈':t('tapReveal'))+'</span></button>'
-    +(S.peek?'<div class="glass card" style="margin-top:-8px">'+knowBlock()+'</div>':'');
+  const g=S.game, me=ME.pid; if(!g.order.includes(me)) return '';
+  const s=S.mine ? (S.mine.allegiance||side(S.mine.role)) : '';
+  // Who am I at this table: portrait, seat number and name, with rename one tap away.
+  const id='<button class="me-id" data-a="editName" aria-label="'+t('editName')+'"><i class="player-avatar" style="'+avStyle(me)+'"></i><span class="me-text"><small>'+t('youAre')+' · '+t('seatNo', g.order.indexOf(me)+1)+'</small><b><span>'+esc(nickOf(me))+'</span><em>✎</em></b></span></button>';
+  const role=!S.mine ? '<span class="me-role muted small">'+t('loadingRole')+'</span>'
+    : '<button class="me-role '+(S.peek?s:'')+'" data-a="peek" aria-expanded="'+!!S.peek+'"><span class="rb-ic">'+(S.peek?roleArt(S.mine.role,'rolebar-art'):'<span class="card-seal">V</span>')+'</span><span class="me-text"><small>'+t('myRole')+'</small><b>'+(S.peek?rName(S.mine.role):t('tapReveal'))+'</b></span></button>';
+  return '<div class="glass card mebar">'+id+role+'</div>'
+    +(S.peek&&S.mine?'<button class="sheet-backdrop" data-a="peek" aria-label="'+t('hideRole')+'"></button><div class="glass card know-card sheet"><div class="sheet-head"><b class="'+(s==='good'?'res-s':'res-f')+'">'+ROLE_META[S.mine.role].ic+' '+rName(S.mine.role)+' · '+t(s)+'</b><button class="btn ghost sheet-close" data-a="peek">🙈 '+t('hideRole')+'</button></div>'+knowBlock()+'</div>':'');
 }
 function hostToolsPanel(g){
   if(!isHost() || g.status!=='play') return '';
@@ -1299,6 +1356,7 @@ function renderOverlay(){
 document.addEventListener('input', e=>{
   if(e.target.id==='nick') S.ui.nick=e.target.value;
   if(e.target.id==='joinCode') S.ui.joinCode=e.target.value.toUpperCase();
+  if(e.target.id==='renameInput' && S.ui.rename) S.ui.rename.draft=e.target.value;
   if(e.target.matches&&e.target.matches('.note-text[data-note-player]')) savePrivateNote(e.target.dataset.notePlayer,'text',e.target.value);
 });
 document.addEventListener('change', e=>{
@@ -1306,6 +1364,8 @@ document.addEventListener('change', e=>{
   if(e.target.id==='hostSuccessor'){ S.ui.hostSuccessor=e.target.value; S.ui.confirmHostTransfer=false; render(); }
 });
 document.addEventListener('keydown', e=>{
+  if(e.key==='Escape' && S.ui.rename) return closeRename();
+  if(e.key==='Enter' && e.target.id==='renameInput') return saveRename();
   if(e.key==='Escape' && S.ui.confirm){ S.ui.confirm=null; renderConfirmModal(); return; }
   if(e.key==='Escape' && S.ui.qrOpen){ S.ui.qrOpen=false; renderQRModal(); return; }
   if(e.key==='Escape' && S.ui.infoOpen){ S.ui.infoOpen=null; renderInfoModal(); return; }
@@ -1324,7 +1384,8 @@ document.addEventListener('toggle', e=>{
   if(e.target.matches && e.target.matches('details.settings-advanced')) S.ui.settingsOpen=e.target.open;
 }, true);
 document.addEventListener('click', e=>{
-  const b=e.target.closest('[data-a],[data-pick],[data-vote],[data-quest],[data-kick],[data-set],[data-preset],[data-excalibur],[data-loyalty],[data-reaction]'); if(!b) return;
+  const b=e.target.closest('[data-a],[data-pick],[data-vote],[data-quest],[data-kick],[data-set],[data-preset],[data-excalibur],[data-loyalty],[data-reaction],[data-tool]'); if(!b) return;
+  if(b.dataset.tool){ S.ui.tool = S.ui.tool===b.dataset.tool ? null : b.dataset.tool; S.ui.notesOpen = S.ui.tool==='notes'; return render(); }
   if(b.dataset.reaction) return sendReaction(b.dataset.reaction);
   if(b.dataset.kick) return askConfirm(t('confirmKick',nickOf(b.dataset.kick)),'kick',b.dataset.kick,[b.dataset.kick]);
   if(b.dataset.set) return toggleSetting(b.dataset.set);
@@ -1362,7 +1423,10 @@ document.addEventListener('click', e=>{
     case 'prepareHostTransfer': if(!S.ui.hostSuccessor) return toast(t('chooseHost')); S.ui.confirmHostTransfer=true; return render();
     case 'cancelHostTransfer': S.ui.confirmHostTransfer=false; return render();
     case 'transferHost': return transferHost();
-    case 'toggleNotes': S.ui.notesOpen=!S.ui.notesOpen; return render();
+    case 'toggleNotes': S.ui.notesOpen=!S.ui.notesOpen; S.ui.tool=S.ui.notesOpen?'notes':null; return render();
+    case 'editName': return openRename();
+    case 'renameCancel': return closeRename();
+    case 'renameSave': return saveRename();
     case 'clearNotes': { const key=notesStorageKey(); if(key) LS.del(key); render(); return toast(t('notesCleared')); }
     case 'create': return createRoom();
     case 'join': return joinRoom();
