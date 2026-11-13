@@ -1,4 +1,4 @@
-const CACHE = 'avalon-shell-v10';
+const CACHE = 'avalon-shell-v11';
 const SHELL = [
   './', './index.html', './style.css', './app.js', './manifest.webmanifest', './assets/app-icon.svg', './assets/player-avatars.webp',
   './vendor/firebase-app-compat.js', './vendor/firebase-auth-compat.js', './vendor/firebase-database-compat.js', './vendor/qrcode.min.js',

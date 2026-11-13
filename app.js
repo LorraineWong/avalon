@@ -1015,10 +1015,6 @@ function viewHome(){
     +'<button class="btn pri" data-a="create">'+ic('plus')+t('create')+'</button></div>'
     +'<div class="glass card"><h2>'+t('joinTitle')+'</h2><div class="row"><input class="input code" id="joinCode" aria-label="'+t('codePh')+'" maxlength="8" placeholder="'+t('codePh')+'" value="'+esc(S.ui.joinCode)+'" style="flex:1;min-width:0">'
     +'<button class="btn" data-a="join">'+t('join')+'</button></div><p class="muted small" style="margin-bottom:0">'+t('joinHint')+'</p></div></div>'
-    +'<section class="landing-section landing-steps" aria-labelledby="startTitle"><div class="section-kicker">01 · START</div><h2 id="startTitle">'+t('startTitle')+'</h2><p class="section-lead">'+t('startLead')+'</p><div class="landing-cards">'
-    +'<article><b>1</b><h3>'+t('start1')+'</h3><p>'+t('start1d')+'</p></article><article><b>2</b><h3>'+t('start2')+'</h3><p>'+t('start2d')+'</p></article><article><b>3</b><h3>'+t('start3')+'</h3><p>'+t('start3d')+'</p></article></div></section>'
-    +'<section class="landing-section landing-party" aria-labelledby="partyTitle"><div class="section-kicker">02 · GAME NIGHT</div><h2 id="partyTitle">'+t('madeFor')+'</h2><div class="party-grid"><article><span>♜</span><div><h3>'+t('party1')+'</h3><p>'+t('party1d')+'</p></div></article><article><span>⌁</span><div><h3>'+t('party2')+'</h3><p>'+t('party2d')+'</p></div></article><article><span>✦</span><div><h3>'+t('party3')+'</h3><p>'+t('party3d')+'</p></div></article></div></section>'
-    +'<section class="glass landing-trust"><div><div class="section-kicker">03 · PRIVACY</div><h2>'+t('trustTitle')+'</h2><p>'+t('trustLead')+'</p></div><div class="landing-actions"><a class="btn ghost" href="'+(LANG==='zh'?'zh-cn/':'en/')+'">'+ic('book')+t('exploreGuide')+'</a><button class="btn pri" data-a="focusCreate">'+ic('plus')+t('playNow')+'</button></div></section>'
     +'<div class="glass card home-rules">'+rulesBlock()+'</div>';
 }
 function viewLobby(){
