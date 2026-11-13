@@ -8,18 +8,30 @@
 
 ![Avalon Online 手机与桌面界面](docs/screenshots/home-mobile.png)
 
-## 主要功能
+## 快速入口
+
+- [游戏首页](https://lorrainewong.github.io/avalon/)：创建或加入房间，唯一游戏入口。
+- [玩法与角色指南](https://lorrainewong.github.io/avalon/zh-cn/)：新手规则、角色与人数配置。
+- [隐私政策](https://lorrainewong.github.io/avalon/privacy/) · [使用条款与声明](https://lorrainewong.github.io/avalon/unofficial-notice/)
+- 开发者：[本地运行](#本地运行) · [功能验证](#功能验证) · [文档索引](docs/README.md)
+
+## 游戏玩法
 
 - **完整的 5–10 人游戏流程**：组队、公开投票、秘密任务、刺杀梅林和再来一局。
 - **支持 17 类身份**：经典角色之外，新增善恶兰斯洛特、疯子、蛮兵、揭示者、牧师、骗术师、捣乱者和不可信的仆人。
 - **可选湖中仙女**：7 人及以上的对局可以启用。
 - **Big Box 模块**：王者之剑和兰斯洛特效忠转换已完整接入加密多人流程。
+### 隐私与稳定性
+
 - **身份与行动加密**：浏览器使用 ECDH P-256 和 AES-GCM 分发身份并加密玩家行动。
 - **刷新与重连**：房间状态保存在 Firebase Realtime Database，重新打开房间链接即可继续。
 - **沉浸式 Camelot 界面**：针对桌面端和手机竖屏进行了响应式优化。
+- **浅色与深色主题**：点击顶部太阳／月亮按钮切换。首次跟随系统，之后记住你的选择，各页面保持一致。
 - **中英双语**：游戏过程中可以随时切换语言。
 - **无需构建**：项目由原生 HTML、CSS 和 JavaScript 构成，可直接部署到静态网站托管服务。
 - **临时房间**：新房间带有 72 小时有效期标记，已结束的游戏为 24 小时；房主重新连接后会清理过期资料。
+### 圆桌体验
+
 - **无需账号的圆桌表情**：玩家可以发送短暂表情，不建立持久聊天记录。
 - **可安装网页应用**：轻量 PWA 可让首页和规则离线打开；多人游戏仍然需要网络连接。
 - **游戏内身份指南**：随时重看自己的能力，以及本局实际采用的完整身份阵容。
@@ -111,6 +123,7 @@ GitHub Pages 设置：
 ├── index.html                 # 页面外壳与元数据
 ├── app.js                     # 界面、加密、网络和游戏引擎
 ├── style.css                  # 响应式 Camelot 视觉系统
+├── landing.css                # 搜索友好内容页的共用样式
 ├── service-worker.js          # 可安装网页应用的离线外壳
 ├── manifest.webmanifest       # 网页应用清单
 ├── robots.txt, sitemap.xml    # 搜索引擎提示
@@ -120,6 +133,9 @@ GitHub Pages 设置：
 ├── tests/                     # 自动化检查（node tests/run-all.mjs）
 ├── dev/                       # 开发用的离线界面预览页
 ├── docs/                      # 设计说明、规则覆盖、测试报告、隐私说明与第三方声明
+├── en/, zh-cn/                # 英文与中文玩法、角色、人数配置和 FAQ 落地页
+├── privacy/                   # 公开隐私说明
+├── unofficial-notice/         # 公开非官方作品与权利声明
 ├── .github/                   # 安全策略、Issue 与 PR 模板
 ├── README.md                  # 英文主文档
 └── README.zh-CN.md            # 简体中文文档
