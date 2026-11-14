@@ -57,3 +57,5 @@ Firebase 配置、部署和多人测试方式见[开发指南](docs/DEVELOPMENT.
 ## 制作说明
 
 Avalon Online 由 Lorraine 维护，开发主要使用 Claude Code 与 OpenAI Codex，本站图片由 GPT 生成。使用 AI 工具不代表 Anthropic、OpenAI 或原游戏发行方对本项目的认可或背书；本站不使用官方桌游卡牌图片。
+
+维护与贡献请先阅读 [CONTRIBUTING.md](CONTRIBUTING.md)；Claude Code 与 Codex 共用的项目规则在 [AGENTS.md](AGENTS.md)。文件分类、格式约定与后续整理计划见[维护说明](docs/MAINTENANCE.md)。

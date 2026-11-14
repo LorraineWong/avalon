@@ -1,0 +1,21 @@
+# Preserve upstream libraries, licence texts and image assets.
+vendor/
+assets/
+docs/licenses/
+docs/screenshots/
+LICENSE
+NOTICE
+
+# Format compact runtime code separately after removing source-spelling coupling
+# from the regression tests. See docs/MAINTENANCE.md.
+**/*.js
+**/*.mjs
+**/*.css
+
+# Local tooling and generated files are not maintained source.
+node_modules/
+.firebase/
+.wrangler/
+coverage/
+test-results/
+playwright-report/

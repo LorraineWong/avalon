@@ -13,10 +13,14 @@ const live=process.argv.includes('--live');
 const LIVE_ONLY=new Set(['security-smoke-test.mjs']);
 const files=readdirSync(dir).filter(f=>f.endsWith('-test.mjs')).filter(f=>live||!LIVE_ONLY.has(f)).sort();
 
-const syntax=spawnSync(process.execPath,['--check',fileURLToPath(new URL('../app.js',import.meta.url))],{encoding:'utf8'});
-let failed=syntax.status!==0;
-console.log((syntax.status===0?'PASS':'FAIL')+'  app.js syntax');
-if(syntax.status!==0) console.log(syntax.stderr.trim());
+let failed=false;
+const root=fileURLToPath(new URL('../',import.meta.url));
+for(const file of readdirSync(root).filter(f=>f.endsWith('.js')).sort()){
+  const syntax=spawnSync(process.execPath,['--check',root+file],{encoding:'utf8'});
+  if(syntax.status!==0) failed=true;
+  console.log((syntax.status===0?'PASS':'FAIL')+'  '+file+' syntax');
+  if(syntax.status!==0) console.log(syntax.stderr.trim());
+}
 
 for(const f of files){
   const r=spawnSync(process.execPath,[dir+f],{encoding:'utf8'});

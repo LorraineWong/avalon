@@ -51,14 +51,20 @@ merge. See the [release checklist](RELEASE.md) for deployment verification,
 rollback and the remaining launch limitations. Documentation-only and CI-only
 changes do not require a shell asset version bump.
 
+## File organisation
+
+See [repository maintenance](MAINTENANCE.md) for directory responsibilities,
+formatting scope and the refactoring backlog, and [CONTRIBUTING.md](../CONTRIBUTING.md)
+for editor settings and the optional pinned formatter.
+
 ## Key files
 
-| Location | Purpose |
-| --- | --- |
-| `app.js` | Game engine, networking, encryption and UI |
-| `theme.css`, `style.css` | Theme tokens, components and responsive layouts |
-| `site-shell.js`, `site-shell.css` | Shared navigation, theme and language controls |
-| `assets/` | Brand, character illustrations and player portraits |
-| `en/`, `zh-cn/`, `zh-tw/`, `ru/`, `es/`, `pt/`, `vi/` | Public game guides |
-| `firebase/` | Realtime Database access rules |
-| `tests/`, `dev/` | Automated checks and offline preview |
+| Location                                              | Purpose                                             |
+| ----------------------------------------------------- | --------------------------------------------------- |
+| `app.js`                                              | Game engine, networking, encryption and UI          |
+| `theme.css`, `style.css`                              | Theme tokens, components and responsive layouts     |
+| `site-shell.js`, `site-shell.css`                     | Shared navigation, theme and language controls      |
+| `assets/`                                             | Brand, character illustrations and player portraits |
+| `en/`, `zh-cn/`, `zh-tw/`, `ru/`, `es/`, `pt/`, `vi/` | Public game guides                                  |
+| `firebase/`                                           | Realtime Database access rules                      |
+| `tests/`, `dev/`                                      | Automated checks and offline preview                |

@@ -40,13 +40,13 @@ For Firebase configuration, deployment and multiplayer testing, see the [develop
 
 ## Documentation and contributions
 
-[Documentation index](docs/README.md) · [Supported rules](docs/BIG_BOX_RULES.md) · [Security policy](.github/SECURITY.md) · [Privacy](https://lorrainewong.github.io/avalon/privacy/)
+[Documentation index](docs/README.md) · [Contributing](CONTRIBUTING.md) · [Supported rules](docs/BIG_BOX_RULES.md) · [Security policy](.github/SECURITY.md) · [Privacy](https://lorrainewong.github.io/avalon/privacy/)
 
 Focused pull requests and reproducible bug reports are welcome. For UI issues, include the device, viewport and theme. For game-flow changes, test with isolated player sessions.
 
 ## Project notice
 
-An unofficial fan project, unaffiliated with the creators or publishers of *The Resistance: Avalon*. Game names and concepts belong to their respective rights holders. Please support the official board game.
+An unofficial fan project, unaffiliated with the creators or publishers of _The Resistance: Avalon_. Game names and concepts belong to their respective rights holders. Please support the official board game.
 
 Roles are encrypted between browsers, but the host browser remains trusted. See the [security policy](.github/SECURITY.md) for the threat model and private vulnerability reporting.
 

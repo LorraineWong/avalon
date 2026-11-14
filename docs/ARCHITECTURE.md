@@ -18,18 +18,18 @@ Firebase Realtime Database
 
 ## Files
 
-| File | Used by | Purpose |
-| --- | --- | --- |
-| `index.html` | game | Document shell and metadata. |
-| `app.js` | game | Everything at runtime: i18n, rules, crypto, networking, host engine, rendering, events. |
-| `locales.js` | every page | Static translations for the seven supported languages (`window.AvalonLocales`). See [LOCALIZATION.md](LOCALIZATION.md). |
-| `style.css` | game | Layout and components for the game. |
-| `theme.css` | every page | Light and dark semantic colour tokens and theme overrides. |
-| `site-shell.js`, `site-shell.css` | every page | Shared header, footer, language and theme controls (`window.AvalonShell`). |
-| `landing.css`, `public-ui.js` | guide pages (`en/`, `zh-cn/`, `zh-tw/`, `ru/`, `es/`, `pt/`, `vi/`), `privacy/`, `unofficial-notice/` | Styles, navigation, and language preference for the static content pages. |
-| `service-worker.js` | game | Offline shell cache for the installable web app. |
-| `firebase/database.rules.json` | Firebase | Realtime Database security rules. `emergency-deny-all.rules.json` is the standby file described in [EMERGENCY.md](EMERGENCY.md). |
-| `vendor/` | game | Firebase compat SDK and QRCode.js. |
+| File                              | Used by                                                                                               | Purpose                                                                                                                          |
+| --------------------------------- | ----------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| `index.html`                      | game                                                                                                  | Document shell and metadata.                                                                                                     |
+| `app.js`                          | game                                                                                                  | Everything at runtime: i18n, rules, crypto, networking, host engine, rendering, events.                                          |
+| `locales.js`                      | every page                                                                                            | Static translations for the seven supported languages (`window.AvalonLocales`). See [LOCALIZATION.md](LOCALIZATION.md).          |
+| `style.css`                       | game                                                                                                  | Layout and components for the game.                                                                                              |
+| `theme.css`                       | every page                                                                                            | Light and dark semantic colour tokens and theme overrides.                                                                       |
+| `site-shell.js`, `site-shell.css` | every page                                                                                            | Shared header, footer, language and theme controls (`window.AvalonShell`).                                                       |
+| `landing.css`, `public-ui.js`     | guide pages (`en/`, `zh-cn/`, `zh-tw/`, `ru/`, `es/`, `pt/`, `vi/`), `privacy/`, `unofficial-notice/` | Styles, navigation, and language preference for the static content pages.                                                        |
+| `service-worker.js`               | game                                                                                                  | Offline shell cache for the installable web app.                                                                                 |
+| `firebase/database.rules.json`    | Firebase                                                                                              | Realtime Database security rules. `emergency-deny-all.rules.json` is the standby file described in [EMERGENCY.md](EMERGENCY.md). |
+| `vendor/`                         | game                                                                                                  | Firebase compat SDK and QRCode.js.                                                                                               |
 
 `app.js` is organised in banner-commented sections, in this order: i18n, Rules, Utils, Crypto, Identity, Network, App state, Boot, Room actions, Host engine, Rendering, Overlays, Events.
 
@@ -37,16 +37,16 @@ Firebase Realtime Database
 
 Everything for a room lives under `rooms/<CODE>`. Each document is stored as a JSON string in a `j` field so arrays and nulls round-trip exactly.
 
-| Path | Writer | Content |
-| --- | --- | --- |
-| `game` → `{host, j}` | host | Public game state. `host` is duplicated outside `j` so security rules can read it. |
+| Path                  | Writer                        | Content                                                                                                      |
+| --------------------- | ----------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| `game` → `{host, j}`  | host                          | Public game state. `host` is duplicated outside `j` so security rules can read it.                           |
 | `seats/<uid>` → `{j}` | that player (host may remove) | `pid`, `nick`, `pub` (ECDH public key), `joined`, `act` (encrypted action), plus `reaction` and `draftTeam`. |
-| `sec/<uid>` → `{j}` | host | That player's role data, encrypted to their public key. |
-| `sec/master` → `{j}` | host | The full role and allegiance map, encrypted to the host's own public key. |
-| `sec/<other>` → `{j}` | host | Private results such as loyalty checks, encrypted to the viewer. |
-| `online/<uid>` | that player | Server timestamp, removed by `onDisconnect`. |
+| `sec/<uid>` → `{j}`   | host                          | That player's role data, encrypted to their public key.                                                      |
+| `sec/master` → `{j}`  | host                          | The full role and allegiance map, encrypted to the host's own public key.                                    |
+| `sec/<other>` → `{j}` | host                          | Private results such as loyalty checks, encrypted to the viewer.                                             |
+| `online/<uid>`        | that player                   | Server timestamp, removed by `onDisconnect`.                                                                 |
 
-The rules accept writes to `seats`, `sec`, and `online` only while the room's `game` record exists, so a client cannot leave orphan data under an unused room code. Deletions are always allowed for the owner or host.
+The rules accept writes to `seats`, `sec`, and `online` only while the room's `game` record exists, so a client cannot leave orphan data under an unused room code. Old-record cleanup remains possible without `game` for a player’s own seat/presence. Host-authorised seat/secret operations still depend on the host identity stored in `game`; there is no blanket permission for a host to delete every other player’s presence.
 
 ### Public game state
 

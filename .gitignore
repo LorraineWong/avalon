@@ -16,3 +16,8 @@ firebase-debug.log*
 .vscode/
 .idea/
 *.swp
+
+# Generated test reports
+coverage/
+test-results/
+playwright-report/
