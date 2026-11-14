@@ -1,10 +1,7 @@
-<img src="assets/brand-mark.svg" width="64" height="64" alt="Avalon Online logo">
-
-# Avalon Online
-
-A free browser game of hidden roles, deduction and betrayal for **5–10 friends**. Create a private room and share the link. No sign-up or download required.
-
-**[Play now](https://lorrainewong.github.io/avalon/)** · [How to play](https://lorrainewong.github.io/avalon/en/) · [简体中文](README.zh-CN.md)
+<p align="center"><img src="assets/brand-mark.svg" width="80" height="80" alt="Avalon Online"></p>
+<h1 align="center">Avalon Online</h1>
+<p align="center"><strong><a href="https://lorrainewong.github.io/avalon/">Play Now</a></strong> · <a href="https://lorrainewong.github.io/avalon/en/">How to Play</a> · <a href="docs/README.md">Documentation</a> · <a href="README.zh-CN.md">简体中文</a></p>
+<p align="center">A free browser game of hidden roles, deduction and betrayal for <strong>5–10 friends</strong>. No sign-up or download required.</p>
 
 ## Play with friends
 
@@ -18,7 +15,7 @@ Use a voice call for remote games, or talk around the same table. Each player ne
 
 - Full game flow: team proposals, voting, secret Quest cards, assassination and rematches.
 - 17 character types, role presets and optional modules, including Lady of the Lake and Excalibur.
-- Mobile and desktop layouts, light and dark themes, English and Simplified Chinese.
+- Mobile and desktop layouts, light and dark themes, seven languages: English, 简体中文, 繁體中文, Русский, Español, Português and Tiếng Việt.
 - Encrypted roles and actions, local deduction notes, reconnect support and host handoff.
 
 ## Local development

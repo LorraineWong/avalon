@@ -45,7 +45,7 @@ Borders use translucent antique gold. Surfaces use a small 4–10 px radius to f
 
 ## Character Art
 
-Eight original, project-specific 3:4 portraits live in `assets/roles/`. They share painterly medieval realism, candlelight and moonlight, antique-gold detailing, and consistent Camelot architecture. Good roles lean toward ivory, blue steel, and forest green; Evil roles lean toward oxblood, blackened metal, and violet shadow.
+Seventeen original, project-specific 3:4 portraits live in `assets/roles/`. They share painterly medieval realism, candlelight and moonlight, antique-gold detailing, and consistent Camelot architecture. Good roles lean toward ivory, blue steel, and forest green; Evil roles lean toward oxblood, blackened metal, and violet shadow.
 
 The art is intentionally text-free so localization remains native HTML and accessible. WebP derivatives are 768 px wide and used in the UI; source PNGs are not required at runtime.
 
@@ -59,4 +59,10 @@ The art is intentionally text-free so localization remains native HTML and acces
 
 ## Implementation Notes
 
-The redesign is CSS and rendering-markup only. Firebase, ECDH/AES role encryption, room state, game rules, reconnect behavior, and bilingual strings remain intact. Character art is generated for this project and does not reuse official board-game card artwork.
+The redesign is CSS and rendering-markup only. Firebase, ECDH/AES role encryption, room state, game rules, reconnect behavior, and game-state identifiers remain intact. Character art is generated for this project and does not reuse official board-game card artwork.
+
+## Compact header controls
+
+Language, display theme, online status and in-game privacy controls share a 40px height and 8px corner radius. On mobile the status is a 40px square with a visible dot and an accessible status label. Language uses a globe and the selected language’s abbreviation; other options show native language names. A language does not map to a single national flag.
+
+Long translated headings wrap inside their component. Russian and Vietnamese headings use the interface font for consistent character coverage. Changes to language or theme preserve the current form values and selected team.

@@ -106,7 +106,7 @@ const I18N = {
     rRejected:'Rejected', rOn:'On quest', try:'Try {0}',
     hostOffline:'Host {0} seems offline. To protect hidden roles, an unexpected disconnect cannot be taken over automatically; ask the host to reopen the link.', hostTools:'Host Controls', transferHost:'Transfer Host', transferTo:'Choose the new host', transferWarning:'Their device will advance the game. Your master key is securely re-encrypted for them.', confirmTransfer:'Confirm transfer to {0}', hostTransferred:'Host transferred to {0}', hostChanged:'Host transferred', chooseHost:'Choose an online player first',
     privacyCover:'Hide Screen', revealScreen:'Return To Game', coveredTitle:'Private Information Hidden', coveredHint:'Your role, knowledge, and notes stay covered until you return.',
-    rules:'Quick rules', close:'Close', goodCamp:'Good', evilCamp:'Evil', gameModules:'Paired roles & game modules', currentLineup:'This Game’S Roles', lineupHint:'Only roles present in this game are shown; player assignments stay hidden.', lineupPreview:'Not enough players yet — previewing the {0}-player lineup.', lobbyGuideHint:'Role explanations and full rules now open only when needed.', openLineup:'View this game’s roles', fullRules:'Full Rules', allRoleGuide:'All Role Descriptions', rulesAnytime:'Rules & Roles', ladyLog:'Lady of the Lake', kicked:'Removed', toMany:'Max {0} players — deselect one first', confirmTitle:'Confirm Action', confirm:'Confirm', cancel:'Cancel', confirmKick:'Remove {0} from the room?', confirmLeave:'Leave this game in progress? You can return with the invite link.', confirmAgain:'End this result and return everyone to the lobby?', confirmAssassin:'Assassinate {0}? This decides the game immediately and cannot be undone.', confirmExcalibur:'Switch {0}’s Quest card? This cannot be undone.',
+    rules:'Quick rules', close:'Close', goodCamp:'Good', evilCamp:'Evil', gameModules:'Paired roles & game modules', currentLineup:'This Game’s Roles', lineupHint:'Only roles present in this game are shown; player assignments stay hidden.', lineupPreview:'Not enough players yet — previewing the {0}-player lineup.', lobbyGuideHint:'Role explanations and full rules now open only when needed.', openLineup:'View this game’s roles', fullRules:'Full Rules', allRoleGuide:'All Role Descriptions', rulesAnytime:'Rules & Roles', ladyLog:'Lady of the Lake', kicked:'Removed', toMany:'Max {0} players — deselect one first', confirmTitle:'Confirm Action', confirm:'Confirm', cancel:'Cancel', confirmKick:'Remove {0} from the room?', confirmLeave:'Leave this game in progress? You can return with the invite link.', confirmAgain:'End this result and return everyone to the lobby?', confirmAssassin:'Assassinate {0}? This decides the game immediately and cannot be undone.', confirmExcalibur:'Switch {0}’s Quest card? This cannot be undone.',
     howToPlay:'How A Game Works', step1Title:'1 · Build a team', step1Body:'The Leader picks the required number of players and may pick themself.', step2Title:'2 · Everyone votes', step2Body:'The team needs a strict majority to go. Five rejected proposals on one Quest give Evil an immediate win.', step3Title:'3 · Play Quest cards secretly', step3Body:'Selected players submit in secret: Good can only play Success; Evil may play Fail. With 7+ players, Quest 4 needs two Fails.', step4Title:'4 · Decide the winner', step4Body:'Evil wins after three failed Quests. After three successes, the Assassin can still steal the win by finding Merlin.',
     privateNotes:'Private Deduction Notes', openNotes:'Open private notes', closeNotes:'Hide private notes', notesHint:'Saved only on this device. Nothing is uploaded or shared with the host or other players.', suspectAs:'Suspected role', unmarked:'Unmarked', leanGood:'Leans Good', leanEvil:'Leans Evil', notePlaceholder:'Record claims, votes, or your reasoning…', clearNotes:'Clear notes for this game', notesCleared:'Private notes for this game were cleared',
     rulesP1:'Good must complete 3 quests; Evil must fail 3. Each round the leader proposes a team and everyone votes openly — a <b>strict majority</b> is needed, otherwise leadership passes on. If <b>5 proposals in a row</b> are rejected for one quest, Evil wins.',
@@ -181,6 +181,16 @@ const ROLE_META = {
   troublemaker:{side:'good',icon:'smile',art:'assets/roles/troublemaker.webp'},
   untrustworthy:{side:'good',icon:'lock',art:'assets/roles/untrustworthy.webp'},
 };
+// Locale data is presentation-only; role IDs and room messages stay unchanged.
+const LOCALES = typeof window!=='undefined' && window.AvalonLocales;
+if(LOCALES) for(const [id,pack] of Object.entries(LOCALES.packs)){
+  if(pack.messages) I18N[id]=pack.messages;
+  if(pack.roles) ROLE_TXT[id]=pack.roles;
+}
+const validLanguage = value => Object.hasOwn(I18N,value) ? value : 'en';
+const languageTag = value => LOCALES?.languages.find(x=>x.id===value)?.tag || (value==='zh'?'zh-CN':'en');
+const extra = key => LOCALES?.packs[LANG]?.extra[key] || LOCALES?.packs.en.extra[key] || key;
+const guideRoute = () => (LOCALES?.languages.find(x=>x.id===LANG)?.route || (LANG==='zh'?'zh-cn':'en'))+'/';
 let LANG = 'en';
 function t(k, ...a){ let s = (I18N[LANG][k] ?? I18N.zh[k] ?? k); if(LANG==='en' && a[0]===1 && ['goodNeeds','evilNeeds'].includes(k)) s=s.replace('Quests','Quest'); return s.replace(/\{(\d)\}/g, (_,i)=>a[+i] ?? ''); }
 const rName = r => ROLE_TXT[LANG][r][0];
@@ -496,8 +506,8 @@ const S = {
 
 /* ================= Boot ================= */
 async function boot(){
-  LANG = LS.get('lang')==='zh' ? 'zh' : 'en';
-  document.documentElement.lang = LANG==='zh' ? 'zh-CN' : 'en';
+  LANG = validLanguage(LS.get('lang'));
+  document.documentElement.lang = languageTag(LANG);
   if(!window.crypto || !crypto.subtle){ $('#app').innerHTML='<div class="glass card">This browser does not support Web Crypto. Please use a recent Chrome / Safari / Edge (https).</div>'; return; }
   render();
   const uid = await Net.init();
@@ -902,7 +912,8 @@ function avatar(p, cls){ return '<div class="'+(cls||'av')+' player-avatar" styl
 
 function render(){
   const app=$('#app'); if(!app) return;
-  document.title=LANG==='zh'?'阿瓦隆在线玩｜免费、无需注册、5–10 人好友房':'Avalon Online | Free 5–10 Player Social Deduction Game';
+  document.title=LOCALES?extra('pageTitle'):(LANG==='zh'?'阿瓦隆在线玩｜免费、无需注册、5–10 人好友房':'Avalon Online | Free 5–10 Player Social Deduction Game');
+  document.documentElement.lang=languageTag(LANG);
   const gameActive=!!(S.code && S.game && S.game.status!=='lobby');
   document.body.classList.toggle('game-active', gameActive);
   document.body.classList.toggle('game-ended', gameActive && S.game.status==='end');
@@ -928,18 +939,18 @@ function render(){
 function topBar(){
   const conn=Net.connected();
   const st = !Net.everConnected ? t('connecting') : (conn ? t('online') : t('offline'));
-  if(!S.code && typeof AvalonShell!=='undefined') return AvalonShell.header(LANG,'./','home','<span class="av-status '+(conn?'is-online':Net.everConnected?'is-offline':'is-connecting')+'" role="status"><span class="status-dot" aria-hidden="true"></span>'+st+'</span>')+((Net.authFailed || (!Net.everConnected && S.bootAt && Date.now()-S.bootAt>15000))?'<div class="banner-off">'+t('noNet')+'</div>':'');
+  if(!S.code && typeof AvalonShell!=='undefined') return AvalonShell.header(LANG,'./','home','<span class="av-status '+(conn?'is-online':Net.everConnected?'is-offline':'is-connecting')+'" role="status" aria-label="'+esc(st)+'" title="'+esc(st)+'"><span class="status-dot" aria-hidden="true"></span>'+st+'</span>')+((Net.authFailed || (!Net.everConnected && S.bootAt && Date.now()-S.bootAt>15000))?'<div class="banner-off">'+t('noNet')+'</div>':'');
   return '<div class="top"><button class="brand av-brand" data-a="home" aria-label="'+t('home')+'"><span class="av-mark"><img src="assets/brand-mark.svg" alt="" width="40" height="40"></span><span><b>AVALON</b><small>'+t('sub')+'</small></span></button>'
-    +(!S.code?'<nav class="site-navigation" aria-label="Main navigation"><button data-a="home" aria-current="page">'+t('home')+'</button><a href="'+(LANG==='zh'?'zh-cn/':'en/')+'">'+t('guide')+'</a><a href="privacy/">'+t('privacy')+'</a><a href="unofficial-notice/">'+t('legal')+'</a></nav>':'')
+    +(!S.code?'<nav class="site-navigation" aria-label="Main navigation"><button data-a="home" aria-current="page">'+t('home')+'</button><a href="'+guideRoute()+'">'+t('guide')+'</a><a href="privacy/">'+t('privacy')+'</a><a href="unofficial-notice/">'+t('legal')+'</a></nav>':'')
     +'<div class="top-r">'+(S.code&&S.game?((S.game.status!=='lobby'?'<button class="chip btn privacy-cover-btn" data-a="privacyCover" aria-label="'+t('privacyCover')+'">'+ic('eyeoff')+'<span>'+t('privacyCover')+'</span></button>':'')+(S.game.status==='lobby'?'<button class="chip btn rules-access" data-a="rules" aria-label="'+t('rulesAnytime')+'">'+ic('book')+'<span>'+t('rulesAnytime')+'</span></button>':'')+'<span class="chip room-chip"><span class="dot '+(conn?'on':'')+'"></span><b style="letter-spacing:2px">'+esc(S.code)+'</b></span>'):'<span class="chip"><span class="dot '+(conn?'on':'')+'"></span>'+st+'</span>')
-    +(typeof AvalonShell!=='undefined'?AvalonShell.themeControl(LANG):'')+'<label class="language-picker"><span class="sr-only">Language / 语言</span><select id="siteLanguage" aria-label="Language / 语言"><option value="zh" '+(LANG==='zh'?'selected':'')+'>简体中文</option><option value="en" '+(LANG==='en'?'selected':'')+'>English</option></select></label></div></div>'
+    +(typeof AvalonShell!=='undefined'?AvalonShell.themeControl(LANG)+AvalonShell.languageControl(LANG,'siteLanguage'):'')+'</div></div>'
     +(Net.everConnected && !conn ? '<div class="banner-off">'+t('offline')+'</div>' : '')
     +((Net.authFailed || (!Net.everConnected && S.bootAt && Date.now()-S.bootAt>15000)) ? '<div class="banner-off">'+t('noNet')+'</div>' : '');
 }
 function siteFooter(){
   if(typeof AvalonShell!=='undefined') return AvalonShell.footer(LANG,'./');
   const support = SUPPORT_URL ? '<a class="foot-link support-link" href="'+esc(SUPPORT_URL)+'" target="_blank" rel="noopener noreferrer">♡ '+t('support')+'</a>' : '';
-  return '<footer class="foot"><p>'+t('footer')+'</p><nav aria-label="Footer"><button class="foot-link" data-a="info" data-info="privacy">'+t('privacy')+'</button><button class="foot-link" data-a="info" data-info="legal">'+t('legal')+'</button><a class="foot-link" href="'+(LANG==='zh'?'zh-cn/':'en/')+'">'+t('guide')+'</a><a class="foot-link" href="privacy/">'+t('privacyFull')+'</a><a class="foot-link" href="unofficial-notice/">'+t('legalFull')+'</a>'+support+'<a class="foot-link" href="https://github.com/LorraineWong/avalon" target="_blank" rel="noopener noreferrer">GitHub</a></nav></footer>';
+  return '<footer class="foot"><p>'+t('footer')+'</p><nav aria-label="Footer"><button class="foot-link" data-a="info" data-info="privacy">'+t('privacy')+'</button><button class="foot-link" data-a="info" data-info="legal">'+t('legal')+'</button><a class="foot-link" href="'+guideRoute()+'">'+t('guide')+'</a><a class="foot-link" href="privacy/">'+t('privacyFull')+'</a><a class="foot-link" href="unofficial-notice/">'+t('legalFull')+'</a>'+support+'<a class="foot-link" href="https://github.com/LorraineWong/avalon" target="_blank" rel="noopener noreferrer">GitHub</a></nav></footer>';
 }
 function roleGuide(r, count=1){
   return '<div class="role-guide '+side(r)+'">'+roleArt(r,'guide-art')+'<span><b class="'+(side(r)==='good'?'res-s':'res-f')+'">'+rName(r)+(count>1?' ×'+count:'')+'</b><br><span class="muted">'+rDesc(r)+'</span></span></div>';
@@ -954,9 +965,9 @@ function currentLineupContent(){
   return '<section class="current-lineup-guide"><div class="lineup-guide-head"><div><h3>'+ic('users')+' '+t('currentLineup')+' · '+n+'</h3><p>'+t('lineupHint')+(actual<5?' '+t('lineupPreview',n):'')+'</p></div><div class="lineup-totals"><span class="tag good">'+built.gd+' '+t('good')+'</span><span class="tag evil">'+built.ev+' '+t('evil')+'</span></div></div><div class="rgrid lineup-guide-grid">'+roles.map(r=>roleGuide(r,counts[r])).join('')+'</div></section>';
 }
 function setupTable(){
-  return '<section class="setup-reference"><h3>'+ic('users')+(LANG==='zh'?'人数与任务配置':'Player & Quest reference')+'</h3><div class="setup-table-wrap"><table class="setup-table"><thead><tr><th scope="col">'+t('players')+'</th><th scope="col" class="good-text">'+ic('shield')+t('good')+'</th><th scope="col" class="evil-text">'+ic('sword')+t('evil')+'</th><th scope="col">'+(LANG==='zh'?'任务队伍':'Quest teams')+'</th></tr></thead><tbody>'
+  return '<section class="setup-reference"><h3>'+ic('users')+extra('setupReference')+'</h3><div class="setup-table-wrap"><table class="setup-table"><thead><tr><th scope="col">'+t('players')+'</th><th scope="col" class="good-text">'+ic('shield')+t('good')+'</th><th scope="col" class="evil-text">'+ic('sword')+t('evil')+'</th><th scope="col">'+extra('questTeams')+'</th></tr></thead><tbody>'
     +[5,6,7,8,9,10].map(n=>'<tr><th scope="row">'+n+'</th><td class="good-text">'+(n-EVIL_N[n])+'</td><td class="evil-text">'+EVIL_N[n]+'</td><td><div class="quest-sizes">'+SIZES[n].map((size,i)=>'<span class="'+(n>=7&&i===3?'two-fails':'')+'" title="'+t('questN',i+1)+(n>=7&&i===3?' · '+t('needTwo'):'')+'">'+size+'</span>').join('')+'</div></td></tr>').join('')
-    +'</tbody></table></div><p class="setup-footnote">'+(LANG==='zh'?'队伍人数按任务 1–5 排列。7 人及以上，第 4 个任务需要两张失败牌。':'Team sizes run from Quest 1 to 5. With 7+ players, Quest 4 needs two Fail cards.')+'</p></section>';
+    +'</tbody></table></div><p class="setup-footnote">'+extra('setupFootnote')+'</p></section>';
 }
 function rulesContent(){
   const good=['merlin','percival','cleric','troublemaker','untrustworthy','lancelotGood','servant'];
@@ -986,6 +997,7 @@ function renderRulesModal(){
   requestAnimationFrame(()=>el.querySelector('.rules-close')?.focus());
 }
 function infoContent(kind){
+  if(LOCALES?.packs[LANG]?.policies) return LOCALES.packs[LANG].policies[kind];
   if(LANG==='zh' && kind==='privacy') return '<p>这个网站使用 Firebase 匿名登录来连接游戏。我们会处理随机生成的匿名账号 ID、你输入的昵称、房间状态与加密后的游戏行动。你的身份解密私钥、偏好和私人推理笔记保存在当前浏览器的 localStorage。</p><p>私人笔记不会上传 Firebase，也不会分享给房主或其他玩家；但能使用这台设备和浏览器的人可能看到它们。你可以在游戏中清空本局笔记，或清除浏览器网站资料。</p><p>游戏不要求邮箱或真实姓名，也没有广告追踪器。请不要把真实姓名或敏感资料当作昵称。新房间带有 72 小时有效期标记；已结束的游戏使用 24 小时标记。房主再次连接时会清除过期房间，维护期间也可能删除旧资料。</p><p>Firebase 和字体服务可能按其政策处理必要的网络资料（例如 IP 地址）。如需报告隐私或安全问题，请使用 GitHub 仓库 Security 页面中的私密漏洞报告功能。<a href="privacy/">查看隐私全文</a>。</p>';
   if(LANG==='zh') return '<p>Avalon Online 是免费的非官方粉丝项目，与《抵抗组织：阿瓦隆》的设计者、出版商及其他权利人不存在隶属、授权、赞助或认可关系。</p><p>相关名称、角色与游戏设定归各自权利人所有。本站代码、界面及人物插画为本项目原创，不使用官方卡牌素材。请支持正版桌游。</p><p>本项目旨在方便玩家进行线上聚会，不宣称拥有原作知识产权，也不提供官方产品的替代授权。自愿赞助（启用后）只用于网站与开发成本，不解锁游戏功能，也不代表出售或授权原作内容。</p><p>如果权利人认为本站内容存在问题，请通过 GitHub 仓库联系我们处理。<a href="unofficial-notice/">查看完整声明</a>。</p>';
   if(kind==='privacy') return '<p>This site uses Firebase Anonymous Authentication to connect games. We process a randomly generated anonymous account ID, the nickname you enter, room state, and encrypted game actions. Your role-decryption private key, preferences, and private deduction notes stay in this browser’s localStorage.</p><p>Private notes are never uploaded to Firebase or shared with the host or other players. Anyone with access to this device and browser may still see them. Clear notes in the game or remove this site’s browser data when needed.</p><p>No email or real name is required, and the site has no advertising trackers. Do not use a real name or sensitive information as your nickname. New rooms carry a 72-hour expiry marker; completed games use a 24-hour marker. The host client removes expired rooms when it reconnects, and old data may also be deleted during maintenance.</p><p>Firebase and the font provider may process necessary network data such as IP addresses under their own policies. Report privacy or security issues privately through the repository’s GitHub Security page. <a href="privacy/">Read the full privacy notice</a>.</p>';
@@ -1036,7 +1048,7 @@ function privacyCoverHtml(){
 function viewHome(){
   const last=LS.get('last');
   return '<div class="hero"><div class="hero-art hero-art-good"><img src="'+ROLE_META.merlin.art+'" alt="Merlin"></div><div class="hero-art hero-art-evil"><img src="'+ROLE_META.morgana.art+'" alt="Morgana"></div>'
-    +'<div class="hero-copy"><div class="eyebrow">THE RESISTANCE</div><div class="crest"><span>V</span></div><h1>AVALON</h1><div class="sub">'+t('tagline')+'</div><p class="hero-lead">'+t('heroLead')+'</p><p class="hero-oath">'+(LANG==='zh'?'忠诚藏于誓言，背叛隐于圆桌。':'Loyalty hides in every oath. Treachery sits at the table.')+'</p>'
+    +'<div class="hero-copy"><div class="eyebrow">'+extra('projectLabel')+'</div><div class="crest"><span>V</span></div><h1>Avalon Online</h1><div class="sub">'+t('tagline')+'</div><p class="hero-lead">'+extra('projectLead')+'</p><p class="hero-oath">'+extra('oath')+'</p>'
     +'<div class="feature"><span>'+ic('users')+' '+t('feat1')+'</span><span>'+ic('sparkle')+' '+t('feat2')+'</span><span>'+ic('device')+' '+t('feat3')+'</span><span>'+ic('lock')+' '+t('feat4')+'</span></div></div></div>'
     +(last ? '<div class="glass resume"><span>'+t('resume','<b style="letter-spacing:2px">'+esc(last)+'</b>')+'</span><button class="btn pri" data-a="resume">'+t('resumeBtn')+'</button></div>' : '')
     +'<div class="home-grid"><div class="glass card"><h2>'+t('nick')+'</h2><input class="input" id="nick" aria-label="'+t('nick')+'" maxlength="12" placeholder="'+t('nickPh')+'" value="'+esc(S.ui.nick)+'">'
@@ -1362,7 +1374,7 @@ function knowBlock(){
 }
 function historyBlock(g){
   const rounds=g.rounds||[];
-  if(!rounds.length) return '<div class="glass card log"><h3>'+t('history')+'</h3><div class="history-empty">'+ic('list')+'<b>'+t('noHistory')+'</b><p>'+(LANG==='zh'?'第一轮投票结束后，队伍、投票与任务结果会显示在这里。':'Teams, votes and Quest results appear here after the first vote.')+'</p></div></div>';
+  if(!rounds.length) return '<div class="glass card log"><h3>'+t('history')+'</h3><div class="history-empty">'+ic('list')+'<b>'+t('noHistory')+'</b><p>'+extra('historyHelp')+'</p></div></div>';
   const rows=rounds.slice().reverse().map(r=>{
     const qr=g.quests[r.q];
     const res = r.ok ? (qr && qr.r ? (qr.r==='S'?'<span class="res-s">✓ '+t('qSuccess')+'</span>':'<span class="res-f">✗ '+t('fails',qr.fails)+'</span>') : t('rOn')) : '<span class="res-r">'+t('rRejected')+'</span>';
@@ -1387,7 +1399,7 @@ function renderOverlay(){
     const m=S.mine; if(!m){ S.ov.shift(); return renderOverlay(); }
     const s=m.allegiance||side(m.role);
     h='<h2>'+ic('moon')+' '+t('nightTitle')+'</h2><p class="lead">'+t('nightLead')+'</p>'
-      +'<button type="button" class="rolecard '+(o.flipped?'flip':'')+'" data-a="flipcard" aria-label="'+(o.flipped?rName(m.role):t('flip'))+'"><span class="in"><span class="face back"><span class="card-orbit" aria-hidden="true"></span><span class="card-seal large"><img src="assets/brand-mark.svg" alt="" width="72" height="72"></span><span class="card-wordmark">AVALON</span><span class="card-secret">'+ic('lock')+(LANG==='zh'?'秘密身份':'SECRET IDENTITY')+'</span></span>'
+      +'<button type="button" class="rolecard '+(o.flipped?'flip':'')+'" data-a="flipcard" aria-label="'+(o.flipped?rName(m.role):t('flip'))+'"><span class="in"><span class="face back"><span class="card-orbit" aria-hidden="true"></span><span class="card-seal large"><img src="assets/brand-mark.svg" alt="" width="72" height="72"></span><span class="card-wordmark">AVALON</span><span class="card-secret">'+ic('lock')+extra('secretIdentity')+'</span></span>'
       +'<span class="face front '+s+'">'+roleArt(m.role,'rolecard-art')+'<span class="rolecard-caption"><span class="rs">'+ic(s==='good'?'shield':'sword')+t(s)+'</span><span class="rn">'+rName(m.role)+'</span></span></span></span></button>'
       +(o.flipped?knowBlock()+'<button class="btn pri big" style="width:100%" data-a="ovnext">'+t('gotIt')+'</button>':'<button class="btn pri big" style="width:100%" data-a="flipcard">'+t('flip')+'</button>');
   } else if(o.type==='vote'){
@@ -1426,8 +1438,8 @@ document.addEventListener('input', e=>{
   if(e.target.matches&&e.target.matches('.note-text[data-note-player]')) savePrivateNote(e.target.dataset.notePlayer,'text',e.target.value);
 });
 document.addEventListener('change', e=>{
-  if(e.target.matches('[data-site-language]')){ LANG=e.target.value; LS.set('lang',LANG); document.documentElement.lang=LANG==='zh'?'zh-CN':'en'; return render(); }
-  if(e.target.id==='siteLanguage'){ LANG=e.target.value==='en'?'en':'zh'; LS.set('lang',LANG); document.documentElement.lang=LANG==='zh'?'zh-CN':'en'; return render(); }
+  if(e.target.matches('[data-site-language]')){ LANG=validLanguage(e.target.value); LS.set('lang',LANG); document.documentElement.lang=languageTag(LANG); return render(); }
+  if(e.target.id==='siteLanguage'){ LANG=validLanguage(e.target.value); LS.set('lang',LANG); document.documentElement.lang=languageTag(LANG); return render(); }
   if(e.target.matches&&e.target.matches('.note-select[data-note-player]')){ savePrivateNote(e.target.dataset.notePlayer,'mark',e.target.value); render(); }
   if(e.target.id==='hostSuccessor'){ S.ui.hostSuccessor=e.target.value; S.ui.confirmHostTransfer=false; render(); }
 });
