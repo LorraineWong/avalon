@@ -1,0 +1,18 @@
+Avalon Online
+Copyright (c) 2026 Lorraine Wong
+
+Scope of the licence
+
+The MIT License in the LICENSE file covers the source code and documentation in
+this repository. Parts of this project were created with AI assistance; the
+licence applies to the extent the maintainer holds rights in the work.
+
+The MIT License does not cover:
+
+- Images in assets/ and docs/screenshots/ (role portraits, player avatars,
+  brand marks and previews). No licence to copy, modify or redistribute them
+  is granted. See assets/LICENSE.md.
+- Third-party libraries in vendor/, which remain under their own licences.
+  See docs/THIRD_PARTY_NOTICES.md.
+- The names, concepts and other rights of the original board game, which
+  belong to their respective owners.
