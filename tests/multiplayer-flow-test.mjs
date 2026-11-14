@@ -375,6 +375,21 @@ const cardsFor=(team,failers=[])=>Object.fromEntries(team.map(p=>[p,failers.incl
   for(const c of room.clients){ problems.push(...c.errors.map(e=>c.uid+' '+e)); c.close(); }
 }
 
+// E. An altered client bypasses maxlength and writes directly to its seat.
+{
+  const db=new FakeDB(), host=await openClient(db,{uid:'e-host'});
+  host.type('nick','Host'); host.click('a','create');
+  await until(()=>host.g&&host.S.seats[host.uid],'E: host creates lobby');
+  const path='rooms/'+host.S.code+'/seats/e-attacker';
+  db.set(path,{j:JSON.stringify({pid:'e-attacker',nick:'X'.repeat(5000),pub:host.app.ME.pub,joined:Date.now()})});
+  await until(()=>db.get(path)===null,'E: host removes oversized remote nickname');
+  assert(!host.S.seats['e-attacker'],'E: invalid remote seat is excluded from the roster');
+  db.set(path,{j:JSON.stringify({pid:'e-attacker',nick:'Valid Guest',pub:host.app.ME.pub,joined:Date.now()})});
+  await until(()=>host.S.seats['e-attacker'],'E: valid remote nickname is accepted');
+  assert(host.S.seats['e-attacker'].nick==='Valid Guest','E: normal guest remains visible');
+  problems.push(...host.errors);host.close();
+}
+
 await sleep(20);
 assert(problems.length===0,'no console errors, warnings or unhandled rejections:\n'+problems.join('\n'));
 console.log(`Multiplayer flow test: ${passed} checks passed.`);

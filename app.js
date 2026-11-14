@@ -426,6 +426,7 @@ const Net = {
     this.raw=next;
     this.online=new Set(Object.keys(v.online||{}));
     this.loaded=true;
+    if(v.game && !this.onlineRef) this.markOnline();
     clearTimeout(this.reactionTimer); this.reactionTimer=null;
     const now=Date.now(); let nextExpiry=Infinity;
     for(const x of Object.values(v.seats||{})){
@@ -487,7 +488,7 @@ const Net = {
     return Promise.all(jobs).then(()=>this.ref.child('game').remove()).catch(e=>{ console.warn('room cleanup failed', e); toast(t('writeFail')); });
   },
   markOnline(){
-    if(!this.code || !this.conn || !ME.pid) return;
+    if(!this.code || !this.conn || !ME.pid || !this.raw.has('game')) return;
     const r=this.db.ref('rooms/'+this.code+'/online/'+ME.pid);
     this.onlineRef=r;
     r.onDisconnect().remove();
@@ -530,7 +531,12 @@ function changed(){
 function sync(){
   if(S.code){
     S.game = Net.get('game');
-    S.seats = Net.prefixed('seat/');
+    const receivedSeats=Net.prefixed('seat/');
+    S.seats=Object.fromEntries(Object.entries(receivedSeats).filter(([,seat])=>validSeatNick(seat)));
+    // The host validates remote records too; modified clients bypass input maxlength.
+    if(S.game?.host===ME.pid) for(const [pid,seat] of Object.entries(receivedSeats)){
+      if(!validSeatNick(seat)) Net.pub('seat/'+pid,null);
+    }
     S.secrets = Net.prefixed('sec/');
     if(!S.game && Net.loaded){ toast(t('notFound', S.code)); return goHome(true); } // room missing or closed
     if(S.game && S.game.host===ME.pid && S.game.expires && Date.now()>S.game.expires){ Net.dropRoom().then(()=>goHome(true)); return; }
@@ -572,6 +578,9 @@ function detect(){
 }
 
 /* ================= Room actions ================= */
+function validSeatNick(seat){
+  return !!seat && typeof seat.nick==='string' && seat.nick.length<=12 && seat.nick.trim().length>0 && !/[\u0000-\u001f\u007f]/.test(seat.nick);
+}
 function cleanNick(){ return (S.ui.nick||'').trim().slice(0,12); }
 function enterRoom(code){
   S.code=code; S.view='room'; S.joinedAt=Date.now(); S.autoSeat=true; S.seen=null;
@@ -588,13 +597,14 @@ function goHome(forget){
   if(forget) LS.set('last', null);
   render();
 }
-function createRoom(){
+async function createRoom(){
   const nick=cleanNick(); if(!nick) return toast(t('needNick'));
   LS.set('nick', nick);
   const code=randCode(5);
   enterRoom(code);
   S.autoSeat=false;
-  Net.pub('game', {code, host:ME.pid, hostPub:ME.pub, status:'lobby', created:Date.now(), expires:Date.now()+ROOM_TTL_MS, settings:Object.assign({},DEFAULT_SETTINGS), gid:''});
+  await Net.pub('game', {code, host:ME.pid, hostPub:ME.pub, status:'lobby', created:Date.now(), expires:Date.now()+ROOM_TTL_MS, settings:Object.assign({},DEFAULT_SETTINGS), gid:''});
+  Net.markOnline();
   Net.pub('seat/'+ME.pid, {pid:ME.pid, nick, pub:ME.pub, joined:Date.now(), act:null});
 }
 function joinRoom(){
@@ -639,7 +649,7 @@ function renderNameModal(){
     +'<div class="row"><button class="btn ghost big" data-a="renameCancel">'+t('cancel')+'</button><button class="btn pri big" data-a="renameSave">'+t('save')+'</button></div></div></div>';
   requestAnimationFrame(()=>{ const i=$('#renameInput'); if(i){ i.focus(); try{ i.select(); }catch(e){} } });
 }
-function lobbyOrder(){ return Object.values(S.seats).sort((a,b)=>(a.joined||0)-(b.joined||0) || String(a.pid).localeCompare(b.pid)).map(s=>s.pid); }
+function lobbyOrder(){ return Object.values(S.seats).filter(validSeatNick).sort((a,b)=>(a.joined||0)-(b.joined||0) || String(a.pid).localeCompare(b.pid)).map(s=>s.pid); }
 const isHost = () => !!(S.game && S.game.host===ME.pid);
 function leaveRoom(){
   const g=S.game;

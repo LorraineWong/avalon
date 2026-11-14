@@ -31,8 +31,8 @@ for(const language of registry.languages){
  assert.ok(guide.includes('rel="canonical" href="https://lorrainewong.github.io/avalon/'+route+'/"'),id+' canonical');
  assert.equal((guide.match(/class="character-card /g)||[]).length,17,id+' guide roles');
  for(const other of registry.languages)assert.ok(guide.includes('hreflang="'+other.tag+'" href="https://lorrainewong.github.io/avalon/'+other.route+'/"'),id+' alternate '+other.id);
- assert.ok(guide.includes('locales.js?v=22'),id+' locale script');
+ assert.ok(guide.includes('locales.js?v=23'),id+' locale script');
  assert.ok(read('sitemap.xml').includes('/'+route+'/</loc>'),id+' sitemap');
 }
-assert.ok(read('service-worker.js').includes('./locales.js?v=22'),'offline locale data');
+assert.ok(read('service-worker.js').includes('./locales.js?v=23'),'offline locale data');
 console.log('Seven languages: complete messages, placeholders, markup, 17 roles, policies, guide metadata and offline shell.');

@@ -66,3 +66,7 @@ The redesign is CSS and rendering-markup only. Firebase, ECDH/AES role encryptio
 Language, display theme, online status and in-game privacy controls share a 40px height and 8px corner radius. On mobile the status is a 40px square with a visible dot and an accessible status label. Language uses a representative flag and the selected language’s abbreviation; other options show flags and native language names.
 
 Long translated headings wrap inside their component. Russian and Vietnamese headings use the interface font for consistent character coverage. Changes to language or theme preserve the current form values and selected team.
+
+## Guide section navigation
+
+The guide uses a sticky, compact section rail with `aria-current="location"` and a separate Play action. On narrow screens the section links scroll horizontally while Play stays visible. All targets are at least 40px high, use the shared theme tokens, and have inset keyboard focus. Sections reserve space below the sticky bar when reached by an anchor link.
