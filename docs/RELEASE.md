@@ -47,6 +47,13 @@ not the normal production configuration.
 
 ## Before broader promotion
 
+- **Hosting:** GitHub Pages is the current documented production address. A
+  connected Cloudflare Workers build also exists. On 14 November 2026 its
+  `main` build succeeded, but branch preview builds failed because
+  `npx wrangler preview` requires a missing `previews` configuration block.
+  Decide the intended hosting path before configuring this extra deployment;
+  do not treat its preview as a working staging environment or bypass the
+  Firebase origin restrictions to make it work.
 - **Domain:** awaiting the owner's exact purchased domain. Then configure DNS,
   Pages domain verification and HTTPS, API-key allowed referrers, Firebase auth
   domains where needed, canonical/social URLs, sitemap and redirect behavior.
@@ -71,6 +78,9 @@ not the normal production configuration.
   [playtest record](PLAYTEST.md) still identifies gaps in real-browser coverage.
   New translations also need native-speaker review. These are not claims of
   completed manual tests.
+- **Account security:** verify GitHub two-factor authentication/passkeys and
+  recovery methods in the owner's account settings. Repository API access did
+  not reveal the current 2FA state; do not mark it verified.
 - **Operations:** there is no configured external uptime/error monitoring or
   guaranteed response time. Watch Pages deployments and Firebase usage during
   initial invitations; keep an offline copy of the emergency guide and rules.
