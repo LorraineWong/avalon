@@ -2,6 +2,11 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="object-src 'none'; base-uri 'self'; form-action 'none'"
+    />
     <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
     <meta name="theme-color" content="#f6f3eb" />
     <title>Avalon Online | Free 5–10 Player Social Deduction Game</title>
@@ -46,7 +51,7 @@
     <link rel="alternate" hreflang="x-default" href="https://lorrainewong.github.io/avalon/" />
     <link rel="alternate" hreflang="zh-CN" href="https://lorrainewong.github.io/avalon/zh-cn/" />
     <link rel="alternate" hreflang="en" href="https://lorrainewong.github.io/avalon/en/" />
-    <link rel="icon" type="image/svg+xml" href="assets/brand-mark.svg?v=24" />
+    <link rel="icon" type="image/svg+xml" href="assets/brand-mark.svg?v=25" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -55,14 +60,15 @@
     />
     <link rel="preload" as="image" href="assets/roles/merlin.webp" />
     <link rel="preload" as="image" href="assets/roles/morgana.webp" />
-    <link rel="stylesheet" href="style.css?v=24" />
+    <link rel="stylesheet" href="assets/css/style.css?v=25" />
     <script type="application/ld+json">
       {"@context":"https://schema.org","@type":"VideoGame","name":"Avalon Online","alternateName":"阿瓦隆在线版","url":"https://lorrainewong.github.io/avalon/","description":"A free, unofficial browser adaptation for 5–10 players with encrypted hidden roles and no account required.","applicationCategory":"Game","gamePlatform":"Web browser","operatingSystem":"Any modern web browser","playMode":"MultiPlayer","numberOfPlayers":{"@type":"QuantitativeValue","minValue":5,"maxValue":10},"inLanguage":["en","zh-CN","zh-TW","ru","es","pt","vi"],"isAccessibleForFree":true,"image":"https://lorrainewong.github.io/avalon/assets/social-preview.png"}
     </script>
-    <link rel="stylesheet" href="site-shell.css?v=24" />
-    <link rel="stylesheet" href="theme.css?v=24" />
-    <script src="locales.js?v=24"></script>
-    <script src="site-shell.js?v=24"></script>
+    <link rel="stylesheet" href="assets/css/site-shell.css?v=25" />
+    <link rel="stylesheet" href="assets/css/theme.css?v=25" />
+    <script src="assets/js/locales.js?v=25"></script>
+    <script src="assets/js/project.js?v=25"></script>
+    <script src="assets/js/site-shell.js?v=25"></script>
     <!-- <meta name="google-site-verification" content="PASTE_CODE_HERE"> -->
     <!-- <meta name="msvalidate.01" content="PASTE_CODE_HERE"> -->
   </head>
@@ -90,6 +96,6 @@
     <script src="vendor/firebase-auth-compat.js"></script>
     <script src="vendor/firebase-database-compat.js"></script>
     <script src="vendor/qrcode.min.js"></script>
-    <script src="app.js?v=24"></script>
+    <script src="assets/js/app.js?v=25"></script>
   </body>
 </html>

@@ -5,8 +5,8 @@ import { elements } from './helpers/html.mjs';
 const read=p=>fs.readFileSync(new URL('../'+p,import.meta.url),'utf8');
 const context={window:{}};
 vm.createContext(context);
-vm.runInContext(read('locales.js'),context);
-const registry=context.window.AvalonLocales, source=read('app.js');
+vm.runInContext(read('assets/js/locales.js'),context);
+const registry=context.window.AvalonLocales, source=read('assets/js/app.js');
 const shellVersion=read('service-worker.js').match(/avalon-shell-v(\d+)/)?.[1];
 assert.ok(shellVersion,'service worker cache version');
 vm.runInContext(source.slice(source.indexOf('const I18N ='),source.indexOf('const REACTIONS ='))+source.slice(source.indexOf('const ROLE_TXT ='),source.indexOf('const ROLE_META ='))+';globalThis.base={messages:I18N,roles:ROLE_TXT};',context);
@@ -35,9 +35,9 @@ for(const language of registry.languages){
  assert.ok(links.some(link=>link.rel==='canonical'&&link.href==='https://lorrainewong.github.io/avalon/'+route+'/'),id+' canonical');
  assert.equal((guide.match(/class="character-card /g)||[]).length,17,id+' guide roles');
  for(const other of registry.languages)assert.ok(links.some(link=>link.hreflang===other.tag&&link.href==='https://lorrainewong.github.io/avalon/'+other.route+'/'),id+' alternate '+other.id);
- assert.ok(guide.includes('locales.js?v='+shellVersion),id+' locale script matches cache version');
+ assert.ok(guide.includes('assets/js/locales.js?v='+shellVersion),id+' locale script matches cache version');
  assert.ok(registry.credits[id]?.text.includes('Claude Code')&&registry.credits[id].text.includes('Codex')&&registry.credits[id].text.includes('GPT'),id+' creation credits');
  assert.ok(read('sitemap.xml').includes('/'+route+'/</loc>'),id+' sitemap');
 }
-assert.ok(read('service-worker.js').includes('./locales.js?v='+shellVersion),'offline locale data');
+assert.ok(read('service-worker.js').includes('./assets/js/locales.js?v='+shellVersion),'offline locale data');
 console.log('Seven languages: complete messages, placeholders, markup, 17 roles, policies, guide metadata and offline shell.');

@@ -2,12 +2,12 @@
 
 import { readFile } from 'node:fs/promises';
 
-const source = await readFile(new URL('../app.js', import.meta.url), 'utf8');
+const source = await readFile(new URL('../assets/js/app.js', import.meta.url), 'utf8');
 const apiKey = source.match(/apiKey:'([^']+)'/)?.[1];
 const databaseURL = source.match(/databaseURL:'([^']+)'/)?.[1];
 
 if (!apiKey || !databaseURL) {
-  throw new Error('Could not read the Firebase configuration from app.js.');
+  throw new Error('Could not read the Firebase configuration from assets/js/app.js.');
 }
 
 // The API key only accepts browser requests from allowed websites (see SECURITY.md),
@@ -53,7 +53,7 @@ async function expectStatus(name, path, method, body, token, expected) {
 }
 
 async function deleteAnonymousUser(user) {
-  await fetch(
+  const response = await fetch(
     `https://identitytoolkit.googleapis.com/v1/accounts:delete?key=${encodeURIComponent(apiKey)}`,
     {
       method: 'POST',
@@ -61,20 +61,27 @@ async function deleteAnonymousUser(user) {
       body: JSON.stringify({ idToken: user.idToken })
     }
   );
+  if (!response.ok) throw new Error(`Temporary-user cleanup failed (${response.status}).`);
 }
 
 let host;
 let guest;
+let roomCreated = false;
 
 try {
   host = await createAnonymousUser();
   guest = await createAnonymousUser();
 
+  // Inspect only our random candidate, and never clean up a room we did not create.
+  const candidate = await databaseRequest(`rooms/${room}`, 'GET', undefined, host.idToken);
+  if (candidate.status !== 200 || candidate.text !== 'null') throw new Error('Test room is not confirmed unused; stopping before any writes.');
+  await expectStatus('Room listing is denied', 'rooms', 'GET', undefined, guest.idToken, [401]);
   await expectStatus('Unauthenticated room read is denied', `rooms/${room}`, 'GET', undefined, null, [401]);
   await expectStatus('Cannot write a seat into a missing room', `rooms/${room}/seats/${guest.localId}`, 'PUT', {j:'{}'}, guest.idToken, [401]);
   await expectStatus('Cannot write presence into a missing room', `rooms/${room}/online/${guest.localId}`, 'PUT', Date.now(), guest.idToken, [401]);
   await expectStatus('Cannot write secrets into a missing room', `rooms/${room}/sec/probe`, 'PUT', {j:'{}'}, guest.idToken, [401]);
   await expectStatus('Host can create game state', `rooms/${room}/game`, 'PUT', { host: host.localId, j: '{}' }, host.idToken, [200]);
+  roomCreated = true;
   await expectStatus('Host can create own seat', `rooms/${room}/seats/${host.localId}`, 'PUT', { j: '{}' }, host.idToken, [200]);
   await expectStatus('Authenticated guest can read a known room', `rooms/${room}`, 'GET', undefined, guest.idToken, [200]);
   await expectStatus('Guest cannot overwrite game state', `rooms/${room}/game`, 'PUT', { host: host.localId, j: '{}' }, guest.idToken, [401]);
@@ -84,17 +91,31 @@ try {
   await expectStatus('Guest cannot spoof another presence record', `rooms/${room}/online/${host.localId}`, 'PUT', Date.now(), guest.idToken, [401]);
   await expectStatus('Guest can write own presence record', `rooms/${room}/online/${guest.localId}`, 'PUT', Date.now(), guest.idToken, [200]);
 } finally {
-  if (host && guest) {
-    await databaseRequest(`rooms/${room}/online/${guest.localId}`, 'DELETE', undefined, guest.idToken);
-    await databaseRequest(`rooms/${room}/seats/${guest.localId}`, 'DELETE', undefined, host.idToken);
+  const cleanupErrors = [];
+  async function clean(path, token) {
+    try {
+      const result = await databaseRequest(path, 'DELETE', undefined, token);
+      if (result.status !== 200) throw new Error(`Temporary-room cleanup failed (${result.status}).`);
+    } catch (error) { cleanupErrors.push(error.message); }
   }
-  if (host) {
-    await databaseRequest(`rooms/${room}/online/${host.localId}`, 'DELETE', undefined, host.idToken);
-    await databaseRequest(`rooms/${room}/seats/${host.localId}`, 'DELETE', undefined, host.idToken);
-    await databaseRequest(`rooms/${room}/sec`, 'DELETE', undefined, host.idToken);
-    await databaseRequest(`rooms/${room}/game`, 'DELETE', undefined, host.idToken);
+  if (roomCreated) {
+    if (guest) {
+      await clean(`rooms/${room}/online/${guest.localId}`, guest.idToken);
+      await clean(`rooms/${room}/seats/${guest.localId}`, host.idToken);
+    }
+    await clean(`rooms/${room}/online/${host.localId}`, host.idToken);
+    await clean(`rooms/${room}/seats/${host.localId}`, host.idToken);
+    // Secret writes are denied in this test; no secret record was created.
+    await clean(`rooms/${room}/game`, host.idToken);
+    try {
+      const removed = await databaseRequest(`rooms/${room}`, 'GET', undefined, host.idToken);
+      if (removed.status !== 200 || removed.text !== 'null') cleanupErrors.push('Temporary room removal was not verified.');
+    } catch { cleanupErrors.push('Temporary room cleanup verification failed.'); }
   }
-  await Promise.allSettled(users.map(deleteAnonymousUser));
+  const deleted = await Promise.allSettled(users.map(deleteAnonymousUser));
+  for (const result of deleted) if (result.status === 'rejected') cleanupErrors.push(result.reason.message);
+  if (cleanupErrors.length) throw new Error(cleanupErrors.join(' '));
+  console.log('Temporary users removed; test room ' + (roomCreated ? 'removal verified.' : 'was not created.'));
 }
 
 console.table(results);

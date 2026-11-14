@@ -55,10 +55,13 @@ not the normal production configuration.
   Decide the intended hosting path before configuring this extra deployment;
   do not treat its preview as a working staging environment or bypass the
   Firebase origin restrictions to make it work.
-- **Domain:** awaiting the owner's exact purchased domain. Then configure DNS,
+- **Domain:** the owner has purchased `lorrainewong.dev` through Cloudflare and
+  intends to use `avalon.lorrainewong.dev` for the game. It is not connected yet;
+  follow [the cutover guide](DOMAIN_SETUP.md). Then configure DNS,
   Pages domain verification and HTTPS, API-key allowed referrers, Firebase auth
   domains where needed, canonical/social URLs, sitemap and redirect behavior.
-  Verify the final site before retiring the old address. Never guess a domain.
+  Verify the final site and old-link redirects before announcing the new address.
+  Browser identities/keys do not migrate across origins; coordinate a quiet cutover.
 - **Capacity:** the Firebase project stays on Spark. Review Authentication and
   Realtime Database usage in the Firebase console before inviting a large group.
   This project has no measured concurrent-player capacity or production load
@@ -89,3 +92,7 @@ not the normal production configuration.
   guaranteed response time. Watch Pages deployments and Firebase usage during
   initial invitations; keep an offline copy of the emergency guide and rules.
   The private vulnerability report is the supported security contact channel.
+
+See [launch readiness](LAUNCH_READINESS.md) for the dated checks and remaining
+external setup. The purchased domain is not evidence that DNS/TLS or Firebase
+origin configuration is complete.

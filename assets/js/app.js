@@ -381,8 +381,7 @@ const FIREBASE_CONFIG = (typeof window!=='undefined' && window.AVALON_FIREBASE) 
   messagingSenderId:'282689238789',
   appId:'1:282689238789:web:44b4f71ad48559c88d296c'
 };
-// Set this before app.js to show a support button, e.g. window.AVALON_SUPPORT_URL='https://ko-fi.com/yourname'.
-const SUPPORT_URL = (typeof window!=='undefined' && window.AVALON_SUPPORT_URL) || '';
+// Support and contact links are maintained in assets/js/project.js.
 const ROOM_TTL_MS = 72 * 60 * 60 * 1000;
 const END_TTL_MS = 24 * 60 * 60 * 1000;
 const Net = {
@@ -959,7 +958,7 @@ function topBar(){
 }
 function siteFooter(){
   if(typeof AvalonShell!=='undefined') return AvalonShell.footer(LANG,'./');
-  const support = SUPPORT_URL ? '<a class="foot-link support-link" href="'+esc(SUPPORT_URL)+'" target="_blank" rel="noopener noreferrer">♡ '+t('support')+'</a>' : '';
+  const support = window.AvalonProject ? '<a class="foot-link" href="support/">'+esc(window.AvalonProject.title(LANG))+'</a>' : '';
   return '<footer class="foot"><p>'+t('footer')+'</p><nav aria-label="Footer"><button class="foot-link" data-a="info" data-info="privacy">'+t('privacy')+'</button><button class="foot-link" data-a="info" data-info="legal">'+t('legal')+'</button><a class="foot-link" href="'+guideRoute()+'">'+t('guide')+'</a><a class="foot-link" href="privacy/">'+t('privacyFull')+'</a><a class="foot-link" href="unofficial-notice/">'+t('legalFull')+'</a>'+support+'<a class="foot-link" href="https://github.com/LorraineWong/avalon" target="_blank" rel="noopener noreferrer">GitHub</a></nav></footer>';
 }
 function roleGuide(r, count=1){

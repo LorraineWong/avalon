@@ -1,40 +1,65 @@
-# Voluntary support page — draft
+# Voluntary support page
 
-No payment page or collection link is enabled. The provider and final URL have
-not been supplied by the maintainer. Keep the support entry hidden until then.
+The seven-language [about and support page](../support/) is public. It explains
+the game's origin, free play, intended use of support, AI creation credits and
+unofficial status. Contact links are the approved GitHub and LinkedIn profiles;
+no personal email is published. A payment provider/account URL has not been
+selected, so the page clearly says financial support is not open yet.
 
-## Proposed page
+## Implementation
 
-Use “Support Avalon Online” / “支持 Avalon Online” as the title, with one short
-introduction, a clear use-of-funds explanation and one external support button.
-Place the entry in the site menu and footer, without interrupting a live game.
-Core gameplay stays free; do not create donor-only roles, voting advantages or
-paid access to the original game's material.
+`assets/js/project.js` contains the story/translations and approved contact
+URLs. Its `config.support` is empty until the owner provides a verified HTTPS
+payment-page URL. The page is linked from the shared menu/footer and game
+fallback footer. The static English fallback must be kept aligned with the
+rendered page, including payment state and contact links.
 
-Suggested introduction:
+Payment data stays on the provider. Do not add an embedded widget, donor
+identity storage, public donor list or gameplay benefits. Gameplay remains free.
 
-> If Avalon Online helped your game night, you can voluntarily support its
-> maintenance. Support helps with domain renewals, development and any future
-> necessary service costs. Hosting and Firebase currently use free plans.
-> No payment is needed to play, and support unlocks no extra features.
+## Initial recommendation, checked 14 November 2026
 
-> 如果 Avalon Online 帮你们组织了一场开心的游戏，可以自愿支持项目维护。
-> 支持款项可用于域名续费、开发维护及未来必要的服务支出。目前网站托管与
-> Firebase 使用免费方案。游戏无需付款，支持也不会解锁额外功能。
+Start with voluntary one-time support on Ko-fi Free, subject to payment-account eligibility. The owner confirmed Malaysian personal/
+bank-account collection; individual provider approval is still required. Ko-fi's official fees page
+shows 0% platform fee for one-off tips on Free and 5% on Standard; processor and
+currency-conversion fees are separate. Inspect the actual account's mode and
+turn off optional Standard / “Get all of Ko-fi” if Free is intended. Do not buy a
+subscription to accept the first contributions.
 
-Include the creation credits and unofficial fan-project notice. Payment data
-should stay with the selected payment provider; do not collect card details or
-store donor identities in game rooms. Avoid public donor lists by default.
+GitHub Sponsors is an alternative for eligible open-source contributors in
+supported regions. It currently charges no fee for sponsorship from personal
+accounts and up to 6% for organization sponsorship. Malaysia and Singapore are
+on the published supported-region list; this is not confirmation of the owner's
+residence or individual approval. The source/docs MIT scope is separate from
+the image exclusion and original game rights.
 
-## Before enabling
+A creator's real country, bank, identity verification and tax details belong
+with the provider, not in this repository. Do not choose a fictitious country
+to unlock features or accept provider agreements for the owner.
 
-- The maintainer supplies the final provider and account URL. Check that it can
-  receive funds for the maintainer's country and that fees and payout terms are
-  understood; no provider has been selected in this draft.
-- Prefer a simple voluntary one-time support flow. Do not preselect recurring
-  payments; use the provider's actual terms for payments/refunds.
-- Translate the final page and menu entry into all seven supported languages.
-- Wire both shared `AvalonShell` navigation/footer and the game's fallback
-  footer. Merely setting `AVALON_SUPPORT_URL` currently affects only the fallback
-  footer; the normal shared footer does not consume that setting.
-- Test the link, mobile layout, both themes and privacy notice before enabling.
+## Privacy and activation checklist
+
+1. The owner completes provider signup/identity and any required payment
+   account setup, reviews the terms, then supplies the exact public URL.
+2. Check what a supporter sees on checkout and receipts. Ko-fi says personal
+   PayPal commonly exposes the creator's legal name and email. Stripe's visible
+   statement descriptor and public business/support fields also need review;
+   do not promise anonymity. Use an appropriate separate support address if
+   required by the provider, while keeping the personal email off this site.
+3. Verify one-time is the intended flow. Show amount/currency and avoid a
+   preselected recurring commitment. Confirm fees, conversion, payouts, refunds
+   and contact method in the provider interface. Do not claim tax-deductibility.
+4. Update `config.support`, the static page fallback, privacy disclosures and
+   terms in all seven languages to match the actual service. Any retained
+   donation/refund wording must be reconciled before receiving payments.
+5. Verify mobile/desktop, both themes, external link destination and receipt
+   details. Any real test payment must be made by the owner; never charge a
+   card just to test the button.
+6. Add `.github/FUNDING.yml` only when the selected account is ready. No guessed
+   Ko-fi username or unapproved GitHub Sponsors URL should be published.
+
+Sources:
+
+- [Ko-fi fees](https://help.ko-fi.com/hc/en-us/articles/360002506494-Does-Ko-fi-take-a-fee)
+- [Ko-fi creator privacy and payment-provider disclosure](https://help.ko-fi.com/hc/en-us/articles/115004001294-What-personal-information-is-shared-on-Ko-fi-as-a-creator)
+- [GitHub Sponsors fees and supported regions](https://docs.github.com/en/sponsors/getting-started-with-github-sponsors/about-github-sponsors)

@@ -1,8 +1,8 @@
 import fs from 'node:fs';
 import assert from 'node:assert/strict';
 
-const js = fs.readFileSync(new URL('../app.js', import.meta.url), 'utf8');
-const css = fs.readFileSync(new URL('../style.css', import.meta.url), 'utf8');
+const js = fs.readFileSync(new URL('../assets/js/app.js', import.meta.url), 'utf8');
+const css = fs.readFileSync(new URL('../assets/css/style.css', import.meta.url), 'utf8');
 const html = fs.readFileSync(new URL('../index.html', import.meta.url), 'utf8');
 const sw = fs.readFileSync(new URL('../service-worker.js', import.meta.url), 'utf8');
 

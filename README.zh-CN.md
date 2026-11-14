@@ -18,6 +18,22 @@
 - 手机与桌面适配，浅色／深色主题，七种语言切换（英文、简体中文、繁体中文、俄文、西班牙文、葡萄牙文、越南文）。
 - 身份与行动加密、本地推理笔记、断线重连及房主转移。
 
+## 为什么做这个作品
+
+和同事或朋友聚会时，我们想玩阿瓦隆，却不一定带着卡牌。我试过一些线上版本，
+有的界面不顺手、有的需要注册账号，玩着玩着也遇到过 bug。于是想试试用 AI
+做一个自己的版本：打开房间就能玩，不用注册玩家账号。
+
+[关于与支持](https://lorrainewong.github.io/avalon/support/) ·
+[GitHub](https://github.com/LorraineWong) ·
+[LinkedIn](https://www.linkedin.com/in/lorrainewongyiting/)
+
+暂未开放收款。欢迎分享游戏、报告问题或提出建议；游戏保持免费。
+
+运行脚本统一放在 `assets/js/`，样式放在 `assets/css/`。根目录保留首页、PWA
+入口和贡献／许可文件，玩法指南的七语言公开 URL 保持不变。目录职责见
+[维护说明](docs/MAINTENANCE.md)。
+
 ## 本地开发
 
 使用原生 HTML、CSS 和 JavaScript，无需构建或安装依赖。
