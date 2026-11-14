@@ -23,7 +23,7 @@ The regular home page connects to the configured Firebase project. Use a separat
 
 Enable Anonymous Authentication and Realtime Database. Define `window.AVALON_FIREBASE` before loading `app.js` to override the checked-in Firebase configuration. Deploy `firebase/database.rules.json` to that project.
 
-The host browser runs the game engine; Firebase synchronizes public state, online presence and encrypted private payloads. Players generate ECDH P-256 keys in their browsers; AES-GCM protects roles and actions. An explicit host handoff re-encrypts the master role map for the successor. An unexpected host disconnect requires the original host to reconnect.
+See [ARCHITECTURE.md](ARCHITECTURE.md) for the database layout, game phases and turn flow. The host browser runs the game engine; Firebase synchronizes public state, online presence and encrypted private payloads. Players generate ECDH P-256 keys in their browsers; AES-GCM protects roles and actions. An explicit host handoff re-encrypts the master role map for the successor. An unexpected host disconnect requires the original host to reconnect.
 
 The Firebase Web API key is a public project identifier. Access control depends on authentication and database rules. See the [security policy](../.github/SECURITY.md).
 
