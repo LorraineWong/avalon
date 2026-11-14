@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import vm from 'node:vm';
+import { elements } from './helpers/html.mjs';
 const read=p=>fs.readFileSync(new URL('../'+p,import.meta.url),'utf8');
 const context={window:{}};
 vm.createContext(context);
@@ -30,9 +31,10 @@ for(const language of registry.languages){
  }
  const guide=read(route+'/index.html');
  assert.ok(guide.includes('<html lang="'+tag+'">'),id+' HTML language');
- assert.ok(guide.includes('rel="canonical" href="https://lorrainewong.github.io/avalon/'+route+'/"'),id+' canonical');
+ const links=elements(guide,'link');
+ assert.ok(links.some(link=>link.rel==='canonical'&&link.href==='https://lorrainewong.github.io/avalon/'+route+'/'),id+' canonical');
  assert.equal((guide.match(/class="character-card /g)||[]).length,17,id+' guide roles');
- for(const other of registry.languages)assert.ok(guide.includes('hreflang="'+other.tag+'" href="https://lorrainewong.github.io/avalon/'+other.route+'/"'),id+' alternate '+other.id);
+ for(const other of registry.languages)assert.ok(links.some(link=>link.hreflang===other.tag&&link.href==='https://lorrainewong.github.io/avalon/'+other.route+'/'),id+' alternate '+other.id);
  assert.ok(guide.includes('locales.js?v='+shellVersion),id+' locale script matches cache version');
  assert.ok(registry.credits[id]?.text.includes('Claude Code')&&registry.credits[id].text.includes('Codex')&&registry.credits[id].text.includes('GPT'),id+' creation credits');
  assert.ok(read('sitemap.xml').includes('/'+route+'/</loc>'),id+' sitemap');

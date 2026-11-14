@@ -1,58 +1,95 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#f6f3eb">
-<title>Avalon Online | Free 5–10 Player Social Deduction Game</title>
-<meta name="description" content="Play Avalon online for free with 5–10 friends. No sign-up or download. Private rooms, illustrated roles, and seven languages on phone and desktop.">
-<link rel="canonical" href="https://lorrainewong.github.io/avalon/">
-<meta property="og:title" content="Avalon Online | Free 5–10 Player Social Deduction Game">
-<meta property="og:description" content="Gather your friends, share a room code, and uncover the traitors. No sign-up or download.">
-<meta property="og:type" content="website">
-<meta property="og:locale" content="en_US">
-<meta property="og:locale:alternate" content="zh_CN">
-<meta property="og:url" content="https://lorrainewong.github.io/avalon/">
-<meta property="og:image" content="https://lorrainewong.github.io/avalon/assets/social-preview.png">
-<meta property="og:image:alt" content="Avalon Online — free unofficial fan project for 5–10 friends">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Avalon Online | Free to Play">
-<meta name="twitter:description" content="Private rooms for 5–10 friends. Play in seven languages on any phone or desktop.">
-<meta name="twitter:image" content="https://lorrainewong.github.io/avalon/assets/social-preview.png">
-<link rel="manifest" href="manifest.webmanifest">
-<link rel="alternate" hreflang="zh-TW" href="https://lorrainewong.github.io/avalon/zh-tw/">
-<link rel="alternate" hreflang="ru" href="https://lorrainewong.github.io/avalon/ru/">
-<link rel="alternate" hreflang="es" href="https://lorrainewong.github.io/avalon/es/">
-<link rel="alternate" hreflang="pt" href="https://lorrainewong.github.io/avalon/pt/">
-<link rel="alternate" hreflang="vi" href="https://lorrainewong.github.io/avalon/vi/">
-<link rel="alternate" hreflang="x-default" href="https://lorrainewong.github.io/avalon/">
-<link rel="alternate" hreflang="zh-CN" href="https://lorrainewong.github.io/avalon/zh-cn/">
-<link rel="alternate" hreflang="en" href="https://lorrainewong.github.io/avalon/en/">
-<link rel="icon" type="image/svg+xml" href="assets/brand-mark.svg?v=24">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700&family=Noto+Serif+SC:wght@500;600;700&display=swap" rel="stylesheet">
-<link rel="preload" as="image" href="assets/roles/merlin.webp">
-<link rel="preload" as="image" href="assets/roles/morgana.webp">
-<link rel="stylesheet" href="style.css?v=24">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"VideoGame","name":"Avalon Online","alternateName":"阿瓦隆在线版","url":"https://lorrainewong.github.io/avalon/","description":"A free, unofficial browser adaptation for 5–10 players with encrypted hidden roles and no account required.","applicationCategory":"Game","gamePlatform":"Web browser","operatingSystem":"Any modern web browser","playMode":"MultiPlayer","numberOfPlayers":{"@type":"QuantitativeValue","minValue":5,"maxValue":10},"inLanguage":["en","zh-CN","zh-TW","ru","es","pt","vi"],"isAccessibleForFree":true,"image":"https://lorrainewong.github.io/avalon/assets/social-preview.png"}</script>
-<link rel="stylesheet" href="site-shell.css?v=24"><link rel="stylesheet" href="theme.css?v=24"><script src="locales.js?v=24"></script><script src="site-shell.js?v=24"></script><!-- <meta name="google-site-verification" content="PASTE_CODE_HERE"> -->
-<!-- <meta name="msvalidate.01" content="PASTE_CODE_HERE"> -->
-</head>
-<body>
-<noscript><main class="noscript"><h1>Avalon Online · 阿瓦隆在线版</h1><p>A free, unofficial 5–10 player social-deduction game. 免费、无需注册的 5–10 人在线阿瓦隆。</p><p>This game requires JavaScript for encrypted multiplayer play. 游戏需要启用 JavaScript。</p></main></noscript>
-<div id="app"></div>
-<div id="ov"></div>
-<div id="rulesModal"></div>
-<div id="infoModal"></div>
-<div id="qrModal"></div>
-<div id="confirmModal"></div>
-<div id="nameModal"></div>
-<div id="toast" class="toast hidden" role="status" aria-live="polite" aria-atomic="true"></div>
-<script src="vendor/firebase-app-compat.js"></script>
-<script src="vendor/firebase-auth-compat.js"></script>
-<script src="vendor/firebase-database-compat.js"></script>
-<script src="vendor/qrcode.min.js"></script>
-<script src="app.js?v=24"></script>
-</body>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+    <meta name="theme-color" content="#f6f3eb" />
+    <title>Avalon Online | Free 5–10 Player Social Deduction Game</title>
+    <meta
+      name="description"
+      content="Play Avalon online for free with 5–10 friends. No sign-up or download. Private rooms, illustrated roles, and seven languages on phone and desktop."
+    />
+    <link rel="canonical" href="https://lorrainewong.github.io/avalon/" />
+    <meta property="og:title" content="Avalon Online | Free 5–10 Player Social Deduction Game" />
+    <meta
+      property="og:description"
+      content="Gather your friends, share a room code, and uncover the traitors. No sign-up or download."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:locale:alternate" content="zh_CN" />
+    <meta property="og:url" content="https://lorrainewong.github.io/avalon/" />
+    <meta
+      property="og:image"
+      content="https://lorrainewong.github.io/avalon/assets/social-preview.png"
+    />
+    <meta
+      property="og:image:alt"
+      content="Avalon Online — free unofficial fan project for 5–10 friends"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Avalon Online | Free to Play" />
+    <meta
+      name="twitter:description"
+      content="Private rooms for 5–10 friends. Play in seven languages on any phone or desktop."
+    />
+    <meta
+      name="twitter:image"
+      content="https://lorrainewong.github.io/avalon/assets/social-preview.png"
+    />
+    <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="alternate" hreflang="zh-TW" href="https://lorrainewong.github.io/avalon/zh-tw/" />
+    <link rel="alternate" hreflang="ru" href="https://lorrainewong.github.io/avalon/ru/" />
+    <link rel="alternate" hreflang="es" href="https://lorrainewong.github.io/avalon/es/" />
+    <link rel="alternate" hreflang="pt" href="https://lorrainewong.github.io/avalon/pt/" />
+    <link rel="alternate" hreflang="vi" href="https://lorrainewong.github.io/avalon/vi/" />
+    <link rel="alternate" hreflang="x-default" href="https://lorrainewong.github.io/avalon/" />
+    <link rel="alternate" hreflang="zh-CN" href="https://lorrainewong.github.io/avalon/zh-cn/" />
+    <link rel="alternate" hreflang="en" href="https://lorrainewong.github.io/avalon/en/" />
+    <link rel="icon" type="image/svg+xml" href="assets/brand-mark.svg?v=24" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700&family=Noto+Serif+SC:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="preload" as="image" href="assets/roles/merlin.webp" />
+    <link rel="preload" as="image" href="assets/roles/morgana.webp" />
+    <link rel="stylesheet" href="style.css?v=24" />
+    <script type="application/ld+json">
+      {"@context":"https://schema.org","@type":"VideoGame","name":"Avalon Online","alternateName":"阿瓦隆在线版","url":"https://lorrainewong.github.io/avalon/","description":"A free, unofficial browser adaptation for 5–10 players with encrypted hidden roles and no account required.","applicationCategory":"Game","gamePlatform":"Web browser","operatingSystem":"Any modern web browser","playMode":"MultiPlayer","numberOfPlayers":{"@type":"QuantitativeValue","minValue":5,"maxValue":10},"inLanguage":["en","zh-CN","zh-TW","ru","es","pt","vi"],"isAccessibleForFree":true,"image":"https://lorrainewong.github.io/avalon/assets/social-preview.png"}
+    </script>
+    <link rel="stylesheet" href="site-shell.css?v=24" />
+    <link rel="stylesheet" href="theme.css?v=24" />
+    <script src="locales.js?v=24"></script>
+    <script src="site-shell.js?v=24"></script>
+    <!-- <meta name="google-site-verification" content="PASTE_CODE_HERE"> -->
+    <!-- <meta name="msvalidate.01" content="PASTE_CODE_HERE"> -->
+  </head>
+  <body>
+    <noscript
+      ><main class="noscript">
+        <h1>Avalon Online · 阿瓦隆在线版</h1>
+        <p>
+          A free, unofficial 5–10 player social-deduction game. 免费、无需注册的 5–10 人在线阿瓦隆。
+        </p>
+        <p>
+          This game requires JavaScript for encrypted multiplayer play. 游戏需要启用 JavaScript。
+        </p>
+      </main></noscript
+    >
+    <div id="app"></div>
+    <div id="ov"></div>
+    <div id="rulesModal"></div>
+    <div id="infoModal"></div>
+    <div id="qrModal"></div>
+    <div id="confirmModal"></div>
+    <div id="nameModal"></div>
+    <div id="toast" class="toast hidden" role="status" aria-live="polite" aria-atomic="true"></div>
+    <script src="vendor/firebase-app-compat.js"></script>
+    <script src="vendor/firebase-auth-compat.js"></script>
+    <script src="vendor/firebase-database-compat.js"></script>
+    <script src="vendor/qrcode.min.js"></script>
+    <script src="app.js?v=24"></script>
+  </body>
 </html>

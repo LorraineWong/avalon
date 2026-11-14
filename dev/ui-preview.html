@@ -1,118 +1,126 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
-<head>
-<meta charset="utf-8">
-<base href="../">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="robots" content="noindex">
-<title>Avalon UI preview (offline, fake data)</title>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700&family=Noto+Serif+SC:wght@500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
-<link rel="stylesheet" href="site-shell.css?v=24"><link rel="stylesheet" href="theme.css?v=24"><script src="locales.js?v=24"></script><script src="site-shell.js?v=24"></script><link rel="icon" type="image/svg+xml" href="assets/brand-mark.svg?v=24"></head>
-<body>
-<div id="app"></div>
-<div id="ov"></div>
-<div id="rulesModal"></div>
-<div id="infoModal"></div>
-<div id="qrModal"></div>
-<div id="confirmModal"></div>
-<div id="nameModal"></div>
-<div id="toast" class="toast hidden" role="status" aria-live="polite" aria-atomic="true"></div>
-<script>
-/* Developer-only preview. Replaces Firebase with an in-memory tree so any screen
- * can be inspected without a network or a real room.
- *   dev/ui-preview.html?state=home|lobby|night|propose|wait|vote|quest|assassin|end
- *   &n=5..10  &host=0|1  &lang=zh|en  &tool=history|notes|host|react  &peek=1  &long=1 (long nicknames) */
-(function(){
-  const tree={}, subs=[];
-  const parts=p=>p.split('/').filter(Boolean);
-  const read=p=>parts(p).reduce((o,k)=>(o==null?o:o[k]),tree);
-  function write(p,v){
-    const ks=parts(p), last=ks.pop(); let o=tree;
-    for(const k of ks){ if(o[k]==null||typeof o[k]!=='object') o[k]={}; o=o[k]; }
-    if(v==null) delete o[last]; else o[last]=v;
-    fire();
-  }
-  let queued=false;
-  function fire(){ if(queued) return; queued=true; setTimeout(()=>{ queued=false; subs.slice().forEach(s=>s.cb({val:()=>{ const v=read(s.path); return v==null?null:JSON.parse(JSON.stringify(v)); }})); },0); }
-  function ref(path){
-    return {
-      on(ev,cb){ if(path==='.info/connected'){ setTimeout(()=>cb({val:()=>true}),0); return; } subs.push({path,cb}); fire(); },
-      off(){ for(let i=subs.length-1;i>=0;i--) if(subs[i].path===path) subs.splice(i,1); },
-      child(p){ return ref(path+'/'+p); },
-      set(v){ write(path,v); return Promise.resolve(); },
-      remove(){ write(path,null); return Promise.resolve(); },
-      update(obj){ for(const [k,v] of Object.entries(obj)) write(path+'/'+k,v); return Promise.resolve(); },
-      transaction(fn){ const cur=read(path), next=fn(cur==null?null:cur); if(next!==undefined) write(path,next); return Promise.resolve(); },
-      onDisconnect(){ return {remove(){}, cancel(){}}; }
-    };
-  }
-  const database=()=>({ref});
-  database.ServerValue={TIMESTAMP:1};
-  window.firebase={initializeApp(){}, auth:()=>({currentUser:{uid:'me'}, signInAnonymously:async()=>({user:{uid:'me'}})}), database};
-  window.__previewTree=tree; window.__previewWrite=write;
-})();
-</script>
-<script src="vendor/qrcode.min.js"></script>
-<script src="app.js"></script>
-<script>
-(async function(){
-  const q=new URLSearchParams(location.search), state=q.get('state')||'propose', n=Math.max(1,Math.min(10,+q.get('n')||5));
-  const iAmHost=q.get('host')!=='0', long=q.get('long')==='1';
-  if(q.get('lang')){ LANG=q.get('lang'); }
-  while(!ME.pub) await new Promise(r=>setTimeout(r,30));
-  if(state==='home'){ render(); return; }
-  const names=long?['亚瑟王的忠诚骑士','Lorraine','超级长的名字测试一下','Gawain the Bold','小明','Percy','阿杰','Morgan','Tristan','伊莎贝拉']:['Lorraine','小明','Wei Jie','阿杰','Sara','Percy','Mei','Tom','伊莎','Kai'];
-  const ids=['me','p2','p3','p4','p5','p6','p7','p8','p9','p10'].slice(0,n);
-  // Put "me" in the third seat so the self marker is not trivially at the top.
-  if(n>=3){ ids.splice(0,1); ids.splice(2,0,'me'); }
-  const host=iAmHost?'me':ids[0];
-  const J=o=>({j:JSON.stringify(o)});
-  const seats={}; ids.forEach((id,i)=>seats[id]=J({pid:id,nick:names[i],pub:ME.pub,joined:1000+i,act:null}));
-  const online={}; ids.forEach((id,i)=>{ if(i!==n-1) online[id]=1; });
-  const code='DEMO1', settings=Object.assign({},DEFAULT_SETTINGS);
-  const room={seats,online};
-  if(state==='lobby'){
-    room.game={host,j:JSON.stringify({code,host,hostPub:ME.pub,status:'lobby',created:Date.now(),expires:Date.now()+ROOM_TTL_MS,settings,gid:''})};
-  } else {
-    const built=buildRoles(n,settings); if(built.err){ document.body.textContent=built.err; return; }
-    const roles={}, allegiances={}, order=ids.slice();
-    const myRole=q.get('role')||'merlin';
-    const pool=built.roles.slice(); const mi=pool.indexOf(myRole); if(mi>=0) pool.splice(mi,1); else pool.shift();
-    order.forEach(id=>{ roles[id]=id==='me'?(mi>=0?myRole:built.roles[0]):pool.shift(); allegiances[id]=side(roles[id]); });
-    const gid='PREVIEW1', pubs={}, nicks={}; order.forEach((id,i)=>{ pubs[id]=ME.pub; nicks[id]=names[i]; });
-    const sec={master:J({gid,box:await enc(ME.pub,{roles,allegiances})})};
-    sec.me=J({gid,box:await enc(ME.pub,privateRoleData('me',roles,settings,allegiances))});
-    room.sec=sec;
-    const sizes=SIZES[n], quests=sizes.map((size,i)=>({size,two:(i===3&&n>=7),r:null,fails:null,team:null}));
-    const votesAll=ok=>Object.fromEntries(order.map((u,i)=>[u,ok?i!==1:i<2]));
-    const g={code,host,hostPub:ME.pub,created:Date.now(),expires:Date.now()+ROOM_TTL_MS,settings,status:'play',gid,order,pubs,nicks,n,
-      phase:'propose',q:0,att:1,leader:order.indexOf('me'),team:[],excaliburHolder:null,step:gid+':propose:0:1',quests,rounds:[],lady:null,loyalty:null,lancelot:null,revealed:[],events:[],winner:null,reason:'',roles:null,assassinPick:null,started:Date.now()};
-    const played=k=>{ // fill k finished quests with history
-      for(let i=0;i<k;i++){
-        const team=order.slice(i,i+sizes[i]).concat(order.slice(0,Math.max(0,i+sizes[i]-n)));
-        const r=(i===1||i===2)?'F':'S';
-        g.rounds.push({q:i,att:1,leader:order[i%n],team,votes:votesAll(false),ok:false});
-        g.rounds.push({q:i,att:2,leader:order[(i+1)%n],team,votes:votesAll(true),ok:true});
-        g.quests[i]=Object.assign({},g.quests[i],{r,fails:r==='F'?1:0,team});
-      }
-      g.q=Math.min(k,4);
-    };
-    if(state!=='night') localStorage.setItem('lwav.night.'+gid,'1'); else localStorage.removeItem('lwav.night.'+gid);
-    if(state==='wait'){ g.leader=(order.indexOf('me')+1)%n; }
-    if(state==='vote'){ played(2); g.phase='vote'; g.team=order.slice(0,sizes[2]); g.step=gid+':vote:2:1'; }
-    if(state==='quest'){ played(2); g.phase='quest'; g.team=order.slice(1,1+sizes[2]); if(!g.team.includes('me')) g.team[0]='me'; g.step=gid+':quest:2:1'; g.rounds.push({q:2,att:1,leader:order[0],team:g.team,votes:votesAll(true),ok:true}); }
-    if(state==='assassin'){ played(5); g.phase='assassin'; g.step=gid+':assassin'; }
-    if(state==='end'){ played(5); g.status='end'; g.phase='end'; g.winner='good'; g.reason='rmiss'; g.roles=roles; g.allegiances=allegiances; g.assassinPick=order.find(u=>roles[u]==='servant')||order[1]; g.step=gid+':end'; }
-    room.game={host,j:JSON.stringify(g)};
-  }
-  window.__previewWrite('rooms/'+code,room);
-  if(q.get('tool')){ S.ui.tool=q.get('tool'); S.ui.notesOpen=S.ui.tool==='notes'; }
-  if(q.get('peek')==='1') S.peek=true;
-  enterRoom(code);
-  S.autoSeat=false;
-  S.joinedAt=Date.now();
-})();
-</script>
-</body>
+  <head>
+    <meta charset="utf-8" />
+    <base href="../" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+    <meta name="robots" content="noindex" />
+    <title>Avalon UI preview (offline, fake data)</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700&family=Noto+Serif+SC:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="site-shell.css?v=24" />
+    <link rel="stylesheet" href="theme.css?v=24" />
+    <script src="locales.js?v=24"></script>
+    <script src="site-shell.js?v=24"></script>
+    <link rel="icon" type="image/svg+xml" href="assets/brand-mark.svg?v=24" />
+  </head>
+  <body>
+    <div id="app"></div>
+    <div id="ov"></div>
+    <div id="rulesModal"></div>
+    <div id="infoModal"></div>
+    <div id="qrModal"></div>
+    <div id="confirmModal"></div>
+    <div id="nameModal"></div>
+    <div id="toast" class="toast hidden" role="status" aria-live="polite" aria-atomic="true"></div>
+    <script>
+      /* Developer-only preview. Replaces Firebase with an in-memory tree so any screen
+       * can be inspected without a network or a real room.
+       *   dev/ui-preview.html?state=home|lobby|night|propose|wait|vote|quest|assassin|end
+       *   &n=5..10  &host=0|1  &lang=zh|en  &tool=history|notes|host|react  &peek=1  &long=1 (long nicknames) */
+      (function(){
+        const tree={}, subs=[];
+        const parts=p=>p.split('/').filter(Boolean);
+        const read=p=>parts(p).reduce((o,k)=>(o==null?o:o[k]),tree);
+        function write(p,v){
+          const ks=parts(p), last=ks.pop(); let o=tree;
+          for(const k of ks){ if(o[k]==null||typeof o[k]!=='object') o[k]={}; o=o[k]; }
+          if(v==null) delete o[last]; else o[last]=v;
+          fire();
+        }
+        let queued=false;
+        function fire(){ if(queued) return; queued=true; setTimeout(()=>{ queued=false; subs.slice().forEach(s=>s.cb({val:()=>{ const v=read(s.path); return v==null?null:JSON.parse(JSON.stringify(v)); }})); },0); }
+        function ref(path){
+          return {
+            on(ev,cb){ if(path==='.info/connected'){ setTimeout(()=>cb({val:()=>true}),0); return; } subs.push({path,cb}); fire(); },
+            off(){ for(let i=subs.length-1;i>=0;i--) if(subs[i].path===path) subs.splice(i,1); },
+            child(p){ return ref(path+'/'+p); },
+            set(v){ write(path,v); return Promise.resolve(); },
+            remove(){ write(path,null); return Promise.resolve(); },
+            update(obj){ for(const [k,v] of Object.entries(obj)) write(path+'/'+k,v); return Promise.resolve(); },
+            transaction(fn){ const cur=read(path), next=fn(cur==null?null:cur); if(next!==undefined) write(path,next); return Promise.resolve(); },
+            onDisconnect(){ return {remove(){}, cancel(){}}; }
+          };
+        }
+        const database=()=>({ref});
+        database.ServerValue={TIMESTAMP:1};
+        window.firebase={initializeApp(){}, auth:()=>({currentUser:{uid:'me'}, signInAnonymously:async()=>({user:{uid:'me'}})}), database};
+        window.__previewTree=tree; window.__previewWrite=write;
+      })();
+    </script>
+    <script src="vendor/qrcode.min.js"></script>
+    <script src="app.js"></script>
+    <script>
+      (async function(){
+        const q=new URLSearchParams(location.search), state=q.get('state')||'propose', n=Math.max(1,Math.min(10,+q.get('n')||5));
+        const iAmHost=q.get('host')!=='0', long=q.get('long')==='1';
+        if(q.get('lang')){ LANG=q.get('lang'); }
+        while(!ME.pub) await new Promise(r=>setTimeout(r,30));
+        if(state==='home'){ render(); return; }
+        const names=long?['亚瑟王的忠诚骑士','Lorraine','超级长的名字测试一下','Gawain the Bold','小明','Percy','阿杰','Morgan','Tristan','伊莎贝拉']:['Lorraine','小明','Wei Jie','阿杰','Sara','Percy','Mei','Tom','伊莎','Kai'];
+        const ids=['me','p2','p3','p4','p5','p6','p7','p8','p9','p10'].slice(0,n);
+        // Put "me" in the third seat so the self marker is not trivially at the top.
+        if(n>=3){ ids.splice(0,1); ids.splice(2,0,'me'); }
+        const host=iAmHost?'me':ids[0];
+        const J=o=>({j:JSON.stringify(o)});
+        const seats={}; ids.forEach((id,i)=>seats[id]=J({pid:id,nick:names[i],pub:ME.pub,joined:1000+i,act:null}));
+        const online={}; ids.forEach((id,i)=>{ if(i!==n-1) online[id]=1; });
+        const code='DEMO1', settings=Object.assign({},DEFAULT_SETTINGS);
+        const room={seats,online};
+        if(state==='lobby'){
+          room.game={host,j:JSON.stringify({code,host,hostPub:ME.pub,status:'lobby',created:Date.now(),expires:Date.now()+ROOM_TTL_MS,settings,gid:''})};
+        } else {
+          const built=buildRoles(n,settings); if(built.err){ document.body.textContent=built.err; return; }
+          const roles={}, allegiances={}, order=ids.slice();
+          const myRole=q.get('role')||'merlin';
+          const pool=built.roles.slice(); const mi=pool.indexOf(myRole); if(mi>=0) pool.splice(mi,1); else pool.shift();
+          order.forEach(id=>{ roles[id]=id==='me'?(mi>=0?myRole:built.roles[0]):pool.shift(); allegiances[id]=side(roles[id]); });
+          const gid='PREVIEW1', pubs={}, nicks={}; order.forEach((id,i)=>{ pubs[id]=ME.pub; nicks[id]=names[i]; });
+          const sec={master:J({gid,box:await enc(ME.pub,{roles,allegiances})})};
+          sec.me=J({gid,box:await enc(ME.pub,privateRoleData('me',roles,settings,allegiances))});
+          room.sec=sec;
+          const sizes=SIZES[n], quests=sizes.map((size,i)=>({size,two:(i===3&&n>=7),r:null,fails:null,team:null}));
+          const votesAll=ok=>Object.fromEntries(order.map((u,i)=>[u,ok?i!==1:i<2]));
+          const g={code,host,hostPub:ME.pub,created:Date.now(),expires:Date.now()+ROOM_TTL_MS,settings,status:'play',gid,order,pubs,nicks,n,
+            phase:'propose',q:0,att:1,leader:order.indexOf('me'),team:[],excaliburHolder:null,step:gid+':propose:0:1',quests,rounds:[],lady:null,loyalty:null,lancelot:null,revealed:[],events:[],winner:null,reason:'',roles:null,assassinPick:null,started:Date.now()};
+          const played=k=>{ // fill k finished quests with history
+            for(let i=0;i<k;i++){
+              const team=order.slice(i,i+sizes[i]).concat(order.slice(0,Math.max(0,i+sizes[i]-n)));
+              const r=(i===1||i===2)?'F':'S';
+              g.rounds.push({q:i,att:1,leader:order[i%n],team,votes:votesAll(false),ok:false});
+              g.rounds.push({q:i,att:2,leader:order[(i+1)%n],team,votes:votesAll(true),ok:true});
+              g.quests[i]=Object.assign({},g.quests[i],{r,fails:r==='F'?1:0,team});
+            }
+            g.q=Math.min(k,4);
+          };
+          if(state!=='night') localStorage.setItem('lwav.night.'+gid,'1'); else localStorage.removeItem('lwav.night.'+gid);
+          if(state==='wait'){ g.leader=(order.indexOf('me')+1)%n; }
+          if(state==='vote'){ played(2); g.phase='vote'; g.team=order.slice(0,sizes[2]); g.step=gid+':vote:2:1'; }
+          if(state==='quest'){ played(2); g.phase='quest'; g.team=order.slice(1,1+sizes[2]); if(!g.team.includes('me')) g.team[0]='me'; g.step=gid+':quest:2:1'; g.rounds.push({q:2,att:1,leader:order[0],team:g.team,votes:votesAll(true),ok:true}); }
+          if(state==='assassin'){ played(5); g.phase='assassin'; g.step=gid+':assassin'; }
+          if(state==='end'){ played(5); g.status='end'; g.phase='end'; g.winner='good'; g.reason='rmiss'; g.roles=roles; g.allegiances=allegiances; g.assassinPick=order.find(u=>roles[u]==='servant')||order[1]; g.step=gid+':end'; }
+          room.game={host,j:JSON.stringify(g)};
+        }
+        window.__previewWrite('rooms/'+code,room);
+        if(q.get('tool')){ S.ui.tool=q.get('tool'); S.ui.notesOpen=S.ui.tool==='notes'; }
+        if(q.get('peek')==='1') S.peek=true;
+        enterRoom(code);
+        S.autoSeat=false;
+        S.joinedAt=Date.now();
+      })();
+    </script>
+  </body>
 </html>

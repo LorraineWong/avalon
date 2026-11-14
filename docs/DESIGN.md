@@ -12,18 +12,18 @@ Every page supports a light and a dark theme. `site-shell.js` sets `data-theme` 
 
 Colours are defined once as semantic tokens in `theme.css`, which also maps the older variable names used in `style.css` and `landing.css` onto them. Components use tokens, not raw hex values. When adding a colour, define it for both themes and check text contrast in each.
 
-| Token | Light | Dark | Usage |
-| --- | --- | --- | --- |
-| `--page` | `#f6f3eb` | `#18212b` | page background |
-| `--surface` | `#fffdf8` | `#232f3c` | cards and panels |
-| `--surface-raised` | `#eee9dd` | `#2b3948` | controls, raised elements |
-| `--ink` | `#293542` | `#edf1f5` | primary text |
-| `--ink-muted` | `#526170` | `#bbc7d3` | secondary text |
-| `--accent` | `#78551d` | `#e7c77f` | primary action, focus, leader state |
-| `--border` | `#d5cdbd` | `#46576a` | dividers and outlines |
-| `--good-ink` / `--good-wash` | `#235e78` / `#e4eff3` | `#9ed5ed` / `#203e4b` | Good alignment, success, approval |
-| `--evil-ink` / `--evil-wash` | `#963e36` / `#f7e7e1` | `#f3ae9d` / `#492f34` | Evil alignment, failure, rejection |
-| `--success` | `#35623e` | `#b4d9b2` | online / connected |
+| Token                        | Light                 | Dark                  | Usage                               |
+| ---------------------------- | --------------------- | --------------------- | ----------------------------------- |
+| `--page`                     | `#f6f3eb`             | `#18212b`             | page background                     |
+| `--surface`                  | `#fffdf8`             | `#232f3c`             | cards and panels                    |
+| `--surface-raised`           | `#eee9dd`             | `#2b3948`             | controls, raised elements           |
+| `--ink`                      | `#293542`             | `#edf1f5`             | primary text                        |
+| `--ink-muted`                | `#526170`             | `#bbc7d3`             | secondary text                      |
+| `--accent`                   | `#78551d`             | `#e7c77f`             | primary action, focus, leader state |
+| `--border`                   | `#d5cdbd`             | `#46576a`             | dividers and outlines               |
+| `--good-ink` / `--good-wash` | `#235e78` / `#e4eff3` | `#9ed5ed` / `#203e4b` | Good alignment, success, approval   |
+| `--evil-ink` / `--evil-wash` | `#963e36` / `#f7e7e1` | `#f3ae9d` / `#492f34` | Evil alignment, failure, rejection  |
+| `--success`                  | `#35623e`             | `#b4d9b2`             | online / connected                  |
 
 Surfaces use a small 4–10 px radius.
 
