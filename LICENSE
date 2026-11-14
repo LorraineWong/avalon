@@ -25,7 +25,9 @@ SOFTWARE.
 Scope
 
 The MIT License above covers the source code and documentation in this
-repository. It does not cover:
+repository. Parts of this project were created with AI assistance; the licence
+applies to the extent the maintainer holds rights in the work. It does not
+cover:
 
 - Images in assets/ and docs/screenshots/ (role portraits, player avatars,
   brand marks and previews). No licence to copy, modify or redistribute them
