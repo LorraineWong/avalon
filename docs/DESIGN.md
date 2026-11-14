@@ -59,7 +59,7 @@ The art is intentionally text-free so localization remains native HTML and acces
 
 ## Implementation Notes
 
-The redesign is CSS and rendering-markup only. Firebase, ECDH/AES role encryption, room state, game rules, reconnect behavior, and game-state identifiers remain intact. Character art is generated for this project and does not reuse official board-game card artwork.
+The redesign is CSS and rendering-markup only. Firebase, ECDH/AES role encryption, room state, game rules, reconnect behavior, and game-state identifiers remain intact. The maintainer confirms that site images were generated with GPT; development primarily uses Claude Code and OpenAI Codex. No official board-game card artwork is used.
 
 ## Compact header controls
 
@@ -70,3 +70,7 @@ Long translated headings wrap inside their component. Russian and Vietnamese hea
 ## Guide section navigation
 
 The guide uses a sticky, compact section rail with `aria-current="location"` and a separate Play action. On narrow screens the section links scroll horizontally while Play stays visible. All targets are at least 40px high, use the shared theme tokens, and have inset keyboard focus. Sections reserve space below the sticky bar when reached by an anchor link.
+
+## Mobile site menu
+
+At widths up to 600px, a 40px menu button opens a native modal dialog at the right edge. Theme switching moves into this drawer; language and connection status remain in the header. The dialog supports Escape, a labelled close control, backdrop dismissal and native focus containment. It lives outside the game render tree so live room updates do not remove it. In-room links open new tabs, preserving the current room.

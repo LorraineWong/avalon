@@ -36,11 +36,11 @@ font copy must include its applicable licence.
 
 ## Project artwork and game rights
 
-The [design notes](DESIGN.md) record that character illustrations were generated
-for this project and do not reuse official board-game card artwork. This is not
-an independent provenance audit or a grant of rights to redistribute project
-artwork. Confirm the source and terms of illustrations, portraits and branding
-before adding an artwork licence or reusing them elsewhere.
+The maintainer confirms that site images were generated with GPT, and that
+no official board-game card artwork is used. Development primarily uses Claude
+Code and OpenAI Codex. These creation credits are not an endorsement by the tool
+providers or a project-wide licence. The code, artwork and third-party game
+rights remain separate; no artwork redistribution licence is granted here.
 
 Avalon Online is an unofficial fan project. Game names, concepts and any
 third-party rights are separate from the software dependency licences above;

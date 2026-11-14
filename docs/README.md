@@ -2,6 +2,8 @@
 
 - [Development guide](DEVELOPMENT.md) — local preview, Firebase configuration, verification and deployment.
 - [Release checklist](RELEASE.md) — launch checks, rollback and current service limits.
+- [Firebase operations](FIREBASE_OPERATIONS.md) — capacity, App Check rollout, cleanup and domains.
+- [Support page plan](SUPPORT_PLAN.md) — draft copy and requirements before enabling voluntary support.
 - [Localization](LOCALIZATION.md) — supported languages, translation edits and verification.
 - [Design system](DESIGN.md) — interface direction, visual language, and component notes.
 - [Big Box rules coverage](BIG_BOX_RULES.md) — supported characters, modules, and known boundaries.
