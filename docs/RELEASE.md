@@ -28,8 +28,9 @@
   Allow GitHub-owned actions only and pin workflow actions to reviewed commits.
 - Pages publishes `main` at `/`; only `main` should be allowed to deploy to the
   `github-pages` environment. Delete merged work branches automatically.
-- The source remains public without a project-wide open-source licence. Do not
-  silently add a licence or change repository visibility.
+- Source code and documentation are under the MIT License; images are excluded
+  (see `LICENSE` and `assets/LICENSE.md`). Do not silently change the licence,
+  its scope or repository visibility.
 
 ## Rollback
 
@@ -73,8 +74,9 @@ not the normal production configuration.
   also a separate Firebase setting, not covered by the room cleanup. Do not
   promise automatic deletion on a deadline.
 - **Rights:** the maintainer confirms site images were generated with GPT and
-  development primarily uses Claude Code and OpenAI Codex. Choose the intended
-  scope of code/art licensing before declaring the whole project open source. Review
+  development primarily uses Claude Code and OpenAI Codex. Code and
+  documentation are MIT-licensed; images are not licensed for reuse. Do not
+  describe the whole project as open source. Review
   [third-party notices](THIRD_PARTY_NOTICES.md) when updating bundled libraries.
 - **Playtesting:** Quest 4 and host reconnect have automated coverage; the
   [playtest record](PLAYTEST.md) still identifies gaps in real-browser coverage.

@@ -1,7 +1,8 @@
 # Third-party notices
 
 These notices apply to the named dependencies, not to Avalon Online as a whole.
-No project-wide open-source licence has been selected.
+The project's own source code and documentation are under the [MIT License](../LICENSE);
+its images are excluded, as described in [assets/LICENSE.md](../assets/LICENSE.md).
 
 ## Firebase JavaScript SDK
 
@@ -39,8 +40,9 @@ font copy must include its applicable licence.
 The maintainer confirms that site images were generated with GPT, and that
 no official board-game card artwork is used. Development primarily uses Claude
 Code and OpenAI Codex. These creation credits are not an endorsement by the tool
-providers or a project-wide licence. The code, artwork and third-party game
-rights remain separate; no artwork redistribution licence is granted here.
+providers. The code, artwork and third-party game rights remain separate: the
+MIT License covers code and documentation only, and no artwork redistribution
+licence is granted.
 
 Avalon Online is an unofficial fan project. Game names, concepts and any
 third-party rights are separate from the software dependency licences above;

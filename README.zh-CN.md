@@ -52,7 +52,7 @@ Firebase 配置、部署和多人测试方式见[开发指南](docs/DEVELOPMENT.
 
 <!-- Project-site /avalon/robots.txt is not a host-root robots file. Submit sitemap.xml through Search Console. 项目路径 robots.txt 不是站点根规则；通过 Search Console 提交 sitemap。 -->
 
-授权：尚未选定项目整体开源许可；第三方依赖声明与游戏权利分别处理。
+授权：源代码与文档采用 [MIT License](LICENSE)；图片[不在该许可范围内](assets/LICENSE.md)。第三方依赖声明与游戏权利分别处理。
 
 ## 制作说明
 
