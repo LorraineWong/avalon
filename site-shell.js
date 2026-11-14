@@ -34,9 +34,10 @@ window.AvalonShell = (() => {
     applyTheme();
   });
   const languages=registry?.languages || [{id:'zh',label:'简中',name:'简体中文',tag:'zh-CN'},{id:'en',label:'EN',name:'English',tag:'en'}];
+  const languageFlags={en:'🇬🇧',zh:'🇨🇳','zh-TW':'🇹🇼',ru:'🇷🇺',es:'🇪🇸',pt:'🇵🇹',vi:'🇻🇳'};
   function languageControl(lang,id=''){
     const label=pack(lang)?.extra.language || 'Language / 语言';
-    return '<label class="language-picker compact-language" title="'+label+'"><svg class="language-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><ellipse cx="12" cy="12" rx="4" ry="9"/><path d="M3 12h18"/></svg><select '+(id?'id="'+id+'"':'data-site-language')+' aria-label="'+label+'">'+languages.map(x=>'<option value="'+x.id+'" lang="'+x.tag+'"'+(lang===x.id?' selected':'')+'>'+(lang===x.id?x.label:x.name)+'</option>').join('')+'</select></label>';
+    return '<label class="language-picker compact-language" title="'+label+'"><select '+(id?'id="'+id+'"':'data-site-language')+' aria-label="'+label+'">'+languages.map(x=>'<option value="'+x.id+'" aria-label="'+x.name+'" lang="'+x.tag+'"'+(lang===x.id?' selected':'')+'>'+languageFlags[x.id]+' '+(lang===x.id?x.label:x.name)+'</option>').join('')+'</select></label>';
   }
   const words={zh:['首页','玩法指南','隐私政策','使用条款与声明','阿瓦隆 · 在线版','免费非官方粉丝项目。请支持正版桌游。'],en:['Home','How to Play','Privacy Policy','Terms & Notices','Avalon · Online','Free unofficial fan project. Please support the official board game.']};
   function links(lang,base,current){const w=pack(lang)?.shell || words[lang]||words.en;return ['',(locale(lang)?.route || (lang==='zh'?'zh-cn':'en'))+'/','privacy/','unofficial-notice/'].map((url,i)=>'<a href="'+base+url+'"'+(['home','guide','privacy','legal'][i]===current?' aria-current="page"':'')+'>'+w[i]+'</a>').join('');}
