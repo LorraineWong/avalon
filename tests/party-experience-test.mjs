@@ -1,9 +1,10 @@
+import {readGameSource,readPublic} from './helpers/site.mjs';
 import fs from 'node:fs';
 import assert from 'node:assert/strict';
 
-const js=fs.readFileSync(new URL('../assets/js/app.js',import.meta.url),'utf8');
-const html=fs.readFileSync(new URL('../index.html',import.meta.url),'utf8');
-const sw=fs.readFileSync(new URL('../service-worker.js',import.meta.url),'utf8');
+const js=readGameSource();
+const html=readPublic('index.html');
+const sw=readPublic('service-worker.js');
 
 assert.match(js,/function presetSettings\(id,n\)/,'role presets are missing');
 assert.match(js,/if\(n>=7\)\{ st\.morgana=false; st\.lancelot=true; st\.lady=true; \}/,'expansion preset must adapt to player count');

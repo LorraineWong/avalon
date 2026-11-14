@@ -20,7 +20,7 @@ by default; keep production-writing tests out of that automatic set.
 
 Names in the table omit the `-test.mjs` suffix. A green offline suite does not
 prove browser layout, production quota capacity or live network behaviour. See
-[the coverage record](../docs/PLAYTEST.md) for the strongest recorded method and
+[the coverage record](../docs/game/PLAYTEST.md) for the strongest recorded method and
 remaining gaps.
 
 ## Live check
@@ -43,3 +43,8 @@ target and never touch real players' rooms. CI must not run it for untrusted PRs
   honours the offline preview's HTML base path. External URLs and fragment-only/dynamic anchors are not validated.
 - Browser checks remain separate and optional; do not hard-code the maintainer's
   Playwright installation path or introduce a mandatory runtime dependency.
+
+Source paths are resolved through `helpers/site.mjs` and the publication map.
+`readGameSource()` combines the unchanged base text declarations with the game
+runtime for isolated VM tests. Browser checks use the prepared `dist/` layout,
+not the source-only `site/language/` paths.

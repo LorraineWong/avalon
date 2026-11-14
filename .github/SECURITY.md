@@ -14,7 +14,7 @@ The Firebase web API key is a public client identifier, not an authorization sec
 
 ## Incident response
 
-Keep [the emergency shutdown guide](../docs/EMERGENCY.md) and `firebase/emergency-deny-all.rules.json` available offline. Publishing the emergency file stops all client database access without deleting rooms. Normal operation uses `firebase/database.rules.json`; never deploy permissive test rules. The project remains on Spark. New domains must be explicitly added after purchase and verified before use.
+Keep [the emergency shutdown guide](../docs/operations/EMERGENCY.md) and `firebase/emergency-deny-all.rules.json` available offline. Publishing the emergency file stops all client database access without deleting rooms. Normal operation uses `firebase/database.rules.json`; never deploy permissive test rules. The project remains on Spark. New domains must be explicitly added after purchase and verified before use.
 
 ## Checks
 
@@ -38,7 +38,7 @@ Firebase 网页 API Key 是公开项目标识，不是授权秘密。权限由�
 
 ## 应急处理
 
-请把[紧急关闭说明](../docs/EMERGENCY.md)和 `firebase/emergency-deny-all.rules.json` 保存到手机。发布关闭规则会停止所有客户端的数据库访问，但不删除房间。正常运行使用 `firebase/database.rules.json`，不要发布全公开测试规则。保持 Spark；新域名购入后明确加入白名单并验证。
+请把[紧急关闭说明](../docs/operations/EMERGENCY.md)和 `firebase/emergency-deny-all.rules.json` 保存到手机。发布关闭规则会停止所有客户端的数据库访问，但不删除房间。正常运行使用 `firebase/database.rules.json`，不要发布全公开测试规则。保持 Spark；新域名购入后明确加入白名单并验证。
 
 ## 检查
 

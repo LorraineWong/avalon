@@ -1,8 +1,9 @@
 #!/usr/bin/env node
+import {readGameSource} from './helpers/site.mjs';
 
 import { readFile } from 'node:fs/promises';
 
-const source = await readFile(new URL('../assets/js/app.js', import.meta.url), 'utf8');
+const source = readGameSource();
 const apiKey = source.match(/apiKey:'([^']+)'/)?.[1];
 const databaseURL = source.match(/databaseURL:'([^']+)'/)?.[1];
 
@@ -12,9 +13,10 @@ if (!apiKey || !databaseURL) {
 
 // The API key only accepts browser requests from allowed websites (see SECURITY.md),
 // so this script identifies itself as the deployed browser origin.
-const REFERER = process.env.AVALON_REFERER || 'https://lorrainewong.github.io/';
+const REFERER = process.env.AVALON_REFERER || 'https://avalon.lorrainewong.dev/';
 
 const room = `SEC${Math.random().toString(36).slice(2, 7).toUpperCase()}`;
+const appCheckHeaders = process.env.AVALON_APPCHECK_TOKEN ? {'X-Firebase-AppCheck':process.env.AVALON_APPCHECK_TOKEN} : {};
 const users = [];
 const results = [];
 
@@ -23,7 +25,7 @@ async function createAnonymousUser() {
     `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${encodeURIComponent(apiKey)}`,
     {
       method: 'POST',
-      headers: { 'content-type': 'application/json', referer: REFERER },
+      headers: { 'content-type': 'application/json', referer: REFERER, ...appCheckHeaders },
       body: JSON.stringify({ returnSecureToken: true })
     }
   );
@@ -37,7 +39,7 @@ async function databaseRequest(path, method = 'GET', body, token) {
   const auth = token ? `?auth=${encodeURIComponent(token)}` : '';
   const response = await fetch(`${databaseURL}/${path}.json${auth}`, {
     method,
-    headers: { 'content-type': 'application/json' },
+    headers: { 'content-type': 'application/json', ...appCheckHeaders },
     body: body === undefined ? undefined : JSON.stringify(body)
   });
   return { status: response.status, text: await response.text() };
@@ -57,7 +59,7 @@ async function deleteAnonymousUser(user) {
     `https://identitytoolkit.googleapis.com/v1/accounts:delete?key=${encodeURIComponent(apiKey)}`,
     {
       method: 'POST',
-      headers: { 'content-type': 'application/json', referer: REFERER },
+      headers: { 'content-type': 'application/json', referer: REFERER, ...appCheckHeaders },
       body: JSON.stringify({ idToken: user.idToken })
     }
   );

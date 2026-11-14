@@ -1,8 +1,9 @@
+import {readPublic} from './helpers/site.mjs';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import vm from 'node:vm';
 
-const source=fs.readFileSync(new URL('../assets/js/site-shell.js',import.meta.url),'utf8');
+const source=readPublic('assets/js/site-shell.js');
 function boot({saved=null,dark=false,blocked=false}={}){
   const events={}, systemEvents={}, windowEvents={}, data=new Map(saved?[['lwav.theme',JSON.stringify(saved)]]:[]);
   const root={dataset:{},lang:'en'}, button={attributes:{},setAttribute(k,v){this.attributes[k]=v;}};

@@ -1,12 +1,13 @@
+import {readGameSource,readPublic} from './helpers/site.mjs';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import { elements } from './helpers/html.mjs';
 
-const app = fs.readFileSync(new URL('../assets/js/app.js', import.meta.url), 'utf8');
-const html = fs.readFileSync(new URL('../index.html', import.meta.url), 'utf8');
-const sw = fs.readFileSync(new URL('../service-worker.js', import.meta.url), 'utf8');
-const manifest = JSON.parse(fs.readFileSync(new URL('../manifest.webmanifest', import.meta.url), 'utf8'));
-const sitemap = fs.readFileSync(new URL('../sitemap.xml', import.meta.url), 'utf8');
+const app = readGameSource();
+const html = readPublic('index.html');
+const sw = readPublic('service-worker.js');
+const manifest = JSON.parse(readPublic('manifest.webmanifest'));
+const sitemap = readPublic('sitemap.xml');
 
 for(const id of ['agree','think','sus','shock','laugh','sword']){
   assert.match(app, new RegExp(`id:'${id}'`), `missing reaction ${id}`);
@@ -19,7 +20,7 @@ assert.match(html, /application\/ld\+json/, 'structured game data is missing');
 assert.match(html, /hreflang="zh-CN"/, 'Chinese localized URL is missing');
 assert.match(html, /hreflang="en"/, 'English localized URL is missing');
 for(const page of ['zh-cn/index.html','en/index.html','privacy/index.html','unofficial-notice/index.html']){
-  const source=fs.readFileSync(new URL('../'+page, import.meta.url), 'utf8');
+  const source=readPublic(page);
   assert.match(source, /<title>[^<]+<\/title>/, `${page} needs a title`);
   assert.ok(elements(source,'meta').some(meta=>meta.name==='description'&&meta.content?.trim()), `${page} needs a description`);
   assert.match(sitemap, new RegExp(page.replace('index.html','').replace(/[/-]/g, m=>'\\'+m)), `${page} is missing from sitemap`);

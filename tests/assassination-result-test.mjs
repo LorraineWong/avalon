@@ -1,8 +1,9 @@
+import {readGameSource,readPublic} from './helpers/site.mjs';
 import fs from 'node:fs';
 import assert from 'node:assert/strict';
 
-const js = fs.readFileSync(new URL('../assets/js/app.js', import.meta.url), 'utf8');
-const css = fs.readFileSync(new URL('../assets/css/style.css', import.meta.url), 'utf8');
+const js = readGameSource();
+const css = readPublic('assets/css/style.css');
 
 assert.match(js, /function assassinationResult\(g, compact=false\)/, 'assassination result component is missing');
 assert.match(js, /const role=roles\[target\], hit=role==='merlin'/, 'hit must be derived from the revealed target role');

@@ -1,8 +1,9 @@
+import {readGameSource,readPublic} from './helpers/site.mjs';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 
-const read=p=>fs.readFileSync(new URL(p,import.meta.url),'utf8');
-const js=read('../assets/js/app.js'), css=read('../assets/css/style.css'), html=read('../index.html');
+const read=p=>readPublic(p.replace('../',''));
+const js=readGameSource(), css=read('../assets/css/style.css'), html=read('../index.html');
 const match=(text,re,msg)=>assert.ok(re.test(text),msg);
 const section=(from,to)=>js.slice(js.indexOf(from),js.indexOf(to));
 

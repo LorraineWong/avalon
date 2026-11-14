@@ -1,3 +1,4 @@
+import {readGameSource} from './helpers/site.mjs';
 // Multi-client flow test.
 //
 // Every player is a separate node:vm context running the unmodified assets/js/app.js (boot() included)
@@ -17,7 +18,7 @@ import { readFile } from 'node:fs/promises';
 import { webcrypto } from 'node:crypto';
 
 const EXPORTS='\nglobalThis.__app={S,ME,Net,side,t,dec,isHost};';
-const source=(await readFile(new URL('../assets/js/app.js',import.meta.url),'utf8'))+EXPORTS;
+const source=(readGameSource())+EXPORTS;
 const script=new vm.Script(source,{filename:'assets/js/app.js'});
 
 let passed=0;
