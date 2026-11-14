@@ -1,2 +1,18 @@
 .DS_Store
 *.log
+
+# Dependencies and local tooling
+node_modules/
+.firebase/
+firebase-debug.log*
+.wrangler/
+
+# Local secrets and overrides
+.env
+.env.*
+!.env.example
+
+# Editors
+.vscode/
+.idea/
+*.swp
