@@ -53,3 +53,7 @@ Firebase 配置、部署和多人测试方式见[开发指南](docs/DEVELOPMENT.
 <!-- Project-site /avalon/robots.txt is not a host-root robots file. Submit sitemap.xml through Search Console. 项目路径 robots.txt 不是站点根规则；通过 Search Console 提交 sitemap。 -->
 
 授权：尚未选定项目整体开源许可；第三方依赖声明与游戏权利分别处理。
+
+## 制作说明
+
+Avalon Online 由 Lorraine 维护，开发主要使用 Claude Code 与 OpenAI Codex，本站图片由 GPT 生成。使用 AI 工具不代表 Anthropic、OpenAI 或原游戏发行方对本项目的认可或背书；本站不使用官方桌游卡牌图片。

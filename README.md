@@ -53,3 +53,7 @@ Roles are encrypted between browsers, but the host browser remains trusted. See 
 <!-- Project-site /avalon/robots.txt is not a host-root robots file. Submit sitemap.xml through Search Console. 项目路径 robots.txt 不是站点根规则；通过 Search Console 提交 sitemap。 -->
 
 Licensing: no project-wide open-source licence has been selected. Third-party notices and game rights remain separate.
+
+## Creation credits
+
+Avalon Online is maintained by Lorraine, with development primarily using Claude Code and OpenAI Codex. Site images were generated with GPT. AI assistance does not imply endorsement by Anthropic, OpenAI or the original game publishers. No official board-game card artwork is used.

@@ -64,15 +64,17 @@ not the normal production configuration.
   test; passing multiplayer tests does not establish one. Quota exhaustion may
   interrupt games. Do not enable Blaze or introduce paid monitoring implicitly.
 - **Abuse:** referrer restrictions are not server rate limits or complete
-  authentication. App Check enforcement has not been verified as enabled; it
-  needs a separate compatibility assessment before enforcement. A private Git
+  authentication. On 14 November 2026 the console showed `avalon-web` as not
+  registered with App Check. Integrate a provider and monitor real requests
+  before considering enforcement; see [Firebase operations](FIREBASE_OPERATIONS.md). A private Git
   repository would not hide the deployed browser code or protect the backend.
 - **Retention:** room expiry is cleaned up by a reconnecting host, not a
   guaranteed scheduled server deletion. Anonymous Auth account retention is
   also a separate Firebase setting, not covered by the room cleanup. Do not
   promise automatic deletion on a deadline.
-- **Rights:** confirm artwork provenance and the intended scope of code/art
-  licensing before declaring the whole project open source. Review
+- **Rights:** the maintainer confirms site images were generated with GPT and
+  development primarily uses Claude Code and OpenAI Codex. Choose the intended
+  scope of code/art licensing before declaring the whole project open source. Review
   [third-party notices](THIRD_PARTY_NOTICES.md) when updating bundled libraries.
 - **Playtesting:** Quest 4 and host reconnect have automated coverage; the
   [playtest record](PLAYTEST.md) still identifies gaps in real-browser coverage.
