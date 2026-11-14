@@ -48,30 +48,28 @@ not the normal production configuration.
 
 ## Before broader promotion
 
-- **Hosting:** GitHub Pages is the current documented production address. A
-  connected Cloudflare Workers build also exists. On 14 November 2026 its
-  `main` build succeeded, but branch preview builds failed because
-  `npx wrangler preview` requires a missing `previews` configuration block.
-  Decide the intended hosting path before configuring this extra deployment;
-  do not treat its preview as a working staging environment or bypass the
-  Firebase origin restrictions to make it work.
-- **Domain:** the owner has purchased `lorrainewong.dev` through Cloudflare and
-  intends to use `avalon.lorrainewong.dev` for the game. It is not connected yet;
-  follow [the cutover guide](DOMAIN_SETUP.md). Then configure DNS,
-  Pages domain verification and HTTPS, API-key allowed referrers, Firebase auth
-  domains where needed, canonical/social URLs, sitemap and redirect behavior.
-  Verify the final site and old-link redirects before announcing the new address.
-  Browser identities/keys do not migrate across origins; coordinate a quiet cutover.
+- **Hosting:** GitHub Pages publishes the packaged `dist/` artifact and serves
+  the production domain. The separate Workers main build also succeeds. Branch
+  uploads currently fail Cloudflare's Worker tag identity guard despite correct
+  configuration; the guard remains enabled. See the dated
+  [launch readiness record](LAUNCH_READINESS.md). Previews are not accepted as
+  working Firebase staging.
+- **Domain:** `avalon.lorrainewong.dev` has verified ownership/DNS, an approved
+  certificate and enforced HTTPS. Exact Firebase/API-key origins are configured.
+  The apex remains reserved for the owner's portfolio. Browser identities/keys
+  do not migrate across origins; use new rooms after cutover. See
+  [the cutover guide](DOMAIN_SETUP.md).
 - **Capacity:** the Firebase project stays on Spark. Review Authentication and
   Realtime Database usage in the Firebase console before inviting a large group.
   This project has no measured concurrent-player capacity or production load
   test; passing multiplayer tests does not establish one. Quota exhaustion may
   interrupt games. Do not enable Blaze or introduce paid monitoring implicitly.
-- **Abuse:** referrer restrictions are not server rate limits or complete
-  authentication. On 14 November 2026 the console showed `avalon-web` as not
-  registered with App Check. Integrate a provider and monitor real requests
-  before considering enforcement; see [Firebase operations](FIREBASE_OPERATIONS.md). A private Git
-  repository would not hide the deployed browser code or protect the backend.
+- **Abuse:** the v26 Enterprise App Check client is registered and deployed;
+  production token exchange succeeds. Realtime Database enforcement is enabled
+  and valid/missing-token behavior and five-client gameplay passed; see
+  [launch readiness](LAUNCH_READINESS.md). Authentication remains in monitoring. Referrer restrictions and
+  attestation complement database ownership rules; they are not complete rate
+  limiting. A private Git repository would not hide deployed browser code.
 - **Retention:** room expiry is cleaned up by a reconnecting host, not a
   guaranteed scheduled server deletion. Anonymous Auth account retention is
   also a separate Firebase setting, not covered by the room cleanup. Do not

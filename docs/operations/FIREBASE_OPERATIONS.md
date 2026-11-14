@@ -3,7 +3,7 @@
 Keep the project on Spark. Do not deploy the standby emergency rules, add
 wildcard origins or change billing as part of routine maintenance.
 
-## Verified on 14 November 2026
+## Earlier baseline on 14 November 2026
 
 The Firebase console showed Spark at no cost, the database in Singapore, and
 the normal room-existence/ownership rules. `avalon-web` was **not registered**
@@ -18,9 +18,9 @@ documented deployed API-key policy from the earlier security review.
    tabs, not just unique players. Watch the console's Connections, Downloads,
    Storage and Load metrics; a small playtest is not a capacity test. Keep a
    margin below the connection limit rather than promising ten full rooms.
-2. **App Check:** choose and configure a web attestation provider, integrate the
-   client SDK before Firebase requests, deploy without enforcement, then monitor
-   valid/unverified requests. Test Android/iOS browsers, browser privacy modes,
+2. **App Check:** v26 registers and deploys the Enterprise provider; real token
+   exchange succeeds. Track enforcement separately in
+   [launch readiness](LAUNCH_READINESS.md), and monitor valid/unverified requests. Test Android/iOS browsers, browser privacy modes,
    reconnect, existing sessions and all intended domains before enforcement.
    Check the chosen provider's pricing/quotas first. App Check complements rules
    and authentication; it is not complete abuse protection or server rate limiting.
@@ -29,7 +29,7 @@ documented deployed API-key policy from the earlier security review.
    expiry checks and protection for active rooms. Do not make all browsers list
    or delete other rooms. Anonymous Auth account retention is separate; do not
    upgrade Identity Platform or delete returning players' identities implicitly.
-4. **Domain:** add only the exact confirmed production origin after purchase.
+4. **Domain:** only the exact confirmed production origin has been added.
    Check API-key referrers, relevant Auth domains and any App Check provider
    domains together. Keep the working old address until the replacement passes
    real room creation, join and reconnect tests.
@@ -58,7 +58,14 @@ The vendored SDK matches the existing Firebase 10.14.1 release. Activation
 occurs between Firebase initialization and service access. Default offline
 checks never request real attestation or create production users.
 
-Provider registration is complete; enforcement must be verified as a separate
-operation after valid-token and reconnect checks. The live smoke test accepts
+On 15 November 2026, after valid-token and five-client reconnect/gameplay
+checks, Realtime Database enforcement was enabled and the console showed
+Enforced. The same authenticated identity receives HTTP 401 without App Check
+and 200 with a valid token. The five-client flow passed again under enforcement,
+with verified temporary-room/account cleanup. Authentication remains in
+monitoring; its enforcement, Identity Platform and billing were not changed.
+See [launch readiness](LAUNCH_READINESS.md) for the precise browser coverage.
+
+Provider registration, token validity and enforcement are separate operations. The live smoke test accepts
 `AVALON_APPCHECK_TOKEN` only from an authorized local test process when required;
 do not print, store or commit that token or introduce a production debug bypass.

@@ -10,8 +10,8 @@ Intended layout:
 - Previous production: <https://lorrainewong.github.io/avalon/>; Pages redirects
   it when the custom domain is configured. Check actual TLS/redirects at cutover.
 
-Buying the domain does not require moving the application to Workers. Keep the
-Cloudflare Workers deployment unchanged until its purpose is decided separately.
+Buying the domain does not require moving the application to Workers. The
+existing Workers deployment remains separate from this GitHub Pages domain.
 Do not create a wildcard DNS record or point the apex at this game implicitly.
 
 ## Safe cutover order
@@ -29,8 +29,8 @@ Do not create a wildcard DNS record or point the apex at this game implicitly.
    does not guarantee old invite links, old sessions or reconnect will work.
    Test actual path/hash redirects rather than assuming their behavior.
 4. Set the repository's Pages custom domain to `avalon.lorrainewong.dev`.
-   With the current branch publishing mode, retain the resulting root `CNAME`
-   in version control. Do not commit it before the backend/domain prerequisites.
+   For Actions publication, configure this in Pages settings/API; the packaged
+   `CNAME` is metadata rather than the domain-setting mechanism.
 5. In Cloudflare DNS, create only this record:
 
    | Type  | Name     | Target                   | Initial proxy mode |
@@ -94,6 +94,9 @@ explicit metadata and rollback clarity; a CNAME file alone does not configure
 an Actions-published custom domain. The source-to-public map keeps all guide
 and notice URLs stable at the new domain root.
 
-DNS propagation, certificate issuance, Enforce HTTPS and live browser/gameplay
-checks are verified after deployment. Until then this is configured, not an
-accepted TLS cutover. Never bypass certificate warnings during verification.
+On 15 November 2026, DNS verification succeeded, the certificate was approved
+and Enforce HTTPS was enabled. Normal TLS requests return 200; HTTP redirects
+to HTTPS, and old GitHub guide links redirect to matching new-domain paths.
+Twenty-six critical deployed files byte-match v26. See
+[launch readiness](LAUNCH_READINESS.md) for live gameplay/protection results.
+Certificate warnings were never bypassed.

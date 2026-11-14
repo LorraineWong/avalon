@@ -1,4 +1,4 @@
-# Launch readiness — 14 November 2026
+# Launch readiness — 15 November 2026
 
 This is a dated operations record. A registered App Check provider, a valid
 client token and enforced backend protection are three different states.
@@ -33,15 +33,42 @@ client token and enforced backend protection are three different states.
 
 ## Cutover and protection verification
 
-GitHub's custom domain and the DNS-only CNAME have been configured. Certificate
-issuance and Enforce HTTPS are checked after DNS propagation and deployment;
-do not mark the cutover accepted until actual TLS, redirects and gameplay pass.
+GitHub Pages deployed v26 from main `34c382f` in run
+[43614129519](https://github.com/LorraineWong/avalon/actions/runs/43614129519).
+DNS verification succeeded, the certificate was approved and Enforce HTTPS is
+on. A normal TLS-validated request returns 200; HTTP redirects to HTTPS, and
+old GitHub guide links redirect to their matching new-domain paths. Twenty-six
+critical published files byte-match the packaged release, including all seven
+guides, support/privacy, runtime, App Check configuration and PWA metadata.
 
-The v26 client initializes App Check before accessing Firebase services. Backend
-enforcement stays off during the initial deployment/valid-token checks. Observe
-real attestation results, mobile/desktop and reconnect before enabling the
-Realtime Database enforcement switch. Do not silently lower the score threshold,
-ship debug tokens, or call registration alone completed abuse protection.
+The separate Workers main build `2b848165` also succeeded with version
+`fe934ec2-1ad6-47d6-b62f-794ec145f3c9`. Branch packaging succeeds, but branch
+uploads fail at Cloudflare's Worker tag identity guard, also on retry. This
+matches [the open upstream report](https://github.com/cloudflare/workers-sdk/issues/15682).
+The guard remains enabled; no environment-variable workaround bypasses it.
+Workers previews are not accepted as working staging.
+
+The v26 client initializes App Check before accessing Firebase services.
+Realtime Database App Check is now **Enforced**, confirmed in the console on
+15 November 2026. A production REST check with the same authenticated test
+identity returns 401 without an App Check token and 200 with a valid token.
+No score threshold, domain check or identity guard was lowered or bypassed.
+Authentication remains in monitoring; no Identity Platform or billing upgrade
+was performed.
+
+Five independent Chrome clients, including one mobile viewport, obtained real
+Enterprise tokens (HTTP 200 exchanges). After enforcement they created/joined
+a room, received encrypted roles without a public role map, reconnected the
+original host with its identity/master state, transferred host ownership,
+proposed/approved a team and resolved a successful quest. The temporary room
+and all five anonymous accounts were deleted and cleanup verified. The same
+flow also passed before enforcement. These are desktop Chrome and mobile
+emulation results, not physical Android/iOS or load tests. Font requests and
+animations were disabled for stable automation on a heavily loaded machine.
+
+The published support link points to the supplied Ko-fi account. The live
+profile shows the saved project/maintenance biography, approved LinkedIn and
+a tip button. No real payment was submitted or receipt identity verified.
 
 ## Validation before publication
 
