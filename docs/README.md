@@ -22,10 +22,12 @@
 
 ## Release and operations
 
+- [Launch readiness](LAUNCH_READINESS.md) — dated security checks and external setup still needed.
+- [Personal domain setup](DOMAIN_SETUP.md) — Cloudflare DNS, Pages verification, HTTPS and origin/session cutover.
 - [Release checklist](RELEASE.md) — deployment, rollback and launch limitations.
 - [Firebase operations](FIREBASE_OPERATIONS.md) — capacity, App Check, cleanup and domains.
 - [Emergency shutdown](EMERGENCY.md) — offline-ready incident steps and the two rule files.
-- [Support page plan](SUPPORT_PLAN.md) — unpublished draft before voluntary support is enabled.
+- [Support page plan](SUPPORT_PLAN.md) — page configuration, provider comparison and payment activation checklist.
 
 ## Privacy, rights and security
 

@@ -18,6 +18,35 @@ Use a voice call for remote games, or talk around the same table. Each player ne
 - Mobile and desktop layouts, light and dark themes, seven languages: English, 简体中文, 繁體中文, Русский, Español, Português and Tiếng Việt.
 - Encrypted roles and actions, local deduction notes, reconnect support and host handoff.
 
+## Why I made it
+
+I wanted to play Avalon with colleagues and friends at gatherings, but we did
+not always have the cards. The online versions I tried had interfaces I found
+awkward, required registration, or ran into bugs during play. I decided to try
+building my own with AI: open a room and play, without a player account.
+
+[About & support](https://lorrainewong.github.io/avalon/support/) ·
+[GitHub](https://github.com/LorraineWong) ·
+[LinkedIn](https://www.linkedin.com/in/lorrainewongyiting/)
+
+Voluntary financial support is not open yet. Sharing the game, reporting bugs
+and suggesting improvements are welcome. Playing stays free.
+
+## Repository map
+
+```text
+index.html                 Game entry point
+assets/js/                 Game, translations, navigation and project content
+assets/css/                Game, public pages and themes
+assets/roles/              Character illustrations (separate image licence)
+en/, zh-cn/, …             Seven stable public guide routes
+privacy/, unofficial-notice/, support/   Public information pages
+vendor/                    Unmodified third-party libraries
+firebase/                  Normal and emergency database rules
+tests/, dev/               Offline regressions and isolated UI preview
+docs/                      Architecture, operations and release references
+```
+
 ## Local development
 
 Plain HTML, CSS and JavaScript. No build step or package installation.

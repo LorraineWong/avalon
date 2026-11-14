@@ -2,7 +2,7 @@
 
 Avalon Online supports English (`en`), Simplified Chinese (`zh`), Traditional Chinese (`zh-TW`), Russian (`ru`), Spanish (`es`), Portuguese (`pt`) and Vietnamese (`vi`). The language choice is local to each browser and does not change room data or other players’ language.
 
-- `locales.js` holds language metadata, supplemental interface copy, and the five added message and role dictionaries. English and Simplified Chinese game dictionaries remain in `app.js`.
+- `assets/js/locales.js` holds language metadata, supplemental interface copy, and the five added message and role dictionaries. English and Simplified Chinese game dictionaries remain in `assets/js/app.js`.
 - Each language has a static rules and role guide at its registered `route`, with its own title, description, canonical URL and reciprocal `hreflang` links.
 - Privacy and notice pages use the same language preference. Developer documentation remains in English and Simplified Chinese.
 - Translations are bundled static files. Players’ text is never sent to a translation service. The offline shell includes the dictionaries.

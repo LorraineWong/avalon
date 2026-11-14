@@ -4,7 +4,7 @@ Avalon Online is a static site. There is no application server: one player's bro
 
 ```text
 Player browsers
-  ├─ static UI + host-side game engine (app.js)
+  ├─ static UI + host-side game engine (assets/js/app.js)
   ├─ Firebase Anonymous Authentication
   ├─ per-player ECDH key pair in localStorage
   └─ encrypted role and action payloads
@@ -18,20 +18,21 @@ Firebase Realtime Database
 
 ## Files
 
-| File                              | Used by                                                                                               | Purpose                                                                                                                          |
-| --------------------------------- | ----------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
-| `index.html`                      | game                                                                                                  | Document shell and metadata.                                                                                                     |
-| `app.js`                          | game                                                                                                  | Everything at runtime: i18n, rules, crypto, networking, host engine, rendering, events.                                          |
-| `locales.js`                      | every page                                                                                            | Static translations for the seven supported languages (`window.AvalonLocales`). See [LOCALIZATION.md](LOCALIZATION.md).          |
-| `style.css`                       | game                                                                                                  | Layout and components for the game.                                                                                              |
-| `theme.css`                       | every page                                                                                            | Light and dark semantic colour tokens and theme overrides.                                                                       |
-| `site-shell.js`, `site-shell.css` | every page                                                                                            | Shared header, footer, language and theme controls (`window.AvalonShell`).                                                       |
-| `landing.css`, `public-ui.js`     | guide pages (`en/`, `zh-cn/`, `zh-tw/`, `ru/`, `es/`, `pt/`, `vi/`), `privacy/`, `unofficial-notice/` | Styles, navigation, and language preference for the static content pages.                                                        |
-| `service-worker.js`               | game                                                                                                  | Offline shell cache for the installable web app.                                                                                 |
-| `firebase/database.rules.json`    | Firebase                                                                                              | Realtime Database security rules. `emergency-deny-all.rules.json` is the standby file described in [EMERGENCY.md](EMERGENCY.md). |
-| `vendor/`                         | game                                                                                                  | Firebase compat SDK and QRCode.js.                                                                                               |
+| File                                                   | Used by                                                                                                           | Purpose                                                                                                                          |
+| ------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| `index.html`                                           | game                                                                                                              | Document shell and metadata.                                                                                                     |
+| `assets/js/app.js`                                     | game                                                                                                              | Everything at runtime: i18n, rules, crypto, networking, host engine, rendering, events.                                          |
+| `assets/js/locales.js`                                 | every page                                                                                                        | Static translations for the seven supported languages (`window.AvalonLocales`). See [LOCALIZATION.md](LOCALIZATION.md).          |
+| `assets/css/style.css`                                 | game                                                                                                              | Layout and components for the game.                                                                                              |
+| `assets/css/theme.css`                                 | every page                                                                                                        | Light and dark semantic colour tokens and theme overrides.                                                                       |
+| `assets/js/site-shell.js`, `assets/css/site-shell.css` | every page                                                                                                        | Shared header, footer, language and theme controls (`window.AvalonShell`).                                                       |
+| `assets/js/project.js`                                 | every page                                                                                                        | Seven-language project story, contact links and optional external support URL; no payment SDK or donor storage.                  |
+| `assets/css/landing.css`, `assets/js/public-ui.js`     | guide pages (`en/`, `zh-cn/`, `zh-tw/`, `ru/`, `es/`, `pt/`, `vi/`), `privacy/`, `unofficial-notice/`, `support/` | Styles, navigation, and language preference for the static content pages.                                                        |
+| `service-worker.js`                                    | game                                                                                                              | Offline shell cache for the installable web app.                                                                                 |
+| `firebase/database.rules.json`                         | Firebase                                                                                                          | Realtime Database security rules. `emergency-deny-all.rules.json` is the standby file described in [EMERGENCY.md](EMERGENCY.md). |
+| `vendor/`                                              | game                                                                                                              | Firebase compat SDK and QRCode.js.                                                                                               |
 
-`app.js` is organised in banner-commented sections, in this order: i18n, Rules, Utils, Crypto, Identity, Network, App state, Boot, Room actions, Host engine, Rendering, Overlays, Events.
+`assets/js/app.js` is organised in banner-commented sections, in this order: i18n, Rules, Utils, Crypto, Identity, Network, App state, Boot, Room actions, Host engine, Rendering, Overlays, Events.
 
 ## Database layout
 

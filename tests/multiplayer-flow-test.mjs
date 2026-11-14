@@ -1,6 +1,6 @@
 // Multi-client flow test.
 //
-// Every player is a separate node:vm context running the unmodified app.js (boot() included)
+// Every player is a separate node:vm context running the unmodified assets/js/app.js (boot() included)
 // against one shared in-memory stand-in for Firebase Realtime Database. Actions go through the
 // rendered UI: a click is only dispatched when the matching enabled data-* control is present
 // in the HTML the client just rendered.
@@ -17,8 +17,8 @@ import { readFile } from 'node:fs/promises';
 import { webcrypto } from 'node:crypto';
 
 const EXPORTS='\nglobalThis.__app={S,ME,Net,side,t,dec,isHost};';
-const source=(await readFile(new URL('../app.js',import.meta.url),'utf8'))+EXPORTS;
-const script=new vm.Script(source,{filename:'app.js'});
+const source=(await readFile(new URL('../assets/js/app.js',import.meta.url),'utf8'))+EXPORTS;
+const script=new vm.Script(source,{filename:'assets/js/app.js'});
 
 let passed=0;
 function assert(value,message){ if(!value) throw new Error('Assertion failed: '+message); passed++; }

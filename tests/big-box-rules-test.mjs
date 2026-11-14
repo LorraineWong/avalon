@@ -2,7 +2,7 @@ import vm from 'node:vm';
 import { readFile } from 'node:fs/promises';
 import { webcrypto } from 'node:crypto';
 
-let source=await readFile(new URL('../app.js',import.meta.url),'utf8');
+let source=await readFile(new URL('../assets/js/app.js',import.meta.url),'utf8');
 source=source.replace(/\nboot\(\);\s*$/,'\n');
 source+='\nglobalThis.__rules={DEFAULT_SETTINGS,buildRoles,questChoices,privateRoleData,shownLoyalty,resolveQuest,beginQuest,S,Net,ME};';
 
@@ -17,7 +17,7 @@ const context={
 };
 context.globalThis=context;
 vm.createContext(context);
-vm.runInContext(source,context,{filename:'app.js'});
+vm.runInContext(source,context,{filename:'assets/js/app.js'});
 
 const R=context.__rules;
 let passed=0;

@@ -8,9 +8,9 @@ Source audited: <https://lorrainewong.github.io/avalon/> (desktop capture, 1440 
 
 ## Themes and tokens
 
-Every page supports a light and a dark theme. `site-shell.js` sets `data-theme` on `<html>` before first paint: it follows the system preference until the player uses the theme toggle, then remembers the choice in `localStorage` (`lwav.theme`).
+Every page supports a light and a dark theme. `assets/js/site-shell.js` sets `data-theme` on `<html>` before first paint: it follows the system preference until the player uses the theme toggle, then remembers the choice in `localStorage` (`lwav.theme`).
 
-Colours are defined once as semantic tokens in `theme.css`, which also maps the older variable names used in `style.css` and `landing.css` onto them. Components use tokens, not raw hex values. When adding a colour, define it for both themes and check text contrast in each.
+Colours are defined once as semantic tokens in `assets/css/theme.css`, which also maps the older variable names used in `assets/css/style.css` and `assets/css/landing.css` onto them. Components use tokens, not raw hex values. When adding a colour, define it for both themes and check text contrast in each.
 
 | Token                        | Light                 | Dark                  | Usage                               |
 | ---------------------------- | --------------------- | --------------------- | ----------------------------------- |
@@ -29,7 +29,7 @@ Surfaces use a small 4–10 px radius.
 
 ## Icons
 
-Controls use one inline SVG line-icon set, defined as `ICONS` in `app.js` and drawn with `currentColor`, so icons follow the theme and do not depend on how a platform renders emoji. Add new icons to that set.
+Controls use one inline SVG line-icon set, defined as `ICONS` in `assets/js/app.js` and drawn with `currentColor`, so icons follow the theme and do not depend on how a platform renders emoji. Add new icons to that set.
 
 ## Typography
 

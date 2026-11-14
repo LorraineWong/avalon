@@ -5,7 +5,7 @@ import { readFileSync } from 'node:fs';
 import assert from 'node:assert/strict';
 
 const root=new URL('../',import.meta.url);
-const guides=['en','zh-cn','zh-tw','ru','es','pt','vi','privacy','unofficial-notice'].map(d=>d+'/index.html');
+const guides=['en','zh-cn','zh-tw','ru','es','pt','vi','privacy','unofficial-notice','support'].map(d=>d+'/index.html');
 const files=['index.html',...guides,'dev/ui-preview.html','service-worker.js'];
 const seen=new Map();
 for(const f of files){

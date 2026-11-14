@@ -15,7 +15,8 @@ const files=readdirSync(dir).filter(f=>f.endsWith('-test.mjs')).filter(f=>live||
 
 let failed=false;
 const root=fileURLToPath(new URL('../',import.meta.url));
-for(const file of readdirSync(root).filter(f=>f.endsWith('.js')).sort()){
+const scripts=['service-worker.js',...readdirSync(root+'assets/js/').filter(f=>f.endsWith('.js')).map(f=>'assets/js/'+f)].sort();
+for(const file of scripts){
   const syntax=spawnSync(process.execPath,['--check',root+file],{encoding:'utf8'});
   if(syntax.status!==0) failed=true;
   console.log((syntax.status===0?'PASS':'FAIL')+'  '+file+' syntax');

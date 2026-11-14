@@ -1,7 +1,7 @@
 /* Shared navigation and language preference for every public content page. */
 (() => {
   const path=location.pathname, base=new URL('../',location.href);
-  const kind=path.includes('/privacy/')?'privacy':path.includes('/unofficial-notice/')?'legal':'guide';
+  const kind=path.includes('/support/')?'support':path.includes('/privacy/')?'privacy':path.includes('/unofficial-notice/')?'legal':'guide';
   const registry=window.AvalonLocales;
   const labels={zh:['首页','玩法指南','隐私政策','使用条款与声明'],en:['Home','How to play','Privacy Policy','Terms & Notices']};
   let saved; try { saved=JSON.parse(localStorage.getItem('lwav.lang')||'null'); } catch {}
@@ -15,7 +15,10 @@
     const oldNav=document.querySelector('body>nav, body>.av-header');
     oldNav.outerHTML=AvalonShell.header(lang,base.href,kind);
     document.querySelector('[data-site-language]').onchange=e=>{lang=e.target.value;try{localStorage.setItem('lwav.lang',JSON.stringify(lang));}catch{}if(kind==='guide')location.href=new URL(registry.languages.find(x=>x.id===lang).route+'/',base).href;else render();};
-    if(kind!=='guide'){
+    if(kind==='support'){
+      document.querySelector('main').innerHTML=window.AvalonProject.render(lang);
+      document.title=window.AvalonProject.title(lang)+' | Avalon Online';
+    } else if(kind!=='guide'){
       document.querySelector('main').innerHTML=registry.packs[lang]?.policies?.[kind] || (lang==='en'?english[kind]:originals);
       document.querySelector('main h1').textContent=l[kind==='privacy'?2:3];
       if(kind==='legal'&&!registry.packs[lang]?.policies) document.querySelector('main').insertAdjacentHTML('beforeend',lang==='en'?'<h2>Using the service</h2><p>Use a game nickname and treat other players respectfully. Do not interfere with other rooms, exploit vulnerabilities, or share another player’s private information. The service depends on network connectivity and may be interrupted for maintenance.</p>':'<h2>使用服务</h2><p>请使用游戏昵称、尊重其他玩家，不干扰其他房间、不利用漏洞，也不分享他人的私人资料。服务依赖网络连接，维护期间可能中断。</p>');

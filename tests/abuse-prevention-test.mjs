@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import vm from 'node:vm';
-const app=fs.readFileSync(new URL('../app.js',import.meta.url),'utf8');
+const app=fs.readFileSync(new URL('../assets/js/app.js',import.meta.url),'utf8');
 const start=app.indexOf('function validSeatNick('),end=app.indexOf('function cleanNick(',start);
 const box={};vm.runInNewContext(app.slice(start,end)+';globalThis.valid=validSeatNick;',box);
 for(const nick of ['Alex','小明','a'.repeat(12)])assert.ok(box.valid({nick}));

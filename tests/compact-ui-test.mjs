@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 
 const read=p=>fs.readFileSync(new URL(p,import.meta.url),'utf8');
-const js=read('../app.js'), css=read('../style.css'), html=read('../index.html');
+const js=read('../assets/js/app.js'), css=read('../assets/css/style.css'), html=read('../index.html');
 const match=(text,re,msg)=>assert.ok(re.test(text),msg);
 const section=(from,to)=>js.slice(js.indexOf(from),js.indexOf(to));
 

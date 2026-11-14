@@ -21,7 +21,7 @@ The regular home page connects to the configured Firebase project. Use a separat
 
 ## Firebase configuration
 
-Enable Anonymous Authentication and Realtime Database. Define `window.AVALON_FIREBASE` before loading `app.js` to override the checked-in Firebase configuration. Deploy `firebase/database.rules.json` to that project.
+Enable Anonymous Authentication and Realtime Database. Define `window.AVALON_FIREBASE` before loading `assets/js/app.js` to override the checked-in Firebase configuration. Deploy `firebase/database.rules.json` to that project.
 
 See [ARCHITECTURE.md](ARCHITECTURE.md) for the database layout, game phases and turn flow. The host browser runs the game engine; Firebase synchronizes public state, online presence and encrypted private payloads. Players generate ECDH P-256 keys in their browsers; AES-GCM protects roles and actions. An explicit host handoff re-encrypts the master role map for the successor. An unexpected host disconnect requires the original host to reconnect.
 
@@ -59,12 +59,13 @@ for editor settings and the optional pinned formatter.
 
 ## Key files
 
-| Location                                              | Purpose                                             |
-| ----------------------------------------------------- | --------------------------------------------------- |
-| `app.js`                                              | Game engine, networking, encryption and UI          |
-| `theme.css`, `style.css`                              | Theme tokens, components and responsive layouts     |
-| `site-shell.js`, `site-shell.css`                     | Shared navigation, theme and language controls      |
-| `assets/`                                             | Brand, character illustrations and player portraits |
-| `en/`, `zh-cn/`, `zh-tw/`, `ru/`, `es/`, `pt/`, `vi/` | Public game guides                                  |
-| `firebase/`                                           | Realtime Database access rules                      |
-| `tests/`, `dev/`                                      | Automated checks and offline preview                |
+| Location                                               | Purpose                                               |
+| ------------------------------------------------------ | ----------------------------------------------------- |
+| `assets/js/app.js`                                     | Game engine, networking, encryption and UI            |
+| `assets/css/theme.css`, `assets/css/style.css`         | Theme tokens, components and responsive layouts       |
+| `assets/js/site-shell.js`, `assets/css/site-shell.css` | Shared navigation, theme and language controls        |
+| `assets/js/project.js`                                 | Project story, contact links and optional support URL |
+| `assets/`                                              | Brand, character illustrations and player portraits   |
+| `en/`, `zh-cn/`, `zh-tw/`, `ru/`, `es/`, `pt/`, `vi/`  | Public game guides                                    |
+| `firebase/`                                            | Realtime Database access rules                        |
+| `tests/`, `dev/`                                       | Automated checks and offline preview                  |
