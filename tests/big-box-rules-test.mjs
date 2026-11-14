@@ -1,8 +1,9 @@
+import {readGameSource} from './helpers/site.mjs';
 import vm from 'node:vm';
 import { readFile } from 'node:fs/promises';
 import { webcrypto } from 'node:crypto';
 
-let source=await readFile(new URL('../assets/js/app.js',import.meta.url),'utf8');
+let source=readGameSource();
 source=source.replace(/\nboot\(\);\s*$/,'\n');
 source+='\nglobalThis.__rules={DEFAULT_SETTINGS,buildRoles,questChoices,privateRoleData,shownLoyalty,resolveQuest,beginQuest,S,Net,ME};';
 

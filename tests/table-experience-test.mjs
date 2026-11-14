@@ -1,10 +1,11 @@
+import {readGameSource,readPublic} from './helpers/site.mjs';
 import fs from 'node:fs';
 import assert from 'node:assert/strict';
 
-const js = fs.readFileSync(new URL('../assets/js/app.js', import.meta.url), 'utf8');
-const css = fs.readFileSync(new URL('../assets/css/style.css', import.meta.url), 'utf8');
-const html = fs.readFileSync(new URL('../index.html', import.meta.url), 'utf8');
-const sw = fs.readFileSync(new URL('../service-worker.js', import.meta.url), 'utf8');
+const js = readGameSource();
+const css = readPublic('assets/css/style.css');
+const html = readPublic('index.html');
+const sw = readPublic('service-worker.js');
 
 assert.match(js, /function publicDraftTeam\(/, 'public draft-team projection is missing');
 assert.match(js, /Net\.draftTeam\(ME\.pid,S\.game\.step,S\.ui\.pick\.slice\(\)\)/, 'leader picks are not published live');
@@ -28,7 +29,7 @@ assert.match(js, /confirmAgain/, 'starting another game must require an explicit
 assert.match(html, /id="confirmModal"/, 'the shared confirmation dialog mount is missing');
 assert.match(css, /\.scoreline\{/, 'score styling is missing');
 assert.match(css, /\.wait-person\.offline\{/, 'offline waiting-player styling is missing');
-assert.ok(fs.existsSync(new URL('../assets/player-avatars.webp', import.meta.url)), 'neutral player portrait sprite is missing');
+assert.ok(fs.existsSync(new URL('../site/assets/player-avatars.webp', import.meta.url)), 'neutral player portrait sprite is missing');
 assert.match(js, /function avStyle\(/, 'players need stable decorative portrait assignments');
 assert.match(js, /function selectedTeamReview\(/, 'the leader needs a prominent selected-team summary');
 assert.match(js, /pending\.action==='propose'/, 'team submission must pass through the confirmation dialog');

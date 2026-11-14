@@ -19,3 +19,8 @@ node_modules/
 coverage/
 test-results/
 playwright-report/
+
+# Classified upstream/media sources and generated publication.
+site/vendor/
+site/assets/
+dist/

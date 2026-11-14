@@ -1,13 +1,14 @@
 # Avalon Online maintenance
 
-Read [CONTRIBUTING.md](CONTRIBUTING.md), [architecture](docs/ARCHITECTURE.md) and
-[maintenance notes](docs/MAINTENANCE.md) before changing this repository.
+Read [CONTRIBUTING.md](CONTRIBUTING.md), [architecture](docs/development/ARCHITECTURE.md) and
+[maintenance notes](docs/development/MAINTENANCE.md) before changing this repository.
 
 - Start with `git status`, fetch the remote, and inspect incoming commits.
   Preserve existing work. Use the current suitable checkout rather than moving
   another checkout's branch or deleting unrelated worktrees.
-- This is a static HTML/CSS/JS site with no build step or runtime package
-  installation. Keep public paths stable. Do not add a framework just to format
+- This is a static HTML/CSS/JS site with no compilation or runtime package
+  installation. Source lives in `site/`; run `node scripts/prepare-site.mjs`
+  before serving `dist/`. `scripts/site-layout.mjs` preserves public URLs. Keep public paths stable. Do not add a framework just to format
   or organise files.
 - Keep seven languages and both themes consistent. Player text must never be
   sent to translation services. Use `dev/ui-preview.html` for offline UI work.
@@ -24,11 +25,12 @@ Read [CONTRIBUTING.md](CONTRIBUTING.md), [architecture](docs/ARCHITECTURE.md) an
 - Keep asset query versions and the service-worker cache version aligned when
   changing runtime JS/CSS/assets. Formatting-only HTML and documentation do not
   need a runtime version bump. Never reformat vendored code or upstream licences.
-- Code/docs use MIT; images are excluded under `NOTICE` and `assets/LICENSE.md`.
+- Code/docs use MIT; images are excluded under `NOTICE` and `site/assets/LICENSE.md`.
   Preserve the fan-project notice and creation credits. Do not silently change
-  licensing or enable payment links.
+  licensing or change payment links without the owner’s supplied URL. The approved link is
+  `https://ko-fi.com/lorrainewong`.
 - Merge/publish only when the active session authorises it, after required
-  checks. Follow [RELEASE.md](docs/RELEASE.md). Clean up only the completed task's
+  checks. Follow [RELEASE.md](docs/operations/RELEASE.md). Clean up only the completed task's
   branch; retain `main`. Distinguish GitHub Pages checks from separate Cloudflare checks; inspect the
   current deployment results before attributing a failure.
 - Never print authentication tokens or Firebase CLI login JSON, commit secrets,

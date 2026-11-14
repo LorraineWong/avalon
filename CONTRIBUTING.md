@@ -1,14 +1,15 @@
 # Contributing to Avalon Online
 
-Start with the [development guide](docs/DEVELOPMENT.md),
-[architecture](docs/ARCHITECTURE.md) and [file organisation](docs/MAINTENANCE.md).
+Start with the [development guide](docs/development/DEVELOPMENT.md),
+[architecture](docs/development/ARCHITECTURE.md) and [file organisation](docs/development/MAINTENANCE.md).
 Use Node.js 24 for parity with CI. No package installation is needed to run the
 site or its offline tests.
 
 ## A small change
 
 1. Check your working tree and incoming `main` changes before starting a branch.
-2. Serve the site with `python3 -m http.server 4173`. For UI work, open
+2. Prepare it with `node scripts/prepare-site.mjs`, then serve with
+   `python3 -m http.server 4173 --directory dist`. For UI work, open
    `dev/ui-preview.html?state=home&lang=en`; it uses a fake backend. The regular
    home page uses the configured production Firebase backend and its allowed
    origins, so it is not a localhost multiplayer test environment.
@@ -19,8 +20,8 @@ site or its offline tests.
 5. Open a PR describing the resulting behaviour and checks actually performed.
    Do not report offline simulations as live multiplayer or visual coverage.
 
-For translation changes, follow [LOCALIZATION.md](docs/LOCALIZATION.md). For
-release and cache changes, use [RELEASE.md](docs/RELEASE.md). For private security
+For translation changes, follow [LOCALIZATION.md](docs/development/LOCALIZATION.md). For
+release and cache changes, use [RELEASE.md](docs/operations/RELEASE.md). For private security
 reports, follow [.github/SECURITY.md](.github/SECURITY.md), not public issues.
 
 ## Formatting
@@ -40,7 +41,7 @@ npx --yes prettier@3.10.1 --write "**/*.{html,md,json,yml,yaml}"
 The ignore file excludes third-party/generated files and compact JS/CSS.
 Embedded script/style formatting is disabled. Do not mass-format the runtime
 or weaken behaviour assertions merely to make a formatter pass. See the
-[staged maintenance plan](docs/MAINTENANCE.md#next-maintenance-work).
+[staged maintenance plan](docs/development/MAINTENANCE.md#next-maintenance-work).
 
 ## 中文摘要
 

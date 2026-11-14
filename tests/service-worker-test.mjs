@@ -1,13 +1,15 @@
+import {readPublic} from './helpers/site.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import vm from 'node:vm';
-const source=readFileSync(new URL('../service-worker.js',import.meta.url),'utf8');
+const source=readPublic('service-worker.js');
+const cacheName=source.match(/avalon-shell-v\d+/)[0];
 const listeners={}, deleted=[],stored=[],pending=[];
 const hits=new Map(), origin='https://example.com', home=origin+'/avalon/';
 let offline=false, status=200;
 const context={URL,Response,self:{location:{origin,href:home+'service-worker.js'},addEventListener:(type,fn)=>listeners[type]=fn,clients:{claim:async()=>{}},skipWaiting:async()=>{}},
   fetch:async()=>{if(offline)throw Error('offline');return new Response('body',{status});},
-  caches:{keys:async()=>['avalon-shell-v24','avalon-shell-v25','another-project-cache'],delete:async key=>deleted.push(key),match:async key=>hits.get(typeof key==='string'?key:key.url)?.clone(),open:async()=>({put:async(req,res)=>stored.push({url:req.url,status:res.status}),addAll:async()=>{}})}};
+  caches:{keys:async()=>['avalon-shell-v24',cacheName,'another-project-cache'],delete:async key=>deleted.push(key),match:async key=>hits.get(typeof key==='string'?key:key.url)?.clone(),open:async()=>({put:async(req,res)=>stored.push({url:req.url,status:res.status}),addAll:async()=>{}})}};
 vm.runInNewContext(source,context);
 function event(url,{mode='navigate',destination='',method='GET'}={}){
   let response;

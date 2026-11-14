@@ -1,7 +1,8 @@
+import {readGameSource} from './helpers/site.mjs';
 import fs from 'node:fs';
 import assert from 'node:assert/strict';
 
-const source = fs.readFileSync(new URL('../assets/js/app.js', import.meta.url), 'utf8');
+const source = readGameSource();
 const between = (start, end) => source.slice(source.indexOf(start), source.indexOf(end, source.indexOf(start)));
 
 assert.match(source, /function notesStorageKey\(g=S\.game\).*?'notes\.'\+S\.code\+'\.'\+\(g\.gid\|\|'lobby'\)/s, 'notes must be scoped to room and game');

@@ -15,7 +15,8 @@ const files=readdirSync(dir).filter(f=>f.endsWith('-test.mjs')).filter(f=>live||
 
 let failed=false;
 const root=fileURLToPath(new URL('../',import.meta.url));
-const scripts=['service-worker.js',...readdirSync(root+'assets/js/').filter(f=>f.endsWith('.js')).map(f=>'assets/js/'+f)].sort();
+function scriptsIn(dir){return readdirSync(root+dir,{withFileTypes:true}).flatMap(entry=>entry.isDirectory()?scriptsIn(dir+entry.name+'/'):/\.(js|mjs)$/.test(entry.name)?[dir+entry.name]:[]);}
+const scripts=['site/pwa/service-worker.js',...scriptsIn('site/assets/js/'),...scriptsIn('site/language/'),...scriptsIn('site/config/'),...scriptsIn('scripts/')].sort();
 for(const file of scripts){
   const syntax=spawnSync(process.execPath,['--check',root+file],{encoding:'utf8'});
   if(syntax.status!==0) failed=true;

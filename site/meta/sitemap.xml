@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://avalon.lorrainewong.dev/</loc>
+    <lastmod>2026-11-14</lastmod>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://avalon.lorrainewong.dev/zh-cn/</loc>
+    <lastmod>2026-11-14</lastmod>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://avalon.lorrainewong.dev/en/</loc>
+    <lastmod>2026-11-14</lastmod>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://avalon.lorrainewong.dev/privacy/</loc>
+    <lastmod>2026-11-14</lastmod>
+    <changefreq>yearly</changefreq>
+  </url>
+  <url>
+    <loc>https://avalon.lorrainewong.dev/unofficial-notice/</loc>
+    <lastmod>2026-11-14</lastmod>
+    <changefreq>yearly</changefreq>
+  </url>
+  <url><loc>https://avalon.lorrainewong.dev/zh-tw/</loc><lastmod>2026-11-14</lastmod><changefreq>monthly</changefreq></url>
+  <url><loc>https://avalon.lorrainewong.dev/ru/</loc><lastmod>2026-11-14</lastmod><changefreq>monthly</changefreq></url>
+  <url><loc>https://avalon.lorrainewong.dev/es/</loc><lastmod>2026-11-14</lastmod><changefreq>monthly</changefreq></url>
+  <url><loc>https://avalon.lorrainewong.dev/pt/</loc><lastmod>2026-11-14</lastmod><changefreq>monthly</changefreq></url>
+  <url><loc>https://avalon.lorrainewong.dev/vi/</loc><lastmod>2026-11-14</lastmod><changefreq>monthly</changefreq></url>
+  <url><loc>https://avalon.lorrainewong.dev/support/</loc></url>
+</urlset>
