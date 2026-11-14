@@ -1,6 +1,7 @@
 # Project documentation
 
 - [Development guide](DEVELOPMENT.md) — local preview, Firebase configuration, verification and deployment.
+- [Release checklist](RELEASE.md) — launch checks, rollback and current service limits.
 - [Localization](LOCALIZATION.md) — supported languages, translation edits and verification.
 - [Design system](DESIGN.md) — interface direction, visual language, and component notes.
 - [Big Box rules coverage](BIG_BOX_RULES.md) — supported characters, modules, and known boundaries.
