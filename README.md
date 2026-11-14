@@ -52,7 +52,7 @@ Roles are encrypted between browsers, but the host browser remains trusted. See 
 
 <!-- Project-site /avalon/robots.txt is not a host-root robots file. Submit sitemap.xml through Search Console. 项目路径 robots.txt 不是站点根规则；通过 Search Console 提交 sitemap。 -->
 
-Licensing: source code and documentation are under the [MIT License](LICENSE). Images are [not included in that licence](assets/LICENSE.md). Third-party notices and game rights remain separate.
+Licensing: source code and documentation are under the [MIT License](LICENSE). Images are [not included in that licence](assets/LICENSE.md); see [NOTICE](NOTICE) for the full scope. Third-party notices and game rights remain separate.
 
 ## Creation credits
 

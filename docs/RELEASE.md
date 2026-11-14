@@ -29,7 +29,7 @@
 - Pages publishes `main` at `/`; only `main` should be allowed to deploy to the
   `github-pages` environment. Delete merged work branches automatically.
 - Source code and documentation are under the MIT License; images are excluded
-  (see `LICENSE` and `assets/LICENSE.md`). Do not silently change the licence,
+  (see `LICENSE`, `NOTICE` and `assets/LICENSE.md`). Do not silently change the licence,
   its scope or repository visibility.
 
 ## Rollback

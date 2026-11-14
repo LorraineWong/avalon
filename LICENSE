@@ -19,20 +19,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
--------------------------------------------------------------------------------
-
-Scope
-
-The MIT License above covers the source code and documentation in this
-repository. Parts of this project were created with AI assistance; the licence
-applies to the extent the maintainer holds rights in the work. It does not
-cover:
-
-- Images in assets/ and docs/screenshots/ (role portraits, player avatars,
-  brand marks and previews). No licence to copy, modify or redistribute them
-  is granted. See assets/LICENSE.md.
-- The names, concepts and other rights of the original board game, which
-  belong to their respective owners.
-- Third-party libraries in vendor/, which remain under their own licences.
-  See docs/THIRD_PARTY_NOTICES.md.

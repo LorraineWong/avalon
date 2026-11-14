@@ -1,6 +1,6 @@
 # Image licence
 
-The images in this directory and in `docs/screenshots/` are **not** covered by the repository's MIT License. No licence to copy, modify or redistribute them is granted.
+The images in this directory and in `docs/screenshots/` are **not** covered by the repository's MIT License. No licence to copy, modify or redistribute them is granted. See the repository's `NOTICE` file for the full scope.
 
 They are included so the project can be run as published. If you fork the code for your own project, replace them with your own images.
 

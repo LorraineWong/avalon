@@ -2,7 +2,8 @@
 
 These notices apply to the named dependencies, not to Avalon Online as a whole.
 The project's own source code and documentation are under the [MIT License](../LICENSE);
-its images are excluded, as described in [assets/LICENSE.md](../assets/LICENSE.md).
+its images are excluded, as described in [NOTICE](../NOTICE) and
+[assets/LICENSE.md](../assets/LICENSE.md).
 
 ## Firebase JavaScript SDK
 
