@@ -565,3 +565,23 @@
 :root[data-theme] .act .btn[data-vote][aria-pressed="true"]:hover:not(:disabled){box-shadow:0 0 0 3px currentColor;border-width:2px}
 :root[data-theme] .seatp .b-act{background:#c7f3df;color:#176641;border-color:var(--surface)}
 :root[data-theme] .seatp .b-wait{background:#e5edf5;color:#47617a;border-color:var(--surface)}
+/* One compact language control, with no country-language assumptions. */
+:root[data-theme] .compact-language{position:relative;display:inline-flex;align-items:center;flex:none;margin:0;height:40px;width:92px}
+:root[data-theme] .compact-language .language-icon{position:absolute;left:10px;top:12px;width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.65;stroke-linecap:round;stroke-linejoin:round;color:var(--ink-muted);pointer-events:none;z-index:1}
+:root[data-theme] .av-controls .compact-language select,:root[data-theme] .top-r .compact-language select{box-sizing:border-box;width:100%;max-width:none;height:40px;min-height:40px;padding:0 17px 0 32px;font:600 12px/1.2 var(--av-font);cursor:pointer;border-radius:8px}
+@media(max-width:600px){
+  :root[data-theme] .compact-language{width:80px;height:40px}
+  :root[data-theme] .compact-language .language-icon{left:8px;width:14px;height:16px}
+  :root[data-theme] .av-controls .compact-language select,:root[data-theme] .top-r .compact-language select{height:40px;min-height:40px;padding-left:27px;padding-right:12px;font-size:11px}
+  :root[data-theme] .av-controls .theme-toggle,:root[data-theme] .top-r .theme-toggle,:root[data-theme] .top-r .chip.btn{box-sizing:border-box;width:40px;height:40px;min-height:40px;padding:0;border-radius:8px}
+  :root[data-theme] .av-controls .av-status{display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box;width:40px;height:40px;min-height:40px;border-radius:8px;padding:0;gap:0;margin:0;font-size:0;background:var(--surface-raised);border-color:var(--border-strong)}
+  :root[data-theme] .av-controls .av-status .status-dot{width:9px;height:9px}
+  :root[data-theme] .av-controls,:root[data-theme] .top-r{gap:6px}
+}
+:root[data-theme] .av-status{box-sizing:border-box;height:40px;min-height:40px;border-radius:8px}
+/* Longer translations wrap within their existing component, including policy headings. */
+:root[data-theme] :is(main.wrap,.av-footer,.rules-content,.act,.identity-copy){overflow-wrap:anywhere;min-width:0}
+:root[data-theme] :is(.av-header,.top) .compact-language select{overflow-wrap:normal}
+:root:lang(ru) :is(h1,h2,.card-wordmark),:root:lang(vi) :is(h1,h2,.card-wordmark){font-family:var(--av-font);letter-spacing:0}
+:root[data-theme] .qt small{top:calc(100% + 1cqw);bottom:auto;width:8.5cqw;white-space:normal;overflow-wrap:anywhere;line-height:1.15;font-size:clamp(7px,1.5cqw,9px)}
+:root[data-theme] .rejs{margin-top:6cqw}

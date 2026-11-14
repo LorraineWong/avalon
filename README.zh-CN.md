@@ -1,10 +1,7 @@
-<img src="assets/brand-mark.svg" width="64" height="64" alt="Avalon Online 标志">
-
-# Avalon Online
-
-供 **5–10 位朋友**一起游玩的免费在线阿瓦隆。创建私人房间，分享链接即可加入，无需注册或下载。
-
-**[开始游戏](https://lorrainewong.github.io/avalon/)** · [玩法指南](https://lorrainewong.github.io/avalon/zh-cn/) · [English](README.md)
+<p align="center"><img src="assets/brand-mark.svg" width="80" height="80" alt="Avalon Online"></p>
+<h1 align="center">Avalon Online</h1>
+<p align="center"><strong><a href="https://lorrainewong.github.io/avalon/">开始游戏</a></strong> · <a href="https://lorrainewong.github.io/avalon/zh-cn/">玩法指南</a> · <a href="docs/README.md">项目文档</a> · <a href="README.md">English</a></p>
+<p align="center">供 <strong>5–10 位朋友</strong>一起游玩的免费在线阿瓦隆。无需注册或下载。</p>
 
 ## 和朋友一起玩
 
@@ -18,7 +15,7 @@
 
 - 完整对局流程：组队、投票、秘密任务、刺杀与再来一局。
 - 17 种角色、推荐预设，以及湖中仙女、王者之剑等可选模块。
-- 手机与桌面适配，浅色／深色主题，中英文切换。
+- 手机与桌面适配，浅色／深色主题，七种语言切换（英文、简体中文、繁体中文、俄文、西班牙文、葡萄牙文、越南文）。
 - 身份与行动加密、本地推理笔记、断线重连及房主转移。
 
 ## 本地开发

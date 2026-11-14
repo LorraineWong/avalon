@@ -1,6 +1,7 @@
-const CACHE = 'avalon-shell-v20';
+const CACHE = 'avalon-shell-v21';
 const SHELL = [
-  './assets/brand-mark.svg', './theme.css?v=20', './site-shell.js?v=20', './site-shell.css?v=20', './style.css?v=20', './app.js?v=20',
+  './locales.js?v=21',
+  './assets/brand-mark.svg', './theme.css?v=21', './site-shell.js?v=21', './site-shell.css?v=21', './style.css?v=21', './app.js?v=21',
   './', './index.html', './style.css', './app.js', './manifest.webmanifest', './assets/app-icon.svg', './assets/player-avatars.webp',
   './vendor/firebase-app-compat.js', './vendor/firebase-auth-compat.js', './vendor/firebase-database-compat.js', './vendor/qrcode.min.js',
   './assets/roles/merlin.webp', './assets/roles/morgana.webp'
