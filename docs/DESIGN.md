@@ -6,19 +6,30 @@ The interface is a playable Arthurian social-deduction table, not a generic dark
 
 Source audited: <https://lorrainewong.github.io/avalon/> (desktop capture, 1440 px wide, 2026-11-12). The original interface used a cool blue glass system, Cinzel/Inter typography, emoji role markers, a two-column home form, a circular game table, and modal card flips. The game structure and interaction model are retained; the presentation layer is replaced.
 
-## Tokens
+## Themes and tokens
 
-| Role | Value | Usage |
-| --- | --- | --- |
-| Night | `#0b0907` | page background |
-| Walnut | `#251a11` | panels and carved table |
-| Parchment | `#f1e7cf` | primary copy |
-| Antique gold | `#d6b566` | primary action, focus, leader state |
-| Moonsteel | `#a7c2ce` | Good alignment |
-| Oxblood | `#d58b75` | Evil alignment |
-| Moss | `#7fa681` | online / connected |
+Every page supports a light and a dark theme. `site-shell.js` sets `data-theme` on `<html>` before first paint: it follows the system preference until the player uses the theme toggle, then remembers the choice in `localStorage` (`lwav.theme`).
 
-Borders use translucent antique gold. Surfaces use a small 4–10 px radius to feel constructed rather than glassy. Shadows are deep and soft, with a restrained inner highlight.
+Colours are defined once as semantic tokens in `theme.css`, which also maps the older variable names used in `style.css` and `landing.css` onto them. Components use tokens, not raw hex values. When adding a colour, define it for both themes and check text contrast in each.
+
+| Token | Light | Dark | Usage |
+| --- | --- | --- | --- |
+| `--page` | `#f6f3eb` | `#18212b` | page background |
+| `--surface` | `#fffdf8` | `#232f3c` | cards and panels |
+| `--surface-raised` | `#eee9dd` | `#2b3948` | controls, raised elements |
+| `--ink` | `#293542` | `#edf1f5` | primary text |
+| `--ink-muted` | `#526170` | `#bbc7d3` | secondary text |
+| `--accent` | `#78551d` | `#e7c77f` | primary action, focus, leader state |
+| `--border` | `#d5cdbd` | `#46576a` | dividers and outlines |
+| `--good-ink` / `--good-wash` | `#235e78` / `#e4eff3` | `#9ed5ed` / `#203e4b` | Good alignment, success, approval |
+| `--evil-ink` / `--evil-wash` | `#963e36` / `#f7e7e1` | `#f3ae9d` / `#492f34` | Evil alignment, failure, rejection |
+| `--success` | `#35623e` | `#b4d9b2` | online / connected |
+
+Surfaces use a small 4–10 px radius.
+
+## Icons
+
+Controls use one inline SVG line-icon set, defined as `ICONS` in `app.js` and drawn with `currentColor`, so icons follow the theme and do not depend on how a platform renders emoji. Add new icons to that set.
 
 ## Typography
 
