@@ -25,3 +25,12 @@ All language-specific source lives in `site/language/`, including the seven
 guide directories, project copy and shared privacy additions. Publication maps
 guide sources back to the stable `/en/`, `/zh-cn/` and other existing routes.
 Do not point browser links at source-only `site/` paths.
+
+### v27 content language navigation
+
+Named static content URLs include both page purpose and language, for example
+`/how-to-play/en/`, `/privacy-policy/zh-cn/` and `/about/vi/`. The language selector
+navigates to the same content page in the new language. Root game navigation uses
+`/?lang=<locale-id>` and preserves room hashes. Static publication chooses the
+page language from the URL rather than localStorage; browser preference is only
+used when resolving legacy shared URLs.

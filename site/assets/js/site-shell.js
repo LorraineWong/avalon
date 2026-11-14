@@ -86,7 +86,7 @@ window.AvalonShell = (() => {
         if(event.target.closest('[data-menu-dismiss],a') || (event.target===dialog && (event.clientX<rect.left || event.clientX>rect.right || event.clientY<rect.top || event.clientY>rect.bottom))) dialog.close();
       });
     }
-    dialog.innerHTML='<div class="mobile-menu-head"><h2 id="av-mobile-menu-title">'+w[0]+'</h2><button type="button" data-menu-dismiss aria-label="'+w[1]+'" autofocus><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></svg></button></div><nav aria-label="'+w[0]+'">'+links(lang,base,current)+projectLink(lang,base,current)+'<a href="'+base+'unofficial-notice/#project-credits">'+w[3]+'</a><a href="https://github.com/LorraineWong/avalon" target="_blank" rel="noopener noreferrer">GitHub</a></nav><div class="mobile-menu-theme"><span>'+w[2]+'</span>'+themeControl(lang)+'</div>'+(inRoom?'<p class="mobile-menu-hint">'+w[4]+'</p>':'');
+    dialog.innerHTML='<div class="mobile-menu-head"><h2 id="av-mobile-menu-title">'+w[0]+'</h2><button type="button" data-menu-dismiss aria-label="'+w[1]+'" autofocus><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></svg></button></div><nav aria-label="'+w[0]+'">'+links(lang,base,current)+'<a href="'+base+pagePath('legal',lang)+'#project-credits">'+w[3]+'</a><a href="https://github.com/LorraineWong/avalon" target="_blank" rel="noopener noreferrer">GitHub</a></nav><div class="mobile-menu-theme"><span>'+w[2]+'</span>'+themeControl(lang)+'</div>'+(inRoom?'<p class="mobile-menu-hint">'+w[4]+'</p>':'');
     if(inRoom) dialog.querySelectorAll('a').forEach(link=>{link.target='_blank';link.rel='noopener noreferrer';});
     opener.setAttribute('aria-expanded','true');
     opener.setAttribute('aria-controls',dialog.id);
@@ -94,9 +94,18 @@ window.AvalonShell = (() => {
     document.documentElement.classList.add('menu-open');
   }
   window.addEventListener('resize',()=>{if(window.innerWidth>600) document.getElementById('av-mobile-menu')?.close();});
-  function links(lang,base,current){const w=pack(lang)?.shell || words[lang]||words.en;return ['',(locale(lang)?.route || (lang==='zh'?'zh-cn':'en'))+'/','privacy/','unofficial-notice/'].map((url,i)=>'<a href="'+base+url+'"'+(['home','guide','privacy','legal'][i]===current?' aria-current="page"':'')+'>'+w[i]+'</a>').join('');}
+  const pageNames={guide:'how-to-play',privacy:'privacy-policy',legal:'terms',support:'about'};
+  function pagePath(kind,lang){const route=locale(lang)?.route||'en';return kind==='home'?'?lang='+lang:pageNames[kind]+'/'+route+'/';}
+  const aboutLabels={en:'About',zh:'关于项目','zh-TW':'關於專案',ru:'О проекте',es:'Acerca de',pt:'Sobre',vi:'Giới thiệu'};
+  function links(lang,base,current){
+    const w=pack(lang)?.shell || words[lang]||words.en;
+    return ['home','guide','support','privacy','legal'].map((kind,i)=>'<a href="'+base+pagePath(kind,lang)+'"'+(kind===current?' aria-current="page"':'')+'>'+[w[0],w[1],aboutLabels[lang]||aboutLabels.en,w[2],w[3]][i]+'</a>').join('');
+  }
   function header(lang,base,current,status=''){const w=pack(lang)?.shell || words[lang]||words.en;return '<header class="av-header"><a class="av-brand" href="'+base+'"><span class="av-mark"><img src="'+base+'assets/brand-mark.svg" alt="" width="40" height="40"></span><span><b>AVALON</b><small>'+w[4]+'</small></span></a><nav class="av-nav" aria-label="Main navigation">'+links(lang,base,current)+'</nav><div class="av-controls">'+status+themeControl(lang)+languageControl(lang)+menuControl(lang,base,current)+'</div></header>';}
-  function projectLink(lang,base,current=''){return window.AvalonProject?'<a href="'+base+'support/"'+(current==='support'?' aria-current="page"':'')+'>'+window.AvalonProject.title(lang)+'</a>':'';}
-  function footer(lang,base){const w=pack(lang)?.shell || words[lang]||words.en;return '<footer class="av-footer"><div><strong>AVALON ONLINE</strong><p>'+w[5]+'</p></div><nav aria-label="Footer">'+links(lang,base,'')+projectLink(lang,base)+'<a href="https://github.com/LorraineWong/avalon" target="_blank" rel="noopener noreferrer">GitHub</a></nav></footer>';}
-  return {header,footer,languages,themeControl,languageControl,menuControl};
+  function socialIcon(name){
+    const paths={github:'<path d="M9 19c-4.3 1.3-4.3-2-6-2m12 5v-3.9a3.4 3.4 0 0 0-.9-2.7c3-.3 6.2-1.5 6.2-6.9a5.4 5.4 0 0 0-1.5-3.7 5 5 0 0 0-.1-3.7S17.5.8 15 2.5a13 13 0 0 0-7 0C5.5.8 4.3 1.1 4.3 1.1a5 5 0 0 0-.1 3.7A5.4 5.4 0 0 0 2.7 8.5c0 5.4 3.2 6.6 6.2 6.9a3.4 3.4 0 0 0-.9 2.7V22"/>',linkedin:'<rect x="3" y="3" width="18" height="18" rx="3"/><path d="M7 10v7m0-10v.1M11 17v-7m0 3a3 3 0 0 1 6 0v4"/>',heart:'<path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/>'};
+    return '<svg class="social-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+(paths[name]||paths.heart)+'</svg>';
+  }
+  function footer(lang,base){const w=pack(lang)?.shell || words[lang]||words.en;return '<footer class="av-footer"><div><strong>AVALON ONLINE</strong><p>'+w[5]+'</p></div><nav aria-label="Footer">'+links(lang,base,'')+'<a href="https://github.com/LorraineWong/avalon" target="_blank" rel="noopener noreferrer">'+socialIcon('github')+'GitHub</a></nav></footer>';}
+  return {header,footer,languages,themeControl,languageControl,menuControl,pagePath,socialIcon};
 })();

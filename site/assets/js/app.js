@@ -42,7 +42,7 @@ if(LOCALES) for(const [id,pack] of Object.entries(LOCALES.packs)){
 const validLanguage = value => Object.hasOwn(I18N,value) ? value : 'en';
 const languageTag = value => LOCALES?.languages.find(x=>x.id===value)?.tag || (value==='zh'?'zh-CN':'en');
 const extra = key => LOCALES?.packs[LANG]?.extra[key] || LOCALES?.packs.en.extra[key] || key;
-const guideRoute = () => (LOCALES?.languages.find(x=>x.id===LANG)?.route || (LANG==='zh'?'zh-cn':'en'))+'/';
+const guideRoute = () => 'how-to-play/'+(LOCALES?.languages.find(x=>x.id===LANG)?.route || (LANG==='zh'?'zh-cn':'en'))+'/';
 let LANG = 'en';
 function t(k, ...a){ let s = (I18N[LANG][k] ?? I18N.zh[k] ?? k); if(LANG==='en' && a[0]===1 && ['goodNeeds','evilNeeds'].includes(k)) s=s.replace('Quests','Quest'); return s.replace(/\{(\d)\}/g, (_,i)=>a[+i] ?? ''); }
 const rName = r => ROLE_TXT[LANG][r][0];
@@ -359,7 +359,7 @@ const S = {
 
 /* ================= Boot ================= */
 async function boot(){
-  LANG = validLanguage(LS.get('lang'));
+  LANG = validLanguage(new URL(location.search||'',location.origin||'https://avalon.lorrainewong.dev').searchParams.get('lang') || LS.get('lang'));
   document.documentElement.lang = languageTag(LANG);
   if(!window.crypto || !crypto.subtle){ $('#app').innerHTML='<div class="glass card">This browser does not support Web Crypto. Please use a recent Chrome / Safari / Edge (https).</div>'; return; }
   render();
@@ -912,12 +912,12 @@ function viewHome(){
   const last=LS.get('last');
   return '<div class="hero"><div class="hero-art hero-art-good"><img src="'+ROLE_META.merlin.art+'" alt="Merlin"></div><div class="hero-art hero-art-evil"><img src="'+ROLE_META.morgana.art+'" alt="Morgana"></div>'
     +'<div class="hero-copy"><div class="eyebrow">'+extra('projectLabel')+'</div><div class="crest"><span>V</span></div><h1>Avalon Online</h1><div class="sub">'+t('tagline')+'</div><p class="hero-lead">'+extra('projectLead')+'</p><p class="hero-oath">'+extra('oath')+'</p>'
-    +'<div class="feature"><span>'+ic('users')+' '+t('feat1')+'</span><span>'+ic('sparkle')+' '+t('feat2')+'</span><span>'+ic('device')+' '+t('feat3')+'</span><span>'+ic('lock')+' '+t('feat4')+'</span></div></div></div>'
+    +'<div class="feature"><span>'+ic('users')+'<b>'+t('feat1')+'</b></span><span>'+ic('sparkle')+'<b>'+t('feat2')+'</b></span><span>'+ic('device')+'<b>'+t('feat3')+'</b></span><span>'+ic('lock')+'<b>'+t('feat4')+'</b></span></div></div></div>'
     +(last ? '<div class="glass resume"><span>'+t('resume','<b style="letter-spacing:2px">'+esc(last)+'</b>')+'</span><button class="btn pri" data-a="resume">'+t('resumeBtn')+'</button></div>' : '')
     +'<div class="home-grid"><div class="glass card"><h2>'+t('nick')+'</h2><input class="input" id="nick" aria-label="'+t('nick')+'" maxlength="12" placeholder="'+t('nickPh')+'" value="'+esc(S.ui.nick)+'">'
     +'<button class="btn pri" data-a="create">'+ic('plus')+t('create')+'</button></div>'
     +'<div class="glass card"><h2>'+t('joinTitle')+'</h2><div class="row"><input class="input code" id="joinCode" aria-label="'+t('codePh')+'" maxlength="8" placeholder="'+t('codePh')+'" value="'+esc(S.ui.joinCode)+'" style="flex:1;min-width:0">'
-    +'<button class="btn" data-a="join">'+t('join')+'</button></div><p class="muted small" style="margin-bottom:0">'+t('joinHint')+'</p></div></div>'
+    +'<button class="btn pri" data-a="join">'+t('join')+'</button></div><p class="muted small" style="margin-bottom:0">'+t('joinHint')+'</p></div></div>'
     ;
 }
 function viewLobby(){
@@ -970,8 +970,8 @@ function viewLobby(){
     +'<div class="lobby"><div class="glass card lobby-players">'+status+'<h2>'+t('players')+' · '+n+'/10</h2><div class="seats">'+seats+'</div>'
     +(seated?'':'<div class="row seat-join"><input class="input" id="nick" maxlength="12" placeholder="'+t('nickPh')+'" value="'+esc(S.ui.nick)+'" style="flex:1;min-width:120px"><button class="btn pri" data-a="seat">'+t('seat')+'</button></div>')
     +'<div class="row lobby-actions">'
-    +(host?'<button class="btn pri big" data-a="start" '+(br.err||S.ui.busy?'disabled':'')+'>'+(S.ui.busy?t('dealing'):ic('play')+t('start'))+'</button>':'<span class="muted lobby-wait">'+ic('clock')+' '+t('waitHost')+'</span>')
-    +'<button class="btn ghost" data-a="leave">'+ic('exit')+t('leave')+'</button></div>'
+    +(host?'<button class="btn start-action big" data-a="start" '+(br.err||S.ui.busy?'disabled':'')+'>'+(S.ui.busy?t('dealing'):ic('play')+t('start'))+'</button>':'<span class="muted lobby-wait">'+ic('clock')+' '+t('waitHost')+'</span>')
+    +'<button class="btn danger" data-a="leave">'+ic('exit')+t('leave')+'</button></div>'
     +(host&&br.err&&!need?'<p class="warn small" style="margin-bottom:0">'+esc(br.err)+'</p>':'')+'</div>'
     +'<div class="glass card lobby-roles"><h2>'+t('roleSettings')+(host?'':' <span class="muted small">· '+t('hostOnly')+'</span>')+'</h2>'+roleSetup+'</div></div>';
 }
@@ -1301,8 +1301,8 @@ document.addEventListener('input', e=>{
   if(e.target.matches&&e.target.matches('.note-text[data-note-player]')) savePrivateNote(e.target.dataset.notePlayer,'text',e.target.value);
 });
 document.addEventListener('change', e=>{
-  if(e.target.matches('[data-site-language]')){ LANG=validLanguage(e.target.value); LS.set('lang',LANG); document.documentElement.lang=languageTag(LANG); return render(); }
-  if(e.target.id==='siteLanguage'){ LANG=validLanguage(e.target.value); LS.set('lang',LANG); document.documentElement.lang=languageTag(LANG); return render(); }
+  if(e.target.matches('[data-site-language]')){ LANG=validLanguage(e.target.value); LS.set('lang',LANG); const url=new URL(location.pathname+location.search,location.origin);url.searchParams.set('lang',LANG);history.replaceState(null,'',url.pathname+url.search+location.hash); document.documentElement.lang=languageTag(LANG); return render(); }
+  if(e.target.id==='siteLanguage'){ LANG=validLanguage(e.target.value); LS.set('lang',LANG); const url=new URL(location.pathname+location.search,location.origin);url.searchParams.set('lang',LANG);history.replaceState(null,'',url.pathname+url.search+location.hash); document.documentElement.lang=languageTag(LANG); return render(); }
   if(e.target.matches&&e.target.matches('.note-select[data-note-player]')){ savePrivateNote(e.target.dataset.notePlayer,'mark',e.target.value); render(); }
   if(e.target.id==='hostSuccessor'){ S.ui.hostSuccessor=e.target.value; S.ui.confirmHostTransfer=false; render(); }
 });

@@ -61,7 +61,7 @@ const I18N = {
     startTitle:'From group chat to game in 30 seconds', startLead:'No accounts, app download, or human dealer required.', start1:'Choose a game name', start1d:'A nickname is enough — never enter real or sensitive information.', start2:'Create and invite', start2d:'Share the room link, five-character code, or table-ready QR.', start3:'Reveal roles privately', start3d:'Everyone checks their own device, then the discussion begins.',
     madeFor:'Made for your next game night', party1:'Around one table', party1d:'One phone each; the bluffing and debate stay face to face.', party2:'Remote game night', party2d:'Drop the room link in chat and keep a voice or video call open.', party3:'New and experienced groups', party3d:'Start with recommended lineups or explore 17 roles and modules.',
     trustTitle:'Built for play, not data collection', trustLead:'Anonymous connections, no ad trackers, and private deduction notes that stay in your browser.', exploreGuide:'Read the full rules and role guide', playNow:'Create A Free Room Now',
-    nick:'Your name', nickPh:'e.g. Alex', create:'Create Room', joinTitle:'Join A Room', codePh:'Room code', join:'Join',
+    nick:'Your Name', nickPh:'e.g. Alex', create:'Create Room', joinTitle:'Join A Room', codePh:'Room code', join:'Join',
     joinHint:'Enter the code a friend sent you, or just open their invite link.', resume:'You were in room {0}', resumeBtn:'Rejoin',
     needNick:'Please enter your name first', badCode:'Please enter a valid room code', notFound:'Room {0} does not exist or was closed',
     connecting:'Connecting…', online:'Online', offline:'Connection lost, reconnecting…', noNet:'Cannot reach the game server. Check your network and refresh.',
