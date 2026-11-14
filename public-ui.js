@@ -23,4 +23,25 @@
     document.querySelector('footer').outerHTML=AvalonShell.footer(lang,base.href);
   }
   render();
+  if(kind==='guide'){
+    const bar=document.querySelector('.guide-jump'), links=[...bar.querySelectorAll('.guide-sections a')];
+    const sections=links.map(link=>document.querySelector(link.getAttribute('href')));
+    let queued=false, active;
+    function updateSection(){
+      queued=false;
+      const edge=bar.getBoundingClientRect().bottom+80;
+      let index=0;
+      sections.forEach((section,i)=>{if(section?.getBoundingClientRect().top<=edge)index=i;});
+      if(scrollY+innerHeight>=document.documentElement.scrollHeight-2)index=links.length-1;
+      if(active===index)return; active=index;
+      links.forEach((link,i)=>{if(i===index)link.setAttribute('aria-current','location');else link.removeAttribute('aria-current');});
+      const selected=links[index], rail=selected.parentElement;
+      if(selected.offsetLeft<rail.scrollLeft || selected.offsetLeft+selected.offsetWidth>rail.scrollLeft+rail.clientWidth){
+        rail.scrollTo({left:Math.max(0,selected.offsetLeft-rail.offsetLeft-8),behavior:'auto'});
+      }
+    }
+    addEventListener('scroll',()=>{if(!queued){queued=true;requestAnimationFrame(updateSection);}},{passive:true});
+    addEventListener('resize',updateSection);
+    updateSection();
+  }
 })();

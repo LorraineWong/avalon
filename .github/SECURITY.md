@@ -12,6 +12,10 @@ Firebase Anonymous Authentication identifies clients. Database rules restrict ho
 
 The Firebase web API key is a public client identifier, not an authorization secret. Authentication and database rules enforce access. Restrict keys to required Firebase APIs and deployment origins. Review App Check before enforcement. Cloud Console restrictions and production configuration must be verified by the maintainer; repository text is not evidence of current deployed settings.
 
+## Incident response
+
+Keep [the emergency shutdown guide](../docs/EMERGENCY.md) and `firebase/emergency-deny-all.rules.json` available offline. Publishing the emergency file stops all client database access without deleting rooms. Normal operation uses `firebase/database.rules.json`; never deploy permissive test rules. The project remains on Spark. New domains must be explicitly added after purchase and verified before use.
+
 ## Checks
 
 `node tests/run-all.mjs` runs offline checks. `node tests/run-all.mjs --live` also creates temporary Firebase test users and a room, verifies allowed/denied operations and cleans them up. Run live checks only against an authorized project.
@@ -31,6 +35,10 @@ Firebase 匿名认证识别客户端，数据库规则限制房主写入及玩�
 ## 配置
 
 Firebase 网页 API Key 是公开项目标识，不是授权秘密。权限由认证与数据库规则控制。应限制 Key 的 API 与部署来源，并在强制启用前评估 App Check。云控制台限制与生产配置需维护者实际核验，仓库文字不证明当前线上设置。
+
+## 应急处理
+
+请把[紧急关闭说明](../docs/EMERGENCY.md)和 `firebase/emergency-deny-all.rules.json` 保存到手机。发布关闭规则会停止所有客户端的数据库访问，但不删除房间。正常运行使用 `firebase/database.rules.json`，不要发布全公开测试规则。保持 Spark；新域名购入后明确加入白名单并验证。
 
 ## 检查
 

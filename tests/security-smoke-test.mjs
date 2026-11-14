@@ -11,8 +11,8 @@ if (!apiKey || !databaseURL) {
 }
 
 // The API key only accepts browser requests from allowed websites (see SECURITY.md),
-// so this script identifies itself as the local development origin.
-const REFERER = process.env.AVALON_REFERER || 'http://localhost/';
+// so this script identifies itself as the deployed browser origin.
+const REFERER = process.env.AVALON_REFERER || 'https://lorrainewong.github.io/';
 
 const room = `SEC${Math.random().toString(36).slice(2, 7).toUpperCase()}`;
 const users = [];
@@ -71,6 +71,9 @@ try {
   guest = await createAnonymousUser();
 
   await expectStatus('Unauthenticated room read is denied', `rooms/${room}`, 'GET', undefined, null, [401]);
+  await expectStatus('Cannot write a seat into a missing room', `rooms/${room}/seats/${guest.localId}`, 'PUT', {j:'{}'}, guest.idToken, [401]);
+  await expectStatus('Cannot write presence into a missing room', `rooms/${room}/online/${guest.localId}`, 'PUT', Date.now(), guest.idToken, [401]);
+  await expectStatus('Cannot write secrets into a missing room', `rooms/${room}/sec/probe`, 'PUT', {j:'{}'}, guest.idToken, [401]);
   await expectStatus('Host can create game state', `rooms/${room}/game`, 'PUT', { host: host.localId, j: '{}' }, host.idToken, [200]);
   await expectStatus('Host can create own seat', `rooms/${room}/seats/${host.localId}`, 'PUT', { j: '{}' }, host.idToken, [200]);
   await expectStatus('Authenticated guest can read a known room', `rooms/${room}`, 'GET', undefined, guest.idToken, [200]);

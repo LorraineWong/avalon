@@ -9,19 +9,19 @@
         },
         "seats": {
           "$uid": {
-            ".write": "auth != null && (auth.uid === $uid || root.child('rooms/' + $code + '/game/host').val() === auth.uid)",
+            ".write": "auth != null && (!newData.exists() || root.child('rooms/' + $code + '/game').exists()) && ((auth.uid === $uid || root.child('rooms/' + $code + '/game/host').val() === auth.uid))",
             ".validate": "newData.hasChildren(['j']) && newData.child('j').isString() && newData.child('j').val().length < 20000"
           }
         },
         "sec": {
           "$id": {
-            ".write": "auth != null && root.child('rooms/' + $code + '/game/host').val() === auth.uid",
+            ".write": "auth != null && (!newData.exists() || root.child('rooms/' + $code + '/game').exists()) && (root.child('rooms/' + $code + '/game/host').val() === auth.uid)",
             ".validate": "newData.hasChildren(['j']) && newData.child('j').isString() && newData.child('j').val().length < 20000"
           }
         },
         "online": {
           "$uid": {
-            ".write": "auth != null && auth.uid === $uid",
+            ".write": "auth != null && (!newData.exists() || root.child('rooms/' + $code + '/game').exists()) && (auth.uid === $uid)",
             ".validate": "newData.isNumber() || newData.isBoolean()"
           }
         }
