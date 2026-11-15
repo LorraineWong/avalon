@@ -1,5 +1,37 @@
 # PlayAvalonNow SEO and branding — v32
 
+## Production status — 15 November 2026, Malaysia time
+
+The owner authorised merge/publication. PR #31 was squash-merged as
+`f796238120c02b884bd7ddb2fd82b5bd210a065a`. GitHub Pages run
+[43719253113](https://github.com/LorraineWong/avalon/actions/runs/43719253113)
+completed successfully for that SHA; its package/deploy jobs, main offline
+checks and the separate production Workers build passed. Runtime/PWA is v32.
+
+The production domain's 154 public files byte-matched that packaged revision,
+including all 37 sitemap locations, the nine-language metadata, versioned
+sharing PNG, favicon and Apple/PWA icons. Nine additional simulated social
+crawler page/image/favicon requests returned matching 200 responses. These are
+HTTP checks, not platform-side WhatsApp/Discord/Facebook preview acceptance.
+
+The same dedicated browser profile first opened its controlled v31 shell offline,
+then completed the real-domain v32 update. Final state had only v32, an active
+controller and 51 cache entries; theme/logo switching, offline home and Japanese/
+Korean About passed. The first observation occurred before the background update
+had completed; an explicit registration update and complete-cache check confirmed
+convergence. No production room, user, auth key or attestation setting was changed.
+
+Remaining owner checks: Search Console live rendering/index requests, actual
+sharing previews and a real phone/desktop multiplayer game. The owner already
+reported adding the sitemap; this release did not inspect the account or submit
+it again. Search appearance and indexing remain Google's choice.
+
+Local release evidence: `release-http.json` and `release-pwa.json` in this task's
+outputs. A documentation-only follow-up records these facts without changing
+runtime assets or cache versions.
+
+## Pre-release planning and checks (historical)
+
 Prepared 15 November 2026, Malaysia time. **Candidate changes, not a production
 release record.** Production checks below refer to v31 until v32 is merged and
 deployed. No Search Console submissions or social posts were made.
