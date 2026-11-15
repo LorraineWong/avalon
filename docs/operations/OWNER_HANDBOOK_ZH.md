@@ -3,6 +3,9 @@
 更新：2026-11-15。**新域名已切换，监控/分析尚未开通；部分验收仍待补。**
 已完成、待配置和未验证项目会分别标明；不要根据下面出现一个入口就认为已经配置好。
 
+当前运行/PWA 版本为 **v32**；九语言搜索资料、分享图与深浅色品牌图标已发布。
+发布检查与待办见 [v32 记录](SEO_BRAND_V32.md)。
+
 当前实际网站：[Avalon Online](https://playavalonnow.com/)。
 www 自动跳到主域名；旧 `avalon.lorrainewong.dev` 已停止游戏服务，只保留 301 永久跳转。
 已完成和待补验收见 [v30 切换记录](DOMAIN_CUTOVER_V30.md)。
@@ -21,9 +24,9 @@ www 自动跳到主域名；旧 `avalon.lorrainewong.dev` 已停止游戏服务�
 
 | 看什么 | 去哪里 | 目前能做什么 |
 | --- | --- | --- |
-| 网站发布是否正常 | [GitHub Actions](https://github.com/LorraineWong/avalon/actions) → Publish static site → 最新 main 记录 | v30 完成迁移，v31 撤下旧来源；对外只使用新主域名。查看自己的更新，不把工作分支预览失败当作正式站失败 |
+| 网站发布是否正常 | [GitHub Actions](https://github.com/LorraineWong/avalon/actions) → Publish static site → 最新 main 记录 | v30 完成迁移，v31 撤下旧来源，v32 发布搜索与品牌优化；对外只使用新主域名。查看自己的更新，不把工作分支预览失败当作正式站失败 |
 | 访客、来源、国家/地区、页面 | Batch 3 待补真实分析面板 | 尚未配置验收；不以“0”替代未启用 |
-| 搜索曝光与抓取问题 | [Search Console](https://search.google.com/search-console) / [Bing Webmaster Tools](https://www.bing.com/webmasters/) | 新域名属性和 sitemap 提交未验证，账户授权后在 Batch 4 配置；收录和排名不保证 |
+| 搜索曝光与抓取问题 | [Search Console](https://search.google.com/search-console) / [Bing Webmaster Tools](https://www.bing.com/webmasters/) | 负责人已报告添加 Sitemap；尚未直接核验 Search Console 后台及收录状态。按 v32 记录做网址检查；Bing 导入仍未验收，收录和排名不保证 |
 | 数据库免费额度 | [Firebase 项目](https://console.firebase.google.com/project/lw-avalon/overview) → Realtime Database → Usage | 本轮 Last 7 days / Nov 8–15：峰值连接 14、下载 27.67 MB、当前存储 309.78 KB；以后查看时重新选日期，不沿用此快照 |
 | 匿名身份使用 | 同项目 → Authentication → Usage；可见指标按当前面板为准 | 匿名用户总数不是活跃玩家数，不批量删除真实用户 |
 | App Check 异常 | 同项目 → Security → App Check → APIs / Apps | 本轮 RTDB Enforced、Auth Monitoring；比较有效/无效/缺失请求变化，Registered 只代表注册。验证失败比例不能直接当成玩家失败或攻击率 |

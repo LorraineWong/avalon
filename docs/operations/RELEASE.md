@@ -54,7 +54,7 @@ not the normal production configuration.
   `versions upload` branch command failed the Worker identity check; no guard
   was disabled. See the [preview operations record](CLOUDFLARE_PREVIEW.md).
   Static previews are not accepted as working Firebase staging.
-- **Domain:** v31 uses `playavalonnow.com` as the only game/promotion URL; www redirects to apex and the
+- **Domain:** the site uses `playavalonnow.com` as the only game/promotion URL; www redirects to apex and the
   previous `avalon.lorrainewong.dev` entry only serves permanent 301; its backend origin authorizations were retired. The
   [cutover record](DOMAIN_CUTOVER_V30.md) distinguishes prepared source from
   actual DNS/HTTPS/backend verification; do not infer success from the source
@@ -113,7 +113,7 @@ from a preview origin. Do not widen origins to make previews multiplayer.
 
 The confirmed support URL is <https://ko-fi.com/lorrainewong>. The new domain,
 certificate, client attestation and backend enforcement are reported separately
-in [launch readiness](LAUNCH_READINESS.md). Runtime/PWA version is v31. Named localized content routes, legacy-link
+in [launch readiness](LAUNCH_READINESS.md). Runtime/PWA version is v32; see the [v32 publication record](SEO_BRAND_V32.md). Named localized content routes, legacy-link
 compatibility and the owner-reviewed public-page changes are described in
 [the v27 review record](PUBLIC_PAGE_REVIEW.md).
 
