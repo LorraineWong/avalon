@@ -2,7 +2,7 @@ import {readdirSync,existsSync} from 'node:fs';
 import {fileURLToPath} from 'node:url';
 import path from 'node:path';
 export const repositoryRoot=fileURLToPath(new URL('../',import.meta.url));
-export const languages=['en','zh-cn','zh-tw','ru','es','pt','vi'];
+export const languages=['en','zh-cn','zh-tw','ru','es','pt','vi','ja','ko'];
 export const entries=[
  ['site/index.html','index.html'],['site/assets','assets'],['site/vendor','vendor'],['site/config','config'],
  ...['locales','game-base','project-copy','policy-copy','policy-pages'].map(name=>['site/language/'+name+'.js','assets/js/'+name+'.js']),
@@ -17,7 +17,7 @@ export const entries=[
 if(existsSync(path.join(repositoryRoot,'site/meta/CNAME')))entries.push(['site/meta/CNAME','CNAME']);
 export function sourceForPublic(publicPath){
  const clean=publicPath.replace(/^\.\//,'').replace(/\/$/,'');
- const named=clean.match(/^(how-to-play|privacy-policy|terms|about)\/(en|zh-cn|zh-tw|ru|es|pt|vi)(?:\/index.html)?$/);
+ const named=clean.match(/^(how-to-play|privacy-policy|terms|about)\/(en|zh-cn|zh-tw|ru|es|pt|vi|ja|ko)(?:\/index.html)?$/);
  if(named){const [,kind,lang]=named;return path.join(repositoryRoot,kind==='how-to-play'?'site/language/'+lang+'/index.html':'site/pages/'+({'privacy-policy':'privacy',terms:'unofficial-notice',about:'support'}[kind])+'/index.html');}
  const match=entries.filter(([,dest])=>clean===dest||clean.startsWith(dest+'/')).sort((a,b)=>b[1].length-a[1].length)[0];
  if(!match)throw Error('Unmapped public path: '+publicPath);

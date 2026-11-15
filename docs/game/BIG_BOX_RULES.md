@@ -22,7 +22,15 @@ Primary references:
 
 The existing Merlin, Percival, Morgana, Mordred, Oberon, Assassin, Loyal Servant, and Minion rules remain available.
 
-## Implemented module
+## Implemented modules
+
+### Lady of the Lake
+
+Available in this website with 7–10 seated players. The system assigns the
+initial holder. After Quests 2, 3 and 4, if play continues, the holder privately
+checks an eligible player's displayed loyalty and passes the token to them.
+Current and former holders cannot be checked. A check reveals loyalty, not a
+specific character, and preserves the Trickster/Troublemaker exceptions.
 
 ### Excalibur
 
@@ -42,6 +50,21 @@ During Team Building, the Leader assigns Excalibur to a Team member other than t
 - Sorcerers
 - Messengers
 - Plot cards
+- Lady of the Sea
 - Trapper
 
 The publisher sell sheet mentions a **Deceiver**, but the printed rulebook's component list and character rules do not define a Deceiver card. It is therefore not implemented until an official rule or erratum establishes its behavior.
+
+
+## Player-count and guide reference
+
+The website starts with 5–10 seated players, including the host. Quest team
+sizes and faction totals come from `SIZES` and `EVIL_N` in `site/assets/js/app.js`.
+Only Quest 4 at 7–10 players needs two Fail cards. Excalibur and the Lancelot
+pair can be selected at 5–10 players when the role selection fits both faction
+budgets; selecting the Lancelot pair does not increase the player count.
+
+The seven static guides distinguish supported options from unavailable
+extensions and provide separate module references and player-count guidance.
+Original Lady/Excalibur guide illustrations live in `site/assets/modules/` and
+are covered by the image exclusion in `site/assets/LICENSE.md`, not MIT.

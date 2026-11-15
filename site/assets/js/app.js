@@ -772,6 +772,53 @@ async function computeNext(g){
 function nickOf(p){ const g=S.game; return (S.seats[p] && S.seats[p].nick) || (g && g.nicks && g.nicks[p]) || '?'; }
 function avatar(p, cls){ return '<div class="'+(cls||'av')+' player-avatar" style="'+avStyle(p)+'" aria-hidden="true"></div>'; }
 
+/* Reuse existing DOM during room synchronization. Keeping unchanged inputs,
+ * panels and table nodes avoids restarting CSS animations or losing selection. */
+function viewNodeKey(node){
+  if(node.nodeType!==1) return node.nodeName;
+  for(const name of ['id','data-note-player','data-pick','data-tool','data-a','data-reaction','data-set']){
+    if(node.hasAttribute(name)) return node.nodeName+':'+name+':'+node.getAttribute(name);
+  }
+  const structural=[...node.classList].find(name=>!['glass','card','btn','chip','muted','small','tiny'].includes(name));
+  return node.nodeName+':'+(structural||'');
+}
+function patchViewChildren(parent, next){
+  let cursor=parent.firstChild;
+  for(const desired of [...next.childNodes]){
+    let current=cursor;
+    const key=viewNodeKey(desired);
+    while(current && (current.nodeType!==desired.nodeType || current.namespaceURI!==desired.namespaceURI || viewNodeKey(current)!==key)) current=current.nextSibling;
+    if(!current){ parent.insertBefore(desired,cursor); continue; }
+    if(current!==cursor) parent.insertBefore(current,cursor);
+    const formValue=desired.value, formChecked=desired.checked;
+    if(!current.isEqualNode(desired)){
+      if(current.nodeType===1){
+        for(const attr of [...current.attributes]) if(!desired.hasAttribute(attr.name)) current.removeAttribute(attr.name);
+        for(const attr of [...desired.attributes]) if(current.getAttribute(attr.name)!==attr.value) current.setAttributeNS(attr.namespaceURI,attr.name,attr.value);
+        patchViewChildren(current,desired);
+      }else if(current.nodeValue!==desired.nodeValue) current.nodeValue=desired.nodeValue;
+    }
+    // Attribute equality does not imply equality of live form properties.
+    if(['INPUT','TEXTAREA','SELECT'].includes(current.nodeName)){
+      if(current.value!==formValue) current.value=formValue;
+      if(current.nodeName==='INPUT' && current.checked!==formChecked) current.checked=formChecked;
+    }
+    cursor=current.nextSibling;
+  }
+  while(cursor){const nextNode=cursor.nextSibling;parent.removeChild(cursor);cursor=nextNode;}
+}
+function updateView(element,html){
+  if(element._viewHTML===html) return false;
+  // The offline rule simulator has no DOM; browsers use the reconciliation path.
+  if(!document.createElement || !element.childNodes) element.innerHTML=html;
+  else{
+    const template=document.createElement('template');template.innerHTML=html;
+    patchViewChildren(element,template.content);
+  }
+  element._viewHTML=html;
+  return true;
+}
+
 function render(){
   const app=$('#app'); if(!app) return;
   document.title=LOCALES?extra('pageTitle'):(LANG==='zh'?'阿瓦隆在线玩｜免费、无需注册、5–10 人好友房':'Avalon Online | Free 5–10 Player Social Deduction Game');
@@ -779,14 +826,14 @@ function render(){
   const gameActive=!!(S.code && S.game && S.game.status!=='lobby');
   document.body.classList.toggle('game-active', gameActive);
   document.body.classList.toggle('game-ended', gameActive && S.game.status==='end');
-  const a=document.activeElement, fid=a && a.id, fsel=a && a.selectionStart;
+  const a=document.activeElement, fid=a && a.id, fsel=a && a.selectionStart, fend=a && a.selectionEnd, fdir=a && a.selectionDirection;
   let html=topBar();
   if(!S.code) html+=viewHome();
   else if(!S.game) html+='<div class="glass card" style="text-align:center;max-width:480px;margin:40px auto">'+t('entering', esc(S.code))+'<div class="muted small" style="margin-top:6px">'+(Net.connected()?'':t('connecting'))+'</div></div>';
   else if(S.game.status==='lobby') html+=viewLobby();
   else html+=viewGame();
   html+=siteFooter()+privacyCoverHtml();
-  app.innerHTML=html;
+  updateView(app,html);
   try{
     const dock=document.querySelector('.dock'), fixed=dock && getComputedStyle(dock).position==='fixed';
     document.documentElement.style.setProperty('--dock-h', (fixed?dock.offsetHeight:0)+'px');
@@ -796,7 +843,7 @@ function render(){
   renderInfoModal();
   renderQRModal();
   renderConfirmModal();
-  if(fid){ const el=document.getElementById(fid); if(el){ el.focus(); try{ el.setSelectionRange(fsel,fsel); }catch(e){} } }
+  if(fid && !a.isConnected){ const el=document.getElementById(fid); if(el){ el.focus({preventScroll:true}); try{ el.setSelectionRange(fsel,fend,fdir); }catch(e){} } }
 }
 function topBar(){
   const conn=Net.connected();
@@ -824,22 +871,23 @@ function currentLineupContent(){
   if(built.err || !built.roles) return '';
   const counts={}; built.roles.forEach(r=>counts[r]=(counts[r]||0)+1);
   const roles=Object.keys(counts);
-  return '<section class="current-lineup-guide"><div class="lineup-guide-head"><div><h3>'+ic('users')+' '+t('currentLineup')+' · '+n+'</h3><p>'+t('lineupHint')+(actual<5?' '+t('lineupPreview',n):'')+'</p></div><div class="lineup-totals"><span class="tag good">'+built.gd+' '+t('good')+'</span><span class="tag evil">'+built.ev+' '+t('evil')+'</span></div></div><div class="rgrid lineup-guide-grid">'+roles.map(r=>roleGuide(r,counts[r])).join('')+'</div></section>';
+  return '<section class="current-lineup-guide"><div class="lineup-guide-head"><div><h3>'+ic('users')+' '+t('currentLineup')+' · '+n+'</h3><p>'+t('lineupHint')+(actual<5?' '+t('lineupPreview',n):'')+'</p></div><div class="lineup-totals"><span class="tag good">'+built.gd+' '+t('good')+'</span><span class="tag evil">'+built.ev+' '+t('evil')+'</span></div></div><div class="rgrid lineup-guide-grid">'+roles.map(r=>roleGuide(r,counts[r])).join('')+'</div></section>'
+    +(window.AvalonGuide?AvalonGuide.modules(LANG,{base:'./',settings:S.game.settings||{},n,variant:'room'}):'');
 }
 function setupTable(){
-  return '<section class="setup-reference"><h3>'+ic('users')+extra('setupReference')+'</h3><div class="setup-table-wrap"><table class="setup-table"><thead><tr><th scope="col">'+t('players')+'</th><th scope="col" class="good-text">'+ic('shield')+t('good')+'</th><th scope="col" class="evil-text">'+ic('sword')+t('evil')+'</th><th scope="col">'+extra('questTeams')+'</th></tr></thead><tbody>'
+  return '<section class="setup-reference"><h3>'+ic('users')+(window.AvalonGuide?AvalonGuide.copy(LANG).table:extra('setupReference'))+'</h3>'+(window.AvalonGuide?AvalonGuide.players(LANG):'')+'<div class="setup-table-wrap"><table class="setup-table"><thead><tr><th scope="col">'+t('players')+'</th><th scope="col" class="good-text">'+ic('shield')+t('good')+'</th><th scope="col" class="evil-text">'+ic('sword')+t('evil')+'</th><th scope="col">'+extra('questTeams')+'</th></tr></thead><tbody>'
     +[5,6,7,8,9,10].map(n=>'<tr><th scope="row">'+n+'</th><td class="good-text">'+(n-EVIL_N[n])+'</td><td class="evil-text">'+EVIL_N[n]+'</td><td><div class="quest-sizes">'+SIZES[n].map((size,i)=>'<span class="'+(n>=7&&i===3?'two-fails':'')+'" title="'+t('questN',i+1)+(n>=7&&i===3?' · '+t('needTwo'):'')+'">'+size+'</span>').join('')+'</div></td></tr>').join('')
-    +'</tbody></table></div><p class="setup-footnote">'+extra('setupFootnote')+'</p></section>';
+    +'</tbody></table></div><p class="setup-footnote">'+(window.AvalonGuide?AvalonGuide.copy(LANG).hint:extra('setupFootnote'))+'</p></section>';
 }
 function rulesContent(){
   const good=['merlin','percival','cleric','troublemaker','untrustworthy','lancelotGood','servant'];
   const evil=['assassin','morgana','mordred','oberon','trickster','lunatic','brute','revealer','lancelotEvil','minion'];
   return '<section class="rules-flow"><h3>'+ic('sword')+' '+t('howToPlay')+'</h3><ol>'
     +[['step1Title','step1Body'],['step2Title','step2Body'],['step3Title','step3Body'],['step4Title','step4Body']].map(x=>'<li><b>'+t(x[0]).replace(/^\d · /,'')+'</b><span>'+t(x[1])+'</span></li>').join('')+'</ol></section>'
-    +'<div class="rules-copy"><p>'+t('rulesP3')+'</p></div><h3 class="all-role-title">'+t('allRoleGuide')+'</h3>'
+    +'<h3 class="all-role-title">'+t('allRoleGuide')+'</h3>'
     +'<div class="rule-camps"><section class="camp good"><h3>'+ic('shield')+' '+t('goodCamp')+'</h3><div class="rgrid">'+good.map(r=>roleGuide(r)).join('')+'</div></section>'
     +'<section class="camp evil"><h3>'+ic('sword')+' '+t('evilCamp')+'</h3><div class="rgrid">'+evil.map(r=>roleGuide(r)).join('')+'</div></section></div>'
-    +setupTable();
+    +(window.AvalonGuide?AvalonGuide.modules(LANG,{base:'./',variant:'room'}):'')+setupTable();
 }
 function rulesBlock(){
   return '<details class="rules" '+(S.ui.rulesInlineOpen?'open':'')+'><summary><span class="summary-mark">'+ic('sparkle')+'</span> '+t('rules')+'</summary>'+rulesContent()+'</details>';
@@ -899,10 +947,10 @@ function runConfirmed(){
 function renderConfirmModal(){
   const el=$('#confirmModal'); if(!el) return;
   const pending=S.ui.confirm;
-  if(!pending){ el.innerHTML=''; return; }
+  if(!pending){ updateView(el,''); return; }
   const people=(pending.people||[]).map(pid=>'<span class="confirm-person"><i class="player-avatar" style="'+avStyle(pid)+'"></i><b>'+esc(nickOf(pid))+'</b></span>').join('');
-  el.innerHTML='<div class="rules-modal confirm-modal" role="dialog" aria-modal="true" aria-labelledby="confirmTitle"><div class="glass confirm-sheet '+esc(pending.action)+'"><div class="confirm-mark">!</div><h2 id="confirmTitle">'+t('confirmTitle')+'</h2><p>'+esc(pending.message)+'</p>'+(people?'<div class="confirm-people">'+people+'</div>':'')+'<div class="row"><button class="btn ghost big" data-a="confirmCancel">'+t('cancel')+'</button><button class="btn evil big" data-a="confirmRun">'+esc(pending.confirmLabel||t('confirm'))+'</button></div></div></div>';
-  requestAnimationFrame(()=>el.querySelector('[data-a="confirmRun"]')?.focus());
+  const html='<div class="rules-modal confirm-modal" role="dialog" aria-modal="true" aria-labelledby="confirmTitle"><div class="glass confirm-sheet '+esc(pending.action)+'"><div class="confirm-mark">!</div><h2 id="confirmTitle">'+t('confirmTitle')+'</h2><p>'+esc(pending.message)+'</p>'+(people?'<div class="confirm-people">'+people+'</div>':'')+'<div class="row"><button class="btn ghost big" data-a="confirmCancel">'+t('cancel')+'</button><button class="btn evil big" data-a="confirmRun">'+esc(pending.confirmLabel||t('confirm'))+'</button></div></div></div>';
+  if(updateView(el,html)) requestAnimationFrame(()=>el.querySelector('[data-a="confirmRun"]')?.focus({preventScroll:true}));
 }
 function privacyCoverHtml(){
   if(!S.ui.privacyCover) return '';

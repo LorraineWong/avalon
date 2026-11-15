@@ -15,7 +15,7 @@ Use a voice call for remote games, or talk around the same table. Each player ne
 
 - Full game flow: team proposals, voting, secret Quest cards, assassination and rematches.
 - 17 character types, role presets and optional modules, including Lady of the Lake and Excalibur.
-- Mobile and desktop layouts, light and dark themes, seven languages: English, 简体中文, 繁體中文, Русский, Español, Português and Tiếng Việt.
+- Mobile and desktop layouts, light and dark themes, nine languages: English, 简体中文, 繁體中文, Русский, Español, Português, Tiếng Việt, 日本語 and 한국어.
 - Encrypted roles and actions, local deduction notes, reconnect support and host handoff.
 
 ## Why I made it

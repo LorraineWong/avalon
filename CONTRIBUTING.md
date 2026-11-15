@@ -47,5 +47,5 @@ or weaken behaviour assertions merely to make a formatter pass. See the
 
 先检查工作区并同步远端，再建分支。项目是原生静态网站，无需安装运行依赖。
 界面开发请用 `dev/ui-preview.html`，不要误连真实房间。提交前运行离线检查，
-涉及界面时检查七语言、双主题及手机布局。格式整理与玩法改动尽量分开；
+涉及界面时检查九语言、双主题及手机布局。格式整理与玩法改动尽量分开；
 图片不包含在 MIT 许可中。AI 开发工具共用的维护规则在 [AGENTS.md](AGENTS.md)。

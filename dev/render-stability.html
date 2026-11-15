@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Offline render stability check</title>
+    <style>body{font:16px/1.5 system-ui;margin:24px}iframe{width:390px;max-width:100%;height:850px;border:1px solid #999}pre{white-space:pre-wrap}</style>
+  </head>
+  <body>
+    <h1>Offline render stability check</h1>
+    <p>Uses the simulated backend only. No production room is created.</p>
+    <pre id="result" role="status">Running…</pre>
+    <iframe id="preview" title="Simulated room" src="ui-preview.html?state=propose&amp;host=0&amp;lang=en"></iframe>
+    <script type="module">
+      const result=document.querySelector('#result'), frame=document.querySelector('#preview');
+      const sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms));
+      const assert=(condition,message)=>{if(!condition)throw new Error(message);};
+      async function until(fn){for(let i=0;i<100;i++){if(fn())return;await sleep(50);}throw new Error('Timed out waiting for simulated UI');}
+      try{
+        await until(()=>frame.contentDocument?.querySelector('.act'));
+        const w=frame.contentWindow, d=frame.contentDocument;
+        d.querySelector('[data-tool="notes"]').click();
+        await until(()=>d.querySelector('.note-text'));
+        const note=d.querySelector('.note-text'), panel=d.querySelector('.tool-body'), table=d.querySelector('.table');
+        note.value='Private draft remains here';note.dispatchEvent(new w.Event('input',{bubbles:true}));
+        note.focus();note.setSelectionRange(2,9,'backward');
+        panel.scrollTop=36;const panelScroll=panel.scrollTop, pageScroll=w.scrollY;
+        for(let i=0;i<6;i++){
+          const seat=JSON.parse(w.__previewTree.rooms.DEMO1.seats.p2.j);seat.nick='Player '+i;
+          w.__previewWrite('rooms/DEMO1/seats/p2/j',JSON.stringify(seat));await sleep(100);
+        }
+        await sleep(4300); // Include the normal four-second room refresh.
+        assert(note===d.querySelector('.note-text'),'Sync replaced the note input');
+        assert(panel===d.querySelector('.tool-body'),'Sync replaced the open panel');
+        assert(table===d.querySelector('.table'),'Sync replaced the game table');
+        assert(d.activeElement===note,'Sync lost input focus');
+        assert(note.value==='Private draft remains here','Sync lost the note');
+        assert(note.selectionStart===2&&note.selectionEnd===9&&note.selectionDirection==='backward','Sync changed the selection');
+        assert(panel.scrollTop===panelScroll&&w.scrollY===pageScroll,'Sync moved the scroll position');
+        assert(table.textContent.includes('Player 5'),'Remote nickname updates stopped rendering');
+        // Updating live form properties must work even when attributes match.
+        const fixture=d.createElement('div');d.body.appendChild(fixture);
+        w.updateView(fixture,'<select id="select-check"><option value="a">A</option></select><textarea>First</textarea>');
+        const select=fixture.querySelector('select'), text=fixture.querySelector('textarea');
+        w.updateView(fixture,'<select id="select-check"><option value="a">A</option><option value="b" selected>B</option></select><textarea>Second</textarea>');
+        assert(select===fixture.querySelector('select')&&select.value==='b','Select value did not update');
+        assert(text===fixture.querySelector('textarea')&&text.value==='Second','Textarea value did not update');
+        fixture.remove();
+        d.querySelector('.tool-close').click();
+        // Actual phase changes must replace the available actions correctly.
+        const game=JSON.parse(w.__previewTree.rooms.DEMO1.game.j);
+        game.phase='vote';game.team=game.order.slice(0,2);game.step=game.gid+':vote:0:1';
+        w.__previewWrite('rooms/DEMO1/game/j',JSON.stringify(game));
+        await until(()=>d.querySelector('[data-vote="1"]'));
+        d.querySelector('[data-vote="1"]').click();
+        await until(()=>JSON.parse(w.__previewTree.rooms.DEMO1.seats.me.j).act);
+        // An open confirmation should keep keyboard focus on Cancel across syncs.
+        w.askConfirm('Test only','leave');await sleep(50);
+        const cancel=d.querySelector('[data-a="confirmCancel"]');cancel.focus();w.sync();await sleep(100);
+        assert(cancel===d.querySelector('[data-a="confirmCancel"]')&&d.activeElement===cancel,'Sync reset confirmation focus');
+        cancel.click();
+        result.textContent='PASS — idle and changed syncs preserve nodes, focus, selection and scroll; remote updates, form values, phase changes and vote submission still work.';
+        result.dataset.status='passed';
+      }catch(error){result.textContent='FAIL — '+error.message;result.dataset.status='failed';console.error(error);}
+    </script>
+  </body>
+</html>

@@ -22,22 +22,22 @@
     <meta property="og:type" content="article" />
     <meta property="og:url" content="https://avalon.lorrainewong.dev/how-to-play/zh-cn/" />
     <meta property="og:image" content="https://avalon.lorrainewong.dev/assets/social-preview.png" />
-    <link rel="stylesheet" href="../assets/css/landing.css?v=27" />
-    <link rel="stylesheet" href="../assets/css/site-shell.css?v=27" />
-    <link rel="stylesheet" href="../assets/css/theme.css?v=27" />
-    <script src="../assets/js/locales.js?v=27"></script>
-    <script src="../assets/js/project-copy.js?v=27"></script>
-    <script src="../assets/js/policy-copy.js?v=27"></script>
-    <script src="../assets/js/policy-pages.js?v=27"></script>
-    <script src="../assets/js/project.js?v=27"></script>
-    <script src="../assets/js/site-shell.js?v=27"></script>
+    <link rel="stylesheet" href="../assets/css/landing.css?v=28" />
+    <link rel="stylesheet" href="../assets/css/site-shell.css?v=28" />
+    <link rel="stylesheet" href="../assets/css/theme.css?v=28" />
+    <script src="../assets/js/locales.js?v=28"></script>
+    <script src="../assets/js/project-copy.js?v=28"></script>
+    <script src="../assets/js/policy-copy.js?v=28"></script>
+    <script src="../assets/js/policy-pages.js?v=28"></script>
+    <script src="../assets/js/project.js?v=28"></script>
+    <script src="../assets/js/site-shell.js?v=28"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Noto+Serif+SC:wght@500;600;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="icon" type="image/svg+xml" href="../assets/brand-mark.svg?v=27" />
+    <link rel="icon" type="image/svg+xml" href="../assets/brand-mark.svg?v=28" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta
       name="twitter:image"
@@ -51,7 +51,9 @@
     <link rel="alternate" hreflang="pt" href="https://avalon.lorrainewong.dev/how-to-play/pt/" />
     <link rel="alternate" hreflang="vi" href="https://avalon.lorrainewong.dev/how-to-play/vi/" />
     <link rel="alternate" hreflang="x-default" href="https://avalon.lorrainewong.dev/" />
-  </head>
+  <link rel="alternate" hreflang="ja" href="https://avalon.lorrainewong.dev/how-to-play/ja/" />
+<link rel="alternate" hreflang="ko" href="https://avalon.lorrainewong.dev/how-to-play/ko/" />
+</head>
   <body>
     <nav class="wrap nav">
       <a class="brand" href="../">AVALON</a>
@@ -99,7 +101,7 @@
             <circle cx="12" cy="12" r="9" />
             <ellipse cx="12" cy="12" rx="4" ry="9" />
             <path d="M3 12h18" /></svg
-          ><b>7 种语言</b><span>游戏中随时切换</span>
+          ><b>9 种语言</b><span>游戏中随时切换</span>
         </div>
       </div>
       <section id="rules">
@@ -125,22 +127,15 @@
             <strong>4 · 决定胜负</strong>
             <p>好人完成三个任务后，刺客仍可刺杀梅林并为坏人翻盘。</p>
           </article>
-          <article class="card">
-            <strong>第 4 个任务</strong>
-            <p>七人及以上时，第 4 个任务需要两张失败牌才会失败。</p>
-          </article>
-          <article class="card">
-            <strong>连续否决</strong>
-            <p>同一任务连续五支队伍被否决，坏人立即获胜。</p>
-          </article>
+
         </div>
       </section>
       <section id="roles">
         <div class="kicker">角色指南</div>
-        <h2>全部 17 种角色</h2>
-        <p class="lead">新手先从经典阵容开始。展开查看各阵营角色，扩展角色仅在房主启用时加入。</p>
-        <details class="guide-camp" open>
-          <summary>好人阵营</summary>
+        <h2>认识你的角色</h2>
+        <p class="lead">展开阵营查看角色；只有房主启用的角色才会加入本局。</p>
+        <section class="guide-camp">
+          <h3>好人阵营</h3>
           <div class="role-list">
             <article class="character-card good">
               <img
@@ -278,9 +273,9 @@
               </div>
             </article>
           </div>
-        </details>
-        <details class="guide-camp" open>
-          <summary>坏人阵营</summary>
+        </section>
+        <section class="guide-camp">
+          <h3>坏人阵营</h3>
           <div class="role-list">
             <article class="character-card evil">
               <img
@@ -473,19 +468,14 @@
               </div>
             </article>
           </div>
-        </details>
-        <h3>可选模块</h3>
-        <p>
-          湖中仙女（可选，7 人以上）：第 2、3、4
-          个任务结束后，持有者秘密查验一名玩家的阵营，然后把仙女交给对方。持有过仙女的人不能再被查验。
-        </p>
-        <p>
-          王者之剑：持剑者可替换另一名队员的任务牌。兰斯洛特效忠转换：每次任务开始抽取效忠牌；此模式下两名兰斯洛特互不认识。
-        </p>
+        </section>
+        <!-- guide:modules -->
       </section>
       <section id="players">
         <div class="kicker">PLAYER COUNT</div>
-        <h2>5–10 人阵营配置</h2>
+        <h2>人数配置</h2>
+        <!-- guide:players -->
+        <div class="guide-count-reference">
         <div class="setup-table-wrap">
           <table class="setup-table">
             <thead>
@@ -576,9 +566,8 @@
             </tbody>
           </table>
         </div>
-        <p class="setup-footnote">
-          队伍人数按任务 1–5 排列。7 人及以上，第 4 个任务需要两张失败牌。
-        </p>
+        <p class="setup-footnote"><!-- guide:player-note --></p>
+        </div>
       </section>
       <section id="faq" class="faq">
         <div class="kicker">FAQ</div>
@@ -612,6 +601,6 @@
         </div>
       </div>
     </footer>
-    <script src="../assets/js/public-ui.js?v=27"></script>
+    <script src="../assets/js/public-ui.js?v=28"></script>
   </body>
 </html>

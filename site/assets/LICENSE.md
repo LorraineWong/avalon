@@ -8,3 +8,8 @@ The maintainer confirms these images were generated with GPT and that no officia
 
 This image exclusion does not apply to the source code in `assets/js/` or
 `assets/css/`; those files remain under the root MIT License.
+
+The guide illustrations `modules/lady-of-the-lake.webp` and
+`modules/excalibur.webp` were generated with the built-in GPT image-generation
+tool on 2026-11-15. They are original illustrative assets, not reproductions of
+official game cards, and follow the same image exclusion above.

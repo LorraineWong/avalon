@@ -1,7 +1,7 @@
 /* Shared navigation and language preference for every public content page. */
 (() => {
   const path=location.pathname;
-  const named=path.match(/\/(how-to-play|privacy-policy|terms|about)\/(en|zh-cn|zh-tw|ru|es|pt|vi)\/(?:index.html)?$/);
+  const named=path.match(/\/(how-to-play|privacy-policy|terms|about)\/(en|zh-cn|zh-tw|ru|es|pt|vi|ja|ko)\/(?:index.html)?$/);
   const base=new URL(named?'../../':'../',location.href);
   const kind=named?({'how-to-play':'guide','privacy-policy':'privacy',terms:'legal',about:'support'}[named[1]]):path.includes('/support/')?'support':path.includes('/privacy/')?'privacy':path.includes('/unofficial-notice/')?'legal':'guide';
   const registry=window.AvalonLocales;

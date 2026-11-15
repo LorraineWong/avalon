@@ -104,3 +104,66 @@ These are browser redirects, not HTTP 301 responses. The game remains at `/`;
 `policy-copy.js` adds the App Check and external-support disclosures. Both static
 publication and the public renderer use these sources. Policy changes require
 owner review before release; do not infer a legal compliance certification.
+
+## Public-page typography
+
+The public reading scale at the end of `site/assets/css/theme.css` is scoped to
+`main.wrap`, outside the game panels. Guides, policies, terms and About share
+`--content-title` (28–38px), `--content-heading` (22–26px), `--content-body`
+(15px) and `--content-small` (13px). Keep new document content on this scale
+instead of adding page-specific font sizes. Branding and game controls have
+separate sizing. About copy remains in `site/language/project-copy.js`; update
+all seven languages together and preserve the payment and rights disclosures.
+
+Game dialogs use `--dialog-title` (20px) and rule subsections use
+`--dialog-subtitle` (16px), both in the shared UI font. The compact QR title
+retains its separately reviewed 15px phone / 16px desktop scale. Public Russian
+and Vietnamese titles select the UI font to avoid falling through the Latin
+display font to a different serif family.
+
+
+## Shared width and room updates
+
+`--av-content-width` sets the shared 1208px content boundary. Public documents,
+home panels and room layouts use the same 16px side gutters; paragraphs have a
+separate readable line length without narrowing their page container.
+Room text uses 16px headings, 15px main explanations, 14px names and 13px
+secondary copy. Table markers remain container-sized so ten seats fit a phone.
+Mobile text-entry controls use 16px to avoid browser focus zoom.
+
+`updateView` in `site/assets/js/app.js` skips unchanged output and reconciles
+changed DOM nodes. Do not restore whole-app `innerHTML` replacement on sync:
+it restarts sheet animations and interrupts input state. Keep live form values
+in sync as well as attributes, and focus confirmation actions only on changes.
+After renderer edits, open `/dev/render-stability.html` on the packaged local
+preview. It uses the fake backend and checks a timer tick, changed remote
+records, note selection/scroll, native form values, confirmation focus, a phase
+change and a vote submission. It must report PASS. This is a browser regression,
+not a production multiplayer or capacity test.
+
+## Shared quick-start guide
+
+The public guide and room reference share concise module/player copy in
+`window.AvalonLocales.guide` (`site/language/locales.js`) and render it with
+`site/assets/js/guide.js`. The game loads that helper before `app.js`; its
+versioned URL is included in the service-worker shell.
+
+Guide source HTML keeps the role catalog, four steps and numeric table, with
+three `guide:` comment slots for shared modules, player summary and the note
+below the table.
+`content-pages.mjs` expands these slots for both legacy and named static guides.
+Do not replace the slots with a second independent copy of the instructions.
+Public and full in-room guides keep roles, optional modules and the count table
+expanded, with no disclosure controls. Modules reuse the same role-card layout
+as their surrounding Good/Evil cards. The in-room current-lineup tab shows only enabled modules
+(and the Lake only at seven or more players). Keep the explanations brief without hiding cards or tables, rather than
+adding long step-by-step references.
+
+
+## v28 language and navigation additions
+
+Nine locales now include Japanese (`ja`) and Korean (`ko`), with matching public
+route segments. See LOCALIZATION.md for the current registry and review scope.
+The global header uses its side menu at widths up to 1200px; CSS and the menu's
+resize/focus handling must keep that breakpoint aligned. It must not wrap the
+navigation into a second row at intermediate widths.

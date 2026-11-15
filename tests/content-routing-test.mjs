@@ -12,7 +12,7 @@ try{
   const links=elements(html,'link');
   assert.equal(links.filter(l=>l.rel==='canonical').length,1);
   assert.ok(links.some(l=>l.rel==='canonical'&&l.href==='https://avalon.lorrainewong.dev/'+route));
-  assert.equal(links.filter(l=>l.rel==='alternate'&&l.hreflang!=='x-default').length,7,'all language alternates');
+  assert.equal(links.filter(l=>l.rel==='alternate'&&l.hreflang!=='x-default').length,languages.length,'all language alternates');
   assert.equal(elements(html,'h1').length,1,'one static page heading');
   assert.equal((html.match(/id="privacy-additions"/g)||[]).length,page==='privacy-policy'?1:0,'no duplicate privacy content');
   assert.equal((html.match(/id="project-credits"/g)||[]).length,page==='about'?1:0,'credits live only on About');
@@ -23,7 +23,7 @@ try{
    assert.ok(existsSync(path.resolve(out,route,href.split('?')[0])),'packaged asset '+route+' '+href);
   }
  }
- const xml=readFileSync(path.join(out,'sitemap.xml'),'utf8');assert.equal((xml.match(/<loc>/g)||[]).length,29);
+ const xml=readFileSync(path.join(out,'sitemap.xml'),'utf8');assert.equal((xml.match(/<loc>/g)||[]).length,1+languages.length*4);
  assert.equal(xml,readFileSync(new URL('../site/meta/sitemap.xml',import.meta.url),'utf8'),'source and output sitemap agree');
- console.log('Content routing: 28 localized static pages, reciprocal alternates, named navigation, 29 sitemap entries and legacy route preservation.');
+ console.log('Content routing: 36 localized static pages, reciprocal alternates, named navigation, 37 sitemap entries and legacy route preservation.');
 }finally{rmSync(out,{recursive:true,force:true});}
