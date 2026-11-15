@@ -14,7 +14,7 @@ by default; keep production-writing tests out of that automatic set.
 | --------------------------------- | ------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------- |
 | Game rules and privacy invariants | `big-box-rules`, `assassination-result`, `abuse-prevention`, `private-notes`, `table-experience` | Supported rules, remote input checks, secret information boundaries and selected UI contracts      |
 | Multiplayer simulation            | `multiplayer-flow`                                                                               | Multiple isolated VM clients using an in-memory Firebase stand-in, including Quest 4 and reconnect |
-| Interface and copy contracts      | `compact-ui`, `party-experience`, `public-experience`, `theme-preference`                        | UI/source contracts, PWA metadata, theme persistence and system preference changes                 |
+| Interface and copy contracts      | `compact-ui`, `design-scale`, `party-experience`, `public-experience`, `theme-preference`                        | UI/source contracts, PWA metadata, theme persistence and system preference changes                 |
 | Static site consistency           | `guide-reference`, `localization`, `release-version`, `repository-integrity`                     | Guide/rule parity, nine-language completeness, cache versions and local resource/document links   |
 | Live Firebase permissions         | `security-smoke`                                                                                 | Temporary-user/room allowed and denied writes; not part of ordinary CI                             |
 

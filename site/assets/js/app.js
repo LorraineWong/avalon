@@ -880,31 +880,32 @@ function setupTable(){
     +'</tbody></table></div><p class="setup-footnote">'+(window.AvalonGuide?AvalonGuide.copy(LANG).hint:extra('setupFootnote'))+'</p></section>';
 }
 function rulesContent(){
+  return '<section class="rules-flow"><h3>'+ic('sword')+' '+t('howToPlay')+'</h3><p class="quick-goal">'+t('quickGoal')+'</p><ol>'
+    +[['step1Title','step1Body'],['step2Title','step2Body'],['step3Title','step3Body'],['step4Title','step4Body']].map(x=>'<li><b>'+t(x[0]).replace(/^\d · /,'')+'</b><span>'+t(x[1])+'</span></li>').join('')+'</ol></section>'+setupTable();
+}
+function allRolesContent(){
   const good=['merlin','percival','cleric','troublemaker','untrustworthy','lancelotGood','servant'];
   const evil=['assassin','morgana','mordred','oberon','trickster','lunatic','brute','revealer','lancelotEvil','minion'];
-  return '<section class="rules-flow"><h3>'+ic('sword')+' '+t('howToPlay')+'</h3><ol>'
-    +[['step1Title','step1Body'],['step2Title','step2Body'],['step3Title','step3Body'],['step4Title','step4Body']].map(x=>'<li><b>'+t(x[0]).replace(/^\d · /,'')+'</b><span>'+t(x[1])+'</span></li>').join('')+'</ol></section>'
-    +'<h3 class="all-role-title">'+t('allRoleGuide')+'</h3>'
-    +'<div class="rule-camps"><section class="camp good"><h3>'+ic('shield')+' '+t('goodCamp')+'</h3><div class="rgrid">'+good.map(r=>roleGuide(r)).join('')+'</div></section>'
+  return '<div class="rule-camps"><section class="camp good"><h3>'+ic('shield')+' '+t('goodCamp')+'</h3><div class="rgrid">'+good.map(r=>roleGuide(r)).join('')+'</div></section>'
     +'<section class="camp evil"><h3>'+ic('sword')+' '+t('evilCamp')+'</h3><div class="rgrid">'+evil.map(r=>roleGuide(r)).join('')+'</div></section></div>'
-    +(window.AvalonGuide?AvalonGuide.modules(LANG,{base:'./',variant:'room'}):'')+setupTable();
+    +(window.AvalonGuide?AvalonGuide.modules(LANG,{base:'./',variant:'room'}):'');
 }
 function rulesBlock(){
   return '<details class="rules" '+(S.ui.rulesInlineOpen?'open':'')+'><summary><span class="summary-mark">'+ic('sparkle')+'</span> '+t('rules')+'</summary>'+rulesContent()+'</details>';
 }
 function lobbyGuideBar(){
-  return '<div class="lobby-guide-links"><button class="btn sm" data-a="rulesLineup">'+ic('users')+t('roleInfo')+'</button><button class="btn ghost sm" data-a="rulesFull">'+ic('book')+t('fullRules')+'</button></div>';
+  return '<div class="lobby-guide-links"><button class="btn sm" data-a="rulesLineup">'+ic('users')+t('currentLineup')+'</button><button class="btn ghost sm" data-a="rulesFull">'+ic('book')+t('fullRules')+'</button></div>';
 }
 function renderRulesModal(){
   const el=$('#rulesModal'); if(!el) return;
   if(!S.ui.rulesOpen){ if(el.innerHTML) el.innerHTML=''; el._key=null; return; }
-  const tab=S.ui.guideTab==='lineup'?'lineup':'rules', key=LANG+':'+tab+':'+JSON.stringify(S.game&&S.game.settings)+':'+Object.keys(S.seats||{}).length;
+  const tab=['lineup','roles'].includes(S.ui.guideTab)?S.ui.guideTab:'rules', key=LANG+':'+tab+':'+JSON.stringify(S.game&&S.game.settings)+':'+Object.keys(S.seats||{}).length;
   if(el._key===key && el.innerHTML) return;
   el._key=key;
-  const tabs='<div class="rules-tabs" role="tablist"><button class="btn '+(tab==='lineup'?'active':'')+'" role="tab" aria-selected="'+(tab==='lineup')+'" data-a="rulesLineup">'+ic('users')+t('currentLineup')+'</button><button class="btn '+(tab==='rules'?'active':'')+'" role="tab" aria-selected="'+(tab==='rules')+'" data-a="rulesFull">'+ic('book')+t('fullRules')+'</button></div>';
-  const content=tab==='lineup'?currentLineupContent():rulesContent();
-  el.innerHTML='<div class="rules-modal" role="dialog" aria-modal="true" aria-label="'+t('rulesAnytime')+'"><div class="glass rules-sheet"><div class="rules-head"><div><div class="eyebrow">AVALON GUIDE</div><h2>'+(tab==='lineup'?ic('users')+' '+t('currentLineup'):ic('book')+' '+t('fullRules'))+'</h2></div><button class="btn ghost icon rules-close" data-a="closeRules" aria-label="'+t('close')+'">'+ic('x')+'</button></div>'+tabs+'<div class="rules-tab-content">'+content+'</div></div></div>';
-  requestAnimationFrame(()=>el.querySelector('.rules-close')?.focus());
+  const tabs='<div class="rules-tabs" role="tablist"><button class="btn '+(tab==='lineup'?'active':'')+'" role="tab" aria-selected="'+(tab==='lineup')+'" data-a="rulesLineup">'+ic('users')+t('currentLineup')+'</button><button class="btn '+(tab==='rules'?'active':'')+'" role="tab" aria-selected="'+(tab==='rules')+'" data-a="rulesFull">'+ic('book')+t('fullRules')+'</button><button class="btn '+(tab==='roles'?'active':'')+'" role="tab" aria-selected="'+(tab==='roles')+'" data-a="rulesRoles">'+ic('shield')+t('allRoleGuide')+'</button></div>';
+  const content=tab==='lineup'?currentLineupContent():tab==='roles'?allRolesContent():rulesContent();
+  el.innerHTML='<div class="rules-modal" role="dialog" aria-modal="true" aria-label="'+t('rulesAnytime')+'"><div class="glass rules-sheet"><div class="rules-head"><div><div class="eyebrow">AVALON GUIDE</div><h2>'+(tab==='lineup'?ic('users')+' '+t('currentLineup'):tab==='roles'?ic('shield')+' '+t('allRoleGuide'):ic('book')+' '+t('fullRules'))+'</h2></div><button class="btn ghost icon rules-close" data-a="closeRules" aria-label="'+t('close')+'">'+ic('x')+'</button></div>'+tabs+'<div class="rules-tab-content">'+content+'</div></div></div>';
+  requestAnimationFrame(()=>{ el.querySelector('.rules-close')?.focus(); el.querySelector('.rules-tabs .active')?.scrollIntoView({block:'nearest',inline:'nearest'}); });
 }
 function baseInfoContent(kind){
   if(LOCALES?.packs[LANG]?.policies) return LOCALES.packs[LANG].policies[kind];
@@ -1401,6 +1402,7 @@ document.addEventListener('click', e=>{
     case 'rules': S.ui.guideTab=S.game&&S.game.status==='lobby'?'lineup':'rules'; S.ui.rulesOpen=true; return renderRulesModal();
     case 'rulesLineup': S.ui.guideTab='lineup'; S.ui.rulesOpen=true; return renderRulesModal();
     case 'rulesFull': S.ui.guideTab='rules'; S.ui.rulesOpen=true; return renderRulesModal();
+    case 'rulesRoles': S.ui.guideTab='roles'; S.ui.rulesOpen=true; return renderRulesModal();
     case 'closeRules': S.ui.rulesOpen=false; return renderRulesModal();
     case 'info': S.ui.infoOpen=b.dataset.info; return renderInfoModal();
     case 'closeInfo': S.ui.infoOpen=null; return renderInfoModal();
