@@ -4,7 +4,7 @@ import path from 'node:path';
 export const repositoryRoot=fileURLToPath(new URL('../',import.meta.url));
 export const languages=['en','zh-cn','zh-tw','ru','es','pt','vi','ja','ko'];
 export const entries=[
- ['site/index.html','index.html'],['site/assets','assets'],['site/vendor','vendor'],['site/config','config'],
+ ['site/meta/favicon.ico','favicon.ico'],['site/index.html','index.html'],['site/assets','assets'],['site/vendor','vendor'],['site/config','config'],
  ...['locales','game-base','project-copy','policy-copy','policy-pages'].map(name=>['site/language/'+name+'.js','assets/js/'+name+'.js']),
  ...languages.map(lang=>['site/language/'+lang,lang]),
  ...['privacy','unofficial-notice','support'].map(page=>['site/pages/'+page,page]),

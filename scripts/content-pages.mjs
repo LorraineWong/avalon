@@ -14,7 +14,8 @@ export function writeContentPages(root,out){
   vm.runInContext(readFileSync(path.join(root,'site/assets/js/project.js'),'utf8'),context);
   vm.runInContext(readFileSync(path.join(root,'site/assets/js/guide.js'),'utf8'),context);
   vm.runInContext(readFileSync(path.join(root,'site/assets/js/site-shell.js'),'utf8'),context);
-  const projectCopy=vm.runInContext('PROJECT_COPY',context);
+  const searchCopy=JSON.parse(readFileSync(path.join(root,'site/language/seo-copy.json'),'utf8'));
+  const escape=value=>value.replaceAll('&','&amp;').replaceAll('\"','&quot;').replaceAll('<','&lt;').replaceAll('>','&gt;');
   const {AvalonShell:shell,AvalonLocales:registry,AvalonPolicies:policies,AvalonProject:project,AvalonPrivacyAdditions:additions}=context.window;
   const origin='https://playavalonnow.com/';
   const names={guide:'how-to-play',privacy:'privacy-policy',legal:'terms',support:'about'};
@@ -24,6 +25,13 @@ export function writeContentPages(root,out){
       const {id,tag,route}=language;
       const source=kind==='guide'?'site/language/'+route+'/index.html':'site/pages/'+({privacy:'privacy',legal:'unofficial-notice',support:'support'}[kind])+'/index.html';
       let html=readFileSync(path.join(root,source),'utf8');
+      const unused=kind==='guide'?['project-copy','project','policy-copy','policy-pages']:kind==='support'?['policy-copy','policy-pages']:['project-copy','project'];
+      html=html.replace(/<script\b[^>]*src="[^"]*\/([^/"]+)\.js(?:\?[^"]*)?"[^>]*><\/script>\s*/g,(tag,file)=>unused.includes(file)?'':tag);
+      const copy=searchCopy[id]?.[kind];
+      if(!copy?.title?.trim()||!copy?.description?.trim())throw Error('Missing search copy: '+id+'/'+kind);
+      const title=escape(copy.title+' | PlayAvalonNow'), description=escape(copy.description);
+      html=html.replace(/<title>[\s\S]*?<\/title>/,'<title>'+title+'</title>');
+      html=setMetadata(html,'name','description',description);
       if(kind==='guide'){
         const guide=context.window.AvalonGuide;
         html=html.replace('<!-- guide:modules -->',guide.modules(id));
@@ -33,23 +41,17 @@ export function writeContentPages(root,out){
         writeFileSync(path.join(out,route,'index.html'),html);
       }
       const dest=name+'/'+route+'/';
-      const title=kind==='support'?project.title(id):registry.packs[id].shell[{guide:1,privacy:2,legal:3}[kind]];
       if(kind!=='guide'){
         let content=kind==='support'?project.render(id):policies.get(id,kind);
-        if(kind!=='support')content=content.replace(/<h1>[\s\S]*?<\/h1>/,'<h1>'+title.replaceAll('&','&amp;')+'</h1>');
+        if(kind!=='support')content=content.replace(/<h1>[\s\S]*?<\/h1>/,'<h1>'+escape(registry.packs[id].shell[{privacy:2,legal:3}[kind]])+'</h1>');
         if(kind==='privacy')content+='<section id="privacy-additions">'+additions[id]+'</section>';
         html=html.replace(/<main\b[^>]*>[\s\S]*?<\/main>/,'<main class="wrap legal-main'+(kind==='support'?' project-page':'')+'">'+content+'</main>');
       }
-      if(kind!=='guide'){
-        const summary=kind==='support'?projectCopy[id].story:[...policies.get(id,kind).matchAll(/<p[^>]*>([\s\S]*?)<\/p>/g)].map(m=>m[1].replace(/<[^>]*>/g,'').trim()).find(text=>text.length>80);
-        if(summary)html=html.replace(/(<meta\s+name="description"\s+content=")[^"]*(")/,(_,a,b)=>a+summary.replaceAll('&','&amp;').replaceAll('"','&quot;')+b);
-      }
-      html=html.replace(/<html lang="[^"]*">/,'<html lang="'+tag+'">').replace(/<title>[\s\S]*?<\/title>/,'<title>'+title.replaceAll('&','&amp;')+' | Avalon Online</title>');
+      html=html.replace(/<html lang="[^"]*">/,'<html lang="'+tag+'">');
       html=html.replace(/<link rel="canonical"[^>]*>/,'<link rel="canonical" href="'+origin+dest+'" />');
-      const socialTitle=(title+' | Avalon Online').replaceAll('&','&amp;').replaceAll('"','&quot;');
-      const socialDescription=html.match(/<meta\s+name="description"\s+content="([^"]*)"/)?.[1]||socialTitle;
+      const socialTitle=title, socialDescription=description;
       for(const [attribute,name,value] of [
-        ['property','og:url',origin+dest],['property','og:title',socialTitle],
+        ['property','og:site_name','PlayAvalonNow'],['property','og:locale',({en:'en_US','zh-CN':'zh_CN','zh-TW':'zh_TW',ru:'ru_RU',es:'es_ES',pt:'pt_PT',vi:'vi_VN',ja:'ja_JP',ko:'ko_KR'}[tag])],['property','og:url',origin+dest],['property','og:title',socialTitle],
         ['property','og:description',socialDescription],['name','twitter:title',socialTitle],
         ['name','twitter:description',socialDescription]
       ])html=setMetadata(html,attribute,name,value);

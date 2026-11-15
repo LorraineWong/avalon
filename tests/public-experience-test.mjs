@@ -17,7 +17,8 @@ assert.match(app, /now-S\.ui\.lastReactionAt<700/, 'reaction client rate limit i
 assert.match(app, /REACTION_MS = 5000/, 'reactions should expire from the board');
 assert.ok(elements(html,'link').some(link=>link.rel==='manifest'&&link.href==='manifest.webmanifest'), 'manifest link is missing');
 assert.match(html, /application\/ld\+json/, 'structured game data is missing');
-assert.match(html, /hreflang="zh-CN"/, 'Chinese localized URL is missing');
+assert.doesNotMatch(html, /hreflang="zh-CN"/, 'game homepage must not claim the Chinese guide is its translation');
+assert.match(html, /href="how-to-play\/zh-cn\/"/, 'Chinese guide discovery link is missing');
 assert.match(html, /hreflang="en"/, 'English localized URL is missing');
 for(const page of ['zh-cn/index.html','en/index.html','privacy/index.html','unofficial-notice/index.html']){
   const source=readPublic(page);

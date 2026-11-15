@@ -1,5 +1,7 @@
 # Phase 1：域名迁移审计与执行计划
 
+> Current status (15 November 2026): the only game URL is https://playavalonnow.com/. The old game host serves a permanent 301 only; its backend permissions have been retired. Earlier sections below are dated history, not current setup instructions. See [the cutover record](DOMAIN_CUTOVER_V30.md) and [owner handbook](OWNER_HANDBOOK_ZH.md).
+
 审计日期：2026-11-15（马来西亚时间）。目标域名为
 `https://playavalonnow.com/`。负责人已确认：该地址是唯一正式入口，
 `www.playavalonnow.com` 只跳转到它，旧域名在迁移验收后保留跳转。

@@ -9,7 +9,7 @@ function boot({saved=null,dark=false,blocked=false}={}){
   const root={dataset:{},lang:'en'}, button={attributes:{},setAttribute(k,v){this.attributes[k]=v;}};
   const system={matches:dark,addEventListener(k,fn){systemEvents[k]=fn;}};
   const window={matchMedia:()=>system,addEventListener(k,fn){windowEvents[k]=fn;}};
-  const document={documentElement:root,querySelector:()=>null,querySelectorAll:()=>[button],addEventListener(k,fn){events[k]=fn;}};
+  const document={documentElement:root,querySelector:()=>null,querySelectorAll:selector=>selector==='[data-theme-toggle]'?[button]:[],addEventListener(k,fn){events[k]=fn;}};
   const localStorage={getItem(k){if(blocked) throw Error('Unavailable');return data.get(k)||null;},setItem(k,v){if(blocked) throw Error('Unavailable');data.set(k,v);}};
   vm.runInNewContext(source,{window,document,localStorage});
   return {root,button,data,window,toggle(){events.click({target:{closest:()=>button}});},system(dark){system.matches=dark;systemEvents.change();},storage(value){if(value) data.set('lwav.theme',JSON.stringify(value));else data.delete('lwav.theme');windowEvents.storage({key:'lwav.theme'});}};

@@ -1,5 +1,7 @@
 # Firebase operations priorities
 
+> Current status (15 November 2026): the only game URL is https://playavalonnow.com/. The old game host serves a permanent 301 only; its backend permissions have been retired. Earlier sections below are dated history, not current setup instructions. See [the cutover record](DOMAIN_CUTOVER_V30.md) and [owner handbook](OWNER_HANDBOOK_ZH.md).
+
 Keep the project on Spark. Do not deploy the standby emergency rules, add
 wildcard origins or change billing as part of routine maintenance.
 

@@ -1,5 +1,7 @@
 # Personal domain and Avalon subdomain
 
+> Current status (15 November 2026): the only game URL is https://playavalonnow.com/. The old game host serves a permanent 301 only; its backend permissions have been retired. Earlier sections below are dated history, not current setup instructions. See [the cutover record](DOMAIN_CUTOVER_V30.md) and [owner handbook](OWNER_HANDBOOK_ZH.md).
+
 The owner confirmed on 14 November 2026 that `lorrainewong.dev` was purchased
 through Cloudflare. The registrar screen showed Active, expiring 14 November 2027. This is a registration observation, not proof of DNS, TLS or deployment.
 
