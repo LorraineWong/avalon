@@ -84,3 +84,23 @@ Continue replacing brittle source-spelling assertions with behavior checks
 before formatting game/CSS files. Pure-rule extraction and CSS consolidation
 remain separate changes with multiplayer and layout regression coverage;
 this organisation pass does not introduce a framework or rewrite game rules.
+
+## Named content URLs (v27)
+
+Content pages now use `/how-to-play/<language>/`, `/privacy-policy/<language>/`,
+`/terms/<language>/` and `/about/<language>/`, where language is one of `en`,
+`zh-cn`, `zh-tw`, `ru`, `es`, `pt` or `vi`. `scripts/content-pages.mjs` generates
+all 28 static documents from the existing sources and bundled translations,
+including localized navigation, canonical URLs and reciprocal hreflang links.
+Each page has readable content without JavaScript. Do not edit generated pages.
+
+The original `/en/`, `/zh-cn/`, other guide routes, `/privacy/`,
+`/unofficial-notice/` and `/support/` remain published. The public renderer
+forwards legacy visits to the matching named page, preserving the fragment.
+These are browser redirects, not HTTP 301 responses. The game remains at `/`;
+`?lang=` selects its language without moving origin, identity or room hash.
+
+`site/language/policy-pages.js` is the shared source for policy/terms page copy;
+`policy-copy.js` adds the App Check and external-support disclosures. Both static
+publication and the public renderer use these sources. Policy changes require
+owner review before release; do not infer a legal compliance certification.

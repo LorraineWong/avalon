@@ -1,6 +1,7 @@
 /* Deterministic static packaging: no compilation, downloads, runtime dependencies or credentials. */
 import {mkdirSync,readdirSync,readFileSync,writeFileSync,lstatSync,rmSync} from 'node:fs';
 import path from 'node:path';
+import {writeContentPages} from './content-pages.mjs';
 import os from 'node:os';
 import {fileURLToPath} from 'node:url';
 import {repositoryRoot,entries,publicForSource} from './site-layout.mjs';
@@ -33,7 +34,8 @@ export function prepareSite(destination=path.join(repositoryRoot,'dist')){
   const file=path.join(out,target);mkdirSync(path.dirname(file),{recursive:true});writeFileSync(file,contents);
  }
  for(const [source,target]of entries)copy(path.join(repositoryRoot,source),target);
- writeFileSync(path.join(out,'.nojekyll'),'');return {directory:out,files:written.size};
+ const pages=writeContentPages(repositoryRoot,out);
+ writeFileSync(path.join(out,'.nojekyll'),'');return {directory:out,files:written.size+pages};
 }
 if(process.argv[1]&&path.resolve(process.argv[1])===fileURLToPath(import.meta.url)){
  const result=prepareSite();console.log(`Prepared ${result.files} static files in ${result.directory}`);

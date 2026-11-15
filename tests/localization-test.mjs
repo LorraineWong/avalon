@@ -33,9 +33,9 @@ for(const language of registry.languages){
  const guide=read(route+'/index.html');
  assert.ok(guide.includes('<html lang="'+tag+'">'),id+' HTML language');
  const links=elements(guide,'link');
- assert.ok(links.some(link=>link.rel==='canonical'&&link.href==='https://avalon.lorrainewong.dev/'+route+'/'),id+' canonical');
+ assert.ok(links.some(link=>link.rel==='canonical'&&link.href==='https://avalon.lorrainewong.dev/how-to-play/'+route+'/'),id+' canonical');
  assert.equal((guide.match(/class="character-card /g)||[]).length,17,id+' guide roles');
- for(const other of registry.languages)assert.ok(links.some(link=>link.hreflang===other.tag&&link.href==='https://avalon.lorrainewong.dev/'+other.route+'/'),id+' alternate '+other.id);
+ for(const other of registry.languages)assert.ok(links.some(link=>link.hreflang===other.tag&&link.href==='https://avalon.lorrainewong.dev/how-to-play/'+other.route+'/'),id+' alternate '+other.id);
  assert.ok(guide.includes('assets/js/locales.js?v='+shellVersion),id+' locale script matches cache version');
  assert.ok(registry.credits[id]?.text.includes('Claude Code')&&registry.credits[id].text.includes('Codex')&&registry.credits[id].text.includes('GPT'),id+' creation credits');
  assert.ok(read('sitemap.xml').includes('/'+route+'/</loc>'),id+' sitemap');

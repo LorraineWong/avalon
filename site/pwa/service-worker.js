@@ -1,9 +1,10 @@
-const CACHE = 'avalon-shell-v26';
+const CACHE = 'avalon-shell-v27';
 const SHELL = [
-  './config/app-check.js?v=26', './assets/js/app-check.js?v=26', './vendor/firebase-app-check-compat.js',
-  './assets/js/policy-copy.js?v=26', './assets/js/locales.js?v=26', './assets/js/game-base.js?v=26', './assets/js/project-copy.js?v=26', './assets/js/project.js?v=26',
-  './support/', './support/index.html', './assets/js/public-ui.js?v=26', './assets/css/landing.css?v=26',
-  './assets/brand-mark.svg', './assets/css/theme.css?v=26', './assets/js/site-shell.js?v=26', './assets/css/site-shell.css?v=26', './assets/css/style.css?v=26', './assets/js/app.js?v=26',
+  './config/app-check.js?v=27', './assets/js/app-check.js?v=27', './vendor/firebase-app-check-compat.js',
+  './assets/js/policy-copy.js?v=27', './assets/js/policy-pages.js?v=27', './assets/js/locales.js?v=27', './assets/js/game-base.js?v=27', './assets/js/project-copy.js?v=27', './assets/js/project.js?v=27',
+  './about/en/', './about/zh-cn/', './about/zh-tw/', './about/ru/', './about/es/', './about/pt/', './about/vi/',
+  './support/', './support/index.html', './assets/js/public-ui.js?v=27', './assets/css/landing.css?v=27',
+  './assets/brand-mark.svg', './assets/css/theme.css?v=27', './assets/js/site-shell.js?v=27', './assets/css/site-shell.css?v=27', './assets/css/style.css?v=27', './assets/js/app.js?v=27',
   './', './index.html', './assets/css/style.css', './assets/js/app.js', './manifest.webmanifest', './assets/app-icon.svg', './assets/player-avatars.webp',
   './vendor/firebase-app-compat.js', './vendor/firebase-auth-compat.js', './vendor/firebase-database-compat.js', './vendor/qrcode.min.js',
   './assets/roles/merlin.webp', './assets/roles/morgana.webp'

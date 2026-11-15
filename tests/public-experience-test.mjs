@@ -23,7 +23,8 @@ for(const page of ['zh-cn/index.html','en/index.html','privacy/index.html','unof
   const source=readPublic(page);
   assert.match(source, /<title>[^<]+<\/title>/, `${page} needs a title`);
   assert.ok(elements(source,'meta').some(meta=>meta.name==='description'&&meta.content?.trim()), `${page} needs a description`);
-  assert.match(sitemap, new RegExp(page.replace('index.html','').replace(/[/-]/g, m=>'\\'+m)), `${page} is missing from sitemap`);
+  const canonicalPage={'privacy/index.html':'privacy-policy/en/','unofficial-notice/index.html':'terms/en/'}[page] || 'how-to-play/'+page.replace('index.html','');
+  assert.ok(sitemap.includes('/'+canonicalPage+'</loc>'), `${page} canonical is missing from sitemap`);
 }
 assert.equal(manifest.display, 'standalone');
 assert.equal(manifest.start_url, './');
