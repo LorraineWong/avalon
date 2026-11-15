@@ -2,6 +2,8 @@
 
 ## Start here
 
+- [SEO and brand v32](operations/SEO_BRAND_V32.md) — candidate assets, verification scope and owner Search Console steps.
+
 - [Main README](../README.md) / [简体中文](../README.zh-CN.md) — project, play links and local preview.
 - [Contributing](../CONTRIBUTING.md) — setup, formatting and pull requests.
 - [Shared AI instructions](../AGENTS.md) — maintenance rules used by Codex and Claude Code.

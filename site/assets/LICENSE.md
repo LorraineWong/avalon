@@ -13,3 +13,9 @@ The guide illustrations `modules/lady-of-the-lake.webp` and
 `modules/excalibur.webp` were generated with the built-in GPT image-generation
 tool on 2026-11-15. They are original illustrative assets, not reproductions of
 official game cards, and follow the same image exclusion above.
+
+The v32 share artwork reuses the existing Merlin/Morgana illustrations and
+round-table/sword mark. Its editable layout is `dev/social-preview.html`.
+The light/dark marks and favicon/Apple/PWA raster exports derive from that
+existing mark; no new character artwork or replacement logo was introduced.
+These derivative image assets retain the same image exclusion.

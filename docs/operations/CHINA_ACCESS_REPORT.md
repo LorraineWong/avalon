@@ -1,5 +1,7 @@
 # 中国大陆与全球访问分层报告
 
+> Current status (15 November 2026): the only game URL is https://playavalonnow.com/. The old game host serves a permanent 301 only; its backend permissions have been retired. Earlier sections below are dated history, not current setup instructions. See [the cutover record](DOMAIN_CUTOVER_V30.md) and [owner handbook](OWNER_HANDBOOK_ZH.md).
+
 状态：Batch 0 准备稿，2026-11-15。**尚未证明大陆玩家可以完整联机。**
 本报告目前只有依赖审计与执行机器的公开探测，不是 Batch 2 实网验收。
 

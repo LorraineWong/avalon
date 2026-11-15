@@ -1,6 +1,6 @@
 <p align="center"><img src="site/assets/brand-mark.svg" width="80" height="80" alt="Avalon Online"></p>
-<h1 align="center">Avalon Online</h1>
-<p align="center"><strong><a href="https://playavalonnow.com/">Play Now</a></strong> · <a href="https://playavalonnow.com/en/">How to Play</a> · <a href="docs/README.md">Documentation</a> · <a href="README.zh-CN.md">简体中文</a></p>
+<h1 align="center">PlayAvalonNow · Avalon Online</h1>
+<p align="center"><strong><a href="https://playavalonnow.com/">Play Now</a></strong> · <a href="https://playavalonnow.com/how-to-play/en/">How to Play</a> · <a href="docs/README.md">Documentation</a> · <a href="README.zh-CN.md">简体中文</a></p>
 <p align="center">A free browser game of hidden roles, deduction and betrayal for <strong>5–10 friends</strong>. No sign-up or download required.</p>
 
 ## Play with friends

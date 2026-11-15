@@ -44,12 +44,12 @@ export function writeContentPages(root,out){
         const summary=kind==='support'?projectCopy[id].story:[...policies.get(id,kind).matchAll(/<p[^>]*>([\s\S]*?)<\/p>/g)].map(m=>m[1].replace(/<[^>]*>/g,'').trim()).find(text=>text.length>80);
         if(summary)html=html.replace(/(<meta\s+name="description"\s+content=")[^"]*(")/,(_,a,b)=>a+summary.replaceAll('&','&amp;').replaceAll('"','&quot;')+b);
       }
-      html=html.replace(/<html lang="[^"]*">/,'<html lang="'+tag+'">').replace(/<title>[\s\S]*?<\/title>/,'<title>'+title.replaceAll('&','&amp;')+' | Avalon Online</title>');
+      html=html.replace(/<html lang="[^"]*">/,'<html lang="'+tag+'">').replace(/<title>[\s\S]*?<\/title>/,'<title>'+title.replaceAll('&','&amp;')+' | PlayAvalonNow</title>');
       html=html.replace(/<link rel="canonical"[^>]*>/,'<link rel="canonical" href="'+origin+dest+'" />');
-      const socialTitle=(title+' | Avalon Online').replaceAll('&','&amp;').replaceAll('"','&quot;');
+      const socialTitle=(title+' | PlayAvalonNow').replaceAll('&','&amp;').replaceAll('"','&quot;');
       const socialDescription=html.match(/<meta\s+name="description"\s+content="([^"]*)"/)?.[1]||socialTitle;
       for(const [attribute,name,value] of [
-        ['property','og:url',origin+dest],['property','og:title',socialTitle],
+        ['property','og:site_name','PlayAvalonNow'],['property','og:locale',({en:'en_US','zh-CN':'zh_CN','zh-TW':'zh_TW',ru:'ru_RU',es:'es_ES',pt:'pt_PT',vi:'vi_VN',ja:'ja_JP',ko:'ko_KR'}[tag])],['property','og:url',origin+dest],['property','og:title',socialTitle],
         ['property','og:description',socialDescription],['name','twitter:title',socialTitle],
         ['name','twitter:description',socialDescription]
       ])html=setMetadata(html,attribute,name,value);

@@ -821,7 +821,7 @@ function updateView(element,html){
 
 function render(){
   const app=$('#app'); if(!app) return;
-  document.title=LOCALES?extra('pageTitle'):(LANG==='zh'?'阿瓦隆在线玩｜免费、无需注册、5–10 人好友房':'Avalon Online | Free 5–10 Player Social Deduction Game');
+  document.title=LANG==='en'?'Play Avalon Online Free | PlayAvalonNow':((LOCALES?extra('pageTitle'):(LANG==='zh'?'阿瓦隆在线玩｜免费、无需注册、5–10 人好友房':'Avalon Online | Free 5–10 Player Social Deduction Game'))+' | PlayAvalonNow');
   document.documentElement.lang=languageTag(LANG);
   const gameActive=!!(S.code && S.game && S.game.status!=='lobby');
   document.body.classList.toggle('game-active', gameActive);
@@ -849,7 +849,7 @@ function topBar(){
   const conn=Net.connected();
   const st = !Net.everConnected ? t('connecting') : (conn ? t('online') : t('offline'));
   if(!S.code && typeof AvalonShell!=='undefined') return AvalonShell.header(LANG,'./','home','<span class="av-status '+(conn?'is-online':Net.everConnected?'is-offline':'is-connecting')+'" role="status" aria-label="'+esc(st)+'" title="'+esc(st)+'"><span class="status-dot" aria-hidden="true"></span>'+st+'</span>')+((Net.authFailed || (!Net.everConnected && S.bootAt && Date.now()-S.bootAt>15000))?'<div class="banner-off">'+t('noNet')+'</div>':'');
-  return '<div class="top"><button class="brand av-brand" data-a="home" aria-label="'+t('home')+'"><span class="av-mark"><img src="assets/brand-mark.svg" alt="" width="40" height="40"></span><span><b>AVALON</b><small>'+t('sub')+'</small></span></button>'
+  return '<div class="top"><button class="brand av-brand" data-a="home" aria-label="'+t('home')+'"><span class="av-mark"><img src="assets/brand-mark-'+(document.documentElement.dataset?.theme==='light'?'light':'dark')+'.svg?v=32" data-brand-mark="assets/" alt="" width="40" height="40"></span><span><b>AVALON</b><small>'+t('sub')+'</small></span></button>'
     +(!S.code?'<nav class="site-navigation" aria-label="Main navigation"><button data-a="home" aria-current="page">'+t('home')+'</button><a href="'+guideRoute()+'">'+t('guide')+'</a><a href="privacy/">'+t('privacy')+'</a><a href="unofficial-notice/">'+t('legal')+'</a></nav>':'')
     +'<div class="top-r">'+(S.code&&S.game?((S.game.status!=='lobby'?'<button class="chip btn privacy-cover-btn" data-a="privacyCover" aria-label="'+t('privacyCover')+'">'+ic('eyeoff')+'<span>'+t('privacyCover')+'</span></button>':'')+(S.game.status==='lobby'?'<button class="chip btn rules-access" data-a="rules" aria-label="'+t('rulesAnytime')+'">'+ic('book')+'<span>'+t('rulesAnytime')+'</span></button>':'')+'<span class="chip room-chip"><span class="dot '+(conn?'on':'')+'"></span><b style="letter-spacing:2px">'+esc(S.code)+'</b></span>'):'<span class="chip"><span class="dot '+(conn?'on':'')+'"></span>'+st+'</span>')
     +(typeof AvalonShell!=='undefined'?AvalonShell.themeControl(LANG)+AvalonShell.languageControl(LANG,'siteLanguage')+AvalonShell.menuControl(LANG,'./','',Boolean(S.code)):'')+'</div></div>'
@@ -955,11 +955,11 @@ function renderConfirmModal(){
 }
 function privacyCoverHtml(){
   if(!S.ui.privacyCover) return '';
-  return '<div class="privacy-cover" role="dialog" aria-modal="true"><div class="privacy-cover-crest"><img src="assets/brand-mark.svg" alt="" width="78" height="78"></div><h2>'+t('coveredTitle')+'</h2><p>'+t('coveredHint')+'</p><button class="btn pri big" data-a="privacyCover">'+t('revealScreen')+'</button></div>';
+  return '<div class="privacy-cover" role="dialog" aria-modal="true"><div class="privacy-cover-crest"><img src="assets/brand-mark-'+(document.documentElement.dataset?.theme==='light'?'light':'dark')+'.svg?v=32" data-brand-mark="assets/" alt="" width="78" height="78"></div><h2>'+t('coveredTitle')+'</h2><p>'+t('coveredHint')+'</p><button class="btn pri big" data-a="privacyCover">'+t('revealScreen')+'</button></div>';
 }
 function viewHome(){
   const last=LS.get('last');
-  return '<div class="hero"><div class="hero-art hero-art-good"><img src="'+ROLE_META.merlin.art+'" alt="Merlin"></div><div class="hero-art hero-art-evil"><img src="'+ROLE_META.morgana.art+'" alt="Morgana"></div>'
+  return '<main><div class="hero"><div class="hero-art hero-art-good"><img src="'+ROLE_META.merlin.art+'" alt="Merlin" width="768" height="1024" fetchpriority="high"></div><div class="hero-art hero-art-evil"><img src="'+ROLE_META.morgana.art+'" alt="Morgana" width="768" height="1024"></div>'
     +'<div class="hero-copy"><div class="eyebrow">'+extra('projectLabel')+'</div><div class="crest"><span>V</span></div><h1>Avalon Online</h1><div class="sub">'+t('tagline')+'</div><p class="hero-lead">'+extra('projectLead')+'</p><p class="hero-oath">'+extra('oath')+'</p>'
     +'<div class="feature"><span>'+ic('users')+'<b>'+t('feat1')+'</b></span><span>'+ic('sparkle')+'<b>'+t('feat2')+'</b></span><span>'+ic('device')+'<b>'+t('feat3')+'</b></span><span>'+ic('lock')+'<b>'+t('feat4')+'</b></span></div></div></div>'
     +(last ? '<div class="glass resume"><span>'+t('resume','<b style="letter-spacing:2px">'+esc(last)+'</b>')+'</span><button class="btn pri" data-a="resume">'+t('resumeBtn')+'</button></div>' : '')
@@ -967,6 +967,7 @@ function viewHome(){
     +'<button class="btn pri" data-a="create">'+ic('plus')+t('create')+'</button></div>'
     +'<div class="glass card"><h2>'+t('joinTitle')+'</h2><div class="row"><input class="input code" id="joinCode" aria-label="'+t('codePh')+'" maxlength="8" placeholder="'+t('codePh')+'" value="'+esc(S.ui.joinCode)+'" style="flex:1;min-width:0">'
     +'<button class="btn pri" data-a="join">'+t('join')+'</button></div><p class="muted small" style="margin-bottom:0">'+t('joinHint')+'</p></div></div>'
+    +'</main>'
     ;
 }
 function viewLobby(){
@@ -1261,7 +1262,7 @@ function roleBar(){
   // Who am I at this table: portrait, seat number and name, with rename one tap away.
   const id='<button class="me-id" data-a="editName" aria-label="'+t('editName')+'"><i class="player-avatar" style="'+avStyle(me)+'"></i><span class="me-text"><small>'+t('youAre')+' · '+t('seatNo', g.order.indexOf(me)+1)+'</small><b><span>'+esc(nickOf(me))+'</span><em>'+ic('pencil')+'</em></b></span></button>';
   const role=!S.mine ? '<span class="me-role muted small">'+t('loadingRole')+'</span>'
-    : '<button class="me-role '+(S.peek?s:'')+'" data-a="peek" aria-expanded="'+!!S.peek+'"><span class="rb-ic">'+(S.peek?roleArt(S.mine.role,'rolebar-art'):'<span class="card-seal"><img src="assets/brand-mark.svg" alt="" width="32" height="32"></span>')+'</span><span class="me-text"><small>'+t('myRole')+'</small><b>'+(S.peek?rName(S.mine.role):t('tapReveal'))+'</b></span></button>';
+    : '<button class="me-role '+(S.peek?s:'')+'" data-a="peek" aria-expanded="'+!!S.peek+'"><span class="rb-ic">'+(S.peek?roleArt(S.mine.role,'rolebar-art'):'<span class="card-seal"><img src="assets/brand-mark-'+(document.documentElement.dataset?.theme==='light'?'light':'dark')+'.svg?v=32" data-brand-mark="assets/" alt="" width="32" height="32"></span>')+'</span><span class="me-text"><small>'+t('myRole')+'</small><b>'+(S.peek?rName(S.mine.role):t('tapReveal'))+'</b></span></button>';
   return '<div class="glass card mebar">'+id+role+'</div>'
     +(S.peek&&S.mine?'<button class="sheet-backdrop" data-a="peek" aria-label="'+t('hideRole')+'"></button><div class="glass card know-card sheet"><div class="sheet-head"><b class="'+(s==='good'?'res-s':'res-f')+'">'+roleIcon(S.mine.role)+' '+rName(S.mine.role)+' · '+t(s)+'</b><button class="btn ghost sm sheet-close" data-a="peek">'+ic('eyeoff')+t('hideRole')+'</button></div><div class="identity-detail"><div class="identity-portrait '+s+'">'+roleArt(S.mine.role,'identity-art')+'<span>'+t(s)+'</span></div><div class="identity-knowledge">'+knowBlock()+'</div></div></div>':'');
 }
@@ -1311,7 +1312,7 @@ function renderOverlay(){
     const m=S.mine; if(!m){ S.ov.shift(); return renderOverlay(); }
     const s=m.allegiance||side(m.role);
     h='<h2>'+ic('moon')+' '+t('nightTitle')+'</h2><p class="lead">'+t('nightLead')+'</p>'
-      +'<button type="button" class="rolecard '+(o.flipped?'flip':'')+'" data-a="flipcard" aria-label="'+(o.flipped?rName(m.role):t('flip'))+'"><span class="in"><span class="face back"><span class="card-orbit" aria-hidden="true"></span><span class="card-seal large"><img src="assets/brand-mark.svg" alt="" width="72" height="72"></span><span class="card-wordmark">AVALON</span><span class="card-secret">'+ic('lock')+extra('secretIdentity')+'</span></span>'
+      +'<button type="button" class="rolecard '+(o.flipped?'flip':'')+'" data-a="flipcard" aria-label="'+(o.flipped?rName(m.role):t('flip'))+'"><span class="in"><span class="face back"><span class="card-orbit" aria-hidden="true"></span><span class="card-seal large"><img src="assets/brand-mark-'+(document.documentElement.dataset?.theme==='light'?'light':'dark')+'.svg?v=32" data-brand-mark="assets/" alt="" width="72" height="72"></span><span class="card-wordmark">AVALON</span><span class="card-secret">'+ic('lock')+extra('secretIdentity')+'</span></span>'
       +'<span class="face front '+s+'">'+roleArt(m.role,'rolecard-art')+'<span class="rolecard-caption"><span class="rs">'+ic(s==='good'?'shield':'sword')+t(s)+'</span><span class="rn">'+rName(m.role)+'</span></span></span></span></button>'
       +(o.flipped?knowBlock()+'<button class="btn pri big" style="width:100%" data-a="ovnext">'+t('gotIt')+'</button>':'<button class="btn pri big" style="width:100%" data-a="flipcard">'+t('flip')+'</button>');
   } else if(o.type==='vote'){

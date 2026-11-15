@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" role="img" aria-label="Avalon: the round table and the sword">
+  <defs><linearGradient id="gold" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f0dda4"/><stop offset="1" stop-color="#b9924b"/></linearGradient></defs>
+  <rect width="96" height="96" rx="23" fill="#192b3c"/>
+  <circle cx="48" cy="48" r="30" fill="none" stroke="#c7a766" stroke-width="1.8"/>
+  <g fill="#cfb374"><circle cx="48" cy="10" r="2.6"/><circle cx="75" cy="21" r="2.6"/><circle cx="86" cy="48" r="2.6"/><circle cx="75" cy="75" r="2.6"/><circle cx="48" cy="86" r="2.6"/><circle cx="21" cy="75" r="2.6"/><circle cx="10" cy="48" r="2.6"/><circle cx="21" cy="21" r="2.6"/></g>
+  <path d="m48 24 20 45H57l-3.5-9h-11L39 69H28Zm0 17-3.5 10h7Z" fill="url(#gold)" fill-rule="evenodd"/>
+  <path d="M48 22v12m-4-5h8" stroke="#f0dda4" stroke-width="2" stroke-linecap="round"/>
+</svg>

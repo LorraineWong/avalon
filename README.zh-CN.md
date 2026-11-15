@@ -1,6 +1,6 @@
 <p align="center"><img src="site/assets/brand-mark.svg" width="80" height="80" alt="Avalon Online"></p>
-<h1 align="center">Avalon Online</h1>
-<p align="center"><strong><a href="https://playavalonnow.com/">开始游戏</a></strong> · <a href="https://playavalonnow.com/zh-cn/">玩法指南</a> · <a href="docs/README.md">项目文档</a> · <a href="README.md">English</a></p>
+<h1 align="center">PlayAvalonNow · Avalon Online</h1>
+<p align="center"><strong><a href="https://playavalonnow.com/">开始游戏</a></strong> · <a href="https://playavalonnow.com/how-to-play/zh-cn/">玩法指南</a> · <a href="docs/README.md">项目文档</a> · <a href="README.md">English</a></p>
 <p align="center">供 <strong>5–10 位朋友</strong>一起游玩的免费在线阿瓦隆。无需注册或下载。</p>
 
 ## 和朋友一起玩
