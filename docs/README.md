@@ -22,6 +22,11 @@
 
 ## Release and operations
 
+- [Phase 1 tracking](operations/PHASE1_TRACKER.md) — staged migration/operations scope and acceptance gates.
+- [New-domain migration plan](operations/DOMAIN_MIGRATION_PLAN.md) — current audit, approvals, cutover, evidence and rollback.
+- [Cloudflare preview operations](operations/CLOUDFLARE_PREVIEW.md) — dedicated preview command, validation and rollback.
+- [China/global access report](operations/CHINA_ACCESS_REPORT.md) — layered evidence and unverified network coverage.
+- [负责人运营手册](operations/OWNER_HANDBOOK_ZH.md) — Chinese owner guide; unconfigured services remain marked.
 - [Launch readiness](operations/LAUNCH_READINESS.md) — dated security checks and external setup still needed.
 - [Personal domain setup](operations/DOMAIN_SETUP.md) — Cloudflare DNS, Pages verification, HTTPS and origin/session cutover.
 - [Release checklist](operations/RELEASE.md) — deployment, rollback and launch limitations.

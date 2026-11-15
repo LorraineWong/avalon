@@ -48,6 +48,14 @@ matches [the open upstream report](https://github.com/cloudflare/workers-sdk/iss
 The guard remains enabled; no environment-variable workaround bypasses it.
 Workers previews are not accepted as working staging.
 
+Follow-up on 15 November: the current branch failure was inspected directly;
+packaging completed, then `versions upload` failed the Worker identity check.
+The owner requested a preview fix. The non-production command is now the
+official dedicated `wrangler preview` flow, with the pinned version/config;
+the production deploy command and identity safeguards were not changed.
+See [the current preview procedure](CLOUDFLARE_PREVIEW.md). The failure described
+above is retained as the historical v26 result, not the current command.
+
 The v26 client initializes App Check before accessing Firebase services.
 Realtime Database App Check is now **Enforced**, confirmed in the console on
 15 November 2026. A production REST check with the same authenticated test
