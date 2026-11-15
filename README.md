@@ -25,7 +25,7 @@ not always have the cards. The online versions I tried had interfaces I found
 awkward, required registration, or ran into bugs during play. I decided to try
 building my own with AI: open a room and play, without a player account.
 
-[About & support](https://playavalonnow.com/support/) ·
+[About & support](https://playavalonnow.com/about/en/) ·
 [GitHub](https://github.com/LorraineWong) ·
 [LinkedIn](https://www.linkedin.com/in/lorrainewongyiting/)
 
@@ -74,7 +74,7 @@ For Firebase configuration, deployment and multiplayer testing, see the [develop
 
 ## Documentation and contributions
 
-[Documentation index](docs/README.md) · [Contributing](CONTRIBUTING.md) · [Supported rules](docs/game/BIG_BOX_RULES.md) · [Security policy](.github/SECURITY.md) · [Privacy](https://playavalonnow.com/privacy/)
+[Documentation index](docs/README.md) · [Contributing](CONTRIBUTING.md) · [Supported rules](docs/game/BIG_BOX_RULES.md) · [Security policy](.github/SECURITY.md) · [Privacy](https://playavalonnow.com/privacy-policy/en/)
 
 Focused pull requests and reproducible bug reports are welcome. For UI issues, include the device, viewport and theme. For game-flow changes, test with isolated player sessions.
 

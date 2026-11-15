@@ -24,7 +24,7 @@
 有的界面不顺手、有的需要注册账号，玩着玩着也遇到过 bug。于是想试试用 AI
 做一个自己的版本：打开房间就能玩，不用注册玩家账号。
 
-[关于与支持](https://playavalonnow.com/support/) ·
+[关于与支持](https://playavalonnow.com/about/zh-cn/) ·
 [GitHub](https://github.com/LorraineWong) ·
 [LinkedIn](https://www.linkedin.com/in/lorrainewongyiting/)
 
@@ -58,7 +58,7 @@ Firebase 配置、部署和多人测试方式见[开发指南](docs/development/
 
 ## 文档与贡献
 
-[文档索引](docs/README.md) · [规则支持范围](docs/game/BIG_BOX_RULES.md) · [安全政策](.github/SECURITY.md) · [隐私说明](https://playavalonnow.com/privacy/)
+[文档索引](docs/README.md) · [规则支持范围](docs/game/BIG_BOX_RULES.md) · [安全政策](.github/SECURITY.md) · [隐私说明](https://playavalonnow.com/privacy-policy/zh-cn/)
 
 欢迎提交范围明确的 PR 和可复现的问题报告。界面问题请附上设备、屏幕尺寸和主题；修改游戏流程时，请使用相互隔离的玩家会话测试。
 
