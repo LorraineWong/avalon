@@ -449,7 +449,9 @@ window.AvalonLocales = {
         "projectLabel": "阿瓦隆在線版",
         "projectLead": "免費、非官方的粉絲項目，在瀏覽器里與朋友遊玩 The Resistance: Avalon。",
         "pageTitle": "阿瓦隆線上玩｜免費 5–10 人好友房",
-        "loadingGame": "正在載入遊戲…"
+        "loadingGame": "正在載入遊戲…",
+        "inviteShareTitle": "一起玩阿瓦隆 | PlayAvalonNow",
+        "inviteShareText": "加入我的阿瓦隆房間，一起推理、完成任務！5–10 人免費遊玩，無需註冊或下載。"
       },
       "policies": {
         "privacy": "<h1>隱私政策</h1><p>最後更新：2026 年 11 月 14 日。Avalon Online 是免費的非官方粉絲項目，不要求郵箱、真實姓名或註冊玩家賬號。</p><h2>遊戲運行所需的數據</h2><p>網站使用 Firebase Anonymous Authentication 與 Realtime Database，處理隨機生成的匿名 Firebase 用戶 ID、玩家選擇的暱稱、房間成員與在線狀態、公開遊戲狀態，以及多人遊戲所需的加密身份和行動資料。</p><p>請只使用遊戲暱稱，不要把真實姓名、聯繫方式或其他敏感資料作為暱稱或筆記內容。</p><h2>保存在當前瀏覽器的資料</h2><p>身份解密私鑰、暱稱、語言和主題偏好、上次房間號和私人推理筆記保存在當前瀏覽器的 <code>localStorage</code>。私人筆記不會上傳 Firebase，也不會分享給房主或其他玩家；能使用同一設備與瀏覽器的人仍可能看到它們。</p><p>你可以在筆記面板中清空本局筆記，也可以通過瀏覽器設置刪除本站的全部網站資料。</p><h2>保存期限</h2><p>新房間帶有 72 小時有效期標記；已結束的遊戲使用 24 小時標記。房主再次連接到過期房間時，房主客戶端會刪除房間資料。維護期間也可能刪除舊資料；有效期不構成保證歸檔或準時刪除的服務。</p><h2>第三方服務與追蹤</h2><p>本站目前不包含廣告追蹤器，也不出售玩家資料。Firebase 與網頁字體服務可能依據各自政策處理 IP 地址等必要網絡資料。多人遊戲仍需連接網絡。</p><h2>安全邊界</h2><p>身份與行動資料在瀏覽器中加密，但房主瀏覽器仍受信任並負責推進遊戲。此設計能防止普通客戶端和一般數據庫查看，不防禦已被入侵的房主瀏覽器或主動修改的客戶端。請勿使用本服務處理敏感資料。</p><h2>聯繫與報告</h2><p>隱私或安全問題請通過 GitHub 倉庫的 <strong>Security → Report a vulnerability</strong> 功能私密報告。不要在公開 Issue 中附上其他玩家的房間資料。</p><div class=\"actions\" style=\"justify-content:flex-start;margin-top:40px\"><a class=\"button\" href=\"../\">返回遊戲</a><a class=\"button alt\" href=\"https://github.com/LorraineWong/avalon/security\">Security 頁面</a></div><p>最後更新：2026 年 11 月 14 日</p><h2>服務、存儲與政策更新</h2><p>Realtime Database 位於亞洲東南區（asia-southeast1）。字體由 Google Fonts（fonts.googleapis.com 與 fonts.gstatic.com）提供；服務商可能按其政策處理 IP 地址等必要服務資料。</p><p>應用代碼不含分析統計或廣告追蹤，也不自行設置 Cookie。偏好和筆記使用 localStorage；Firebase 還可能使用瀏覽器存儲保存登錄狀態。這不代表托管平台或第三方服務絕不使用 Cookie。</p><p>政策可能更新，變更以最後更新日期為準。私密安全報告請使用 GitHub Security。</p>",
@@ -839,7 +841,9 @@ window.AvalonLocales = {
         "projectLabel": "Неофициальный фан-проект",
         "projectLead": "Бесплатный неофициальный способ играть в The Resistance: Avalon онлайн, созданный фанатами.",
         "pageTitle": "Авалон онлайн бесплатно | Игра для 5–10 друзей",
-        "loadingGame": "Загрузка игры…"
+        "loadingGame": "Загрузка игры…",
+        "inviteShareTitle": "Играйте в Avalon вместе | PlayAvalonNow",
+        "inviteShareText": "Присоединяйтесь к моей комнате Avalon: обсуждайте, голосуйте и выполняйте задания. Бесплатно для 5–10 игроков, без регистрации и скачивания."
       },
       "policies": {
         "privacy": "<h1>Уведомление о конфиденциальности</h1><p>Обновлено 14 ноября 2026 г. Avalon Online — бесплатный неофициальный фан-проект. Ни адрес электронной почты, ни настоящее имя не требуются.</p><h2>Данные, используемые для запуска игры</h2><p>Анонимная аутентификация Firebase и база данных реального времени обрабатывают анонимный идентификатор пользователя, выбранный вами псевдоним, членство в комнате, присутствие в сети, состояние общедоступной игры, а также зашифрованные полезные данные ролей и действий. Не вводите конфиденциальную информацию.</p><h2>Хранилище браузера</h2><p>Ваш закрытый ключ для расшифровки, псевдоним, язык, тема отображения, код последней комнаты и личные примечания к выводам остаются в локальном хранилище этого браузера. Заметки не загружаются и не передаются хосту. Их может увидеть любой, кто использует этот браузер. Очистите заметки в игре или удалите данные браузера этого сайта.</p><h2>Удержание</h2><p>Новые комнаты имеют маркер срока действия 72 часа; в завершенных играх используется 24-часовой маркер. Хост-клиент удаляет комнаты с истекшим сроком действия при повторном подключении. Старые данные также могут быть удалены во время обслуживания. Эти маркеры не гарантируют запланированное удаление или архивирование.</p><h2>Третьи лица и отслеживание</h2><p>На сайте нет рекламных трекеров и не продаются данные игроков. Firebase и поставщик шрифтов могут обрабатывать необходимую сетевую информацию, такую ​​как IP-адреса, в соответствии со своими политиками.</p><h2>Безопасность и контакты</h2><p>Роли и действия зашифрованы, но хост-браузеру по-прежнему доверяют запуск игры. Это не защищает от взлома хоста или модифицированного клиента. Сообщайте о проблемах конфиденциальности или безопасности в частном порядке через функцию «Безопасность» → «Сообщить об уязвимости» репозитория. Не размещайте данные о комнатах в пабликах.</p><h2>Обновления служб, хранилища и политик</h2><p>База данных реального времени размещена в Юго-Восточной Азии (asia-southeast1). Шрифты предоставляются Google Fonts (fonts.googleapis.com и fonts.gstatic.com). Эти провайдеры могут обрабатывать IP-адреса и необходимые служебные данные в соответствии со своими собственными политиками.</p><p>Код приложения не содержит аналитики и рекламных трекеров и сам не устанавливает файлы cookie. Настройки сайта и заметки используют localStorage; Firebase может дополнительно использовать хранилище браузера для аутентификации. Это заявление не гарантирует, что хостинг или сторонние службы никогда не используют файлы cookie.</p><p>Эта политика может быть обновлена; дата последнего обновления отражает изменения. Для отчетов о частной безопасности используйте GitHub Security.</p>",
@@ -1229,7 +1233,9 @@ window.AvalonLocales = {
         "projectLabel": "Proyecto de fans no oficial",
         "projectLead": "Una forma gratuita y no oficial creada por fans de jugar The Resistance: Avalon en línea.",
         "pageTitle": "Avalon online gratis | Juega con 5–10 personas",
-        "loadingGame": "Cargando el juego…"
+        "loadingGame": "Cargando el juego…",
+        "inviteShareTitle": "Juega a Avalon con amigos | PlayAvalonNow",
+        "inviteShareText": "Únete a mi sala de Avalon para debatir, votar y completar misiones. Gratis para 5–10 jugadores, sin registro ni descargas."
       },
       "policies": {
         "privacy": "<h1>Aviso de privacidad</h1><p>Actualizado el 14 de noviembre de 2026. Avalon Online es un proyecto gratuito y no oficial para fans. No se requiere dirección de correo electrónico ni nombre real.</p><h2>Datos utilizados para ejecutar un juego.</h2><p>Firebase Anonymous Authentication y Realtime Database procesan una identificación de usuario anónimo, su apodo elegido, membresía de sala, presencia en línea, estado de juego público y cargas útiles de rol y acción cifradas. No ingrese información sensible.</p><h2>Almacenamiento del navegador</h2><p>Su clave privada de descifrado, apodo, idioma, tema de visualización, código de la última habitación y notas de deducción privadas permanecen en el almacenamiento local de este navegador. Las notas no se cargan ni se comparten con el anfitrión. Cualquiera que utilice este navegador puede verlos. Borra notas en el juego o elimina los datos del navegador de este sitio.</p><h2>Retención</h2><p>Las nuevas habitaciones tienen un marcador de vencimiento de 72 horas; Los juegos completados utilizan un marcador de 24 horas. El cliente anfitrión elimina las habitaciones caducadas cuando se vuelve a conectar. Los datos antiguos también pueden eliminarse durante el mantenimiento. Estos marcadores no garantizan la eliminación o el archivo programados.</p><h2>Terceros y seguimiento</h2><p>El sitio no tiene rastreadores de publicidad y no vende datos de jugadores. Firebase y el proveedor de fuentes pueden procesar la información de red necesaria, como las direcciones IP, según sus políticas.</p><h2>Seguridad y contacto</h2><p>Los roles y acciones están encriptados, pero el navegador anfitrión sigue siendo confiable para ejecutar el juego. Esto no protege contra un host comprometido o un cliente modificado. Informar problemas de privacidad o seguridad de forma privada a través de la función Seguridad → Informar una vulnerabilidad del repositorio. No publique datos de habitaciones en publicaciones públicas.</p><h2>Actualizaciones de servicios, almacenamiento y políticas</h2><p>Realtime Database está alojada en el sudeste asiático (asia-sudeste1). Las fuentes las proporciona Google Fonts (fonts.googleapis.com y fonts.gstatic.com). Estos proveedores pueden procesar direcciones IP y datos de servicio necesarios según sus propias políticas.</p><p>El código de la aplicación no contiene análisis ni rastreadores de publicidad y no establece cookies por sí mismo. Las preferencias y notas del sitio utilizan localStorage; Firebase también puede utilizar el almacenamiento del navegador para la autenticación. Esta declaración no garantiza que el hosting o los servicios de terceros nunca utilicen cookies.</p><p>Esta política puede actualizarse; la fecha de la última actualización refleja los cambios. Para informes de seguridad privados, utilice GitHub Security.</p>",
@@ -1619,7 +1625,9 @@ window.AvalonLocales = {
         "projectLabel": "Projeto de fã não oficial",
         "projectLead": "Uma maneira gratuita e não oficial feita por fãs de jogar The Resistance: Avalon online.",
         "pageTitle": "Avalon online grátis | Joga com 5–10 pessoas",
-        "loadingGame": "A carregar o jogo…"
+        "loadingGame": "A carregar o jogo…",
+        "inviteShareTitle": "Joga Avalon com amigos | PlayAvalonNow",
+        "inviteShareText": "Entra na minha sala de Avalon para discutir, votar e cumprir missões. Grátis para 5–10 jogadores, sem registo nem downloads."
       },
       "policies": {
         "privacy": "<h1>Aviso de privacidade</h1><p>Atualizado em 14 de novembro de 2026. Avalon Online é um projeto de fã gratuito e não oficial. Nenhum endereço de e-mail ou nome real é necessário.</p><h2>Dados usados para rodar um jogo</h2><p>O Firebase Anonymous Authentication e o Realtime Database processam um ID de usuário anônimo, o apelido escolhido, a associação à sala, a presença on-line, o estado do jogo público e funções criptografadas e cargas úteis de ação. Não insira informações confidenciais.</p><h2>Armazenamento do navegador</h2><p>Sua chave privada de descriptografia, apelido, idioma, tema de exibição, código da última sala e notas de dedução privada permanecem no armazenamento local deste navegador. As notas não são carregadas ou compartilhadas com o anfitrião. Qualquer pessoa que use este navegador poderá vê-los. Limpe as notas do jogo ou exclua os dados do navegador deste site.</p><h2>Retenção</h2><p>As novas salas possuem um marcador de validade de 72 horas; jogos concluídos usam um marcador de 24 horas. O cliente host remove salas expiradas ao se reconectar. Dados antigos também podem ser removidos durante a manutenção. Esses marcadores não garantem exclusão ou arquivamento programado.</p><h2>Terceiros e rastreamento</h2><p>O site não possui rastreadores de publicidade e não vende dados de jogadores. O Firebase e o provedor de fontes podem processar informações de rede necessárias, como endereços IP, de acordo com suas políticas.</p><h2>Segurança e contato</h2><p>As funções e ações são criptografadas, mas o navegador host permanece confiável para executar o jogo. Isso não protege contra um host comprometido ou um cliente modificado. Relate questões de privacidade ou segurança de forma privada por meio do recurso Segurança → Relatar uma vulnerabilidade do repositório. Não publique dados da sala em questões públicas.</p><h2>Serviços, armazenamento e atualizações de políticas</h2><p>O Realtime Database está hospedado no sudeste da Ásia (asia-southeast1). As fontes são fornecidas pelo Google Fonts (fonts.googleapis.com e fonts.gstatic.com). Esses provedores podem processar endereços IP e dados de serviço necessários de acordo com suas próprias políticas.</p><p>O código do aplicativo não contém análises ou rastreadores de publicidade e não define cookies. As preferências e notas do site usam localStorage; O Firebase também pode usar o armazenamento do navegador para autenticação. Esta declaração não garante que serviços de hospedagem ou de terceiros nunca utilizem cookies.</p><p>Esta política pode ser atualizada; a data da última atualização reflete as alterações. Para relatórios de segurança privados, use GitHub Security.</p>",
@@ -2009,7 +2017,9 @@ window.AvalonLocales = {
         "projectLabel": "Dự án người hâm mộ không chính thức",
         "projectLead": "Một cách miễn phí, không chính thức do người hâm mộ tạo ra để chơi The Resistance: Avalon trực tuyến.",
         "pageTitle": "Chơi Avalon online miễn phí | 5–10 người",
-        "loadingGame": "Đang tải trò chơi…"
+        "loadingGame": "Đang tải trò chơi…",
+        "inviteShareTitle": "Chơi Avalon cùng bạn bè | PlayAvalonNow",
+        "inviteShareText": "Tham gia phòng Avalon của tôi để suy luận, bỏ phiếu và làm nhiệm vụ. Miễn phí cho 5–10 người, không cần đăng ký hay tải xuống."
       },
       "policies": {
         "privacy": "<h1>Thông báo về quyền riêng tư</h1><p>Cập nhật ngày 14 tháng 11 năm 2026. Avalon Online là một dự án dành cho người hâm mộ miễn phí, không chính thức. Không cần địa chỉ email hoặc tên thật.</p><h2>Dữ liệu được sử dụng để chạy trò chơi</h2><p>Cơ sở dữ liệu thời gian thực và xác thực ẩn danh Firebase xử lý ID người dùng ẩn danh, biệt hiệu bạn đã chọn, tư cách thành viên phòng, sự hiện diện trực tuyến, trạng thái trò chơi công khai cũng như tải trọng hành động và vai trò được mã hóa. Không nhập thông tin nhạy cảm.</p><h2>Bộ nhớ trình duyệt</h2><p>Khóa riêng giải mã, biệt hiệu, ngôn ngữ, chủ đề hiển thị, mã phòng cuối cùng và ghi chú khấu trừ riêng tư của bạn vẫn nằm trong localStorage của trình duyệt này. Ghi chú không được tải lên hoặc chia sẻ với máy chủ. Bất cứ ai sử dụng trình duyệt này đều có thể nhìn thấy chúng. Xóa ghi chú trong trò chơi hoặc xóa dữ liệu trình duyệt của trang web này.</p><h2>giữ lại</h2><p>Các phòng mới có mốc hết hạn 72 giờ; các trò chơi đã hoàn thành sử dụng điểm đánh dấu 24 giờ. Máy chủ lưu trữ sẽ xóa các phòng đã hết hạn khi kết nối lại. Dữ liệu cũ cũng có thể bị xóa trong quá trình bảo trì. Những điểm đánh dấu này không đảm bảo việc xóa hoặc lưu trữ theo lịch trình.</p><h2>Bên thứ ba và theo dõi</h2><p>Trang web không có trình theo dõi quảng cáo và không bán dữ liệu người chơi. Firebase và nhà cung cấp phông chữ có thể xử lý thông tin mạng cần thiết như địa chỉ IP theo chính sách của họ.</p><h2>Bảo mật và liên lạc</h2><p>Vai trò và hành động được mã hóa nhưng trình duyệt máy chủ vẫn được tin cậy để chạy trò chơi. Điều này không bảo vệ khỏi máy chủ bị xâm nhập hoặc máy khách bị sửa đổi. Báo cáo các mối lo ngại về quyền riêng tư hoặc bảo mật một cách riêng tư thông qua Bảo mật của kho lưu trữ → Báo cáo tính năng dễ bị tổn thương. Không đăng dữ liệu phòng trên các ấn phẩm công khai.</p><h2>Cập nhật dịch vụ, lưu trữ và chính sách</h2><p>Cơ sở dữ liệu thời gian thực được lưu trữ tại Đông Nam Á (Châu Á-Đông Nam1). Phông chữ được cung cấp bởi Google Fonts (fonts.googleapis.com và font.gstatic.com). Các nhà cung cấp này có thể xử lý địa chỉ IP và dữ liệu dịch vụ cần thiết theo chính sách riêng của họ.</p><p>Mã ứng dụng không chứa trình theo dõi phân tích hoặc quảng cáo và bản thân nó không đặt cookie. Tùy chọn và ghi chú của trang web sử dụng localStorage; Firebase có thể sử dụng thêm bộ nhớ của trình duyệt để xác thực. Tuyên bố này không đảm bảo rằng các dịch vụ lưu trữ hoặc bên thứ ba không bao giờ sử dụng cookie.</p><p>Chính sách này có thể được cập nhật; ngày cập nhật cuối cùng phản ánh những thay đổi. Đối với các báo cáo bảo mật riêng tư, hãy sử dụng GitHub Security.</p>",
@@ -2039,7 +2049,9 @@ window.AvalonLocales = {
         "projectLabel": "Unofficial Fan Project",
         "projectLead": "A free, unofficial fan-made way to play The Resistance: Avalon online.",
         "pageTitle": "Play Avalon Online Free",
-        "loadingGame": "Loading game…"
+        "loadingGame": "Loading game…",
+        "inviteShareTitle": "Play Avalon with friends | PlayAvalonNow",
+        "inviteShareText": "Join my Avalon room for hidden roles, lively debates and secret quests. Free for 5–10 players. No signup or download."
       }
     },
     "zh": {
@@ -2065,7 +2077,9 @@ window.AvalonLocales = {
         "projectLabel": "阿瓦隆在线版",
         "projectLead": "免费、非官方的粉丝项目，在浏览器里与朋友游玩 The Resistance: Avalon。",
         "pageTitle": "阿瓦隆在线玩｜免费 5–10 人好友房",
-        "loadingGame": "正在加载游戏…"
+        "loadingGame": "正在加载游戏…",
+        "inviteShareTitle": "一起玩阿瓦隆 | PlayAvalonNow",
+        "inviteShareText": "加入我的阿瓦隆房间，一起推理、完成任务！5–10 人免费游玩，无需注册或下载。"
       }
     },
     "ja": {
@@ -2443,7 +2457,9 @@ window.AvalonLocales = {
         "projectLabel": "非公式ファン作品",
         "projectLead": "The Resistance: Avalonをオンラインで遊ぶための、無料の非公式ファン作品です。",
         "pageTitle": "アヴァロンを無料でオンラインプレイ｜5〜10人",
-        "loadingGame": "ゲームを読み込み中…"
+        "loadingGame": "ゲームを読み込み中…",
+        "inviteShareTitle": "友だちとアヴァロン | PlayAvalonNow",
+        "inviteShareText": "私のアヴァロンの部屋に参加して、推理や投票、クエストを楽しもう。5–10人で無料プレイ。登録・ダウンロード不要。"
       },
       "shell": [
         "ホーム",
@@ -2833,7 +2849,9 @@ window.AvalonLocales = {
         "projectLabel": "비공식 팬 프로젝트",
         "projectLead": "The Resistance: Avalon을 온라인에서 즐기는 무료 비공식 팬 프로젝트입니다.",
         "pageTitle": "아발론 온라인 무료 플레이｜5–10인",
-        "loadingGame": "게임을 불러오는 중…"
+        "loadingGame": "게임을 불러오는 중…",
+        "inviteShareTitle": "친구와 함께 아발론 | PlayAvalonNow",
+        "inviteShareText": "제 아발론 방에서 추리하고 투표하며 퀘스트를 함께 즐겨요. 5–10명 무료 플레이. 가입이나 다운로드가 필요 없어요."
       },
       "shell": [
         "홈",

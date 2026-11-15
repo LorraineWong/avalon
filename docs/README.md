@@ -3,6 +3,7 @@
 ## Start here
 
 - [Nine-language search-copy review](operations/SEO_COPY_REVIEW_V32.md) — titles and descriptions for all 36 content pages.
+- [增长技术审计与分享改进](operations/GROWTH_AUDIT_2026-11-16.md) — SEO、隐私统计方案、优先级与 v36 候选验证范围。
 - [SEO and brand v32](operations/SEO_BRAND_V32.md) — candidate assets, verification scope and owner Search Console steps.
 
 - [Main README](../README.md) / [简体中文](../README.zh-CN.md) — project, play links and local preview.

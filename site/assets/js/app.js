@@ -849,7 +849,7 @@ function topBar(){
   const conn=Net.connected();
   const st = !Net.everConnected ? t('connecting') : (conn ? t('online') : t('offline'));
   if(!S.code && typeof AvalonShell!=='undefined') return AvalonShell.header(LANG,'./','home','<span class="av-status '+(conn?'is-online':Net.everConnected?'is-offline':'is-connecting')+'" role="status" aria-label="'+esc(st)+'" title="'+esc(st)+'"><span class="status-dot" aria-hidden="true"></span>'+st+'</span>')+((Net.authFailed || (!Net.everConnected && S.bootAt && Date.now()-S.bootAt>15000))?'<div class="banner-off">'+t('noNet')+'</div>':'');
-  return '<div class="top"><button class="brand av-brand" data-a="home" aria-label="'+t('home')+'"><span class="av-mark"><img src="assets/brand-mark-'+(document.documentElement.dataset?.theme==='dark'?'light':'dark')+'.svg?v=35" data-brand-mark="assets/" alt="" width="40" height="40"></span><span><b>AVALON</b><small>'+t('sub')+'</small></span></button>'
+  return '<div class="top"><button class="brand av-brand" data-a="home" aria-label="'+t('home')+'"><span class="av-mark"><img src="assets/brand-mark-'+(document.documentElement.dataset?.theme==='dark'?'light':'dark')+'.svg?v=36" data-brand-mark="assets/" alt="" width="40" height="40"></span><span><b>AVALON</b><small>'+t('sub')+'</small></span></button>'
     +(!S.code?'<nav class="site-navigation" aria-label="Main navigation"><button data-a="home" aria-current="page">'+t('home')+'</button><a href="'+guideRoute()+'">'+t('guide')+'</a><a href="privacy/">'+t('privacy')+'</a><a href="unofficial-notice/">'+t('legal')+'</a></nav>':'')
     +'<div class="top-r">'+(S.code&&S.game?((S.game.status!=='lobby'?'<button class="chip btn privacy-cover-btn" data-a="privacyCover" aria-label="'+t('privacyCover')+'">'+ic('eyeoff')+'<span>'+t('privacyCover')+'</span></button>':'')+(S.game.status==='lobby'?'<button class="chip btn rules-access" data-a="rules" aria-label="'+t('rulesAnytime')+'">'+ic('book')+'<span>'+t('rulesAnytime')+'</span></button>':'')+'<span class="chip room-chip"><span class="dot '+(conn?'on':'')+'"></span><b style="letter-spacing:2px">'+esc(S.code)+'</b></span>'):'<span class="chip"><span class="dot '+(conn?'on':'')+'"></span>'+st+'</span>')
     +(typeof AvalonShell!=='undefined'?AvalonShell.themeControl(LANG)+AvalonShell.languageControl(LANG,'siteLanguage')+AvalonShell.menuControl(LANG,'./','',Boolean(S.code)):'')+'</div></div>'
@@ -924,10 +924,30 @@ function renderInfoModal(){
   el.innerHTML='<div class="rules-modal info-modal" role="dialog" aria-modal="true" aria-labelledby="infoTitle"><div class="glass rules-sheet info-sheet"><div class="rules-head"><div><div class="eyebrow">AVALON ONLINE</div><h2 id="infoTitle">'+title+'</h2></div><button class="btn ghost icon rules-close" data-a="closeInfo" aria-label="'+t('close')+'">'+ic('x')+'</button></div><div class="info-copy">'+infoContent(kind)+'</div></div></div>';
   requestAnimationFrame(()=>el.querySelector('.rules-close')?.focus());
 }
+// Share only controlled invitation fields, never the visitor's original query.
+function roomInviteUrl(method){
+  const url=new URL(location.pathname,location.origin);
+  url.searchParams.set('lang',validLanguage(LANG));
+  url.searchParams.set('utm_source','invite');
+  url.searchParams.set('utm_medium',({copy:'copy_link',share:'native_share',qr:'qr_code'})[method]||'copy_link');
+  url.searchParams.set('utm_campaign','room_invite');
+  url.hash=S.game.code;
+  return url.href;
+}
+function copyRoomInvite(){
+  const link=roomInviteUrl('copy');
+  const ok=()=>toast(t('copied')), fail=()=>toast(link);
+  try{ return navigator.clipboard.writeText(link).then(ok,fail); }catch(err){ fail(); }
+}
+function shareRoomInvite(){
+  const link=roomInviteUrl('share');
+  const fail=error=>{ if(error?.name!=='AbortError') toast(link); };
+  try{ return navigator.share({title:extra('inviteShareTitle'),text:extra('inviteShareText'),url:link}).catch(fail); }catch(error){ fail(error); }
+}
 function renderQRModal(){
   const el=$('#qrModal'); if(!el) return;
   if(!S.ui.qrOpen || !S.game){ el.innerHTML=''; el._key=null; return; }
-  const link=location.origin+location.pathname+'#'+S.game.code, key=LANG+':'+link;
+  const link=roomInviteUrl('qr'), key=LANG+':'+link;
   if(el._key===key && el.innerHTML) return; el._key=key;
   el.innerHTML='<div class="rules-modal qr-modal" role="dialog" aria-modal="true" aria-labelledby="qrTitle"><div class="glass qr-sheet"><button class="btn ghost icon qr-close" data-a="closeQR" aria-label="'+t('close')+'">'+ic('x')+'</button><div class="eyebrow">AVALON · '+esc(S.game.code)+'</div><h2 id="qrTitle">'+t('scanJoin')+'</h2><div id="qrCanvas" class="qr-canvas"></div><b class="qr-code">'+esc(S.game.code)+'</b><button class="btn pri" data-a="copy">'+ic('link')+t('copyLink')+'</button></div></div>';
   requestAnimationFrame(()=>{ const box=$('#qrCanvas'); if(box&&window.QRCode) new QRCode(box,{text:link,width:220,height:220,colorDark:'#110d0a',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M}); el.querySelector('.qr-close')?.focus(); });
@@ -955,7 +975,7 @@ function renderConfirmModal(){
 }
 function privacyCoverHtml(){
   if(!S.ui.privacyCover) return '';
-  return '<div class="privacy-cover" role="dialog" aria-modal="true"><div class="privacy-cover-crest"><img src="assets/brand-mark-'+(document.documentElement.dataset?.theme==='dark'?'light':'dark')+'.svg?v=35" data-brand-mark="assets/" alt="" width="78" height="78"></div><h2>'+t('coveredTitle')+'</h2><p>'+t('coveredHint')+'</p><button class="btn pri big" data-a="privacyCover">'+t('revealScreen')+'</button></div>';
+  return '<div class="privacy-cover" role="dialog" aria-modal="true"><div class="privacy-cover-crest"><img src="assets/brand-mark-'+(document.documentElement.dataset?.theme==='dark'?'light':'dark')+'.svg?v=36" data-brand-mark="assets/" alt="" width="78" height="78"></div><h2>'+t('coveredTitle')+'</h2><p>'+t('coveredHint')+'</p><button class="btn pri big" data-a="privacyCover">'+t('revealScreen')+'</button></div>';
 }
 function viewHome(){
   const last=LS.get('last');
@@ -1262,7 +1282,7 @@ function roleBar(){
   // Who am I at this table: portrait, seat number and name, with rename one tap away.
   const id='<button class="me-id" data-a="editName" aria-label="'+t('editName')+'"><i class="player-avatar" style="'+avStyle(me)+'"></i><span class="me-text"><small>'+t('youAre')+' · '+t('seatNo', g.order.indexOf(me)+1)+'</small><b><span>'+esc(nickOf(me))+'</span><em>'+ic('pencil')+'</em></b></span></button>';
   const role=!S.mine ? '<span class="me-role muted small">'+t('loadingRole')+'</span>'
-    : '<button class="me-role '+(S.peek?s:'')+'" data-a="peek" aria-expanded="'+!!S.peek+'"><span class="rb-ic">'+(S.peek?roleArt(S.mine.role,'rolebar-art'):'<span class="card-seal"><img src="assets/brand-mark-'+(document.documentElement.dataset?.theme==='dark'?'light':'dark')+'.svg?v=35" data-brand-mark="assets/" alt="" width="32" height="32"></span>')+'</span><span class="me-text"><small>'+t('myRole')+'</small><b>'+(S.peek?rName(S.mine.role):t('tapReveal'))+'</b></span></button>';
+    : '<button class="me-role '+(S.peek?s:'')+'" data-a="peek" aria-expanded="'+!!S.peek+'"><span class="rb-ic">'+(S.peek?roleArt(S.mine.role,'rolebar-art'):'<span class="card-seal"><img src="assets/brand-mark-'+(document.documentElement.dataset?.theme==='dark'?'light':'dark')+'.svg?v=36" data-brand-mark="assets/" alt="" width="32" height="32"></span>')+'</span><span class="me-text"><small>'+t('myRole')+'</small><b>'+(S.peek?rName(S.mine.role):t('tapReveal'))+'</b></span></button>';
   return '<div class="glass card mebar">'+id+role+'</div>'
     +(S.peek&&S.mine?'<button class="sheet-backdrop" data-a="peek" aria-label="'+t('hideRole')+'"></button><div class="glass card know-card sheet"><div class="sheet-head"><b class="'+(s==='good'?'res-s':'res-f')+'">'+roleIcon(S.mine.role)+' '+rName(S.mine.role)+' · '+t(s)+'</b><button class="btn ghost sm sheet-close" data-a="peek">'+ic('eyeoff')+t('hideRole')+'</button></div><div class="identity-detail"><div class="identity-portrait '+s+'">'+roleArt(S.mine.role,'identity-art')+'<span>'+t(s)+'</span></div><div class="identity-knowledge">'+knowBlock()+'</div></div></div>':'');
 }
@@ -1312,7 +1332,7 @@ function renderOverlay(){
     const m=S.mine; if(!m){ S.ov.shift(); return renderOverlay(); }
     const s=m.allegiance||side(m.role);
     h='<h2>'+ic('moon')+' '+t('nightTitle')+'</h2><p class="lead">'+t('nightLead')+'</p>'
-      +'<button type="button" class="rolecard '+(o.flipped?'flip':'')+'" data-a="flipcard" aria-label="'+(o.flipped?rName(m.role):t('flip'))+'"><span class="in"><span class="face back"><span class="card-orbit" aria-hidden="true"></span><span class="card-seal large"><img src="assets/brand-mark-'+(document.documentElement.dataset?.theme==='dark'?'light':'dark')+'.svg?v=35" data-brand-mark="assets/" alt="" width="72" height="72"></span><span class="card-wordmark">AVALON</span><span class="card-secret">'+ic('lock')+extra('secretIdentity')+'</span></span>'
+      +'<button type="button" class="rolecard '+(o.flipped?'flip':'')+'" data-a="flipcard" aria-label="'+(o.flipped?rName(m.role):t('flip'))+'"><span class="in"><span class="face back"><span class="card-orbit" aria-hidden="true"></span><span class="card-seal large"><img src="assets/brand-mark-'+(document.documentElement.dataset?.theme==='dark'?'light':'dark')+'.svg?v=36" data-brand-mark="assets/" alt="" width="72" height="72"></span><span class="card-wordmark">AVALON</span><span class="card-secret">'+ic('lock')+extra('secretIdentity')+'</span></span>'
       +'<span class="face front '+s+'">'+roleArt(m.role,'rolecard-art')+'<span class="rolecard-caption"><span class="rs">'+ic(s==='good'?'shield':'sword')+t(s)+'</span><span class="rn">'+rName(m.role)+'</span></span></span></span></button>'
       +(o.flipped?knowBlock()+'<button class="btn pri big" style="width:100%" data-a="ovnext">'+t('gotIt')+'</button>':'<button class="btn pri big" style="width:100%" data-a="flipcard">'+t('flip')+'</button>');
   } else if(o.type==='vote'){
@@ -1446,17 +1466,8 @@ document.addEventListener('click', e=>{
     case 'flipcard': if(S.ov[0] && S.ov[0].type==='night'){ S.ov[0].flipped=true; renderOverlay(); } return;
     case 'ovnext': S.ov.shift(); return renderOverlay();
     case 'showend': S.ov.push({type:'end'}); return renderOverlay();
-    case 'copy': {
-      const link=location.origin+location.pathname+'#'+S.game.code;
-      const ok=()=>toast(t('copied')), fail=()=>toast(link);
-      try{ navigator.clipboard.writeText(link).then(ok, fail); }catch(err){ fail(); }
-      return;
-    }
-    case 'share': {
-      const link=location.origin+location.pathname+'#'+S.game.code;
-      navigator.share({title:'Avalon '+S.game.code, text:'Avalon · '+S.game.code, url:link}).catch(()=>{});
-      return;
-    }
+    case 'copy': return copyRoomInvite();
+    case 'share': return shareRoomInvite();
   }
 });
 window.addEventListener('hashchange', ()=>{
