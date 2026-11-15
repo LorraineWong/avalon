@@ -21,7 +21,9 @@ seven languages 已改为 nine languages。站内、README、分享资料和 sit
 移除 `https://avalon.lorrainewong.dev/*`；现有 reCAPTCHA key domains 移除旧 host。
 新主域名和既有 GitHub 来源均保留，Firebase 默认 Auth host/localhost 未改，
 API 三项限制、域名验证、App Check enforcement、阈值、规则与 Spark 不变。
-没有删除用户或房间，没有撤销全部用户凭据。已签发 token 的存续不能等同于
+随后实际请求核对：旧 Referer 返回 403 / `API_KEY_HTTP_REFERRER_BLOCKED`；
+新 Referer 匿名注册返回 200，临时身份删除返回 200。无游戏房间写入。
+没有删除玩家用户或房间，没有撤销全部用户凭据。已签发 token 的存续不能等同于
 新授权清单立即撤销所有旧会话；旧离线 PWA 也不会被远程卸载。
 
 v31 前端精确主机清单不再允许旧 host，测试将旧 host 列入拒绝项；资源 query
