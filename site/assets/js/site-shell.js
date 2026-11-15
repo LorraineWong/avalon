@@ -86,7 +86,7 @@ window.AvalonShell = (() => {
         if(event.target.closest('[data-menu-dismiss],a') || (event.target===dialog && (event.clientX<rect.left || event.clientX>rect.right || event.clientY<rect.top || event.clientY>rect.bottom))) dialog.close();
       });
     }
-    dialog.innerHTML='<div class="mobile-menu-head"><h2 id="av-mobile-menu-title">'+w[0]+'</h2><button type="button" data-menu-dismiss aria-label="'+w[1]+'" autofocus><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></svg></button></div><nav aria-label="'+w[0]+'">'+links(lang,base,current)+'<a href="'+base+pagePath('legal',lang)+'#project-credits">'+w[3]+'</a><a href="https://github.com/LorraineWong/avalon" target="_blank" rel="noopener noreferrer">GitHub</a></nav><div class="mobile-menu-theme"><span>'+w[2]+'</span>'+themeControl(lang)+'</div>'+(inRoom?'<p class="mobile-menu-hint">'+w[4]+'</p>':'');
+    dialog.innerHTML='<div class="mobile-menu-head"><h2 id="av-mobile-menu-title">'+w[0]+'</h2><button type="button" data-menu-dismiss aria-label="'+w[1]+'" autofocus><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></svg></button></div><nav aria-label="'+w[0]+'">'+links(lang,base,current)+'<a href="https://github.com/LorraineWong/avalon" target="_blank" rel="noopener noreferrer">GitHub</a></nav><div class="mobile-menu-theme"><span>'+w[2]+'</span>'+themeControl(lang)+'</div>'+(inRoom?'<p class="mobile-menu-hint">'+w[4]+'</p>':'');
     if(inRoom) dialog.querySelectorAll('a').forEach(link=>{link.target='_blank';link.rel='noopener noreferrer';});
     opener.setAttribute('aria-expanded','true');
     opener.setAttribute('aria-controls',dialog.id);

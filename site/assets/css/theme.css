@@ -764,3 +764,20 @@ html.menu-open{overflow:hidden}
 :root[data-theme] .project-details>p{margin:8px 0 12px;font:400 12px/1.85 var(--av-font)}
 :root[data-theme] .project-credits-simple{margin-top:0}
 @media(max-width:600px){:root[data-theme] main.project-page{padding-top:16px}:root[data-theme] .project-intro{padding-bottom:22px}:root[data-theme] main.project-page .project-support-simple{padding:22px 0 18px}:root[data-theme] .project-feedback{gap:4px 16px;padding-top:16px}}
+
+.room-action-short{display:none}
+:root[data-theme] main.wrap>section[id]{scroll-margin-top:var(--guide-nav-offset,92px)}
+@media(max-width:720px){
+ :root[data-theme] .roomcode-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;width:100%}
+ :root[data-theme] .roomcode-actions:has([data-a="share"]){grid-template-columns:repeat(3,minmax(0,1fr))}
+ :root[data-theme] .roomcode-actions .btn{width:100%;height:44px;min-height:44px;min-width:0;padding:8px 6px;gap:5px;font-size:12px;line-height:1.2;white-space:nowrap}
+ :root[data-theme] .roomcode-actions .ic{width:15px;height:15px;flex:none}
+ :root[data-theme] .roomcode-actions .room-action-long{display:none}
+ :root[data-theme] .roomcode-actions .room-action-short{display:inline;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+ :root[data-theme] .roomcode-actions .room-action-label{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+ :root[data-theme] .guide-jump{display:block;max-width:100%;padding:5px}
+ :root[data-theme] .guide-sections{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px;overflow:visible;min-width:0}
+ :root[data-theme] .guide-jump .guide-sections a{min-width:0;min-height:36px;padding:6px 8px;white-space:normal;text-align:center;overflow-wrap:anywhere;font-size:12px;line-height:1.4}
+ :root[data-theme] .guide-jump .guide-play{display:flex;width:100%;max-width:none;min-height:36px;margin:5px 0 0;padding:6px 10px;white-space:normal;font-size:12px}
+}
+@media(max-width:360px){:root[data-theme] .roomcode-actions:has([data-a="share"]) .btn{font-size:11px;gap:4px}}

@@ -24,11 +24,6 @@
     } else if(kind!=='guide'){
       document.querySelector('main').innerHTML=window.AvalonPolicies.get(lang,kind);
       document.querySelector('main h1').textContent=l[kind==='privacy'?2:3];
-      if(kind==='legal'){
-        document.querySelector('#project-credits')?.remove();
-        const credits=registry.credits[lang]||registry.credits.en;
-        document.querySelector('main').insertAdjacentHTML('beforeend','<section id="project-credits"><h2>'+credits.title+'</h2><p>'+credits.text+'</p></section>');
-      }
       if(kind==='privacy'){document.querySelector('#privacy-additions')?.remove();document.querySelector('main').insertAdjacentHTML('beforeend','<section id="privacy-additions">'+(window.AvalonPrivacyAdditions?.[lang]||'')+'</section>');}
       document.title=l[kind==='privacy'?2:3]+' | Avalon Online';
     }
@@ -52,7 +47,9 @@
     let queued=false, active;
     function updateSection(){
       queued=false;
-      const edge=bar.getBoundingClientRect().bottom+80;
+      const rect=bar.getBoundingClientRect();
+      document.documentElement.style.setProperty('--guide-nav-offset',Math.ceil(rect.height)+28+'px');
+      const edge=rect.bottom+80;
       let index=0;
       sections.forEach((section,i)=>{if(section?.getBoundingClientRect().top<=edge)index=i;});
       if(scrollY+innerHeight>=document.documentElement.scrollHeight-2)index=links.length-1;

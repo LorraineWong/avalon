@@ -28,7 +28,7 @@ window.AvalonProject = (() => {
       '<p class="project-small">'+escape(c.free)+'</p><p class="project-small">'+escape(c.other)+'</p>'+
       (support?'<details class="project-details"><summary>'+escape(c.paymentTitle)+'</summary><p>'+escape(c.payment)+'</p></details>':'')+'</section>'+
       '<nav class="project-feedback" aria-label="'+escape(c.contact)+'">'+link('https://github.com/LorraineWong/avalon/issues',c.feedback,'text-action')+link('https://github.com/LorraineWong/avalon/security/advisories/new',c.report,'text-action')+'</nav>'+
-      (credits?'<details class="project-details project-credits-simple"><summary>'+escape(credits.title)+'</summary><p>'+escape(credits.text)+'</p><p>'+escape(c.notice)+'</p></details>':'<p class="project-small">'+escape(c.notice)+'</p>');
+      (credits?'<details id="project-credits" class="project-details project-credits-simple"><summary>'+escape(credits.title)+'</summary><p>'+escape(credits.text)+'</p><p>'+escape(c.notice)+'</p></details>':'<p class="project-small">'+escape(c.notice)+'</p>');
 
   }
   return {title:lang=>(copy[lang] || copy.en).title, render};

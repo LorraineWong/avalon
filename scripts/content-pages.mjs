@@ -24,7 +24,6 @@ export function writeContentPages(root,out){
         let content=kind==='support'?project.render(id):policies.get(id,kind);
         if(kind!=='support')content=content.replace(/<h1>[\s\S]*?<\/h1>/,'<h1>'+title.replaceAll('&','&amp;')+'</h1>');
         if(kind==='privacy')content+='<section id="privacy-additions">'+additions[id]+'</section>';
-        if(kind==='legal'){const c=registry.credits[id];content+='<section id="project-credits"><h2>'+c.title+'</h2><p>'+c.text+'</p></section>';}
         html=html.replace(/<main\b[^>]*>[\s\S]*?<\/main>/,'<main class="wrap legal-main'+(kind==='support'?' project-page':'')+'">'+content+'</main>');
       }
       if(kind!=='guide'){

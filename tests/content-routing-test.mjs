@@ -15,7 +15,7 @@ try{
   assert.equal(links.filter(l=>l.rel==='alternate'&&l.hreflang!=='x-default').length,7,'all language alternates');
   assert.equal(elements(html,'h1').length,1,'one static page heading');
   assert.equal((html.match(/id="privacy-additions"/g)||[]).length,page==='privacy-policy'?1:0,'no duplicate privacy content');
-  assert.equal((html.match(/id="project-credits"/g)||[]).length,page==='terms'?1:0,'no duplicate credits');
+  assert.equal((html.match(/id="project-credits"/g)||[]).length,page==='about'?1:0,'credits live only on About');
   const anchors=elements(html,'a');
   for(const name of ['how-to-play','privacy-policy','terms','about'])assert.ok(anchors.some(l=>l.href==='../../'+name+'/'+lang+'/'),'static localized navigation '+name);
   for(const element of [...elements(html,'script'),...links]){

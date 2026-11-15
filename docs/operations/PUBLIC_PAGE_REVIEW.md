@@ -14,6 +14,9 @@ separately after the merge.
   Payment and credits details are collapsed; personal social links stay on About,
   while the footer links only to the project repository. Ko-fi is external; no checkout,
   payment, receipt-privacy claim or funding target was introduced.
+- Mobile room invite actions use equal 44px heights and compact labels. The
+  mobile guide navigation wraps without horizontal scrolling. Project credits
+  live only on About; Terms retains rights/licence disclosures.
 - Twenty-eight static localized content pages, reciprocal hreflang/canonicals,
   29-entry sitemap, and legacy browser redirects. Old routes remain published;
   redirects are not HTTP 301s. Root game identity and room hashes stay on the
