@@ -1,8 +1,71 @@
-# 新域名切换候选 v30
+# 新域名切换与验收 v30
 
 准备日期：2026-11-15。负责人要求继续迁移，已明确确认旧站没有进行中的游戏。
-本文件记录可审阅的候选改动和执行顺序，**不是新域名已上线的证明**。
+本文件先保留切换前候选与计划，实际执行结果见下一节；不要把候选测试当作生产验收。
 当前生产基线为 PR #27 合并后的 `abff2e8`，运行资源仍为 v29。
+
+
+## 实际执行结果（2026-11-15 UTC）
+
+负责人在查看 PR #28、变更范围、验收和回滚方案后明确回复“批准”。
+随后确认“手机可以正常创建并退出房间”。旧站无进行中游戏的确认在切换前取得。
+
+- [PR #28](https://github.com/LorraineWong/avalon/pull/28) 已 squash 合并，运行版本 v30；
+  main `d75c9bc55c6fe4fa338ea2ae9f0cdb2891dc8bad`。
+  [Pages 发布](https://github.com/LorraineWong/avalon/actions/runs/43692205472)、
+  [main 离线检查](https://github.com/LorraineWong/avalon/actions/runs/43692205561)
+  和独立 Workers Build 均成功。140 个非隐藏发布文件与当时本地产物逐一一致。
+- GitHub 已验证 `playavalonnow.com` 所有权；实际 TXT 留在 Cloudflare。
+  Auth domains、Browser key HTTPS referrer、现有 reCAPTCHA key domain list
+  精确增加新主机，保存后复核；保留旧值。API 仍仅 App Check、Identity Toolkit、
+  Token Service；domain verification 开启，Spark、规则、enforcement、TTL/阈值不变。
+- Pages 正式入口为 `https://playavalonnow.com/`。四条 A、四条 AAAA 和
+  `www CNAME lorrainewong.github.io` 均 DNS-only。GitHub 证书覆盖 apex/www，
+  approved，到期日 2027-02-13；Enforce HTTPS 已开启。普通 TLS 校验的 apex 返回 200，
+  www 返回 301 到 apex。约 07:56 UTC 开始切换，08:02 UTC HTTPS 正常，未触发回滚。
+- 旧 `avalon` CNAME 目标和 TTL 保持不变，仅此主机改为代理。免费重定向规则
+  `4a0ca5395d0a4d0d9fddd1faf7aa207a` 已启用：
+  `(http.host eq "avalon.lorrainewong.dev")`，动态目标
+  `concat("https://playavalonnow.com", http.request.uri.path)`，保留 query，302。
+  `.dev` apex 与两条原 TXT 未改。旧域名永久 301 尚未批准/启用。
+- 执行机器上的五个独立普通桌面浏览器资料均取得真实 token（交换状态五次 200），
+  匿名身份建房/加入、加密私密角色发放、房主重连、原子移交、组队投票、三次任务、
+  刺杀至终局/公开结果、玩家重连及五人返回重开大厅通过，共 13 项记录。
+  同一合法身份的数据库请求：无 App Check 401、有 token 200。
+  临时房间删除已核验，五个临时账号已删除；其他尝试未创建游戏房间，
+  自动化创建的账号也执行了清理。正常 Chrome 单人验收房间已退出关闭。
+- 浏览器验证四种入口（旧 HTTPS、旧 HTTP、www、GitHub `/avalon/`）的原路径、
+  query、hash；四种实际 legacy 页面 `/ja/index.html`、`/privacy/index.html`、
+  `/support/index.html`、`/unofficial-notice/index.html` 到对应命名页通过。
+  legacy 页面会将 `lang` 转入语言路径，hash 仍保留；没有跳转循环。
+- 新 origin v30 worker 实际控制页面、42 项 shell 缓存，英/日/韩 About 正文离线通过。
+  原有隔离 v29 profile 离线仍可读旧页；恢复网络后旧 worker 导航能跟随迁移并保留
+  query/hash；同一 profile 在新 origin 取得独立 v30 controller/cache。
+- 负责人用真实手机确认可创建并退出房间。未报告手机型号、浏览器、网络地区，
+  因而不把这项当作指定大陆/海外网络或真机多人扫码联机的证据。
+
+### 尚未完成与测试限制
+
+自动化临时/部分独立资料收到 App Check 403 `App attestation failed`，SDK 随后
+对该资料显示 24 小时退避。未降低阈值、关闭 enforcement、注册 debug token、
+修改浏览器指纹或扩大预览授权。普通资料曾有五次成功，手机也通过；
+失败与成功的差异不能据此确定为配置传播、字体阻断或具体风险分数原因。
+[Firebase 文档](https://firebase.google.com/docs/app-check/web/recaptcha-enterprise-provider)
+说明自动化/CI 等环境可能不被生产 provider 判为有效。本轮仍按实际结果登记，
+不把 403 直接归因于真实玩家或声称已经解释其全部原因。
+
+五人流程第二局已启动且至少一个客户端收到新私密角色，但第二局翻牌自动点击
+等待可见/稳定超时，未证明五个客户端都完成第二局翻牌。之后补查因新自动化资料
+在 token 阶段被拒而未能补齐。独立 14 项实时安全脚本也在取得 token 前被拒，
+未执行其断言；不要将它标为通过。上面的同身份有/无 token 对照与既有规则未修改
+是单独的实际证据，不能替代全部权限攻击场景。
+
+待补：第二局五客户端完整 UI、手机多人邀请/真实扫码、指定网络/弱网覆盖和实际
+安装 PWA 的启动体验。不要据此大规模推广、声称容量已测或立即启用旧站永久跳转。
+监控、分析与站长工具仍按后续批次推进，未为迁移新建收费服务。
+GitHub 控制台在签发证书时曾保留 DNS 检查失败提示；后续 UI 刷新未能取得结果，
+因此不声称该面板已变绿。已独立核对公开 A/AAAA/CNAME、apex/www 证书、强制 HTTPS、
+正常 TLS 的发布文件及真实联机；这是分别记录的证据。
 
 ## 当前候选改动
 
