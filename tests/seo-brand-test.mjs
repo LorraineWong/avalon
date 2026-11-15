@@ -21,9 +21,23 @@ try{
   assert.equal(website.name,'PlayAvalonNow');assert.equal(website.url,origin);
   assert.equal(game.url,origin);assert.equal(game.playMode,'https://schema.org/MultiPlayer');
   assert.equal(game.numberOfPlayers.minValue,5);assert.equal(game.numberOfPlayers.maxValue,10);assert.equal(game.isAccessibleForFree,true);
+  const copy=JSON.parse(readFileSync(new URL('../site/language/seo-copy.json',import.meta.url),'utf8'));
+  assert.equal(Object.keys(copy).length,9);
+  const kinds={'how-to-play':'guide','about':'support','privacy-policy':'privacy','terms':'legal'};
+  const escape=value=>value.replaceAll('&','&amp;').replaceAll('\"','&quot;');
   const routes=[...read('sitemap.xml').toString().matchAll(/<loc>([^<]+)<\/loc>/g)].map(m=>m[1].slice(origin.length));
   for(const route of routes){
     const source=html(route),links=elements(source,'link'),meta=elements(source,'meta');
+    if(route){
+      const [family,language]=route.split('/'),id=({'zh-cn':'zh','zh-tw':'zh-TW'}[language]||language),expected=copy[id][kinds[family]];
+      assert.ok(source.includes('<title>'+escape(expected.title+' | PlayAvalonNow')+'</title>'),route+' authored title');
+      for(const field of ['og:title','twitter:title'])assert.equal(meta.find(m=>m.name===field||m.property===field)?.content,escape(expected.title+' | PlayAvalonNow'),route+' '+field);
+      for(const field of ['description','og:description','twitter:description'])assert.equal(meta.find(m=>m.name===field||m.property===field)?.content,escape(expected.description),route+' '+field);
+      const scripts=elements(source,'script').map(s=>s.src||'');
+      if(family==='how-to-play')assert.ok(!scripts.some(src=>/\/(project|project-copy|policy-copy|policy-pages)\.js/.test(src)),route+' no unused content helpers');
+      if(family==='about')assert.ok(scripts.some(src=>/\/project\.js/.test(src)),route+' project renderer retained');
+      if(family==='terms'||family==='privacy-policy')assert.ok(scripts.some(src=>/\/policy-pages\.js/.test(src)),route+' policy renderer retained');
+    }
     assert.equal(meta.find(tag=>tag.property==='og:site_name')?.content,'PlayAvalonNow',route);
     for(const tag of ['og:image','twitter:image'])assert.equal(meta.find(item=>item.property===tag||item.name===tag)?.content,origin+'assets/social-preview.png?v=32',route);
     for(const tag of ['og:image:alt','twitter:image:alt','og:image:width','og:image:height'])assert.ok(meta.some(item=>(item.property===tag||item.name===tag)&&item.content),tag+' '+route);

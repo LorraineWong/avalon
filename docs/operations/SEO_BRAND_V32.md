@@ -131,3 +131,56 @@ runtime titles also retain the same brand. No visible homepage module was added.
 These are preference signals for Google, not guaranteed search-result text.
 Existing results require a new crawl after publication; do not remove useful
 indexed pages merely to hide an older title or default icon.
+
+## Nine-language completion and loading pass
+
+The owner approved the four-item pre-release scope and required the established
+visual/component system to be retained. All 36 content pages now use the
+build-only `site/language/seo-copy.json` catalog: individual title/description
+copy for each guide, About, privacy and terms page in nine languages. The
+[complete review sheet](SEO_COPY_REVIEW_V32.md) lists the actual text. The builder
+fails if a locale/page is missing copy. OG and Twitter use the matching values;
+public-page rendering no longer overwrites the authored search title. Generic
+paragraph excerpts and unverified “learn in five minutes” claims were removed
+from metadata. No keyword search volumes or ranking improvements are claimed.
+
+The game homepage no longer loads project-copy, project renderer or policy-page
+renderer scripts that its actual shared-shell UI does not use. Privacy additions
+remain available. Public content pages load only the project/policy helpers they
+use. Required helpers remain available for their actual pages and in the PWA
+cache; there is no lazy-loaded dialog, new dependency or altered App Check order.
+Existing fonts, role art, stylesheets, components and the game engine are retained.
+The source cache/query version stays v32 because this PR has not been published.
+
+Latest verification:
+
+- All 38 offline syntax/regression checks passed, including exact 36-page
+  title/description/social parity, language canonicals, required helper retention,
+  deterministic packaging and preservation of the visible guide body.
+- 144 public-page checks passed: 36 pages × 320/1440px × light/dark; runtime titles
+  match the static copy, each page retains one H1 and no horizontal page overflow.
+- 54 home combinations passed: nine languages × 320/390/1440px × light/dark.
+- Nine real browser language-picker → guide → game journeys retained the selected
+  locale. External backend calls were blocked; these are language-navigation
+  checks, not live multiplayer evidence.
+- All 36 main-content HTML bodies byte-match the pre-pass artifact. English
+  phone-home screenshots in both themes pixel-match the pre-pass artifact.
+  No new visible homepage section or change to policy disclosures was made.
+- The local seeded-cache PWA check passed again: v31 cache removed, v32 has 51
+  entries, home and Japanese/Korean About work offline.
+- Paired cold-load lab: three runs per version/device (12 samples), interleaved
+  order, same 1.6 Mbps/150 ms/4× CPU and blocked external requests. Mobile LCP
+  median 4,804 → 3,868 ms; desktop 9,120 → 8,272 ms. Home requests 24 → 21;
+  local decoded resource bytes 1,249,679 → 1,167,806. CLS medians unchanged
+  (mobile ~0.079, desktop ~0.024). The local server is uncompressed; byte savings
+  are decoded resource savings, not promised production transfer savings.
+- LCP includes the initial HTML and its replacement; this is not a measurement
+  of when a production game room is ready. Values remain above the “good” LCP
+  target. Actual external fonts, attestation, real networks and field user
+  experience are outside this lab comparison. No score or production speed
+  guarantee is made.
+
+New evidence: `nine-language-browser.json`, `performance-paired.json`, final
+home screenshots and the refreshed offline/PWA results in the local outputs
+folder. Production release, actual social previews, real phone/desktop multiplayer
+and Google recrawl remain pending; none is inferred from these local checks.

@@ -51,3 +51,18 @@ The selected compact control uses JA/KO; its expanded list shows 日本語/한�
 Source metadata, legacy routes, public path parsing, static generation and the
 service-worker About cache must all include the new IDs. Do not translate
 player-entered names, notes or room data.
+
+### v32 search metadata
+
+`site/language/seo-copy.json` contains reviewed title/description candidates for
+all four content-page types in each of the nine language IDs. It is build-only:
+no extra translation payload is loaded by the browser. The publisher refuses
+missing copy rather than silently publishing an English fallback. Keep the
+source guide title/social metadata aligned so legacy guides stay consistent.
+The [search-copy review](../operations/SEO_COPY_REVIEW_V32.md) lists all 36 pages.
+
+The static HTML supplies each page's title, description and matching OG/Twitter
+metadata. `public-ui.js` preserves that title after rendering. Changing language
+navigates to that content page in the new language; entering the game carries
+its exact locale ID through `?lang=`. Canonicals and the 37 sitemap URLs are
+unchanged. These metadata edits do not change policy disclosures or game rules.

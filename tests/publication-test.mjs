@@ -14,7 +14,8 @@ try{
  for(const lang of languages){
   const source=readFileSync(sourceForPublic(lang+'/index.html'),'utf8'),published=readFileSync(path.join(first,lang,'index.html'),'utf8');
   let position=0;
-  for(const part of source.split(/<!-- guide:(?:modules|players|player-note) -->/)){
+  // Head metadata and unused helper loading are generated; the visible guide body is preserved.
+  for(const part of source.slice(source.indexOf('<body>')).split(/<!-- guide:(?:modules|players|player-note) -->/)){
    const next=published.indexOf(part,position);assert.ok(next>=position,'preserve '+lang+' source outside shared guide slots');position=next+part.length;
   }
   assert.ok(!published.includes('<!-- guide:'),'expand all shared guide slots');
