@@ -216,3 +216,17 @@ New evidence: `nine-language-browser.json`, `performance-paired.json`, final
 home screenshots and the refreshed offline/PWA results in the local outputs
 folder. Production release, actual social previews, real phone/desktop multiplayer
 and Google recrawl remain pending; none is inferred from these local checks.
+
+## v33 theme-logo correction
+
+The owner clarified that dark pages must use `brand-mark-light.svg` and light
+pages `brand-mark-dark.svg`. The mapping is corrected in the shared header,
+room header, privacy cover and private-card seals, including manual/system/
+cross-tab theme changes. Existing artwork and styles are unchanged. Asset queries
+and the worker cache advance together to v33 so existing sessions receive it.
+The search-copy catalog, canonicals and all 37 sitemap locations are unchanged.
+
+Local validation for the v33 correction: all 38 offline checks and 102 browser
+checks passed across nine languages, three home widths, public headers, six
+room screens and both themes. Manual desktop toggling and cross-tab preference
+updates both select the opposite-named logo variant as requested.

@@ -9,6 +9,7 @@ try{
   prepareSite(out);
   const read=route=>readFileSync(path.join(out,route));
   const html=route=>read(route+'index.html').toString();
+  const version=read('service-worker.js').toString().match(/avalon-shell-v(\d+)/)[1];
   const home=html(''),title='Play Avalon Online Free | PlayAvalonNow';
   assert.ok(home.includes('<title>'+title+'</title>'));
   assert.ok(home.includes('Create a private room, invite your friends and enjoy social deduction in your browser. No signup or download.'));
@@ -39,7 +40,7 @@ try{
       if(family==='terms'||family==='privacy-policy')assert.ok(scripts.some(src=>/\/policy-pages\.js/.test(src)),route+' policy renderer retained');
     }
     assert.equal(meta.find(tag=>tag.property==='og:site_name')?.content,'PlayAvalonNow',route);
-    for(const tag of ['og:image','twitter:image'])assert.equal(meta.find(item=>item.property===tag||item.name===tag)?.content,origin+'assets/social-preview.png?v=32',route);
+    for(const tag of ['og:image','twitter:image'])assert.equal(meta.find(item=>item.property===tag||item.name===tag)?.content,origin+'assets/social-preview.png?v='+version,route);
     for(const tag of ['og:image:alt','twitter:image:alt','og:image:width','og:image:height'])assert.ok(meta.some(item=>(item.property===tag||item.name===tag)&&item.content),tag+' '+route);
     for(const link of links.filter(item=>['icon','apple-touch-icon'].includes(item.rel)))read(new URL(link.href,origin+route).pathname.slice(1));
     for(const alternate of links.filter(link=>link.hreflang)){
