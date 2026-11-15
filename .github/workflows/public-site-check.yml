@@ -1,0 +1,28 @@
+name: Daily public site check
+
+on:
+  schedule:
+    - cron: '17 0 * * *' # About 08:17 Asia/Kuala_Lumpur; GitHub may delay scheduled runs.
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: daily-public-site-check
+  cancel-in-progress: false
+
+jobs:
+  public-site:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: '24'
+      - name: Check public pages and assets with retries
+        run: node scripts/check-public-site.mjs
