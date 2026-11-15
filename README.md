@@ -1,6 +1,6 @@
 <p align="center"><img src="site/assets/brand-mark.svg" width="80" height="80" alt="Avalon Online"></p>
 <h1 align="center">Avalon Online</h1>
-<p align="center"><strong><a href="https://avalon.lorrainewong.dev/">Play Now</a></strong> · <a href="https://avalon.lorrainewong.dev/en/">How to Play</a> · <a href="docs/README.md">Documentation</a> · <a href="README.zh-CN.md">简体中文</a></p>
+<p align="center"><strong><a href="https://playavalonnow.com/">Play Now</a></strong> · <a href="https://playavalonnow.com/en/">How to Play</a> · <a href="docs/README.md">Documentation</a> · <a href="README.zh-CN.md">简体中文</a></p>
 <p align="center">A free browser game of hidden roles, deduction and betrayal for <strong>5–10 friends</strong>. No sign-up or download required.</p>
 
 ## Play with friends
@@ -25,7 +25,7 @@ not always have the cards. The online versions I tried had interfaces I found
 awkward, required registration, or ran into bugs during play. I decided to try
 building my own with AI: open a room and play, without a player account.
 
-[About & support](https://avalon.lorrainewong.dev/support/) ·
+[About & support](https://playavalonnow.com/support/) ·
 [GitHub](https://github.com/LorraineWong) ·
 [LinkedIn](https://www.linkedin.com/in/lorrainewongyiting/)
 
@@ -37,7 +37,7 @@ Playing stays free; support gives no gameplay advantages.
 
 ```text
 site/                      Website source only
-  language/                Seven guide languages and all translation dictionaries
+  language/                Nine guide languages and all translation dictionaries
   pages/                   Privacy, notices and project support
   assets/                  Scripts, styles and separately licensed images
   config/                  Public App Check settings
@@ -74,7 +74,7 @@ For Firebase configuration, deployment and multiplayer testing, see the [develop
 
 ## Documentation and contributions
 
-[Documentation index](docs/README.md) · [Contributing](CONTRIBUTING.md) · [Supported rules](docs/game/BIG_BOX_RULES.md) · [Security policy](.github/SECURITY.md) · [Privacy](https://avalon.lorrainewong.dev/privacy/)
+[Documentation index](docs/README.md) · [Contributing](CONTRIBUTING.md) · [Supported rules](docs/game/BIG_BOX_RULES.md) · [Security policy](.github/SECURITY.md) · [Privacy](https://playavalonnow.com/privacy/)
 
 Focused pull requests and reproducible bug reports are welcome. For UI issues, include the device, viewport and theme. For game-flow changes, test with isolated player sessions.
 

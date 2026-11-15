@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import vm from 'node:vm';
 import {readPublic,readGameSource} from './helpers/site.mjs';
 const configSource=readPublic('config/app-check.js'),source=readPublic('assets/js/app-check.js');
-function boot(host='avalon.lorrainewong.dev',{missing=false,blank=false}={}){
+function boot(host='playavalonnow.com',{missing=false,blank=false}={}){
  const calls=[],window={},context={window,location:{hostname:host}};
  vm.runInNewContext(configSource,context);
  if(blank)window.AvalonAppCheckConfig={...window.AvalonAppCheckConfig,siteKey:''};
@@ -11,12 +11,12 @@ function boot(host='avalon.lorrainewong.dev',{missing=false,blank=false}={}){
  appCheck.ReCaptchaEnterpriseProvider=class{constructor(key){this.key=key;}};
  return {calls,window,sdk:missing?{}:{appCheck}};
 }
-for(const host of ['avalon.lorrainewong.dev','lorrainewong.github.io']){
+for(const host of ['playavalonnow.com','avalon.lorrainewong.dev','lorrainewong.github.io']){
  const b=boot(host);assert.equal(b.window.AvalonAppCheck.activate(b.sdk),true);
  assert.equal(b.calls[1].key,b.window.AvalonAppCheckConfig.siteKey);assert.equal(b.calls[1].refresh,true);
  assert.equal(b.window.AvalonAppCheck.activate(b.sdk),true);assert.equal(b.calls.length,2,'activate once');
 }
-for(const host of ['localhost','127.0.0.1','evil.example','preview.workers.dev']){
+for(const host of ['localhost','127.0.0.1','evil.example','preview.workers.dev','www.playavalonnow.com','staging.playavalonnow.com','playavalonnow.com.evil.example']){
  const b=boot(host);assert.equal(b.window.AvalonAppCheck.activate(b.sdk),false);assert.equal(b.calls.length,0);
 }
 const blank=boot(undefined,{blank:true});assert.equal(blank.window.AvalonAppCheck.activate(blank.sdk),false);

@@ -359,7 +359,7 @@ const S = {
 
 /* ================= Boot ================= */
 async function boot(){
-  LANG = validLanguage(new URL(location.search||'',location.origin||'https://avalon.lorrainewong.dev').searchParams.get('lang') || LS.get('lang'));
+  LANG = validLanguage(new URL(location.search||'',location.origin||'https://playavalonnow.com').searchParams.get('lang') || LS.get('lang'));
   document.documentElement.lang = languageTag(LANG);
   if(!window.crypto || !crypto.subtle){ $('#app').innerHTML='<div class="glass card">This browser does not support Web Crypto. Please use a recent Chrome / Safari / Edge (https).</div>'; return; }
   render();

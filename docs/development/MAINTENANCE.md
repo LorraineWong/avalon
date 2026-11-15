@@ -4,7 +4,7 @@
 
 | Directory                                                               | Responsibility                                                                                                         |
 | ----------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
-| `site/language/`                                                        | All seven guide languages, base game dictionaries, supplemental locale data, project copy and shared privacy additions |
+| `site/language/`                                                        | All nine guide languages, base game dictionaries, supplemental locale data, project copy and shared privacy additions |
 | `site/pages/`                                                           | Privacy, unofficial notice and support page source                                                                     |
 | `site/assets/js/`, `site/assets/css/`                                   | First-party runtime behavior and ordered styles                                                                        |
 | `site/assets/roles/`, other image files                                 | Illustrations and brand assets, excluded from MIT                                                                      |
@@ -63,7 +63,7 @@ entries and deterministic output separately.
 - English/Simplified Chinese base messages and role text:
   `site/language/game-base.js`. The classic-script declarations are loaded
   before `app.js`; extracting text does not change the game lookups.
-- Seven language IDs/routes and supplemental dictionaries:
+- Nine language IDs/routes and supplemental dictionaries:
   `site/language/locales.js`.
 - Project story translations: `site/language/project-copy.js`; approved external
   contact/support URLs and rendering: `site/assets/js/project.js`.
@@ -113,7 +113,7 @@ The public reading scale at the end of `site/assets/css/theme.css` is scoped to
 (15px) and `--content-small` (13px). Keep new document content on this scale
 instead of adding page-specific font sizes. Branding and game controls have
 separate sizing. About copy remains in `site/language/project-copy.js`; update
-all seven languages together and preserve the payment and rights disclosures.
+all nine languages together and preserve the payment and rights disclosures.
 
 Game dialogs use `--dialog-title` (20px) and rule subsections use
 `--dialog-subtitle` (16px), both in the shared UI font. The compact QR title

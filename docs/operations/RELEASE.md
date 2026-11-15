@@ -54,11 +54,12 @@ not the normal production configuration.
   `versions upload` branch command failed the Worker identity check; no guard
   was disabled. See the [preview operations record](CLOUDFLARE_PREVIEW.md).
   Static previews are not accepted as working Firebase staging.
-- **Domain:** `avalon.lorrainewong.dev` has verified ownership/DNS, an approved
-  certificate and enforced HTTPS. Exact Firebase/API-key origins are configured.
-  The apex remains reserved for the owner's portfolio. Browser identities/keys
-  do not migrate across origins; use new rooms after cutover. See
-  [the cutover guide](DOMAIN_SETUP.md).
+- **Domain:** the v30 candidate targets `playavalonnow.com`, with www and the
+  previous `avalon.lorrainewong.dev` entry redirected after acceptance. The
+  [cutover record](DOMAIN_CUTOVER_V30.md) distinguishes prepared source from
+  actual DNS/HTTPS/backend verification; do not infer success from the source
+  CNAME. The `lorrainewong.dev` apex stays reserved for the owner's portfolio.
+  Browser identities/keys do not migrate across origins; use new rooms.
 - **Capacity:** the Firebase project stays on Spark. Review Authentication and
   Realtime Database usage in the Firebase console before inviting a large group.
   This project has no measured concurrent-player capacity or production load
@@ -112,7 +113,7 @@ from a preview origin. Do not widen origins to make previews multiplayer.
 
 The confirmed support URL is <https://ko-fi.com/lorrainewong>. The new domain,
 certificate, client attestation and backend enforcement are reported separately
-in [launch readiness](LAUNCH_READINESS.md). Runtime/PWA release version is v28. Named localized content routes, legacy-link
+in [launch readiness](LAUNCH_READINESS.md). Runtime/PWA candidate version is v30. Named localized content routes, legacy-link
 compatibility and the owner-reviewed public-page changes are described in
 [the v27 review record](PUBLIC_PAGE_REVIEW.md).
 

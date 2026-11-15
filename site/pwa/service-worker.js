@@ -1,12 +1,12 @@
-const CACHE = 'avalon-shell-v29';
+const CACHE = 'avalon-shell-v30';
 const SHELL = [
   './about/ja/', './about/ko/',
-  './assets/js/guide.js?v=29',
-  './config/app-check.js?v=29', './assets/js/app-check.js?v=29', './vendor/firebase-app-check-compat.js',
-  './assets/js/policy-copy.js?v=29', './assets/js/policy-pages.js?v=29', './assets/js/locales.js?v=29', './assets/js/game-base.js?v=29', './assets/js/project-copy.js?v=29', './assets/js/project.js?v=29',
+  './assets/js/guide.js?v=30',
+  './config/app-check.js?v=30', './assets/js/app-check.js?v=30', './vendor/firebase-app-check-compat.js',
+  './assets/js/policy-copy.js?v=30', './assets/js/policy-pages.js?v=30', './assets/js/locales.js?v=30', './assets/js/game-base.js?v=30', './assets/js/project-copy.js?v=30', './assets/js/project.js?v=30',
   './about/en/', './about/zh-cn/', './about/zh-tw/', './about/ru/', './about/es/', './about/pt/', './about/vi/',
-  './support/', './support/index.html', './assets/js/public-ui.js?v=29', './assets/css/landing.css?v=29',
-  './assets/brand-mark.svg', './assets/css/theme.css?v=29', './assets/js/site-shell.js?v=29', './assets/css/site-shell.css?v=29', './assets/css/style.css?v=29', './assets/js/app.js?v=29',
+  './support/', './support/index.html', './assets/js/public-ui.js?v=30', './assets/css/landing.css?v=30',
+  './assets/brand-mark.svg', './assets/css/theme.css?v=30', './assets/js/site-shell.js?v=30', './assets/css/site-shell.css?v=30', './assets/css/style.css?v=30', './assets/js/app.js?v=30',
   './', './index.html', './assets/css/style.css', './assets/js/app.js', './manifest.webmanifest', './assets/app-icon.svg', './assets/player-avatars.webp',
   './vendor/firebase-app-compat.js', './vendor/firebase-auth-compat.js', './vendor/firebase-database-compat.js', './vendor/qrcode.min.js',
   './assets/roles/merlin.webp', './assets/roles/morgana.webp'
