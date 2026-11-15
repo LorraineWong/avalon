@@ -87,8 +87,9 @@ not the normal production configuration.
 - **Account security:** verify GitHub two-factor authentication/passkeys and
   recovery methods in the owner's account settings. Repository API access did
   not reveal the current 2FA state; do not mark it verified.
-- **Operations:** there is no configured external uptime/error monitoring or
-  guaranteed response time. Watch Pages deployments and Firebase usage during
+- **Operations:** public static checks run after Pages publication and daily through GitHub Actions;
+  see [public-site monitoring](PUBLIC_SITE_MONITOR.md) for retry behavior, notification settings and limitations.
+  There is no continuous external uptime/error monitoring or guaranteed response time. Watch Pages deployments and Firebase usage during
   initial invitations; keep an offline copy of the emergency guide and rules.
   The private vulnerability report is the supported security contact channel.
 
@@ -113,7 +114,7 @@ from a preview origin. Do not widen origins to make previews multiplayer.
 
 The confirmed support URL is <https://ko-fi.com/lorrainewong>. The new domain,
 certificate, client attestation and backend enforcement are reported separately
-in [launch readiness](LAUNCH_READINESS.md). Runtime/PWA version is v35; see the [v32 publication record](SEO_BRAND_V32.md). Named localized content routes, legacy-link
+in [launch readiness](LAUNCH_READINESS.md). Runtime/PWA version is v36; see the [growth audit and invitation update](GROWTH_AUDIT_2026-11-16.md) and [public-site monitoring](PUBLIC_SITE_MONITOR.md). Named localized content routes, legacy-link
 compatibility and the owner-reviewed public-page changes are described in
 [the v27 review record](PUBLIC_PAGE_REVIEW.md).
 

@@ -121,4 +121,6 @@
 - 本地同一浏览器的模拟 v35缓存→v36缓存升级完成，旧缓存清理，新缓存51项；此测试使用当前静态资源模拟旧版本URL，不是生产旧profile或历史v35代码验收。
 - `git diff --check` 通过。没有运行生产用户/房间测试；没有实际手机原生面板、扫码、跨设备多人整局或真实用户CWV验收。
 
-补充证据：`offline-tests.txt`、`share-browser.json`、`invite-qr-mobile.png`、`pwa-upgrade.json`，均在上述本机证据目录。候选提交供审查；正式网站仍为v35，此处不是生产发布记录。
+补充证据：`offline-tests.txt`、`share-browser.json`、`invite-qr-mobile.png`、`pwa-upgrade.json`，均在上述本机证据目录。初次审计提交时正式网站为v35，此处记录发布前验证，不冒充生产结果。
+
+后续授权（2026-11-16）：站主明确要求把本次修改完成后上线。v36追加[公开网站巡检](PUBLIC_SITE_MONITOR.md)：发布后与每日运行，71项公开页面/资源检查，最多三次重试，失败显示在GitHub运行结果；邮件取决于个人通知设置。没有启用增长事件或改变Firebase。新增监控负向/重试测试完全离线，最终部署与真实公开检查以对应GitHub运行记录为准。
