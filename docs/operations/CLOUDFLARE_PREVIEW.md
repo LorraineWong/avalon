@@ -31,7 +31,12 @@ script tag，因此不宣称已经证明本账户一定存在“错误 tag”这
 | 根目录 | `/` |
 | 预览分支构建 | 启用，沿用原设置 |
 
-只改了 Preview command，刷新后确认保存。沿用现有 build token、Worker 名称、
+Preview base 和已存在的 `ops/phase1-batch0-audit` 分支各自保存了 Preview command，
+刷新后分别确认。现有分支有自己的构建配置，不会因修改 base 自动更新；
+第一次更新 base 后，该分支的新提交和重试仍运行旧命令，日志直接证实这一点。
+其他既有分支如仍保留旧命令，也须单独检查，不能只改 base 就宣称全部修复。
+新分支使用更新后的 base。仓库 `config/wrangler.jsonc` 添加空 `previews` 配置，
+明确采用无需额外变量或绑定的静态预览。沿用现有 build token、Worker 名称、
 生产命令和无运行绑定的静态资源配置，没有修改 DNS、Firebase、账单或权限。
 官方当前分支构建流程使用专门的 `wrangler preview`；本机固定版本的 CLI
 `preview --help` 也确认该命令存在。它与上传 production version 的
@@ -52,7 +57,7 @@ script tag，因此不宣称已经证明本账户一定存在“错误 tag”这
 ## 回滚
 
 若新预览流程出现问题，记录当次日志并暂停使用预览；生产命令不需要修改。
-要撤回本次设置，可将 Preview command 恢复为上面的旧 `versions upload` 命令，
+要撤回本次设置，可将 base 和对应现有分支的 Preview command 恢复为旧 `versions upload` 命令，
 但那会恢复已知失败路径，不是修复。不要因此绕过身份校验或删除现有 Worker。
 此变更不要求开通付费计划，未新增服务绑定或计费账户。
 
