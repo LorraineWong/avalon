@@ -4,7 +4,7 @@
 已完成、待配置和未验证项目会分别标明；不要根据下面出现一个入口就认为已经配置好。
 
 当前实际网站：[Avalon Online](https://playavalonnow.com/)。
-www 自动跳到主域名；旧 `avalon.lorrainewong.dev` 先用 302 临时跳转。
+www 自动跳到主域名；旧 `avalon.lorrainewong.dev` 已停止游戏服务，只保留 301 永久跳转。
 已完成和待补验收见 [v30 切换记录](DOMAIN_CUTOVER_V30.md)。
 
 ## 每天花两分钟看什么
@@ -21,7 +21,7 @@ www 自动跳到主域名；旧 `avalon.lorrainewong.dev` 先用 302 临时跳�
 
 | 看什么 | 去哪里 | 目前能做什么 |
 | --- | --- | --- |
-| 网站发布是否正常 | [GitHub Actions](https://github.com/LorraineWong/avalon/actions) → Publish static site → 最新 main 记录 | 本轮 v30 迁移发布成功。查看自己的更新，不把工作分支预览失败当作正式站失败 |
+| 网站发布是否正常 | [GitHub Actions](https://github.com/LorraineWong/avalon/actions) → Publish static site → 最新 main 记录 | v30 完成迁移，v31 撤下旧来源；对外只使用新主域名。查看自己的更新，不把工作分支预览失败当作正式站失败 |
 | 访客、来源、国家/地区、页面 | Batch 3 待补真实分析面板 | 尚未配置验收；不以“0”替代未启用 |
 | 搜索曝光与抓取问题 | [Search Console](https://search.google.com/search-console) / [Bing Webmaster Tools](https://www.bing.com/webmasters/) | 新域名属性和 sitemap 提交未验证，账户授权后在 Batch 4 配置；收录和排名不保证 |
 | 数据库免费额度 | [Firebase 项目](https://console.firebase.google.com/project/lw-avalon/overview) → Realtime Database → Usage | 本轮 Last 7 days / Nov 8–15：峰值连接 14、下载 27.67 MB、当前存储 309.78 KB；以后查看时重新选日期，不沿用此快照 |

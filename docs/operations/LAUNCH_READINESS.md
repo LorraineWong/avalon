@@ -3,11 +3,14 @@
 This is a dated operations record. A registered App Check provider, a valid
 client token and enforced backend protection are three different states.
 
-## Current v30 domain status
+## Current v31 domain status
 
 The owner approved PR #28 and the exact backend/DNS cutover on 15 November.
 The production URL is now <https://playavalonnow.com/>; HTTPS is enforced,
-www redirects to apex, and only the old game host redirects with temporary 302.
+www redirects to apex, and only the old game host redirects with permanent 301 after the owner
+explicitly requested full retirement. Its Auth/referrer/reCAPTCHA permissions
+were removed; new-domain authorization and backend protections are retained.
+The repository About homepage and nine-language description were also updated.
 Five isolated desktop clients completed a game through the final result and
 returned to the rematch lobby; the owner confirmed phone room creation/exit.
 Second-game full UI, real-phone multiplayer/QR, selected networks and the full
