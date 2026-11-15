@@ -5,6 +5,33 @@
 当前生产基线为 PR #27 合并后的 `abff2e8`，运行资源仍为 v29。
 
 
+## 旧游戏入口退役（v31，2026-11-15 马来西亚时间）
+
+负责人追加要求“全面迁移”，关闭旧游戏网址，统一推广 `playavalonnow.com`。
+这条指令取代此前等待旧站永久跳转批准的安排。08:24 UTC（16:24 马来西亚时间）
+已将同一条 Cloudflare 规则由 302 改为 **301 永久跳转**，名称改为
+`Avalon old host to playavalonnow - permanent`；精确 host、路径与 query 保留不变。
+实际 TLS 请求已返回 301，并指向新域名的对应路径/query。
+
+GitHub 仓库 About 官网字段已保存为 `https://playavalonnow.com/`，简介中的
+seven languages 已改为 nine languages。站内、README、分享资料和 sitemap
+此前已统一新域名，不再将旧网址作为游戏/推广入口。
+
+后台已保存并复核：Firebase Auth domains 移除旧 host；Browser key referrers
+移除 `https://avalon.lorrainewong.dev/*`；现有 reCAPTCHA key domains 移除旧 host。
+新主域名和既有 GitHub 来源均保留，Firebase 默认 Auth host/localhost 未改，
+API 三项限制、域名验证、App Check enforcement、阈值、规则与 Spark 不变。
+没有删除用户或房间，没有撤销全部用户凭据。已签发 token 的存续不能等同于
+新授权清单立即撤销所有旧会话；旧离线 PWA 也不会被远程卸载。
+
+v31 前端精确主机清单不再允许旧 host，测试将旧 host 列入拒绝项；资源 query
+和 worker cache 同步升至 v31。它只收紧旧来源并更新缓存，不修改玩法或新站授权。
+新站仍由 GitHub Pages 承载；旧 DNS/免费边缘证书只保留承接老链接，不承载游戏。
+直接删除旧 DNS 会让老链接失效，因此保留永久跳转。
+
+下列 v30 五人/真机检查是迁移时的历史证据；本次版本/退役配置的检查记录在对应 PR。
+后续推广和全部对外官网链接一律采用新主域名；未由此发送社交帖子、购买广告或开通付费服务。
+
 ## 实际执行结果（2026-11-15 UTC）
 
 负责人在查看 PR #28、变更范围、验收和回滚方案后明确回复“批准”。
@@ -27,7 +54,7 @@
   `4a0ca5395d0a4d0d9fddd1faf7aa207a` 已启用：
   `(http.host eq "avalon.lorrainewong.dev")`，动态目标
   `concat("https://playavalonnow.com", http.request.uri.path)`，保留 query，302。
-  `.dev` apex 与两条原 TXT 未改。旧域名永久 301 尚未批准/启用。
+  `.dev` apex 与两条原 TXT 未改。当时先启用 302，随后按上方追加指令改为永久 301。
 - 执行机器上的五个独立普通桌面浏览器资料均取得真实 token（交换状态五次 200），
   匿名身份建房/加入、加密私密角色发放、房主重连、原子移交、组队投票、三次任务、
   刺杀至终局/公开结果、玩家重连及五人返回重开大厅通过，共 13 项记录。
@@ -61,13 +88,14 @@
 是单独的实际证据，不能替代全部权限攻击场景。
 
 待补：第二局五客户端完整 UI、手机多人邀请/真实扫码、指定网络/弱网覆盖和实际
-安装 PWA 的启动体验。不要据此大规模推广、声称容量已测或立即启用旧站永久跳转。
+安装 PWA 的启动体验。推广入口已按负责人追加指令统一新域名；不得把未完成测试
+改写为通过，也不声称已测并发容量。旧站永久跳转执行状态见上方追加记录。
 监控、分析与站长工具仍按后续批次推进，未为迁移新建收费服务。
 GitHub 控制台在签发证书时曾保留 DNS 检查失败提示；后续 UI 刷新未能取得结果，
 因此不声称该面板已变绿。已独立核对公开 A/AAAA/CNAME、apex/www 证书、强制 HTTPS、
 正常 TLS 的发布文件及真实联机；这是分别记录的证据。
 
-## 当前候选改动
+## 切换前候选档案（以下保留当时状态）
 
 - `playavalonnow.com` 为唯一正式主域名，www 只跳转；公开路径保持不变。
 - 同步首页、九语言源页面、36 个命名页、37 条 sitemap、robots、CNAME、

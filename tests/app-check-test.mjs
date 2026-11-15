@@ -11,12 +11,12 @@ function boot(host='playavalonnow.com',{missing=false,blank=false}={}){
  appCheck.ReCaptchaEnterpriseProvider=class{constructor(key){this.key=key;}};
  return {calls,window,sdk:missing?{}:{appCheck}};
 }
-for(const host of ['playavalonnow.com','avalon.lorrainewong.dev','lorrainewong.github.io']){
+for(const host of ['playavalonnow.com','lorrainewong.github.io']){
  const b=boot(host);assert.equal(b.window.AvalonAppCheck.activate(b.sdk),true);
  assert.equal(b.calls[1].key,b.window.AvalonAppCheckConfig.siteKey);assert.equal(b.calls[1].refresh,true);
  assert.equal(b.window.AvalonAppCheck.activate(b.sdk),true);assert.equal(b.calls.length,2,'activate once');
 }
-for(const host of ['localhost','127.0.0.1','evil.example','preview.workers.dev','www.playavalonnow.com','staging.playavalonnow.com','playavalonnow.com.evil.example']){
+for(const host of ['avalon.lorrainewong.dev','localhost','127.0.0.1','evil.example','preview.workers.dev','www.playavalonnow.com','staging.playavalonnow.com','playavalonnow.com.evil.example']){
  const b=boot(host);assert.equal(b.window.AvalonAppCheck.activate(b.sdk),false);assert.equal(b.calls.length,0);
 }
 const blank=boot(undefined,{blank:true});assert.equal(blank.window.AvalonAppCheck.activate(blank.sdk),false);
