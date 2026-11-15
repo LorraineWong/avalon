@@ -42,4 +42,4 @@ const page=readPublic('support/index.html');
 assert.match(page,/https:\/\/ko-fi\.com\/lorrainewong/,'static fallback links the approved support page');
 assert.match(readPublic('assets/js/site-shell.js'),/support:'about'/,'named About route');
 assert.match(readPublic('assets/js/app.js'),/support\//,'legacy support fallback');
-console.log('Project page: seven languages, approved social links, pending payment state, safe external URLs and static fallback.');
+console.log('Project page: nine languages, approved social links, pending payment state, safe external URLs and static fallback.');

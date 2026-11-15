@@ -4,7 +4,7 @@
 
 1. Open a pull request into `main`. `Offline tests` must pass before merging.
    This checks syntax and offline regressions, not production Firebase or layout.
-2. For UI changes, check all seven languages, both themes and phone/desktop
+2. For UI changes, check all nine languages, both themes and phone/desktop
    layouts with `dev/ui-preview.html`. Keep asset versions and service-worker
    cache versions aligned. Test an existing browser session after an update.
 3. For networking, authentication or database-rule changes, run the authorized
@@ -112,6 +112,17 @@ from a preview origin. Do not widen origins to make previews multiplayer.
 
 The confirmed support URL is <https://ko-fi.com/lorrainewong>. The new domain,
 certificate, client attestation and backend enforcement are reported separately
-in [launch readiness](LAUNCH_READINESS.md). Runtime/PWA release version is v27. Named localized content routes, legacy-link
+in [launch readiness](LAUNCH_READINESS.md). Runtime/PWA release version is v28. Named localized content routes, legacy-link
 compatibility and the owner-reviewed public-page changes are described in
 [the v27 review record](PUBLIC_PAGE_REVIEW.md).
+
+
+## v28 guide, layout and language update
+
+The owner authorised publication on 2026-11-15. The release adds Japanese and
+Korean, concise shared public/room guides with expanded role/module cards and
+tables, a common page width, consistent room typography, the intermediate-width
+side menu, and incremental rendering to avoid sync-driven DOM replacement.
+See [the v28 review record](PUBLIC_PAGE_REVIEW_V28.md). Verify the merged SHA and
+live assets after deployment; the review record's local checks do not by
+themselves prove production publication.

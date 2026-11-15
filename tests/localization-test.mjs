@@ -12,8 +12,8 @@ const shellVersion=read('service-worker.js').match(/avalon-shell-v(\d+)/)?.[1];
 assert.ok(shellVersion,'service worker cache version');
 vm.runInContext(read('assets/js/game-base.js')+';globalThis.base={messages:I18N,roles:ROLE_TXT};',context);
 const {base}=context;
-assert.equal(registry.languages.length,7);
-assert.equal(new Set(registry.languages.map(l=>l.id)).size,7);
+assert.equal(registry.languages.length,9);
+assert.equal(new Set(registry.languages.map(l=>l.id)).size,registry.languages.length);
 const placeholders=s=>(s.match(/\{\d\}/g)||[]).sort();
 for(const language of registry.languages){
  const {id,tag,route}=language, pack=registry.packs[id];
@@ -41,4 +41,4 @@ for(const language of registry.languages){
  assert.ok(read('sitemap.xml').includes('/'+route+'/</loc>'),id+' sitemap');
 }
 assert.ok(read('service-worker.js').includes('./assets/js/locales.js?v='+shellVersion),'offline locale data');
-console.log('Seven languages: complete messages, placeholders, markup, 17 roles, policies, guide metadata and offline shell.');
+console.log('Nine languages: complete messages, placeholders, markup, 17 roles, policies, guide metadata and offline shell.');

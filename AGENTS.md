@@ -10,7 +10,7 @@ Read [CONTRIBUTING.md](CONTRIBUTING.md), [architecture](docs/development/ARCHITE
   installation. Source lives in `site/`; run `node scripts/prepare-site.mjs`
   before serving `dist/`. `scripts/site-layout.mjs` preserves public URLs. Keep public paths stable. Do not add a framework just to format
   or organise files.
-- Keep seven languages and both themes consistent. Player text must never be
+- Keep nine languages and both themes consistent. Player text must never be
   sent to translation services. Use `dev/ui-preview.html` for offline UI work.
 - Run `node tests/run-all.mjs`. The default suite must stay offline and require
   no secrets. UI changes also need relevant real-browser layout and interaction

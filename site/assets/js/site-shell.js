@@ -38,7 +38,7 @@ window.AvalonShell = (() => {
     if(opener) openMenu(opener);
   });
   const languages=registry?.languages || [{id:'zh',label:'简中',name:'简体中文',tag:'zh-CN'},{id:'en',label:'EN',name:'English',tag:'en'}];
-  const languageFlags={en:'🇬🇧',zh:'🇨🇳','zh-TW':'🇹🇼',ru:'🇷🇺',es:'🇪🇸',pt:'🇵🇹',vi:'🇻🇳'};
+  const languageFlags={en:'🇬🇧',zh:'🇨🇳','zh-TW':'🇹🇼',ru:'🇷🇺',es:'🇪🇸',pt:'🇵🇹',vi:'🇻🇳',ja:'🇯🇵',ko:'🇰🇷'};
   function languageControl(lang,id=''){
     const label=pack(lang)?.extra.language || 'Language / 语言';
     return '<label class="language-picker compact-language" title="'+label+'"><select '+(id?'id="'+id+'"':'data-site-language')+' aria-label="'+label+'">'+languages.map(x=>'<option value="'+x.id+'" aria-label="'+x.name+'" lang="'+x.tag+'"'+(lang===x.id?' selected':'')+'>'+languageFlags[x.id]+' '+(lang===x.id?x.label:x.name)+'</option>').join('')+'</select></label>';
@@ -51,7 +51,9 @@ window.AvalonShell = (() => {
     ru:['Меню','Закрыть меню','Оформление','О проекте','Ссылки открываются в новой вкладке; комната останется открытой.'],
     es:['Menú','Cerrar menú','Apariencia','Créditos','Los enlaces se abren en otra pestaña para mantener tu sala abierta.'],
     pt:['Menu','Fechar menu','Aparência','Créditos','Os links abrem noutra aba para manter a sala aberta.'],
-    vi:['Trình đơn','Đóng trình đơn','Giao diện','Thông tin dự án','Liên kết mở trong thẻ mới để giữ phòng hiện tại.']
+    vi:['Trình đơn','Đóng trình đơn','Giao diện','Thông tin dự án','Liên kết mở trong thẻ mới để giữ phòng hiện tại.'],
+    ja:['メニュー','メニューを閉じる','表示テーマ','制作について','現在の部屋を保つため、リンクは新しいタブで開きます。'],
+    ko:['메뉴','메뉴 닫기','화면 테마','제작 정보','현재 방을 유지하도록 링크가 새 탭에서 열립니다.']
   };
   const menuIcon='<svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>';
   function menuControl(lang,base,current='',inRoom=false){
@@ -71,7 +73,7 @@ window.AvalonShell = (() => {
       dialog.addEventListener('close',()=>{
         document.documentElement.classList.remove('menu-open');
         document.querySelectorAll('[data-mobile-menu]').forEach(button=>button.setAttribute('aria-expanded','false'));
-        document.querySelector(window.innerWidth>600?'.av-brand':'[data-mobile-menu]')?.focus();
+        document.querySelector(window.innerWidth>1200?'.av-brand':'[data-mobile-menu]')?.focus();
       });
       dialog.addEventListener('keydown',event=>{
         event.stopPropagation();
@@ -93,10 +95,10 @@ window.AvalonShell = (() => {
     dialog.showModal();
     document.documentElement.classList.add('menu-open');
   }
-  window.addEventListener('resize',()=>{if(window.innerWidth>600) document.getElementById('av-mobile-menu')?.close();});
+  window.addEventListener('resize',()=>{if(window.innerWidth>1200) document.getElementById('av-mobile-menu')?.close();});
   const pageNames={guide:'how-to-play',privacy:'privacy-policy',legal:'terms',support:'about'};
   function pagePath(kind,lang){const route=locale(lang)?.route||'en';return kind==='home'?'?lang='+lang:pageNames[kind]+'/'+route+'/';}
-  const aboutLabels={en:'About',zh:'关于项目','zh-TW':'關於專案',ru:'О проекте',es:'Acerca de',pt:'Sobre',vi:'Giới thiệu'};
+  const aboutLabels={en:'About',zh:'关于项目','zh-TW':'關於專案',ru:'О проекте',es:'Acerca de',pt:'Sobre',vi:'Giới thiệu',ja:'このサイトについて',ko:'프로젝트 소개'};
   function links(lang,base,current){
     const w=pack(lang)?.shell || words[lang]||words.en;
     return ['home','guide','support','privacy','legal'].map((kind,i)=>'<a href="'+base+pagePath(kind,lang)+'"'+(kind===current?' aria-current="page"':'')+'>'+[w[0],w[1],aboutLabels[lang]||aboutLabels.en,w[2],w[3]][i]+'</a>').join('');

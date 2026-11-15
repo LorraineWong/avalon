@@ -7,6 +7,7 @@ export function writeContentPages(root,out){
   vm.createContext(context);
   for(const name of ['locales','project-copy','policy-copy','policy-pages'])vm.runInContext(readFileSync(path.join(root,'site/language/'+name+'.js'),'utf8'),context);
   vm.runInContext(readFileSync(path.join(root,'site/assets/js/project.js'),'utf8'),context);
+  vm.runInContext(readFileSync(path.join(root,'site/assets/js/guide.js'),'utf8'),context);
   vm.runInContext(readFileSync(path.join(root,'site/assets/js/site-shell.js'),'utf8'),context);
   const projectCopy=vm.runInContext('PROJECT_COPY',context);
   const {AvalonShell:shell,AvalonLocales:registry,AvalonPolicies:policies,AvalonProject:project,AvalonPrivacyAdditions:additions}=context.window;
@@ -18,6 +19,14 @@ export function writeContentPages(root,out){
       const {id,tag,route}=language;
       const source=kind==='guide'?'site/language/'+route+'/index.html':'site/pages/'+({privacy:'privacy',legal:'unofficial-notice',support:'support'}[kind])+'/index.html';
       let html=readFileSync(path.join(root,source),'utf8');
+      if(kind==='guide'){
+        const guide=context.window.AvalonGuide;
+        html=html.replace('<!-- guide:modules -->',guide.modules(id));
+        html=html.replace('<!-- guide:players -->',guide.players(id));
+        html=html.replace('<!-- guide:player-note -->',guide.copy(id).hint);
+        // Legacy guides remain readable without JS as well as redirect-compatible.
+        writeFileSync(path.join(out,route,'index.html'),html);
+      }
       const dest=name+'/'+route+'/';
       const title=kind==='support'?project.title(id):registry.packs[id].shell[{guide:1,privacy:2,legal:3}[kind]];
       if(kind!=='guide'){
@@ -45,7 +54,7 @@ export function writeContentPages(root,out){
   }
   // Page-name roots have a useful default even when typed without a language.
   for(const name of Object.values(names)){
-    const html='<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Avalon Online</title><link rel="canonical" href="'+origin+name+'/en/"><meta http-equiv="refresh" content="0;url=en/"></head><body><p><a href="en/">Continue to Avalon Online</a></p><script>let lang="en";try{lang=JSON.parse(localStorage.getItem("lwav.lang"))||"en";}catch{}const routes={en:"en",zh:"zh-cn","zh-TW":"zh-tw",ru:"ru",es:"es",pt:"pt",vi:"vi"};location.replace((routes[lang]||"en")+"/"+location.hash);</script></body></html>';
+    const html='<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Avalon Online</title><link rel="canonical" href="'+origin+name+'/en/"><meta http-equiv="refresh" content="0;url=en/"></head><body><p><a href="en/">Continue to Avalon Online</a></p><script>let lang="en";try{lang=JSON.parse(localStorage.getItem("lwav.lang"))||"en";}catch{}const routes={en:"en",zh:"zh-cn","zh-TW":"zh-tw",ru:"ru",es:"es",pt:"pt",vi:"vi",ja:"ja",ko:"ko"};location.replace((routes[lang]||"en")+"/"+location.hash);</script></body></html>';
     writeFileSync(path.join(out,name,'index.html'),html);
   }
   const xml='<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+['',...items].map(dest=>'  <url><loc>'+origin+dest+'</loc></url>').join('\n')+'\n</urlset>\n';
