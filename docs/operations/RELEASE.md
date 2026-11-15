@@ -50,10 +50,10 @@ not the normal production configuration.
 
 - **Hosting:** GitHub Pages publishes the packaged `dist/` artifact and serves
   the production domain. The separate Workers main build also succeeds. Branch
-  uploads currently fail Cloudflare's Worker tag identity guard despite correct
-  configuration; the guard remains enabled. See the dated
-  [launch readiness record](LAUNCH_READINESS.md). Previews are not accepted as
-  working Firebase staging.
+  previews use the dedicated `wrangler preview` command. The older
+  `versions upload` branch command failed the Worker identity check; no guard
+  was disabled. See the [preview operations record](CLOUDFLARE_PREVIEW.md).
+  Static previews are not accepted as working Firebase staging.
 - **Domain:** `avalon.lorrainewong.dev` has verified ownership/DNS, an approved
   certificate and enforced HTTPS. Exact Firebase/API-key origins are configured.
   The apex remains reserved for the owner's portfolio. Browser identities/keys
@@ -106,8 +106,8 @@ Workers remains a separate existing static deployment. Its production build
 command is `node scripts/prepare-site.mjs`, then
 `npx --yes wrangler@4.162.0 deploy --config config/wrangler.jsonc`.
 Branch builds run the same preparation and use
-`npx --yes wrangler@4.162.0 versions upload --config config/wrangler.jsonc`.
-A successful version upload proves publication, not live Firebase availability
+`npx --yes wrangler@4.162.0 preview --config config/wrangler.jsonc`.
+A successful Preview deployment proves publication, not live Firebase availability
 from a preview origin. Do not widen origins to make previews multiplayer.
 
 The confirmed support URL is <https://ko-fi.com/lorrainewong>. The new domain,
