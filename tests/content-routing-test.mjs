@@ -11,7 +11,7 @@ try{
   const route=page+'/'+lang+'/',html=readFileSync(path.join(out,route,'index.html'),'utf8');
   const links=elements(html,'link');
   assert.equal(links.filter(l=>l.rel==='canonical').length,1);
-  assert.ok(links.some(l=>l.rel==='canonical'&&l.href==='https://avalon.lorrainewong.dev/'+route));
+  assert.ok(links.some(l=>l.rel==='canonical'&&l.href==='https://playavalonnow.com/'+route));
   assert.equal(links.filter(l=>l.rel==='alternate'&&l.hreflang!=='x-default').length,languages.length,'all language alternates');
   assert.equal(elements(html,'h1').length,1,'one static page heading');
   assert.equal((html.match(/id="privacy-additions"/g)||[]).length,page==='privacy-policy'?1:0,'no duplicate privacy content');

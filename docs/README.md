@@ -11,7 +11,7 @@
 - [Architecture](development/ARCHITECTURE.md) — browser/host model, data paths, encryption and phases.
 - [Development guide](development/DEVELOPMENT.md) — preview, configuration, checks and deployment.
 - [Repository maintenance](development/MAINTENANCE.md) — file responsibilities, sources of truth and staged refactoring.
-- [Localization](development/LOCALIZATION.md) — seven languages, translation edits and verification.
+- [Localization](development/LOCALIZATION.md) — nine languages, translation edits and verification.
 - [Design system](development/DESIGN.md) — visual system, components, mobile controls and theme rules.
 
 ## Game rules and verification
@@ -24,6 +24,7 @@
 
 - [Phase 1 tracking](operations/PHASE1_TRACKER.md) — staged migration/operations scope and acceptance gates.
 - [New-domain migration plan](operations/DOMAIN_MIGRATION_PLAN.md) — current audit, approvals, cutover, evidence and rollback.
+- [New-domain cutover candidate](operations/DOMAIN_CUTOVER_V30.md) — configuration differences, approval gate and v30 validation scope.
 - [Cloudflare preview operations](operations/CLOUDFLARE_PREVIEW.md) — dedicated preview command, validation and rollback.
 - [China/global access report](operations/CHINA_ACCESS_REPORT.md) — layered evidence and unverified network coverage.
 - [负责人运营手册](operations/OWNER_HANDBOOK_ZH.md) — Chinese owner guide; unconfigured services remain marked.

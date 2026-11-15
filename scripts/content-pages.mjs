@@ -2,6 +2,11 @@
 import {readFileSync,writeFileSync,mkdirSync} from 'node:fs';
 import path from 'node:path';
 import vm from 'node:vm';
+function setMetadata(html,attribute,name,value){
+  const tag='<meta '+attribute+'="'+name+'" content="'+value+'" />';
+  const existing=new RegExp('<meta\\b[^>]*\\b'+attribute+'="'+name+'"[^>]*>');
+  return existing.test(html)?html.replace(existing,()=>tag):html.replace('</head>',tag+'\n</head>');
+}
 export function writeContentPages(root,out){
   const context={window:{matchMedia:()=>({matches:false,addEventListener(){}}),addEventListener(){}},URL,localStorage:{getItem:()=>null},document:{documentElement:{lang:'en',dataset:{}},querySelector:()=>null,querySelectorAll:()=>[],addEventListener(){}}};
   vm.createContext(context);
@@ -11,7 +16,7 @@ export function writeContentPages(root,out){
   vm.runInContext(readFileSync(path.join(root,'site/assets/js/site-shell.js'),'utf8'),context);
   const projectCopy=vm.runInContext('PROJECT_COPY',context);
   const {AvalonShell:shell,AvalonLocales:registry,AvalonPolicies:policies,AvalonProject:project,AvalonPrivacyAdditions:additions}=context.window;
-  const origin='https://avalon.lorrainewong.dev/';
+  const origin='https://playavalonnow.com/';
   const names={guide:'how-to-play',privacy:'privacy-policy',legal:'terms',support:'about'};
   const items=[];
   for(const language of registry.languages){
@@ -41,6 +46,13 @@ export function writeContentPages(root,out){
       }
       html=html.replace(/<html lang="[^"]*">/,'<html lang="'+tag+'">').replace(/<title>[\s\S]*?<\/title>/,'<title>'+title.replaceAll('&','&amp;')+' | Avalon Online</title>');
       html=html.replace(/<link rel="canonical"[^>]*>/,'<link rel="canonical" href="'+origin+dest+'" />');
+      const socialTitle=(title+' | Avalon Online').replaceAll('&','&amp;').replaceAll('"','&quot;');
+      const socialDescription=html.match(/<meta\s+name="description"\s+content="([^"]*)"/)?.[1]||socialTitle;
+      for(const [attribute,name,value] of [
+        ['property','og:url',origin+dest],['property','og:title',socialTitle],
+        ['property','og:description',socialDescription],['name','twitter:title',socialTitle],
+        ['name','twitter:description',socialDescription]
+      ])html=setMetadata(html,attribute,name,value);
       html=html.replace(/<link rel="alternate"[^>]*>/g,'');
       html=html.replace('</head>',registry.languages.map(l=>'<link rel="alternate" hreflang="'+l.tag+'" href="'+origin+name+'/'+l.route+'/" />').join('\n')+'\n<link rel="alternate" hreflang="x-default" href="'+origin+name+'/en/" />\n</head>');
       // All source documents live one directory below root; named pages live two below.

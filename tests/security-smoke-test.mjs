@@ -13,7 +13,7 @@ if (!apiKey || !databaseURL) {
 
 // The API key only accepts browser requests from allowed websites (see SECURITY.md),
 // so this script identifies itself as the deployed browser origin.
-const REFERER = process.env.AVALON_REFERER || 'https://avalon.lorrainewong.dev/';
+const REFERER = process.env.AVALON_REFERER || 'https://playavalonnow.com/';
 
 const room = `SEC${Math.random().toString(36).slice(2, 7).toUpperCase()}`;
 const appCheckHeaders = process.env.AVALON_APPCHECK_TOKEN ? {'X-Firebase-AppCheck':process.env.AVALON_APPCHECK_TOKEN} : {};

@@ -2,5 +2,5 @@
 window.AvalonAppCheckConfig = Object.freeze({
   provider: 'recaptchaEnterprise',
   siteKey: '6LejnR8uAAAAALmTYQJtwsp5bflqckkW2McW_WUi',
-  allowedHosts: ['lorrainewong.github.io', 'avalon.lorrainewong.dev']
+  allowedHosts: ['lorrainewong.github.io', 'avalon.lorrainewong.dev', 'playavalonnow.com']
 });
