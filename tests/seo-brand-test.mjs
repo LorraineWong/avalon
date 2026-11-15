@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {mkdtempSync,readFileSync,rmSync} from 'node:fs';
+import {mkdtempSync,readFileSync,rmSync,readdirSync} from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import {prepareSite} from '../scripts/prepare-site.mjs';
@@ -11,6 +11,10 @@ try{
   const html=route=>read(route+'index.html').toString();
   const version=read('service-worker.js').toString().match(/avalon-shell-v(\d+)/)[1];
   const home=html(''),title='Play Avalon Online Free | PlayAvalonNow';
+  for(const file of readdirSync(path.join(out,'dev')).filter(name=>name.endsWith('.html'))){
+    const meta=elements(read('dev/'+file).toString(),'meta');
+    assert.ok(meta.some(tag=>tag.name==='robots'&&tag.content.split(/[\s,]+/).includes('noindex')),'development page must not be indexed: '+file);
+  }
   assert.ok(home.includes('<title>'+title+'</title>'));
   assert.ok(home.includes('Create a private room, invite your friends and enjoy social deduction in your browser. No signup or download.'));
   assert.match(home,/<p id="startup-status"[^>]*role="status">Loading game…<\/p>/);
@@ -33,6 +37,7 @@ try{
   const routes=[...read('sitemap.xml').toString().matchAll(/<loc>([^<]+)<\/loc>/g)].map(m=>m[1].slice(origin.length));
   for(const route of routes){
     const source=html(route),links=elements(source,'link'),meta=elements(source,'meta');
+    assert.ok(!meta.some(tag=>tag.name==='robots'&&/noindex/i.test(tag.content)),'public canonical page remains indexable: '+route);
     if(route){
       const [family,language]=route.split('/'),id=({'zh-cn':'zh','zh-tw':'zh-TW'}[language]||language),expected=copy[id][kinds[family]];
       assert.ok(source.includes('<title>'+escape(expected.title+' | PlayAvalonNow')+'</title>'),route+' authored title');
