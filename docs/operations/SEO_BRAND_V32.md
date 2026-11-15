@@ -230,3 +230,25 @@ Local validation for the v33 correction: all 38 offline checks and 102 browser
 checks passed across nine languages, three home widths, public headers, six
 room screens and both themes. Manual desktop toggling and cross-tab preference
 updates both select the opposite-named logo variant as requested.
+
+## v34 startup-screen correction
+
+The owner asked to remove the large initial SEO explanation and explicitly chose
+one existing-style “Loading game…” line during startup. The normal app container
+now starts with that status only, translated for all nine languages using the
+query/saved language choice. The existing renderer replaces it when game code
+starts, before backend authentication. No new card, layout or game-flow code was
+introduced. Only a short JavaScript-disabled explanation/guide links remain in
+noscript; the previous normal-loading introduction and its CSS are removed.
+
+Titles, descriptions, structured data and all 36 static localized content pages
+are retained. Asset queries and the worker cache advance together to v34. A
+permanently failed game script still prevents play; this change removes the
+unwanted screen, not every possible network failure.
+
+Local v34 validation: all 38 offline checks passed. Browser coverage includes
+39 delayed-script cases across nine languages, both themes, phone/desktop and
+query/saved language precedence; each showed only the loading line before the
+game script and the original home afterward. A blocked game script retained
+only that line, and JavaScript-disabled mode showed the short guide notice
+without a misleading loading indicator. No production multiplayer claim is made.
