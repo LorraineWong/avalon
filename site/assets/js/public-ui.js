@@ -20,12 +20,12 @@
     if(kind==='support'){
       document.querySelector('main').innerHTML=window.AvalonProject.render(lang);
       document.querySelector('main').classList.add('project-page');
-      document.title=window.AvalonProject.title(lang)+' | Avalon Online';
+      document.title=window.AvalonProject.title(lang)+' | PlayAvalonNow';
     } else if(kind!=='guide'){
       document.querySelector('main').innerHTML=window.AvalonPolicies.get(lang,kind);
       document.querySelector('main h1').textContent=l[kind==='privacy'?2:3];
       if(kind==='privacy'){document.querySelector('#privacy-additions')?.remove();document.querySelector('main').insertAdjacentHTML('beforeend','<section id="privacy-additions">'+(window.AvalonPrivacyAdditions?.[lang]||'')+'</section>');}
-      document.title=l[kind==='privacy'?2:3]+' | Avalon Online';
+      document.title=l[kind==='privacy'?2:3]+' | PlayAvalonNow';
     }
     if(kind==='privacy'||kind==='legal') decoratePolicy();
     document.documentElement.lang=registry.languages.find(x=>x.id===lang).tag;

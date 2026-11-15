@@ -13,6 +13,9 @@ try{
   assert.ok(home.includes('<title>'+title+'</title>'));
   assert.ok(home.includes('Create a private room, invite your friends and enjoy social deduction in your browser. No signup or download.'));
   assert.match(home,/<div id="app"><main[\s\S]*?social deduction board game[\s\S]*?propose a team, vote and complete quests/);
+  assert.match(html('how-to-play/zh-cn/'), /<title>阿瓦隆玩法指南：规则、角色与 5–10 人配置 \| PlayAvalonNow<\/title>/);
+  assert.match(html('how-to-play/en/'), /<title>How to Play Avalon: Rules, Roles &amp; 5–10 Players \| PlayAvalonNow<\/title>/);
+  assert.doesNotMatch(html('how-to-play/en/'), /&amp;amp;|five minutes/);
   const data=[...home.matchAll(/<script type="application\/ld\+json">\s*([\s\S]*?)<\/script>/g)].map(m=>JSON.parse(m[1]));
   const website=data.find(item=>item['@type']==='WebSite'),game=data.find(item=>item['@type']==='VideoGame');
   assert.equal(website.name,'PlayAvalonNow');assert.equal(website.url,origin);

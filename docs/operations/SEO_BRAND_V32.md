@@ -116,3 +116,18 @@ browser.json, http.json, pwa.json, performance-accessibility.json and screenshot
 No production game, real mobile multiplayer session or Search Console submission
 was performed for this candidate. Previously recorded v30/v31 results are not
 relabelled as v32 passes.
+
+## Search-result copy follow-up
+
+The owner supplied a Google results screenshot showing the default globe icon
+and a generic Chinese guide title/snippet. The generator previously overwrote
+all authored guide titles with generic navigation labels. It now preserves
+specific guide titles in all nine languages and adds the PlayAvalonNow brand.
+English/Simplified/Traditional Chinese guide descriptions now state the actual
+rules/roles/player-count content and free-room benefit without a promised
+learning time. Legacy guide routes share the same authored metadata. Public-page
+runtime titles also retain the same brand. No visible homepage module was added.
+
+These are preference signals for Google, not guaranteed search-result text.
+Existing results require a new crawl after publication; do not remove useful
+indexed pages merely to hide an older title or default icon.

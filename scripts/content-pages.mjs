@@ -33,7 +33,7 @@ export function writeContentPages(root,out){
         writeFileSync(path.join(out,route,'index.html'),html);
       }
       const dest=name+'/'+route+'/';
-      const title=kind==='support'?project.title(id):registry.packs[id].shell[{guide:1,privacy:2,legal:3}[kind]];
+      const title=kind==='guide'?html.match(/<title>([\s\S]*?)<\/title>/)[1].replace(/ \| PlayAvalonNow$/,'').replaceAll('&amp;','&'):kind==='support'?project.title(id):registry.packs[id].shell[{privacy:2,legal:3}[kind]];
       if(kind!=='guide'){
         let content=kind==='support'?project.render(id):policies.get(id,kind);
         if(kind!=='support')content=content.replace(/<h1>[\s\S]*?<\/h1>/,'<h1>'+title.replaceAll('&','&amp;')+'</h1>');
