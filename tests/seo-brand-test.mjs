@@ -13,7 +13,9 @@ try{
   const home=html(''),title='Play Avalon Online Free | PlayAvalonNow';
   assert.ok(home.includes('<title>'+title+'</title>'));
   assert.ok(home.includes('Create a private room, invite your friends and enjoy social deduction in your browser. No signup or download.'));
-  assert.match(home,/<div id="app"><p id="startup-status"[^>]*role="status">Loading game…<\/p><\/div>/);
+  assert.match(home,/<p id="startup-status"[^>]*role="status">Loading game…<\/p>/);
+  assert.match(home,/role="progressbar" aria-labelledby="startup-status"/);
+  assert.doesNotMatch(home,/aria-valuenow=/);
   assert.doesNotMatch(home,/static-game-introduction|How to play with friends|intro-title/);
   assert.match(home,/<noscript>[\s\S]*?social deduction[\s\S]*?5–10[\s\S]*?<\/noscript>/);
   assert.match(html('how-to-play/zh-cn/'), /<title>阿瓦隆玩法指南：规则、角色与 5–10 人配置 \| PlayAvalonNow<\/title>/);

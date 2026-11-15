@@ -252,3 +252,24 @@ query/saved language precedence; each showed only the loading line before the
 game script and the original home afterward. A blocked game script retained
 only that line, and JavaScript-disabled mode showed the short guide notice
 without a misleading loading indicator. No production multiplayer claim is made.
+
+
+## v35 branded startup screen (2026-11-15)
+
+At the owner's request, the v34 loading line becomes a centered loading screen
+using the existing Merlin/Morgana illustrations and correct contrasting brand
+marks (dark page → light mark; light page → dark mark). It uses the shared
+colors/fonts, localized loading text and an indeterminate progress bar, with no
+percentages, timer-based completion or artificial startup delay. The existing
+game renderer replaces the startup markup. No gameplay/authentication changes.
+
+Startup markup and theme selection precede the local locale/shell scripts.
+Reduced motion keeps a static bar; no-JavaScript visits retain the existing
+short rules/About fallback. Runtime/cache references advance together to v35.
+
+Validation: required offline suite; 54 local browser loading layouts across
+nine languages, both themes and 320/390/1440px widths; reduced motion, no JS
+and loading-to-home replacement with the fake backend. External services were
+blocked. Evidence: `loading-v35-browser.json` and `loading-v35-{light,dark}.png`
+in the existing 2026-11-15 avalon-seo output directory. These are local browser
+checks, not physical-phone or production multiplayer tests.

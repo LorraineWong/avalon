@@ -20,17 +20,17 @@
     <meta property="og:locale" content="en_US" />
     <meta property="og:locale:alternate" content="zh_CN" />
     <meta property="og:url" content="https://playavalonnow.com/" />
-    <meta property="og:image" content="https://playavalonnow.com/assets/social-preview.png?v=34" />
+    <meta property="og:image" content="https://playavalonnow.com/assets/social-preview.png?v=35" />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Play Avalon Online Free | PlayAvalonNow" />
     <meta name="twitter:description" content="Play Avalon online for free with 5–10 friends. Create a private room, invite your friends and enjoy social deduction in your browser. No signup or download." />
     <meta
       name="twitter:image"
-      content="https://playavalonnow.com/assets/social-preview.png?v=34"
+      content="https://playavalonnow.com/assets/social-preview.png?v=35"
     />
     <link rel="manifest" href="manifest.webmanifest" />
-    <link rel="icon" type="image/svg+xml" href="assets/brand-mark.svg?v=34" />
+    <link rel="icon" type="image/svg+xml" href="assets/brand-mark.svg?v=35" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -39,15 +39,12 @@
     />
     <link rel="preload" as="image" href="assets/roles/merlin.webp" />
     <link rel="preload" as="image" href="assets/roles/morgana.webp" />
-    <link rel="stylesheet" href="assets/css/style.css?v=34" />
+    <link rel="stylesheet" href="assets/css/style.css?v=35" />
     <script type="application/ld+json">
-      {"@context":"https://schema.org","@type":"VideoGame","name":"Avalon Online","alternateName":["PlayAvalonNow","阿瓦隆在线版"],"url":"https://playavalonnow.com/","description":"A free, unofficial browser adaptation for 5–10 players with encrypted hidden roles and no account required.","applicationCategory":"Game","gamePlatform":"Web browser","operatingSystem":"Any modern web browser","playMode":"https://schema.org/MultiPlayer","numberOfPlayers":{"@type":"QuantitativeValue","minValue":5,"maxValue":10},"inLanguage":["en","zh-CN","zh-TW","ru","es","pt","vi","ja","ko"],"isAccessibleForFree":true,"image":"https://playavalonnow.com/assets/social-preview.png?v=34"}
+      {"@context":"https://schema.org","@type":"VideoGame","name":"Avalon Online","alternateName":["PlayAvalonNow","阿瓦隆在线版"],"url":"https://playavalonnow.com/","description":"A free, unofficial browser adaptation for 5–10 players with encrypted hidden roles and no account required.","applicationCategory":"Game","gamePlatform":"Web browser","operatingSystem":"Any modern web browser","playMode":"https://schema.org/MultiPlayer","numberOfPlayers":{"@type":"QuantitativeValue","minValue":5,"maxValue":10},"inLanguage":["en","zh-CN","zh-TW","ru","es","pt","vi","ja","ko"],"isAccessibleForFree":true,"image":"https://playavalonnow.com/assets/social-preview.png?v=35"}
     </script>
-    <link rel="stylesheet" href="assets/css/site-shell.css?v=34" />
-    <link rel="stylesheet" href="assets/css/theme.css?v=34" />
-    <script src="assets/js/locales.js?v=34"></script>
-    <script src="assets/js/policy-copy.js?v=34"></script>
-    <script src="assets/js/site-shell.js?v=34"></script>
+    <link rel="stylesheet" href="assets/css/site-shell.css?v=35" />
+    <link rel="stylesheet" href="assets/css/theme.css?v=35" />
     <!-- <meta name="google-site-verification" content="PASTE_CODE_HERE"> -->
     <!-- <meta name="msvalidate.01" content="PASTE_CODE_HERE"> -->
     <meta property="og:site_name" content="PlayAvalonNow" />
@@ -63,10 +60,28 @@
     <script type="application/ld+json">
       {"@context":"https://schema.org","@type":"WebSite","@id":"https://playavalonnow.com/#website","name":"PlayAvalonNow","url":"https://playavalonnow.com/","inLanguage":["en","zh-CN","zh-TW","ru","es","pt","vi","ja","ko"]}
     </script>
+    <style>
+      .startup-screen{min-height:calc(100svh - 150px);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:28px 0;text-align:center;color:var(--ink,#293542)}
+      .startup-art{position:relative;width:min(420px,100%);height:240px;margin-bottom:30px;isolation:isolate}
+      .startup-art::before{content:"";position:absolute;inset:20px 22%;border:1px solid var(--border,#d5cdbd);border-radius:50%;background:radial-gradient(circle,color-mix(in srgb,var(--accent,#78551d) 12%,transparent),transparent 70%)}
+      .startup-role{position:absolute;bottom:0;width:46%;height:100%;object-fit:cover;object-position:50% 20%;opacity:.78;mask-image:linear-gradient(to bottom,#000 45%,transparent 98%);-webkit-mask-image:linear-gradient(to bottom,#000 45%,transparent 98%)}
+      .startup-merlin{left:0;transform:rotate(-7deg)}
+      .startup-morgana{right:0;transform:rotate(7deg)}
+      .startup-crest{position:absolute;left:50%;top:50%;transform:translate(-50%,-35%);display:grid;place-items:center;width:116px;height:116px;border:1px solid var(--border-strong,#b3a58d);border-radius:50%;background:var(--page,#f6f3eb);box-shadow:0 0 0 8px var(--page,#f6f3eb),0 0 0 9px var(--border,#d5cdbd)}
+      .startup-crest img{width:80px;height:80px}
+      #startup-title{margin:0;font:700 clamp(28px,6vw,38px)/1.15 var(--serif,Georgia,serif);letter-spacing:.16em;text-indent:.16em}
+      #startup-title span{display:block;margin-top:12px;font:500 11px/1.5 var(--sans,system-ui,sans-serif);letter-spacing:.5em;text-indent:.5em;color:var(--accent,#78551d)}
+      #startup-status{margin:32px 0 16px;font:400 14px/1.6 var(--sans,system-ui,sans-serif);color:var(--ink-muted,#526170)}
+      .startup-track{width:min(240px,75%);height:3px;overflow:hidden;border-radius:3px;background:var(--border,#d5cdbd)}
+      .startup-track span{display:block;width:40%;height:100%;border-radius:inherit;background:linear-gradient(90deg,transparent,var(--accent,#78551d),transparent);animation:startup-loading 1.8s ease-in-out infinite}
+      @keyframes startup-loading{from{transform:translateX(-100%)}to{transform:translateX(350%)}}
+      @media(max-height:600px){.startup-screen{min-height:calc(100svh - 40px);padding:12px 0}.startup-art{height:160px;margin-bottom:20px}#startup-status{margin-top:20px}}
+      @media(prefers-reduced-motion:reduce){.startup-track span{animation:none;width:100%;opacity:.65}}
+    </style>
   </head>
   <body>
     <noscript>
-      <style>#startup-status{display:none}</style>
+      <style>#startup-screen{display:none}</style>
       <main class="noscript">
         <h1>Avalon Online</h1>
         <p>PlayAvalonNow is a free browser game of social deduction for 5–10 players. No signup or download.</p>
@@ -74,7 +89,27 @@
         <p><a href="how-to-play/en/">How to play</a> · <a href="how-to-play/zh-cn/">中文玩法</a> · <a href="about/en/">About PlayAvalonNow</a></p>
       </main>
     </noscript>
-    <div id="app"><p id="startup-status" class="muted small" role="status">Loading game…</p></div>
+    <div id="app">
+      <main id="startup-screen" class="startup-screen" aria-labelledby="startup-title" aria-busy="true">
+        <div class="startup-art" aria-hidden="true">
+          <img class="startup-role startup-merlin" src="assets/roles/merlin.webp" alt="" width="180" height="240" fetchpriority="high" />
+          <img class="startup-role startup-morgana" src="assets/roles/morgana.webp" alt="" width="180" height="240" fetchpriority="high" />
+          <span class="startup-crest"><img id="startup-logo" src="assets/brand-mark-dark.svg?v=35" data-brand-mark="assets/" alt="" width="80" height="80" /></span>
+        </div>
+        <h1 id="startup-title">AVALON <span>ONLINE</span></h1>
+        <p id="startup-status" role="status">Loading game…</p>
+        <div class="startup-track" role="progressbar" aria-labelledby="startup-status"><span></span></div>
+      </main>
+    </div>
+    <script>
+      (() => {
+        let theme; try { theme=JSON.parse(localStorage.getItem('lwav.theme')||'null'); } catch {}
+        theme=['light','dark'].includes(theme)?theme:(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');
+        document.documentElement.dataset.theme=theme;
+        document.getElementById('startup-logo').src='assets/brand-mark-'+(theme==='dark'?'light':'dark')+'.svg?v=35';
+      })();
+    </script>
+    <script src="assets/js/locales.js?v=35"></script>
     <script>
       (() => {
         let saved; try { saved=JSON.parse(localStorage.getItem('lwav.lang')||'null'); } catch {}
@@ -85,6 +120,8 @@
         document.getElementById('startup-status').textContent=registry?.packs[language?.id]?.extra.loadingGame||'Loading game…';
       })();
     </script>
+    <script src="assets/js/policy-copy.js?v=35"></script>
+    <script src="assets/js/site-shell.js?v=35"></script>
     <div id="ov"></div>
     <div id="rulesModal"></div>
     <div id="infoModal"></div>
@@ -96,11 +133,11 @@
     <script src="vendor/firebase-auth-compat.js"></script>
     <script src="vendor/firebase-database-compat.js"></script>
     <script src="vendor/firebase-app-check-compat.js"></script>
-    <script src="config/app-check.js?v=34"></script>
-    <script src="assets/js/app-check.js?v=34"></script>
+    <script src="config/app-check.js?v=35"></script>
+    <script src="assets/js/app-check.js?v=35"></script>
     <script src="vendor/qrcode.min.js"></script>
-    <script src="assets/js/game-base.js?v=34"></script>
-    <script src="assets/js/guide.js?v=34"></script>
-    <script src="assets/js/app.js?v=34"></script>
+    <script src="assets/js/game-base.js?v=35"></script>
+    <script src="assets/js/guide.js?v=35"></script>
+    <script src="assets/js/app.js?v=35"></script>
   </body>
 </html>
