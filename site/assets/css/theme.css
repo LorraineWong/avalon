@@ -931,9 +931,3 @@ html.menu-open{overflow:hidden}
 :root[data-theme] .rules-tabs .btn{flex:none;white-space:nowrap}
 :root[data-theme] .rules-tab-content .guide-player-summary p{margin:0 0 12px;font:400 14px/1.65 var(--av-font);color:var(--ink)}
 :root[data-theme] .rules-tab-content .setup-footnote{font-size:13px}
-
-/* Readable initial HTML before the game renders, including without JavaScript. */
-.static-game-introduction{max-width:900px;margin:24px auto;padding:24px;text-align:left}
-.static-game-introduction p{line-height:1.7;color:var(--ink-muted)}
-.static-game-introduction a{color:var(--accent);text-decoration:underline;text-underline-offset:3px}
-@media(max-width:480px){.static-game-introduction{padding:18px;margin:18px 12px}}
