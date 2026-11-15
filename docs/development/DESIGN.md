@@ -25,7 +25,17 @@ Colours are defined once as semantic tokens in `site/assets/css/theme.css`, whic
 | `--evil-ink` / `--evil-wash` | `#963e36` / `#f7e7e1` | `#f3ae9d` / `#492f34` | Evil alignment, failure, rejection  |
 | `--success`                  | `#35623e`             | `#b4d9b2`             | online / connected                  |
 
-Surfaces use a small 4–10 px radius.
+## Type, weight and radius scale
+
+Literal values in the four stylesheets come from one scale, and `tests/design-scale-test.mjs` fails on anything else.
+
+| Property     | Allowed values                                                              |
+| ------------ | --------------------------------------------------------------------------- |
+| Text size    | 10, 11, 12, 13, 14, 15, 16, 18, 20, 24, 28 px                               |
+| Font weight  | 400, 500, 600, 700, 800                                                     |
+| Corner radius | 2, 4, 6, 8, 12, 16 px, plus 999 px pills and 50% circles                    |
+
+Body copy is 14–15 px, secondary copy 13 px, labels and captions 12 px and below. Section headings inside dialogs are 16 px / 600 and dialog titles 20 px / 600, both in the UI font. Sizes of 30 px and above are per-component display sizes (hero, wordmark, role reveal), and fluid `clamp()` sizes on the round table scale with their container; neither is part of the text scale. Controls use 6–8 px corners; cards, panels and sheets use 12 px; bottom sheets use 16 px on their top edge.
 
 ## Icons
 

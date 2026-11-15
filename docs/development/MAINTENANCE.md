@@ -153,8 +153,11 @@ three `guide:` comment slots for shared modules, player summary and the note
 below the table.
 `content-pages.mjs` expands these slots for both legacy and named static guides.
 Do not replace the slots with a second independent copy of the instructions.
-Public and full in-room guides keep roles, optional modules and the count table
-expanded, with no disclosure controls. Modules reuse the same role-card layout
+The public guide keeps roles, optional modules and the count table expanded, with
+no disclosure controls. The in-room guide has three tabs: this game's roles, a
+quick guide (objective, four steps, player-count table and the Quest 4 note) and
+all roles (both factions plus optional modules). Keep the quick guide to about
+one and a half phone screens; role detail belongs in the roles tabs. Modules reuse the same role-card layout
 as their surrounding Good/Evil cards. The in-room current-lineup tab shows only enabled modules
 (and the Lake only at seven or more players). Keep the explanations brief without hiding cards or tables, rather than
 adding long step-by-step references.

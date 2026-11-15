@@ -39,7 +39,7 @@ used when resolving legacy shared URLs.
 ### v28: Japanese and Korean
 
 `ja` / `ko` use matching language IDs, HTML language tags and public route
-segments. All 321 game messages, 17 roles, shell/menu text, project copy,
+segments. All 288 game messages, 17 roles, shell/menu text, project copy,
 policy disclosures and quick-guide text are bundled static translations.
 Japanese/Korean policy pages translate the existing English disclosures and do
 not add guarantees or change service behavior. Fluent-speaker review of idiom
