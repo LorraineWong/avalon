@@ -35,7 +35,11 @@ function pageCheck(route,html,headers,version){
   const versions=[...html.matchAll(/\?v=(\d+)/g)].map(m=>m[1]);
   requireCheck(versions.length>0&&versions.every(v=>v===version),'page asset version differs');
   requireCheck(links.some(l=>l.rel==='icon')&&links.some(l=>l.rel==='apple-touch-icon'),'icons missing');
+  const icons=links.filter(l=>l.rel==='icon');
+  requireCheck(icons[0]?.type==='image/png'&&icons[0]?.sizes==='96x96'&&new URL(icons[0].href,origin+route).href===origin+'assets/favicon-96.png','primary icon must be fixed 96px PNG');
+  requireCheck(icons.every(l=>{const u=new URL(l.href,origin+route);return u.origin===new URL(origin).origin&&!u.search&&!u.hash;}),'icon URLs must be stable');
   if(!route){
+    requireCheck(get('description')==='Play Avalon online for free with 5–10 players. Create a private room, invite your friends and enjoy social deduction in your browser. No signup or download.','home player-count wording differs');
     const data=[...html.matchAll(/<script type="application\/ld\+json">\s*([\s\S]*?)<\/script>/g)].map(m=>JSON.parse(m[1]));
     const game=data.find(d=>d['@type']==='VideoGame'),site=data.find(d=>d['@type']==='WebSite');
     requireCheck(site?.name==='PlayAvalonNow'&&site.url===origin&&game?.url===origin&&game.isAccessibleForFree===true&&game.numberOfPlayers?.minValue===5&&game.numberOfPlayers?.maxValue===10&&game.inLanguage?.length===9,'structured data differs');
@@ -61,7 +65,7 @@ export async function checkPublicSite({fetcher=fetch,attempts=3,retryMs=5000,sle
     ['assets/css/site-shell.css?v='+version,'site/assets/css/site-shell.css','text/css'],
     ['assets/brand-mark-light.svg?v='+version,'site/assets/brand-mark-light.svg','image/svg+xml'],
     ['assets/brand-mark-dark.svg?v='+version,'site/assets/brand-mark-dark.svg','image/svg+xml'],
-    ['assets/brand-mark.svg?v='+version,'site/assets/brand-mark.svg','image/svg+xml'],
+    ['assets/brand-mark.svg','site/assets/brand-mark.svg','image/svg+xml'],
     ['assets/roles/merlin.webp','site/assets/roles/merlin.webp','image/webp'],
     ['assets/roles/morgana.webp','site/assets/roles/morgana.webp','image/webp'],
     ['assets/social-preview.png?v='+version,'site/assets/social-preview.png','image/png'],
