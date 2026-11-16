@@ -730,6 +730,11 @@ html.menu-open{overflow:hidden}
 :root[data-theme] .hero .sub{font:500 15px/1.5 var(--av-font);letter-spacing:0;margin:0}
 :root[data-theme] .hero-lead{display:none}
 @media(max-width:600px){:root[data-theme] .hero{padding:18px 14px}:root[data-theme] .hero h1{font-size:28px}:root[data-theme] .hero .sub{font-size:13px}:root[data-theme] .feature{margin-top:12px}}
+/* Desktop portraits retain their faces; phones keep the compact home layout. */
+@media(min-width:721px){
+ :root[data-theme] .hero{box-sizing:border-box;min-height:260px}
+ :root[data-theme] .hero-art img{object-position:50% 0%}
+}
 
 /* QR heading is centered across the full sheet, independent of close control. */
 :root[data-theme] .qr-sheet{display:flex;flex-direction:column;align-items:center;box-sizing:border-box}

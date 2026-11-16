@@ -20,14 +20,14 @@
     <meta property="og:locale" content="en_US" />
     <meta property="og:locale:alternate" content="zh_CN" />
     <meta property="og:url" content="https://playavalonnow.com/" />
-    <meta property="og:image" content="https://playavalonnow.com/assets/social-preview.png?v=37" />
+    <meta property="og:image" content="https://playavalonnow.com/assets/social-preview.png?v=38" />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Play Avalon Online Free | PlayAvalonNow" />
     <meta name="twitter:description" content="Play Avalon online for free with 5–10 players. Create a private room, invite your friends and enjoy social deduction in your browser. No signup or download." />
     <meta
       name="twitter:image"
-      content="https://playavalonnow.com/assets/social-preview.png?v=37"
+      content="https://playavalonnow.com/assets/social-preview.png?v=38"
     />
     <link rel="manifest" href="manifest.webmanifest" />
     <link rel="icon" type="image/png" sizes="96x96" href="assets/favicon-96.png" />
@@ -42,12 +42,12 @@
     />
     <link rel="preload" as="image" href="assets/roles/merlin.webp" />
     <link rel="preload" as="image" href="assets/roles/morgana.webp" />
-    <link rel="stylesheet" href="assets/css/style.css?v=37" />
+    <link rel="stylesheet" href="assets/css/style.css?v=38" />
     <script type="application/ld+json">
-      {"@context":"https://schema.org","@type":"VideoGame","name":"Avalon Online","alternateName":["PlayAvalonNow","阿瓦隆在线版"],"url":"https://playavalonnow.com/","description":"A free, unofficial browser adaptation for 5–10 players with encrypted hidden roles and no account required.","applicationCategory":"Game","gamePlatform":"Web browser","operatingSystem":"Any modern web browser","playMode":"https://schema.org/MultiPlayer","numberOfPlayers":{"@type":"QuantitativeValue","minValue":5,"maxValue":10},"inLanguage":["en","zh-CN","zh-TW","ru","es","pt","vi","ja","ko"],"isAccessibleForFree":true,"image":"https://playavalonnow.com/assets/social-preview.png?v=37"}
+      {"@context":"https://schema.org","@type":"VideoGame","name":"Avalon Online","alternateName":["PlayAvalonNow","阿瓦隆在线版"],"url":"https://playavalonnow.com/","description":"A free, unofficial browser adaptation for 5–10 players with encrypted hidden roles and no account required.","applicationCategory":"Game","gamePlatform":"Web browser","operatingSystem":"Any modern web browser","playMode":"https://schema.org/MultiPlayer","numberOfPlayers":{"@type":"QuantitativeValue","minValue":5,"maxValue":10},"inLanguage":["en","zh-CN","zh-TW","ru","es","pt","vi","ja","ko"],"isAccessibleForFree":true,"image":"https://playavalonnow.com/assets/social-preview.png?v=38"}
     </script>
-    <link rel="stylesheet" href="assets/css/site-shell.css?v=37" />
-    <link rel="stylesheet" href="assets/css/theme.css?v=37" />
+    <link rel="stylesheet" href="assets/css/site-shell.css?v=38" />
+    <link rel="stylesheet" href="assets/css/theme.css?v=38" />
     <!-- <meta name="google-site-verification" content="PASTE_CODE_HERE"> -->
     <!-- <meta name="msvalidate.01" content="PASTE_CODE_HERE"> -->
     <meta property="og:site_name" content="PlayAvalonNow" />
@@ -94,7 +94,7 @@
         <div class="startup-art" aria-hidden="true">
           <img class="startup-role startup-merlin" src="assets/roles/merlin.webp" alt="" width="180" height="240" fetchpriority="high" />
           <img class="startup-role startup-morgana" src="assets/roles/morgana.webp" alt="" width="180" height="240" fetchpriority="high" />
-          <span class="startup-crest"><img id="startup-logo" src="assets/brand-mark-dark.svg?v=37" data-brand-mark="assets/" alt="" width="80" height="80" /></span>
+          <span class="startup-crest"><img id="startup-logo" src="assets/brand-mark-dark.svg?v=38" data-brand-mark="assets/" alt="" width="80" height="80" /></span>
         </div>
         <h1 id="startup-title">AVALON <span>ONLINE</span></h1>
         <p id="startup-status" role="status">Loading game…</p>
@@ -106,10 +106,10 @@
         let theme; try { theme=JSON.parse(localStorage.getItem('lwav.theme')||'null'); } catch {}
         theme=['light','dark'].includes(theme)?theme:(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');
         document.documentElement.dataset.theme=theme;
-        document.getElementById('startup-logo').src='assets/brand-mark-'+(theme==='dark'?'light':'dark')+'.svg?v=37';
+        document.getElementById('startup-logo').src='assets/brand-mark-'+(theme==='dark'?'light':'dark')+'.svg?v=38';
       })();
     </script>
-    <script src="assets/js/locales.js?v=37"></script>
+    <script src="assets/js/locales.js?v=38"></script>
     <script>
       (() => {
         let saved; try { saved=JSON.parse(localStorage.getItem('lwav.lang')||'null'); } catch {}
@@ -120,8 +120,8 @@
         document.getElementById('startup-status').textContent=registry?.packs[language?.id]?.extra.loadingGame||'Loading game…';
       })();
     </script>
-    <script src="assets/js/policy-copy.js?v=37"></script>
-    <script src="assets/js/site-shell.js?v=37"></script>
+    <script src="assets/js/policy-copy.js?v=38"></script>
+    <script src="assets/js/site-shell.js?v=38"></script>
     <div id="ov"></div>
     <div id="rulesModal"></div>
     <div id="infoModal"></div>
@@ -133,11 +133,11 @@
     <script src="vendor/firebase-auth-compat.js"></script>
     <script src="vendor/firebase-database-compat.js"></script>
     <script src="vendor/firebase-app-check-compat.js"></script>
-    <script src="config/app-check.js?v=37"></script>
-    <script src="assets/js/app-check.js?v=37"></script>
+    <script src="config/app-check.js?v=38"></script>
+    <script src="assets/js/app-check.js?v=38"></script>
     <script src="vendor/qrcode.min.js"></script>
-    <script src="assets/js/game-base.js?v=37"></script>
-    <script src="assets/js/guide.js?v=37"></script>
-    <script src="assets/js/app.js?v=37"></script>
+    <script src="assets/js/game-base.js?v=38"></script>
+    <script src="assets/js/guide.js?v=38"></script>
+    <script src="assets/js/app.js?v=38"></script>
   </body>
 </html>
