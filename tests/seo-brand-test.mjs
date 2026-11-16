@@ -17,6 +17,9 @@ try{
   }
   assert.ok(home.includes('<title>'+title+'</title>'));
   assert.ok(home.includes('Create a private room, invite your friends and enjoy social deduction in your browser. No signup or download.'));
+  const description='Play Avalon online for free with 5–10 players. Create a private room, invite your friends and enjoy social deduction in your browser. No signup or download.';
+  for(const field of ['description','og:description','twitter:description'])assert.equal(elements(home,'meta').find(m=>m.name===field||m.property===field)?.content,description,'home '+field);
+  assert.ok(!home.includes('5–10 friends'),'player count includes the host');
   assert.match(home,/<p id="startup-status"[^>]*role="status">Loading game…<\/p>/);
   assert.match(home,/role="progressbar" aria-labelledby="startup-status"/);
   assert.doesNotMatch(home,/aria-valuenow=/);
@@ -51,7 +54,13 @@ try{
     assert.equal(meta.find(tag=>tag.property==='og:site_name')?.content,'PlayAvalonNow',route);
     for(const tag of ['og:image','twitter:image'])assert.equal(meta.find(item=>item.property===tag||item.name===tag)?.content,origin+'assets/social-preview.png?v='+version,route);
     for(const tag of ['og:image:alt','twitter:image:alt','og:image:width','og:image:height'])assert.ok(meta.some(item=>(item.property===tag||item.name===tag)&&item.content),tag+' '+route);
-    for(const link of links.filter(item=>['icon','apple-touch-icon'].includes(item.rel)))read(new URL(link.href,origin+route).pathname.slice(1));
+    const icons=links.filter(item=>item.rel==='icon');
+    assert.equal(icons[0]?.type,'image/png');assert.equal(icons[0]?.sizes,'96x96');
+    assert.equal(new URL(icons[0].href,origin+route).href,origin+'assets/favicon-96.png','fixed primary PNG: '+route);
+    assert.ok(icons.some(item=>item.type==='image/svg+xml'&&new URL(item.href,origin+route).href===origin+'assets/brand-mark.svg'),'fixed SVG: '+route);
+    for(const link of links.filter(item=>['icon','apple-touch-icon'].includes(item.rel))){
+      const url=new URL(link.href,origin+route);assert.equal(url.search,'','stable icon URL: '+route);assert.equal(url.hash,'');read(url.pathname.slice(1));
+    }
     for(const alternate of links.filter(link=>link.hreflang)){
       const target=alternate.href.slice(origin.length),targetLinks=elements(html(target),'link');
       assert.equal(targetLinks.find(link=>link.rel==='canonical')?.href,alternate.href,'alternate must be canonical: '+route);
