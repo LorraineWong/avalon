@@ -114,7 +114,7 @@ from a preview origin. Do not widen origins to make previews multiplayer.
 
 The confirmed support URL is <https://ko-fi.com/lorrainewong>. The new domain,
 certificate, client attestation and backend enforcement are reported separately
-in [launch readiness](LAUNCH_READINESS.md). Runtime/PWA version is v36; see the [growth audit and invitation update](GROWTH_AUDIT_2026-11-16.md) and [public-site monitoring](PUBLIC_SITE_MONITOR.md). Named localized content routes, legacy-link
+in [launch readiness](LAUNCH_READINESS.md). Runtime/PWA version is v37; see the [localized sharing update](SHARING_V37.md), [growth audit](GROWTH_AUDIT_2026-11-16.md) and [public-site monitoring](PUBLIC_SITE_MONITOR.md). Named localized content routes, legacy-link
 compatibility and the owner-reviewed public-page changes are described in
 [the v27 review record](PUBLIC_PAGE_REVIEW.md).
 
