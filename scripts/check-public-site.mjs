@@ -38,6 +38,7 @@ function pageCheck(route,html,headers,version){
   const icons=links.filter(l=>l.rel==='icon');
   requireCheck(icons[0]?.type==='image/png'&&icons[0]?.sizes==='96x96'&&new URL(icons[0].href,origin+route).href===origin+'assets/favicon-96.png','primary icon must be fixed 96px PNG');
   requireCheck(icons.every(l=>{const u=new URL(l.href,origin+route);return u.origin===new URL(origin).origin&&!u.search&&!u.hash;}),'icon URLs must be stable');
+  for(const size of [48,96,192])requireCheck(icons.some(l=>l.type==='image/png'&&l.sizes===size+'x'+size&&new URL(l.href,origin+route).href===origin+'assets/favicon-'+size+'.png'),'PNG icon size missing: '+size);
   if(!route){
     requireCheck(get('description')==='Play Avalon online for free with 5–10 players. Create a private room, invite your friends and enjoy social deduction in your browser. No signup or download.','home player-count wording differs');
     const data=[...html.matchAll(/<script type="application\/ld\+json">\s*([\s\S]*?)<\/script>/g)].map(m=>JSON.parse(m[1]));
@@ -71,6 +72,7 @@ export async function checkPublicSite({fetcher=fetch,attempts=3,retryMs=5000,sle
     ['assets/social-preview.png?v='+version,'site/assets/social-preview.png','image/png'],
     ['assets/favicon-48.png','site/assets/favicon-48.png','image/png'],
     ['assets/favicon-96.png','site/assets/favicon-96.png','image/png'],
+    ['assets/favicon-192.png','site/assets/favicon-192.png','image/png'],
     ['assets/apple-touch-icon.png','site/assets/apple-touch-icon.png','image/png'],
     ['assets/pwa-192.png','site/assets/pwa-192.png','image/png'],
     ['assets/pwa-512.png','site/assets/pwa-512.png','image/png'],

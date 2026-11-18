@@ -57,7 +57,8 @@ try{
     const icons=links.filter(item=>item.rel==='icon');
     assert.equal(icons[0]?.type,'image/png');assert.equal(icons[0]?.sizes,'96x96');
     assert.equal(new URL(icons[0].href,origin+route).href,origin+'assets/favicon-96.png','fixed primary PNG: '+route);
-    assert.ok(icons.some(item=>item.type==='image/svg+xml'&&new URL(item.href,origin+route).href===origin+'assets/brand-mark.svg'),'fixed SVG: '+route);
+    for(const size of [48,96,192])assert.ok(icons.some(item=>item.type==='image/png'&&item.sizes===size+'x'+size&&new URL(item.href,origin+route).href===origin+'assets/favicon-'+size+'.png'),'fixed PNG '+size+': '+route);
+    assert.ok(icons.every(item=>['image/png','image/x-icon'].includes(item.type)),'raster favicon formats: '+route);
     for(const link of links.filter(item=>['icon','apple-touch-icon'].includes(item.rel))){
       const url=new URL(link.href,origin+route);assert.equal(url.search,'','stable icon URL: '+route);assert.equal(url.hash,'');read(url.pathname.slice(1));
     }
@@ -72,7 +73,7 @@ try{
     }
   }
   const png=read('assets/social-preview.png');assert.equal(png.readUInt32BE(16),1200);assert.equal(png.readUInt32BE(20),630);
-  for(const [name,size] of [['favicon-96',96],['favicon-48',48],['apple-touch-icon',180],['pwa-192',192],['pwa-512',512],['pwa-maskable-512',512]]){
+  for(const [name,size] of [['favicon-192',192],['favicon-96',96],['favicon-48',48],['apple-touch-icon',180],['pwa-192',192],['pwa-512',512],['pwa-maskable-512',512]]){
     const bytes=read('assets/'+name+'.png');assert.equal(bytes.readUInt32BE(16),size);assert.equal(bytes.readUInt32BE(20),size);
   }
   const ico=read('favicon.ico');assert.equal(ico.readUInt16LE(2),1);assert.equal(ico.readUInt16LE(4),3);

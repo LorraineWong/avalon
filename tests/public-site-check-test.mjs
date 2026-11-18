@@ -36,7 +36,7 @@ try{
     ['/sitemap.xml',async r=>new Response((await r.text()).replace('<loc>https://playavalonnow.com/</loc>','<loc>https://example.invalid/</loc>')),'sitemap'],
     ['/dev/render-stability.html',async r=>new Response((await r.text()).replace('content="noindex"','content="index"')),'noindex'],
     ['/',async r=>new Response((await r.text()).replaceAll('5–10 players','5–10 friends'),{headers:r.headers}),'player-count'],
-    ['/about/en/',async r=>new Response((await r.text()).replace('assets/brand-mark.svg"','assets/brand-mark.svg?cache=old"'),{headers:r.headers}),'icon URLs'],
+    ['/about/en/',async r=>new Response((await r.text()).replace('assets/favicon-192.png"','assets/favicon-192.png?cache=old"'),{headers:r.headers}),'icon URLs'],
     ['/how-to-play/en/',async r=>new Response((await r.text()).replace('sizes="96x96"','sizes="32x32"'),{headers:r.headers}),'primary icon'],
     ['/service-worker.js',async r=>new Response((await r.text()).replace(/avalon-shell-v\d+/,'avalon-shell-v0'),{headers:r.headers}),'asset differs'],
     ['/assets/social-preview.png',r=>new Response('not an image',{headers:r.headers}),'asset differs'],
