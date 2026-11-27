@@ -24,7 +24,11 @@ for(const {route,id} of registry.window.AvalonLocales.languages){
   assert.equal(elements(html,'div').filter(x=>x.class==='guide-player-summary').length,1,page+' player-count explanation');
   assert.equal(elements(guide.modules(id,{settings:{lady:true},n:6}),'article').length,0,'Lady inactive below seven');
   assert.equal(elements(guide.modules(id,{settings:{lady:true,excalibur:true,lancelot:true},n:7}),'article').length,3,'active modules appear in the room reference');
-  assert.equal(elements(html,'details').filter(x=>x.class?.includes('guide-')).length,0,'cards and player table remain expanded');
+  assert.equal(elements(html,'details').filter(x=>x.class==='guide-optional').length,1,'optional roles use one native disclosure');
+  assert.ok(html.indexOf('id="players"')<html.indexOf('id="rules"'),'player setup precedes detailed rules');
+  const optional=html.slice(html.indexOf('<details class="guide-optional"'),html.indexOf('</details>',html.indexOf('<details class="guide-optional"')));
+  assert.ok(optional.includes('/cleric.webp')&&optional.includes('id="modules"'),'expansions and variants stay in readable HTML');
+  assert.ok(!optional.includes('/merlin.webp')&&!optional.includes('/assassin.webp'),'classic essentials stay expanded');
   assert.ok(elements(html,'article').filter(x=>x.class?.split(' ').includes('module-reference')).every(x=>x.class.split(' ').includes('character-card')),'modules reuse public role cards');
   for(const image of elements(html,'img').filter(x=>x.src?.includes('/modules/'))){
     assert.ok(fs.existsSync(new URL('../site/'+image.src.slice(3),import.meta.url)),page+' missing module illustration');

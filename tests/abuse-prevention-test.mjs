@@ -9,7 +9,7 @@ for(const nick of ['Alex','小明','a'.repeat(12)])assert.ok(box.valid({nick}));
 for(const nick of ['', '   ', 'a'.repeat(13), 'a'.repeat(19000), 123, null, {}, 'A\nB','A\u007fB'])assert.equal(box.valid({nick}),false);
 assert.equal(box.valid(null),false);
 assert.match(app,/S\.seats=Object\.fromEntries\(Object\.entries\(receivedSeats\)\.filter/);
-assert.match(app,/if\(S\.game\?\.host===ME\.pid\)[\s\S]*?if\(!validSeatNick\(seat\)\) Net\.pub\('seat\/\'\+pid,null\)/);
+assert.match(app,/if\(S\.game\?\.host===ME\.pid\)[\s\S]*?if\(!validSeatNick\(seat\) \|\| seat\.pid!==pid\) Net\.pub\('seat\/\'\+pid,null\)/);
 const rules=JSON.parse(fs.readFileSync(new URL('../firebase/database.rules.json',import.meta.url),'utf8')).rules.rooms.$code;
 // Evaluate the actual rule expressions with Firebase's snapshot subset used here.
 function snapshot(value){return {exists:()=>value!==null&&value!==undefined,val:()=>value,child(path){return snapshot(path.split('/').reduce((v,k)=>v?.[k],value));}};}

@@ -148,6 +148,7 @@ const ICONS = {
   refresh:'<path d="M20 11a8 8 0 0 0-14.3-4.3L4 8.5"/><path d="M4 4v4.5h4.5"/><path d="M4 13a8 8 0 0 0 14.3 4.3L20 15.5"/><path d="M20 20v-4.5h-4.5"/>',
   plus:'<path d="M12 5v14M5 12h14"/>',
   play:'<path d="M8 5.5v13l11-6.5z"/>',
+  globe:'<circle cx="12" cy="12" r="9"/><ellipse cx="12" cy="12" rx="4" ry="9"/><path d="M3 12h18"/>',
   book:'<path d="M5 4.5h10.5A2.5 2.5 0 0 1 18 7v12.5H7.5A2.5 2.5 0 0 1 5 17z"/><path d="M5 17a2.5 2.5 0 0 1 2.5-2.5H18"/>',
   users:'<circle cx="9" cy="8.5" r="3.2"/><path d="M3 19.5c.6-3.3 3-5 6-5s5.4 1.7 6 5"/><path d="M16 5.6a3.2 3.2 0 0 1 0 5.8M18 14.9c1.700.700 2.700 2.300 3 4.600"/>',
   pencil:'<path d="M4 20l1-4.500L16.500 4a2.100 2.100 0 0 1 3 3L8 18.500z"/><path d="M14.500 6l3 3"/>',
@@ -238,7 +239,7 @@ const ROOM_TTL_MS = 72 * 60 * 60 * 1000;
 const END_TTL_MS = 24 * 60 * 60 * 1000;
 const Net = {
   db:null, auth:null, ref:null, onlineRef:null, reactionTimer:null, draftWrite:Promise.resolve(), code:null, loaded:false, conn:false, everConnected:false, authFailed:false,
-  raw:new Map(), parsed:new Map(), revs:new Map(), online:new Set(),
+  raw:new Map(), parsed:new Map(), revs:new Map(), online:new Set(), capabilityWrite:false,
   async init(){
     firebase.initializeApp(FIREBASE_CONFIG);
     if(typeof window!=='undefined' && window.AvalonAppCheck) window.AvalonAppCheck.activate(firebase);
@@ -260,6 +261,7 @@ const Net = {
     if(this.ref){ this.ref.off(); this.ref=null; }
     clearTimeout(this.reactionTimer); this.reactionTimer=null;
     if(this.onlineRef){ this.onlineRef.onDisconnect().cancel(); this.onlineRef.remove().catch(()=>{}); this.onlineRef=null; }
+    this.capabilityWrite=false;
     this.code=code; this.loaded=false; this.raw=new Map(); this.parsed=new Map(); this.revs=new Map(); this.online=new Set();
     if(!code) return;
     this.ref=this.db.ref('rooms/'+code);
@@ -295,10 +297,10 @@ const Net = {
   ver(key){ return this.revs.get(key)||0; },
   had(key){ return this.revs.has(key); },
   pub(key, d){
-    if(!this.ref) return Promise.resolve();
+    if(!this.ref) return Promise.resolve(false);
     const path = key==='game' ? 'game' : key.startsWith('seat/') ? 'seats/'+key.slice(5) : 'sec/'+key.slice(4);
     const val = d==null ? null : (key==='game' ? {host:d.host, j:JSON.stringify(d)} : {j:JSON.stringify(d)});
-    return this.ref.child(path).set(val).catch(e=>{ console.warn('write failed', key, e); toast(t('writeFail')); });
+    return this.ref.child(path).set(val).then(()=>true).catch(()=>{ toast(t('writeFail')); return false; });
   },
   react(pid, id, at){
     if(!this.ref) return Promise.resolve();
@@ -308,12 +310,22 @@ const Net = {
     }).catch(e=>{ console.warn('reaction failed', e); toast(t('writeFail')); });
   },
   rename(pid, nick){
-    if(!this.ref) return Promise.resolve();
+    if(!this.ref) return Promise.resolve(false);
     // Merge into the latest seat so a rename can never overwrite a vote or quest card.
     return this.ref.child('seats/'+pid+'/j').transaction(raw=>{
-      if(!raw) return raw;
+      if(!raw) return;
       try{ const seat=JSON.parse(raw); seat.nick=nick; return JSON.stringify(seat); }catch(e){ return; }
-    }).catch(e=>{ console.warn('rename failed', e); toast(t('writeFail')); });
+    }).then(result=>result?.committed!==false).catch(()=>{toast(t('writeFail'));return false;});
+  },
+  advertiseCapabilities(pid){
+    if(!this.ref || !this.conn || this.capabilityWrite) return;
+    const ref=this.ref; this.capabilityWrite=true;
+    return ref.child('seats/'+pid+'/j').transaction(raw=>{
+      if(!raw) return;
+      const seat=JSON.parse(raw);
+      seat.capabilities=Object.assign({},seat.capabilities,{privateLancelotDeck:1});
+      return JSON.stringify(seat);
+    }).catch(()=>{}).finally(()=>{if(this.ref===ref)this.capabilityWrite=false;});
   },
   draftTeam(pid, step, picks){
     if(!this.ref) return Promise.resolve();
@@ -353,7 +365,7 @@ const Net = {
 /* ================= App state ================= */
 const S = {
   view:'home', code:null, joinedAt:0, game:null, seats:{}, secrets:{},
-  mine:null, master:null, ladyMine:[], checksMine:[], ui:{nick:'', joinCode:'', pick:[], pickStep:'', myActs:{}, busy:false, excalibur:null, rulesOpen:false, guideTab:'rules', rulesInlineOpen:false, settingsOpen:false, infoOpen:null, qrOpen:false, privacyCover:false, questConfirm:null, confirm:null, hostSuccessor:'', confirmHostTransfer:false, lastReactionAt:0, notesOpen:false, tool:null, rename:null},
+  mine:null, master:null, ladyMine:[], checksMine:[], ui:{nick:'', joinCode:'', homeMode:'create', pick:[], pickStep:'', myActs:{}, busy:false, excalibur:null, rulesOpen:false, guideTab:'rules', rulesInlineOpen:false, settingsOpen:false, infoOpen:null, qrOpen:false, privacyCover:false, questConfirm:null, confirm:null, hostSuccessor:'', confirmHostTransfer:false, lastReactionAt:0, notesOpen:false, tool:null, rename:null},
   ov:[], seen:null, notFoundTimer:null, lastGid:null,
 };
 
@@ -369,6 +381,7 @@ async function boot(){
   S.ui.nick = LS.get('nick') || '';
   const h=(location.hash||'').slice(1).toUpperCase();
   if(/^[A-Z0-9]{4,8}$/.test(h)) enterRoom(h);
+  else if(h) toast(t('badCode'));
   render();
   setInterval(()=>{ if(S.code) sync(); }, 4000); // refresh online dots, retry engine
 }
@@ -384,14 +397,28 @@ function sync(){
   if(S.code){
     S.game = Net.get('game');
     const receivedSeats=Net.prefixed('seat/');
-    S.seats=Object.fromEntries(Object.entries(receivedSeats).filter(([,seat])=>validSeatNick(seat)));
+    S.seats=Object.fromEntries(Object.entries(receivedSeats).filter(([pid,seat])=>validSeatNick(seat)&&seat.pid===pid));
     // The host validates remote records too; modified clients bypass input maxlength.
     if(S.game?.host===ME.pid) for(const [pid,seat] of Object.entries(receivedSeats)){
-      if(!validSeatNick(seat)) Net.pub('seat/'+pid,null);
+      if(!validSeatNick(seat) || seat.pid!==pid) Net.pub('seat/'+pid,null);
     }
+    if(S.game?.status==='lobby' && isHost()){
+      const names=new Set(), accepted=[];
+      const ordered=Object.entries(S.seats).sort(([a,x],[b,y])=>((Number(b===S.game.host)-Number(a===S.game.host))||(x.joined||0)-(y.joined||0)||a.localeCompare(b)));
+      for(const [pid,seat] of ordered){
+        const name=seat.nick.normalize('NFKC').toLocaleLowerCase('en-US');
+        if(names.has(name)||accepted.length>=10){ Net.pub('seat/'+pid,null); delete S.seats[pid]; }
+        else { names.add(name); accepted.push(pid); }
+      }
+    }
+    if(S.seats[ME.pid] && S.seats[ME.pid].capabilities?.privateLancelotDeck!==1) Net.advertiseCapabilities(ME.pid);
     S.secrets = Net.prefixed('sec/');
     if(!S.game && Net.loaded){ toast(t('notFound', S.code)); return goHome(true); } // room missing or closed
-    if(S.game && S.game.host===ME.pid && S.game.expires && Date.now()>S.game.expires){ Net.dropRoom().then(()=>goHome(true)); return; }
+    if(S.game && S.game.expires && Date.now()>S.game.expires){
+      if(isHost()) Net.dropRoom().then(()=>goHome(true));
+      else { toast(t('notFound',S.code)); goHome(true); }
+      return;
+    }
     if(S.game && S.game.status==='lobby' && S.autoSeat && !S.seats[ME.pid] && Net.loaded){ S.autoSeat=false; takeSeat(); }
     if(S.game && S.game.step!==S.ui.pickStep){ S.ui.pick=[]; S.ui.excalibur=null; S.ui.questConfirm=null; S.ui.pickStep=S.game.step; }
     decryptSecrets().then(()=>{ detect(); render(); hostTick(); });
@@ -429,6 +456,31 @@ function detect(){
   if(snap.end && !prev.end) S.ov.push({type:'end'});
 }
 
+/* Optional first-party event interface. No SDK, network request or queue by default. */
+function recordEvent(name, fields={}, once=''){
+  const sink=window.AvalonAnalytics;
+  if(typeof sink?.track!=='function') return;
+  if(!['room_created','room_joined','game_started','game_completed','rematch','invite_shared'].includes(name)) return;
+  const stored=LS.get('events'), sent=Array.isArray(stored)?stored:[];
+  const key=once?name+':'+once:'';
+  if(key && sent.includes(key)) return;
+  const payload={language:LANG};
+  if(Number.isInteger(fields.player_count)&&fields.player_count>=5&&fields.player_count<=10) payload.player_count=fields.player_count;
+  if(['copy','code','native'].includes(fields.method)) payload.method=fields.method;
+  // Only owner-registered campaign tuples become a public label. Raw UTM values
+  // can contain personal data and must never be forwarded to an event service.
+  const params=new URL(location.href||location.origin+location.pathname+(location.search||'')).searchParams;
+  const campaigns=window.AVALON_CAMPAIGNS||{};
+  const campaign=Object.entries(campaigns).find(([id,tuple])=>/^[a-z0-9_-]{1,40}$/.test(id) && tuple && ['utm_source','utm_medium','utm_campaign'].every(k=>params.get(k)===(tuple[k]||null)));
+  if(campaign) LS.set('campaign',campaign[0]);
+  const attributed=campaign?.[0]||LS.get('campaign');
+  if(attributed && Object.hasOwn(campaigns,attributed)) payload.campaign=attributed;
+  try{
+    if(key) LS.set('events',sent.concat(key).slice(-100));
+    Promise.resolve(sink.track(name,payload)).catch(()=>{});
+  }catch(e){} // Analytics must never interrupt a game.
+}
+
 /* ================= Room actions ================= */
 function validSeatNick(seat){
   return !!seat && typeof seat.nick==='string' && seat.nick.length<=12 && seat.nick.trim().length>0 && !/[\u0000-\u001f\u007f]/.test(seat.nick);
@@ -450,55 +502,84 @@ function goHome(forget){
   render();
 }
 async function createRoom(){
-  const nick=cleanNick(); if(!nick) return toast(t('needNick'));
-  LS.set('nick', nick);
-  const code=randCode(5);
-  enterRoom(code);
-  S.autoSeat=false;
-  await Net.pub('game', {code, host:ME.pid, hostPub:ME.pub, status:'lobby', created:Date.now(), expires:Date.now()+ROOM_TTL_MS, settings:Object.assign({},DEFAULT_SETTINGS), gid:''});
-  Net.markOnline();
-  Net.pub('seat/'+ME.pid, {pid:ME.pid, nick, pub:ME.pub, joined:Date.now(), act:null});
+  if(S.ui.busy || S.code || !ME.pid || !Net.connected()) return;
+  const nick=cleanNick(); if(!validSeatNick({nick})) return toast(t('needNick'));
+  LS.set('nick',nick); S.ui.busy=true; render();
+  try{
+    // Reserve before subscribing: no missing-room flash or accidental overwrite.
+    let code, game;
+    for(let attempt=0;attempt<5;attempt++){
+      code=randCode(5);
+      game={code,host:ME.pid,hostPub:ME.pub,status:'lobby',created:Date.now(),expires:Date.now()+ROOM_TTL_MS,settings:Object.assign({},DEFAULT_SETTINGS),gid:''};
+      const result=await Net.db.ref('rooms/'+code+'/game').transaction(current=>current?undefined:{host:ME.pid,j:JSON.stringify(game)});
+      if(!result || result.committed) break;
+      code=null;
+    }
+    if(!code) throw new Error('reservation failed');
+    enterRoom(code); S.autoSeat=false;
+    if(await Net.pub('seat/'+ME.pid,{pid:ME.pid,nick,pub:ME.pub,joined:Date.now(),act:null,capabilities:{privateLancelotDeck:1}})) recordEvent('room_created');
+    Net.markOnline();
+  }catch(e){ toast(t('writeFail')); }
+  finally{ S.ui.busy=false; render(); }
 }
 function joinRoom(){
-  const nick=cleanNick(); if(!nick) return toast(t('needNick'));
+  if(S.ui.busy || S.code || !ME.pid || !Net.connected()) return;
+  const nick=cleanNick(); if(!validSeatNick({nick})) return toast(t('needNick'));
   const code=(S.ui.joinCode||'').trim().toUpperCase();
   if(!/^[A-Z0-9]{4,8}$/.test(code)) return toast(t('badCode'));
   LS.set('nick', nick); enterRoom(code);
 }
-function takeSeat(){
-  const g=S.game; if(!g || g.status!=='lobby' || S.seats[ME.pid]) return;
-  if(Object.keys(S.seats).length>=10) return toast(t('full'));
-  const nick=cleanNick() || ('P'+randCode(3));
-  S.ui.nick=nick; LS.set('nick', nick);
-  Net.pub('seat/'+ME.pid, {pid:ME.pid, nick, pub:ME.pub, joined:Date.now(), act:null});
+function nickInUse(nick){
+  const key=value=>value.normalize('NFKC').toLocaleLowerCase('en-US');
+  return Object.entries(S.seats).some(([pid,seat])=>pid!==ME.pid && key(seat.nick)===key(nick));
 }
-function renameSeat(){
-  const nick=cleanNick(); if(!nick) return toast(t('needNick'));
-  LS.set('nick', nick);
-  const s=S.seats[ME.pid]; if(s && s.nick!==nick){ Net.rename(ME.pid, nick); toast(t('renamed')); }
+async function takeSeat(){
+  const g=S.game; if(!g || g.status!=='lobby' || S.seats[ME.pid] || S.ui.busy) return;
+  if(Object.keys(S.seats).length>=10) return toast(t('full'));
+  const nick=cleanNick(); if(!validSeatNick({nick})) return toast(t('needNick'));
+  if(nickInUse(nick)) return toast(extra('duplicateNick'));
+  S.ui.busy=true; render();
+  try{
+    S.ui.nick=nick; LS.set('nick', nick);
+    if(await Net.pub('seat/'+ME.pid,{pid:ME.pid,nick,pub:ME.pub,joined:Date.now(),act:null,capabilities:{privateLancelotDeck:1}})) recordEvent('room_joined');
+  }finally{ S.ui.busy=false; render(); }
+}
+async function renameSeat(){
+  if(S.ui.busy) return false;
+  const nick=cleanNick(); if(!validSeatNick({nick})){toast(t('needNick'));return false;}
+  if(nickInUse(nick)){toast(extra('duplicateNick'));return false;}
+  const seat=S.seats[ME.pid]; if(!seat) return false;
+  if(seat.nick===nick){LS.set('nick',nick);return true;}
+  S.ui.busy=true; render();
+  try{
+    const saved=await Net.rename(ME.pid,nick);
+    if(saved){LS.set('nick',nick);toast(t('renamed'));}
+    return saved;
+  }finally{S.ui.busy=false;render();}
 }
 function openRename(){
   const s=S.seats[ME.pid];
-  S.ui.rename={draft:(s&&s.nick)||S.ui.nick||''};
+  S.ui.rename={draft:(s&&s.nick)||S.ui.nick||'',returnFocus:document.activeElement};
   renderNameModal();
 }
-function closeRename(){ S.ui.rename=null; renderNameModal(); }
-function saveRename(){
-  const r=S.ui.rename; if(!r) return;
-  const nick=String(r.draft||'').trim().slice(0,12); if(!nick) return toast(t('needNick'));
-  closeRename();
-  S.ui.nick=nick; LS.set('nick', nick);
-  const s=S.seats[ME.pid]; if(s && s.nick!==nick){ Net.rename(ME.pid, nick); toast(t('renamed')); }
-  render();
+function closeRename(){ const focus=S.ui.rename?.returnFocus; S.ui.rename=null; renderNameModal(); if(focus?.isConnected) focus.focus(); }
+async function saveRename(){
+  const r=S.ui.rename; if(!r || S.ui.busy) return;
+  const nick=String(r.draft||'').trim().slice(0,12); if(!validSeatNick({nick})) return toast(t('needNick'));
+  if(nickInUse(nick)) return toast(extra('duplicateNick'));
+  S.ui.nick=nick;
+  if(await renameSeat()) closeRename();
 }
 function renderNameModal(){
   let el=$('#nameModal');
   if(!el){ if(!S.ui.rename || !document.body || !document.createElement) return; el=document.createElement('div'); el.id='nameModal'; document.body.appendChild(el); }
   const r=S.ui.rename;
-  if(!r){ el.innerHTML=''; return; }
+  if(!r){ el.innerHTML=''; el._key=null; return; }
+  const key=LANG+':'+S.ui.busy;
+  if(el._key===key && el.innerHTML) return; el._key=key;
   el.innerHTML='<div class="rules-modal confirm-modal" role="dialog" aria-modal="true" aria-labelledby="nameTitle"><div class="glass confirm-sheet name-sheet"><i class="player-avatar name-avatar" style="'+avStyle(ME.pid)+'"></i><h2 id="nameTitle">'+t('renameTitle')+'</h2><p>'+t('renameHint')+'</p>'
     +'<input class="input" id="renameInput" maxlength="12" autocomplete="off" aria-label="'+t('nick')+'" placeholder="'+t('nickPh')+'" value="'+esc(r.draft)+'">'
-    +'<div class="row"><button class="btn ghost big" data-a="renameCancel">'+t('cancel')+'</button><button class="btn pri big" data-a="renameSave">'+t('save')+'</button></div></div></div>';
+    +'<div class="row"><button class="btn ghost big" data-a="renameCancel">'+t('cancel')+'</button><button class="btn pri big" data-a="renameSave" '+(S.ui.busy?'disabled':'')+'>'+(S.ui.busy?t('connecting'):t('save'))+'</button></div></div></div>';
   requestAnimationFrame(()=>{ const i=$('#renameInput'); if(i){ i.focus(); try{ i.select(); }catch(e){} } });
 }
 function lobbyOrder(){ return Object.values(S.seats).filter(validSeatNick).sort((a,b)=>(a.joined||0)-(b.joined||0) || String(a.pid).localeCompare(b.pid)).map(s=>s.pid); }
@@ -516,8 +597,17 @@ function leaveRoom(){
   setTimeout(()=>goHome(true), 150);
 }
 function kick(pid){ if(isHost() && S.game.status==='lobby') Net.pub('seat/'+pid, null); }
+async function updateLobbySettings(settings){
+  const g=S.game; if(!isHost() || g.status!=='lobby' || S.ui.busy) return false;
+  S.ui.busy=true; render();
+  try{
+    const next=Object.assign({},g,{settings}), saved=await Net.pub('game',next);
+    if(saved && S.code===g.code && S.game?.status==='lobby') S.game=next;
+    return saved;
+  }finally{S.ui.busy=false;render();}
+}
 function toggleSetting(k){
-  if(!isHost() || S.game.status!=='lobby') return;
+  if(!isHost() || S.game.status!=='lobby' || S.ui.busy) return;
   const st=Object.assign({}, DEFAULT_SETTINGS, S.game.settings);
   st[k]=!st[k];
   if(k==='merlin' && !st.merlin){ st.percival=false; st.morgana=false; st.mordred=false; }
@@ -525,13 +615,12 @@ function toggleSetting(k){
   if(k==='lancelotSwitch' && st.lancelotSwitch) st.lancelot=true;
   if(k==='lancelot' && !st.lancelot) st.lancelotSwitch=false;
   if(k==='untrustworthy' && st.untrustworthy) st.merlin=true;
-  Net.pub('game', Object.assign({}, S.game, {settings:st}));
+  return updateLobbySettings(st);
 }
-function applyPreset(id){
-  if(!isHost() || S.game.status!=='lobby') return;
+async function applyPreset(id){
+  if(!isHost() || S.game.status!=='lobby' || S.ui.busy) return;
   const n=Math.min(10,Math.max(5,lobbyOrder().length)), st=presetSettings(id,n);
-  Net.pub('game',Object.assign({},S.game,{settings:st}));
-  toast(t('presetApplied',t(id==='new'?'presetNew':id==='classic'?'presetClassic':'presetBig')));
+  if(await updateLobbySettings(st)) toast(t('presetApplied',t(id==='new'?'presetNew':id==='classic'?'presetClassic':'presetBig')));
 }
 async function startGame(){
   const g=S.game; if(!isHost() || g.status!=='lobby' || S.ui.busy) return;
@@ -543,24 +632,26 @@ async function startGame(){
     ids.forEach((id,i)=>{ roles[id]=dealt[i]; allegiances[id]=side(dealt[i]); });
     const gid=randCode(8), pubs={}, nicks={}, leader=rnd(n);
     ids.forEach(id=>{ pubs[id]=S.seats[id].pub; nicks[id]=S.seats[id].nick; });
-    let lancelot=null;
+    let lancelot=null, lancelotDeck=null;
     if(st.lancelot && st.lancelotSwitch){
       const deck=shuffle([false,false,false,false,true,true]);
       const switched=deck.shift();
       const lp=ids.filter(id=>roles[id]==='lancelotGood'||roles[id]==='lancelotEvil');
       if(switched && lp.length===2) [allegiances[lp[0]],allegiances[lp[1]]]=[allegiances[lp[1]],allegiances[lp[0]]];
-      lancelot={deck, draws:[{q:0, switched}]};
+      lancelotDeck=deck;
+      lancelot={draws:[{q:0, switched}]};
     }
     const cleric=ids.find(id=>roles[id]==='cleric'), leaderId=ids[leader];
     const needsTricksterChoice=!!(cleric && roles[leaderId]==='trickster');
+    const updates={};
     for(const id of ids){
       const checks=(id===cleric && !needsTricksterChoice) ? [{source:'cleric', target:leaderId, side:shownLoyalty(roles[leaderId],allegiances[leaderId])}] : [];
-      Net.pub('sec/'+id, {gid, box: await enc(pubs[id], privateRoleData(id,roles,st,allegiances,checks))});
+      updates['sec/'+id]={j:JSON.stringify({gid,box:await enc(pubs[id],privateRoleData(id,roles,st,allegiances,checks))})};
     }
-    Net.pub('sec/master', {gid, box: await enc(ME.pub, {roles,allegiances})});
-    S.master={roles,allegiances};
+    const master=Object.assign({roles,allegiances},lancelotDeck?{lancelotDeck,lancelotOffset:1}:{});
+    updates['sec/master']={j:JSON.stringify({gid,box:await enc(ME.pub,master)})};
     const holder=(st.lady && n>=7) ? ids[(leader-1+n)%n] : null;
-    Net.pub('game', {
+    const next={
       code:g.code, host:ME.pid, hostPub:ME.pub, created:g.created, expires:Date.now()+ROOM_TTL_MS, settings:st,
       status:'play', gid, order:ids, pubs, nicks, n,
       phase:needsTricksterChoice?'loyalty':'propose', q:0, att:1, leader, team:[], excaliburHolder:null,
@@ -569,21 +660,32 @@ async function startGame(){
       rounds:[], lady: holder ? {holder, used:[holder], log:[]} : null,
       loyalty:needsTricksterChoice?{source:'cleric', viewer:cleric, target:leaderId, next:'propose'}:null,
       lancelot, revealed:[], events:[], winner:null, reason:'', roles:null, assassinPick:null, started:Date.now()
-    });
-  }catch(e){ console.error(e); }
+    };
+    updates.game={host:ME.pid,j:JSON.stringify(next)};
+    await Net.ref.update(updates);
+    S.master=master;
+    recordEvent('game_started',{player_count:n},gid);
+  }catch(e){ toast(t('writeFail')); }
   S.ui.busy=false; render();
 }
-function playAgain(){
-  const g=S.game; if(!isHost()) return;
-  for(const id of Object.keys(S.secrets)) Net.pub('sec/'+id, null);
-  Net.pub('game', {code:g.code, host:ME.pid, hostPub:ME.pub, status:'lobby', created:g.created||Date.now(), expires:Date.now()+ROOM_TTL_MS, settings:g.settings||DEFAULT_SETTINGS, gid:''});
-  S.ov=[];
+async function playAgain(){
+  const g=S.game; if(!isHost() || g.status!=='end' || S.ui.busy) return;
+  S.ui.busy=true; render();
+  try{
+    const next={code:g.code,host:ME.pid,hostPub:ME.pub,status:'lobby',created:g.created||Date.now(),expires:Date.now()+ROOM_TTL_MS,settings:g.settings||DEFAULT_SETTINGS,gid:''};
+    const updates={game:{host:ME.pid,j:JSON.stringify(next)}};
+    for(const id of Object.keys(S.secrets)) updates['sec/'+id]=null;
+    await Net.ref.update(updates);
+    recordEvent('rematch',{player_count:g.n},g.gid); S.ov=[];
+  }catch(e){ toast(t('writeFail')); }
+  finally{ S.ui.busy=false; render(); }
 }
 async function transferHost(){
   const g=S.game, target=S.ui.hostSuccessor;
   if(!isHost() || !g || g.status!=='play' || !S.master || S.ui.busy) return;
   if(!target || !g.order.includes(target) || target===ME.pid || !Net.isOnline(target)) return toast(t('chooseHost'));
   const seat=S.seats[target]; if(!seat||!seat.pub) return toast(t('chooseHost'));
+  if(g.settings?.lancelotSwitch && S.master.lancelotDeck && seat.capabilities?.privateLancelotDeck!==1) return toast(extra('hostRefreshRequired'));
   S.ui.busy=true; render();
   try{
     const box=await enc(seat.pub,S.master);
@@ -602,19 +704,26 @@ async function transferHost(){
 
 /* Player action, encrypted to the host. */
 async function submit(v){
-  const g=S.game, seat=S.seats[ME.pid]; if(!g || !seat) return;
+  const g=S.game, seat=S.seats[ME.pid]; if(!g || !seat || S.ui.busy || g.status!=='play' || !g.order.includes(ME.pid)) return;
   const step=g.step;
   S.ui.busy=true; render();
   try{
     const box=await enc(g.hostPub, {v});
-    Net.pub('seat/'+ME.pid, Object.assign({}, S.seats[ME.pid], {act:{k:step, box}}));
+    if(S.game?.step!==step || S.game.host!==g.host) return;
+    // Merge the latest seat; reactions/renames must not be overwritten by encryption latency.
+    const result=await Net.ref.child('seats/'+ME.pid+'/j').transaction(raw=>{
+      if(!raw || S.game?.step!==step || S.game.host!==g.host) return;
+      const latest=JSON.parse(raw); latest.act={k:step,box}; return JSON.stringify(latest);
+    });
+    if(result && !result.committed) return;
     S.ui.myActs[step]=v;
-  }catch(e){ console.error(e); }
-  S.ui.busy=false; render();
+  }catch(e){ toast(t('writeFail')); }
+  finally{ S.ui.busy=false; render(); }
 }
 function acted(pid){ const s=S.seats[pid], g=S.game; return !!(s && s.act && g && s.act.k===g.step); }
 
 /* ================= Host engine ================= */
+const PRIVATE_UPDATES=Symbol('private updates');
 let ticking=false, again=false;
 async function hostTick(){
   const g=S.game;
@@ -624,7 +733,16 @@ async function hostTick(){
   const v0=Net.ver('game');
   try{
     const patch=await computeNext(g);
-    if(patch && Net.ver('game')===v0) Net.pub('game', Object.assign({}, g, patch));
+    if(patch && Net.ver('game')===v0){
+      const privateChange=patch[PRIVATE_UPDATES];
+      let saved;
+      if(privateChange){
+        const updates=Object.assign({},privateChange.updates,{game:{host:ME.pid,j:JSON.stringify(Object.assign({},g,patch))}});
+        await Net.ref.update(updates);
+        S.master=privateChange.master; saved=true;
+      }else saved=await Net.pub('game',Object.assign({},g,patch));
+      if(saved && patch.status==='end') recordEvent('game_completed',{player_count:g.n},g.gid);
+    }
   }catch(e){ console.error('engine', e); }
   finally{ ticking=false; if(again){ again=false; hostTick(); } }
 }
@@ -636,8 +754,8 @@ async function readAct(pid, step){
 function endPatch(g, winner, reason, extra){
   return Object.assign({}, extra, {status:'end', phase:'end', winner, reason, roles:S.master.roles, allegiances:S.master.allegiances, expires:Date.now()+END_TTL_MS, step:g.gid+':end'});
 }
-async function saveMaster(g){
-  Net.pub('sec/master', {gid:g.gid, box:await enc(ME.pub,S.master)});
+async function saveMaster(g, master=S.master){
+  if(await Net.pub('sec/master', {gid:g.gid, box:await enc(ME.pub,master)})===false) throw new Error('private state write failed');
 }
 async function publishLoyalty(g, source, viewer, target, shown){
   const payload={source, target, side:shown, q:g.q};
@@ -645,22 +763,41 @@ async function publishLoyalty(g, source, viewer, target, shown){
   Net.pub('sec/'+key, {gid:g.gid, to:viewer, box:await enc(g.pubs[viewer],payload)});
 }
 async function beginQuest(g, base, q){
+  let master=S.master;
+  const updates={};
+  let masterChanged=false;
   let lancelot=g.lancelot, events=(g.events||[]).slice();
-  if(g.settings.lancelotSwitch && lancelot && lancelot.deck && lancelot.deck.length){
-    const deck=lancelot.deck.slice(), switched=deck.shift(), draws=(lancelot.draws||[]).concat([{q,switched}]);
-    lancelot={deck,draws};
+  // Future loyalty cards belong only in the encrypted host payload. Draw by
+  // public history index so a retry/reconnect cannot consume another card.
+  if(g.settings.lancelotSwitch && lancelot && !master.lancelotDeck && Array.isArray(lancelot.deck)){
+    master=Object.assign({},master,{lancelotDeck:lancelot.deck,lancelotOffset:(lancelot.draws||[]).length});
+    masterChanged=true; // Legacy compatibility; already disclosed cards cannot be made secret again.
+  }
+  const deck=master.lancelotDeck, index=(lancelot?.draws||[]).length-(master.lancelotOffset??1);
+  if(g.settings.lancelotSwitch && lancelot && deck && index>=0 && index<deck.length){
+    const switched=deck[index], draws=(lancelot.draws||[]).concat([{q,switched}]);
+    lancelot={draws};
     events.push({type:switched?'lancelotSwitchLog':'lancelotNoChange',q});
     if(switched){
-      const lp=g.order.filter(id=>g.roles ? (g.roles[id]==='lancelotGood'||g.roles[id]==='lancelotEvil') : (S.master.roles[id]==='lancelotGood'||S.master.roles[id]==='lancelotEvil'));
+      const lp=g.order.filter(id=>g.roles ? (g.roles[id]==='lancelotGood'||g.roles[id]==='lancelotEvil') : (master.roles[id]==='lancelotGood'||master.roles[id]==='lancelotEvil'));
       if(lp.length===2){
-        const a=Object.assign({},S.master.allegiances);
-        [a[lp[0]],a[lp[1]]]=[a[lp[1]],a[lp[0]]]; S.master.allegiances=a;
-        for(const id of lp) Net.pub('sec/'+id,{gid:g.gid,box:await enc(g.pubs[id],privateRoleData(id,S.master.roles,g.settings,a))});
-        await saveMaster(g);
+        const a=Object.assign({},master.allegiances);
+        const flipped=draws.filter(draw=>draw.switched).length%2===1;
+        for(const id of lp) a[id]=flipped?(side(master.roles[id])==='good'?'evil':'good'):side(master.roles[id]);
+        master=Object.assign({},master,{allegiances:a});
+        masterChanged=true;
+        for(const id of lp) updates['sec/'+id]={j:JSON.stringify({gid:g.gid,box:await enc(g.pubs[id],privateRoleData(id,master.roles,g.settings,a))})};
       }
     }
   }
-  return Object.assign({},base,{q,phase:'propose',step:g.gid+':propose:'+q+':1',lancelot,events});
+  const patch=Object.assign({},base,{q,phase:'propose',step:g.gid+':propose:'+q+':1',lancelot,events});
+  if(masterChanged){
+    updates['sec/master']={j:JSON.stringify({gid:g.gid,box:await enc(ME.pub,master)})};
+    // This symbol never serializes into public game JSON. The host commits
+    // role changes, its recovery payload and the public draw in one update.
+    patch[PRIVATE_UPDATES]={updates,master};
+  }
+  return patch;
 }
 async function resolveQuest(g, cards, excaliburTarget){
   const roles=S.master.roles, allegiances=S.master.allegiances, finalCards=Object.assign({},cards);
@@ -849,7 +986,7 @@ function topBar(){
   const conn=Net.connected();
   const st = !Net.everConnected ? t('connecting') : (conn ? t('online') : t('offline'));
   if(!S.code && typeof AvalonShell!=='undefined') return AvalonShell.header(LANG,'./','home','<span class="av-status '+(conn?'is-online':Net.everConnected?'is-offline':'is-connecting')+'" role="status" aria-label="'+esc(st)+'" title="'+esc(st)+'"><span class="status-dot" aria-hidden="true"></span>'+st+'</span>')+((Net.authFailed || (!Net.everConnected && S.bootAt && Date.now()-S.bootAt>15000))?'<div class="banner-off">'+t('noNet')+'</div>':'');
-  return '<div class="top"><button class="brand av-brand" data-a="home" aria-label="'+t('home')+'"><span class="av-mark"><img src="assets/brand-mark-'+(document.documentElement.dataset?.theme==='dark'?'light':'dark')+'.svg?v=38" data-brand-mark="assets/" alt="" width="40" height="40"></span><span><b>AVALON</b><small>'+t('sub')+'</small></span></button>'
+  return '<div class="top"><button class="brand av-brand" data-a="home" aria-label="'+t('home')+'"><span class="av-mark"><img src="assets/brand-mark-'+(document.documentElement.dataset?.theme==='dark'?'light':'dark')+'.svg?v=44" data-brand-mark="assets/" alt="" width="40" height="40"></span><span><b>AVALON</b><small>'+t('sub')+'</small></span></button>'
     +(!S.code?'<nav class="site-navigation" aria-label="Main navigation"><button data-a="home" aria-current="page">'+t('home')+'</button><a href="'+guideRoute()+'">'+t('guide')+'</a><a href="privacy/">'+t('privacy')+'</a><a href="unofficial-notice/">'+t('legal')+'</a></nav>':'')
     +'<div class="top-r">'+(S.code&&S.game?((S.game.status!=='lobby'?'<button class="chip btn privacy-cover-btn" data-a="privacyCover" aria-label="'+t('privacyCover')+'">'+ic('eyeoff')+'<span>'+t('privacyCover')+'</span></button>':'')+(S.game.status==='lobby'?'<button class="chip btn rules-access" data-a="rules" aria-label="'+t('rulesAnytime')+'">'+ic('book')+'<span>'+t('rulesAnytime')+'</span></button>':'')+'<span class="chip room-chip"><span class="dot '+(conn?'on':'')+'"></span><b style="letter-spacing:2px">'+esc(S.code)+'</b></span>'):'<span class="chip"><span class="dot '+(conn?'on':'')+'"></span>'+st+'</span>')
     +(typeof AvalonShell!=='undefined'?AvalonShell.themeControl(LANG)+AvalonShell.languageControl(LANG,'siteLanguage')+AvalonShell.menuControl(LANG,'./','',Boolean(S.code)):'')+'</div></div>'
@@ -932,17 +1069,22 @@ function roomInviteUrl(){
   url.hash=S.game.code;
   return url.href;
 }
+function copyRoomCode(){
+  const ok=()=>{toast(extra('roomCodeCopied'));recordEvent('invite_shared',{method:'code'});};
+  try{return navigator.clipboard.writeText(S.game.code).then(ok,()=>manualInvite());}catch(e){manualInvite();}
+}
 function copyRoomInvite(){
   const link=roomInviteUrl();
-  const ok=()=>toast(t('copied')), fail=()=>toast(link);
+  const ok=()=>{toast(t('copied'));recordEvent('invite_shared',{method:'copy'});}, fail=()=>manualInvite();
   try{ return navigator.clipboard.writeText(link).then(ok,fail); }catch(err){ fail(); }
 }
 function shareRoomInvite(){
   const link=roomInviteUrl();
-  const fail=error=>{ if(error?.name!=='AbortError') toast(link); };
+  const fail=error=>{ if(error?.name!=='AbortError') manualInvite(); };
   const title=extra('inviteShareTitle'), text=title+'\n\n'+extra('inviteShareText')+'\n';
-  try{ return navigator.share({title,text,url:link}).catch(fail); }catch(error){ fail(error); }
+  try{ return navigator.share({title,text,url:link}).then(()=>{toast(extra('inviteShared'));recordEvent('invite_shared',{method:'native'});}).catch(fail); }catch(error){ fail(error); }
 }
+function manualInvite(){ S.ui.qrOpen=true; renderQRModal(); requestAnimationFrame(()=>{const input=$('#manualInvite');input?.focus();input?.select();}); }
 function roomInviteActions(includeQR=true){
   const native=typeof navigator.share==='function';
   const share=native?'<button class="btn pri" data-a="share">'+ic('share')+'<span class="room-action-label">'+t('share')+'</span></button>':'';
@@ -955,7 +1097,7 @@ function renderQRModal(){
   if(!S.ui.qrOpen || !S.game){ el.innerHTML=''; el._key=null; return; }
   const link=roomInviteUrl(), key=LANG+':'+link;
   if(el._key===key && el.innerHTML) return; el._key=key;
-  el.innerHTML='<div class="rules-modal qr-modal" role="dialog" aria-modal="true" aria-labelledby="qrTitle"><div class="glass qr-sheet"><button class="btn ghost icon qr-close" data-a="closeQR" aria-label="'+t('close')+'">'+ic('x')+'</button><div class="eyebrow">AVALON · '+esc(S.game.code)+'</div><h2 id="qrTitle">'+t('scanJoin')+'</h2><div id="qrCanvas" class="qr-canvas"></div><b class="qr-code">'+esc(S.game.code)+'</b>'+roomInviteActions(false)+'</div></div>';
+  el.innerHTML='<div class="rules-modal qr-modal" role="dialog" aria-modal="true" aria-labelledby="qrTitle"><div class="glass qr-sheet"><button class="btn ghost icon qr-close" data-a="closeQR" aria-label="'+t('close')+'">'+ic('x')+'</button><div class="eyebrow">AVALON · '+esc(S.game.code)+'</div><h2 id="qrTitle">'+t('scanJoin')+'</h2><div id="qrCanvas" class="qr-canvas"></div><b class="qr-code">'+esc(S.game.code)+'</b>'+roomInviteActions(false)+'<label class="small" for="manualInvite">'+extra('copyManual')+'</label><input class="input" id="manualInvite" readonly value="'+esc(link)+'"></div></div>';
   requestAnimationFrame(()=>{ const box=$('#qrCanvas'); if(box&&window.QRCode) new QRCode(box,{text:link,width:220,height:220,colorDark:'#110d0a',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M}); el.querySelector('.qr-close')?.focus(); });
 }
 function askConfirm(message, action, value=null, people=[], confirmLabel=''){
@@ -981,20 +1123,31 @@ function renderConfirmModal(){
 }
 function privacyCoverHtml(){
   if(!S.ui.privacyCover) return '';
-  return '<div class="privacy-cover" role="dialog" aria-modal="true"><div class="privacy-cover-crest"><img src="assets/brand-mark-'+(document.documentElement.dataset?.theme==='dark'?'light':'dark')+'.svg?v=38" data-brand-mark="assets/" alt="" width="78" height="78"></div><h2>'+t('coveredTitle')+'</h2><p>'+t('coveredHint')+'</p><button class="btn pri big" data-a="privacyCover">'+t('revealScreen')+'</button></div>';
+  return '<div class="privacy-cover" role="dialog" aria-modal="true"><div class="privacy-cover-crest"><img src="assets/brand-mark-'+(document.documentElement.dataset?.theme==='dark'?'light':'dark')+'.svg?v=44" data-brand-mark="assets/" alt="" width="78" height="78"></div><h2>'+t('coveredTitle')+'</h2><p>'+t('coveredHint')+'</p><button class="btn pri big" data-a="privacyCover">'+t('revealScreen')+'</button></div>';
+}
+function setHomeMode(mode){
+  if(S.code || S.ui.busy || !['create','join'].includes(mode)) return;
+  S.ui.homeMode=mode; render();
 }
 function viewHome(){
-  const last=LS.get('last');
-  return '<main><div class="hero"><div class="hero-art hero-art-good"><img src="'+ROLE_META.merlin.art+'" alt="Merlin" width="768" height="1024" fetchpriority="high"></div><div class="hero-art hero-art-evil"><img src="'+ROLE_META.morgana.art+'" alt="Morgana" width="768" height="1024"></div>'
+  const last=LS.get('last'), disabled=S.ui.busy||!ME.pid||!Net.connected(), joining=S.ui.homeMode==='join';
+  const access=extra('homeAccess').split(' · ').map(part=>'<em>'+esc(part)+'</em>').join(' ');
+  return '<main class="home-page'+(last?' has-resume':'')+'"><div class="hero"><div class="hero-art hero-art-good"><img src="'+ROLE_META.merlin.art+'" alt="Merlin" width="768" height="1024" fetchpriority="high"></div><div class="hero-art hero-art-evil"><img src="'+ROLE_META.morgana.art+'" alt="Morgana" width="768" height="1024"></div>'
     +'<div class="hero-copy"><div class="eyebrow">'+extra('projectLabel')+'</div><div class="crest"><span>V</span></div><h1>Avalon Online</h1><div class="sub">'+t('tagline')+'</div><p class="hero-lead">'+extra('projectLead')+'</p><p class="hero-oath">'+extra('oath')+'</p>'
-    +'<div class="feature"><span>'+ic('users')+'<b>'+t('feat1')+'</b></span><span>'+ic('sparkle')+'<b>'+t('feat2')+'</b></span><span>'+ic('device')+'<b>'+t('feat3')+'</b></span><span>'+ic('lock')+'<b>'+t('feat4')+'</b></span></div></div></div>'
+    +'<div class="feature"><span>'+ic('users')+'<b>'+t('feat1')+'</b></span><span>'+ic('lock')+'<b>'+t('feat2')+'</b></span><span>'+ic('device')+'<b>'+t('feat3')+'</b></span><span class="home-access-fact">'+ic('globe')+'<b>'+access+'</b></span></div></div></div>'
     +(last ? '<div class="glass resume"><span>'+t('resume','<b style="letter-spacing:2px">'+esc(last)+'</b>')+'</span><button class="btn pri" data-a="resume">'+t('resumeBtn')+'</button></div>' : '')
-    +'<div class="home-grid"><div class="glass card"><h2>'+t('nick')+'</h2><input class="input" id="nick" aria-label="'+t('nick')+'" maxlength="12" placeholder="'+t('nickPh')+'" value="'+esc(S.ui.nick)+'">'
-    +'<button class="btn pri" data-a="create">'+ic('plus')+t('create')+'</button></div>'
-    +'<div class="glass card"><h2>'+t('joinTitle')+'</h2><div class="row"><input class="input code" id="joinCode" aria-label="'+t('codePh')+'" maxlength="8" placeholder="'+t('codePh')+'" value="'+esc(S.ui.joinCode)+'" style="flex:1;min-width:0">'
-    +'<button class="btn pri" data-a="join">'+t('join')+'</button></div><p class="muted small" style="margin-bottom:0">'+t('joinHint')+'</p></div></div>'
-    +'</main>'
-    ;
+    +'<section class="glass home-entry" aria-busy="'+S.ui.busy+'">'
+      +'<div class="home-mode" role="tablist" aria-label="'+t('create')+' / '+t('join')+'">'
+        +'<button class="home-mode-tab" id="homeTab-create" role="tab" aria-controls="homeRoomForm" aria-selected="'+!joining+'" tabindex="'+(joining?'-1':'0')+'" data-a="homeCreate" '+(S.ui.busy?'disabled':'')+'>'+t('create')+'</button>'
+        +'<button class="home-mode-tab" id="homeTab-join" role="tab" aria-controls="homeRoomForm" aria-selected="'+joining+'" tabindex="'+(joining?'0':'-1')+'" data-a="homeJoin" '+(S.ui.busy?'disabled':'')+'>'+t('join')+'</button>'
+      +'</div>'
+      +'<div id="homeRoomForm" role="tabpanel" aria-labelledby="homeTab-'+(joining?'join':'create')+'">'
+        +'<div class="home-field"><label for="nick">'+t('nick')+'</label><input class="input" id="nick" aria-label="'+t('nick')+'" enterkeyhint="'+(joining?'next':'go')+'" maxlength="12" placeholder="'+t('nickPh')+'" value="'+esc(S.ui.nick)+'"></div>'
+        +(joining?'<div class="home-field"><label for="joinCode">'+t('roomCode')+'</label><input class="input code" autocapitalize="characters" autocomplete="off" spellcheck="false" enterkeyhint="go" id="joinCode" maxlength="8" placeholder="'+t('codePh')+'" value="'+esc(S.ui.joinCode)+'"></div>':'')
+        +'<button class="btn pri home-submit" data-a="'+(joining?'join':'create')+'" aria-describedby="homeEntryHint" '+(disabled?'disabled':'')+'>'+(joining?ic('link'):ic('plus'))+(S.ui.busy?t('connecting'):t(joining?'join':'create'))+'</button>'
+        +'<p id="homeEntryHint">'+(joining?t('joinHint'):extra('homeStartHint'))+'</p>'
+      +'</div>'
+    +'</section></main>';
 }
 function viewLobby(){
   const g=S.game, ids=lobbyOrder(), n=ids.length, host=isHost(), seated=!!S.seats[ME.pid];
@@ -1008,7 +1161,7 @@ function viewLobby(){
       +(host && !mine ? '<button class="x" title="kick" aria-label="kick" data-kick="'+esc(p)+'">'+ic('x')+'</button>' : '')+'</div>';
   }).join('');
   for(let i=n;i<Math.max(5,Math.min(10,n+1));i++) seats+='<div class="seatcard empty tiny">'+t('emptySeat')+'</div>';
-  const tile=(k,role,name,desc,cls)=>'<button class="rt '+cls+(st[k]?' on':'')+'" '+(host?'data-set="'+k+'"':'disabled')+'>'+roleArt(role,'tile-art')+'<span><b>'+name+'</b><span>'+desc+'</span></span></button>';
+  const tile=(k,role,name,desc,cls)=>'<button class="rt '+cls+(st[k]?' on':'')+'" '+(host?'data-set="'+k+'" '+(S.ui.busy?'disabled':''):'disabled')+'>'+roleArt(role,'tile-art')+'<span><b>'+name+'</b><span>'+desc+'</span></span></button>';
   const lineupSide=(s,label,count)=>'<section class="lineup-side '+s+'"><h3><span>'+(s==='good'?ic('shield'):ic('sword'))+' '+label+'</span><b>'+count+'</b></h3><div class="lineup-roles">'+pv.roles.filter(r=>side(r)===s).map(r=>'<span class="lineup-character">'+roleArt(r,'lineup-art')+'<span>'+rName(r)+'</span></span>').join('')+'</div></section>';
   const compHtml = pv.err ? '<p class="warn small">'+esc(pv.err)+'</p>' :
     '<div class="lineup-title">'+(n<5?t('lineupPreviewTitle',5):t('currentLineup')+' · '+n)+'</div><div class="lineup">'+lineupSide('good',t('goodCamp'),pv.gd)+lineupSide('evil',t('evilCamp'),pv.ev)+'</div>'
@@ -1027,13 +1180,13 @@ function viewLobby(){
   const modules=tile('merlin','merlin',t('optMerlin'),t('optMerlinD'),'neutral')
     +tile('lancelot','lancelotGood',t('optLancelot'),t('optLancelotD'),'neutral')
     +tile('lancelotSwitch','lancelotEvil',t('optLancelotSwitch'),t('optLancelotSwitchD'),'neutral')
-    +'<button class="rt neutral'+(st.lady?' on':'')+'" '+(host?'data-set="lady"':'disabled')+'><span class="lady-art">'+ic('droplet')+'</span><span><b>'+t('optLady')+'</b><span>'+t('optLadyD')+'</span></span></button>'
-    +'<button class="rt neutral'+(st.excalibur?' on':'')+'" '+(host?'data-set="excalibur"':'disabled')+'><span class="lady-art">'+ic('sword')+'</span><span><b>'+t('optExcalibur')+'</b><span>'+t('optExcaliburD')+'</span></span></button>';
+    +'<button class="rt neutral'+(st.lady?' on':'')+'" '+(host?'data-set="lady" '+(S.ui.busy?'disabled':''):'disabled')+'><span class="lady-art">'+ic('droplet')+'</span><span><b>'+t('optLady')+'</b><span>'+t('optLadyD')+'</span></span></button>'
+    +'<button class="rt neutral'+(st.excalibur?' on':'')+'" '+(host?'data-set="excalibur" '+(S.ui.busy?'disabled':''):'disabled')+'><span class="lady-art">'+ic('sword')+'</span><span><b>'+t('optExcalibur')+'</b><span>'+t('optExcaliburD')+'</span></span></button>';
   const need=Math.max(0,5-n);
   const status='<div class="lobby-status'+(need?'':' ready')+'"><b>'+(need?(need===1?t('lobbyNeedOne'):t('lobbyNeed',need)):t(host?'lobbyReadyHost':'lobbyReady'))+'</b><span>'+t('lobbySteps')+'</span></div>';
   const presets='<div class="preset-wrap"><span class="muted tiny">'+t('presets')+'</span><div class="preset-row">'+['new','classic','big'].map(id=>{
     const expected=presetSettings(id,Math.min(10,Math.max(5,n))), active=Object.keys(expected).every(k=>!!st[k]===!!expected[k]);
-    return '<button class="btn sm preset-btn'+(active?' active':'')+'" data-preset="'+id+'" aria-pressed="'+active+'">'+(active?ic('check'):'')+t(id==='new'?'presetNew':id==='classic'?'presetClassic':'presetBig')+'</button>';
+    return '<button class="btn sm preset-btn'+(active?' active':'')+'" data-preset="'+id+'" aria-pressed="'+active+'" '+(S.ui.busy?'disabled':'')+'>'+(active?ic('check'):'')+t(id==='new'?'presetNew':id==='classic'?'presetClassic':'presetBig')+'</button>';
   }).join('')+'</div></div>';
   const advanced='<details class="settings-advanced" '+(S.ui.settingsOpen?'open':'')+'><summary><span><b>'+ic('settings')+' '+t('advancedRoles')+'</b><small>'+t('advancedRolesHint')+'</small></span><i>⌄</i></summary><div class="settings-advanced-body"><div class="settings-camps">'
     +'<section class="setting-camp good"><h3>'+ic('shield')+' '+t('goodCamp')+'</h3><div class="roletiles">'+goodSettings+'</div></section>'
@@ -1041,7 +1194,7 @@ function viewLobby(){
     +'<section class="setting-camp modules"><h3>'+ic('sparkle')+' '+t('gameModules')+'</h3><div class="roletiles">'+modules+'</div></section></div></details>';
   // Guests only need to see what is in play; the controls stay with the host.
   const roleSetup=host ? presets+compHtml+lobbyGuideBar()+advanced : compHtml+lobbyGuideBar();
-  return '<div class="glass card roomcode"><div class="roomcode-main"><div class="muted small">'+t('roomCode')+'</div><div class="code">'+esc(g.code)+'</div></div>'
+  return '<div class="glass card roomcode"><div class="roomcode-main"><div class="muted small">'+t('roomCode')+'</div><button class="code room-code-copy" data-a="copyCode" aria-label="'+extra('copyRoomCode')+'" title="'+extra('copyRoomCode')+'">'+esc(g.code)+'</button></div>'
     +'<div class="roomcode-side">'+roomInviteActions()+'<div class="muted small roomcode-hint">'+t('inviteHint')+'</div></div></div>'
     +'<div class="lobby"><div class="glass card lobby-players">'+status+'<h2>'+t('players')+' · '+n+'/10</h2><div class="seats">'+seats+'</div>'
     +(seated?'':'<div class="row seat-join"><input class="input" id="nick" maxlength="12" placeholder="'+t('nickPh')+'" value="'+esc(S.ui.nick)+'" style="flex:1;min-width:120px"><button class="btn pri" data-a="seat">'+t('seat')+'</button></div>')
@@ -1288,7 +1441,7 @@ function roleBar(){
   // Who am I at this table: portrait, seat number and name, with rename one tap away.
   const id='<button class="me-id" data-a="editName" aria-label="'+t('editName')+'"><i class="player-avatar" style="'+avStyle(me)+'"></i><span class="me-text"><small>'+t('youAre')+' · '+t('seatNo', g.order.indexOf(me)+1)+'</small><b><span>'+esc(nickOf(me))+'</span><em>'+ic('pencil')+'</em></b></span></button>';
   const role=!S.mine ? '<span class="me-role muted small">'+t('loadingRole')+'</span>'
-    : '<button class="me-role '+(S.peek?s:'')+'" data-a="peek" aria-expanded="'+!!S.peek+'"><span class="rb-ic">'+(S.peek?roleArt(S.mine.role,'rolebar-art'):'<span class="card-seal"><img src="assets/brand-mark-'+(document.documentElement.dataset?.theme==='dark'?'light':'dark')+'.svg?v=38" data-brand-mark="assets/" alt="" width="32" height="32"></span>')+'</span><span class="me-text"><small>'+t('myRole')+'</small><b>'+(S.peek?rName(S.mine.role):t('tapReveal'))+'</b></span></button>';
+    : '<button class="me-role '+(S.peek?s:'')+'" data-a="peek" aria-expanded="'+!!S.peek+'"><span class="rb-ic">'+(S.peek?roleArt(S.mine.role,'rolebar-art'):'<span class="card-seal"><img src="assets/brand-mark-'+(document.documentElement.dataset?.theme==='dark'?'light':'dark')+'.svg?v=44" data-brand-mark="assets/" alt="" width="32" height="32"></span>')+'</span><span class="me-text"><small>'+t('myRole')+'</small><b>'+(S.peek?rName(S.mine.role):t('tapReveal'))+'</b></span></button>';
   return '<div class="glass card mebar">'+id+role+'</div>'
     +(S.peek&&S.mine?'<button class="sheet-backdrop" data-a="peek" aria-label="'+t('hideRole')+'"></button><div class="glass card know-card sheet"><div class="sheet-head"><b class="'+(s==='good'?'res-s':'res-f')+'">'+roleIcon(S.mine.role)+' '+rName(S.mine.role)+' · '+t(s)+'</b><button class="btn ghost sm sheet-close" data-a="peek">'+ic('eyeoff')+t('hideRole')+'</button></div><div class="identity-detail"><div class="identity-portrait '+s+'">'+roleArt(S.mine.role,'identity-art')+'<span>'+t(s)+'</span></div><div class="identity-knowledge">'+knowBlock()+'</div></div></div>':'');
 }
@@ -1338,7 +1491,7 @@ function renderOverlay(){
     const m=S.mine; if(!m){ S.ov.shift(); return renderOverlay(); }
     const s=m.allegiance||side(m.role);
     h='<h2>'+ic('moon')+' '+t('nightTitle')+'</h2><p class="lead">'+t('nightLead')+'</p>'
-      +'<button type="button" class="rolecard '+(o.flipped?'flip':'')+'" data-a="flipcard" aria-label="'+(o.flipped?rName(m.role):t('flip'))+'"><span class="in"><span class="face back"><span class="card-orbit" aria-hidden="true"></span><span class="card-seal large"><img src="assets/brand-mark-'+(document.documentElement.dataset?.theme==='dark'?'light':'dark')+'.svg?v=38" data-brand-mark="assets/" alt="" width="72" height="72"></span><span class="card-wordmark">AVALON</span><span class="card-secret">'+ic('lock')+extra('secretIdentity')+'</span></span>'
+      +'<button type="button" class="rolecard '+(o.flipped?'flip':'')+'" data-a="flipcard" aria-label="'+(o.flipped?rName(m.role):t('flip'))+'"><span class="in"><span class="face back"><span class="card-orbit" aria-hidden="true"></span><span class="card-seal large"><img src="assets/brand-mark-'+(document.documentElement.dataset?.theme==='dark'?'light':'dark')+'.svg?v=44" data-brand-mark="assets/" alt="" width="72" height="72"></span><span class="card-wordmark">AVALON</span><span class="card-secret">'+ic('lock')+extra('secretIdentity')+'</span></span>'
       +'<span class="face front '+s+'">'+roleArt(m.role,'rolecard-art')+'<span class="rolecard-caption"><span class="rs">'+ic(s==='good'?'shield':'sword')+t(s)+'</span><span class="rn">'+rName(m.role)+'</span></span></span></span></button>'
       +(o.flipped?knowBlock()+'<button class="btn pri big" style="width:100%" data-a="ovnext">'+t('gotIt')+'</button>':'<button class="btn pri big" style="width:100%" data-a="flipcard">'+t('flip')+'</button>');
   } else if(o.type==='vote'){
@@ -1383,20 +1536,26 @@ document.addEventListener('change', e=>{
   if(e.target.id==='hostSuccessor'){ S.ui.hostSuccessor=e.target.value; S.ui.confirmHostTransfer=false; render(); }
 });
 document.addEventListener('keydown', e=>{
+  if(e.isComposing) return;
+  if(!S.code && !S.ui.busy && e.target.matches?.('.home-mode-tab') && ['ArrowLeft','ArrowRight','Home','End'].includes(e.key)){
+    e.preventDefault();
+    const mode=e.key==='Home'?'create':e.key==='End'?'join':S.ui.homeMode==='join'?'create':'join';
+    setHomeMode(mode); $('#homeTab-'+mode)?.focus(); return;
+  }
   if(e.key==='Escape' && S.ui.rename) return closeRename();
-  if(e.key==='Enter' && e.target.id==='renameInput') return saveRename();
+  if(e.key==='Enter' && e.target.id==='renameInput'){e.preventDefault();return saveRename();}
   if(e.key==='Escape' && S.ui.confirm){ S.ui.confirm=null; renderConfirmModal(); return; }
   if(e.key==='Escape' && S.ui.qrOpen){ S.ui.qrOpen=false; renderQRModal(); return; }
   if(e.key==='Escape' && S.ui.infoOpen){ S.ui.infoOpen=null; renderInfoModal(); return; }
   if(e.key==='Escape' && S.ui.rulesOpen){ S.ui.rulesOpen=false; renderRulesModal(); return; }
-  if(e.key==='Tab' && (S.ui.confirm || S.ui.qrOpen || S.ui.infoOpen || S.ui.rulesOpen || S.ov.length)){
-    const root=S.ui.confirm?$('#confirmModal'):S.ui.qrOpen?$('#qrModal'):S.ui.infoOpen?$('#infoModal'):S.ui.rulesOpen?$('#rulesModal'):$('#ov');
-    const items=root&&[...root.querySelectorAll('button,a[href],[tabindex]:not([tabindex="-1"])')].filter(x=>!x.disabled);
+  if(e.key==='Tab' && (S.ui.rename || S.ui.confirm || S.ui.qrOpen || S.ui.infoOpen || S.ui.rulesOpen || S.ov.length)){
+    const root=S.ui.rename?$('#nameModal'):S.ui.confirm?$('#confirmModal'):S.ui.qrOpen?$('#qrModal'):S.ui.infoOpen?$('#infoModal'):S.ui.rulesOpen?$('#rulesModal'):$('#ov');
+    const items=root&&[...root.querySelectorAll('button,a[href],input,select,textarea,[tabindex]:not([tabindex="-1"])')].filter(x=>!x.disabled);
     if(items&&items.length){ const first=items[0], last=items[items.length-1]; if(e.shiftKey&&document.activeElement===first){ e.preventDefault(); last.focus(); } else if(!e.shiftKey&&document.activeElement===last){ e.preventDefault(); first.focus(); } }
   }
-  if(e.key!=='Enter') return;
-  if(e.target.id==='joinCode') joinRoom();
-  else if(e.target.id==='nick'){ if(!S.code) createRoom(); else if(S.seats[ME.pid]) renameSeat(); else takeSeat(); }
+  if(e.key!=='Enter' || e.isComposing || e.repeat) return;
+  if(e.target.id==='joinCode'){e.preventDefault();joinRoom();}
+  else if(e.target.id==='nick'){ e.preventDefault(); if(!S.code){if(S.ui.homeMode==='join') $('#joinCode')?.focus();else createRoom();} else if(S.seats[ME.pid]) renameSeat(); else takeSeat(); }
 });
 document.addEventListener('toggle', e=>{
   if(e.target.matches && e.target.matches('details.rules')) S.ui.rulesInlineOpen=e.target.open;
@@ -1449,6 +1608,8 @@ document.addEventListener('click', e=>{
     case 'renameSave': return saveRename();
     case 'clearNotes': { const key=notesStorageKey(); if(key) LS.del(key); render(); return toast(t('notesCleared')); }
     case 'focusCreate': { const field=$('#nick'); if(field){ field.scrollIntoView({behavior:'smooth',block:'center'}); setTimeout(()=>field.focus({preventScroll:true}),350); } return; }
+    case 'homeCreate': return setHomeMode('create');
+    case 'homeJoin': return setHomeMode('join');
     case 'create': return createRoom();
     case 'join': return joinRoom();
     case 'resume': { const l=LS.get('last'); if(l) enterRoom(l); return; }
@@ -1472,6 +1633,7 @@ document.addEventListener('click', e=>{
     case 'flipcard': if(S.ov[0] && S.ov[0].type==='night'){ S.ov[0].flipped=true; renderOverlay(); } return;
     case 'ovnext': S.ov.shift(); return renderOverlay();
     case 'showend': S.ov.push({type:'end'}); return renderOverlay();
+    case 'copyCode': return copyRoomCode();
     case 'copy': return copyRoomInvite();
     case 'share': return shareRoomInvite();
   }

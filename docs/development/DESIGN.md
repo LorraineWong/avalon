@@ -95,3 +95,33 @@ The guide uses a sticky, compact section rail with `aria-current="location"` and
 ## Mobile site menu
 
 At widths up to 600px, a 40px menu button opens a native modal dialog at the right edge. Theme switching moves into this drawer; language and connection status remain in the header. The dialog supports Escape, a labelled close control, backdrop dismissal and native focus containment. It lives outside the game render tree so live room updates do not remove it. In-room links open new tabs, preserving the current room.
+
+
+## Focused room entry and guide density (v43)
+
+The home entry is a single compact component at every viewport. Start with
+visible Create room / Join tabs and show only the selected operation's fields.
+Creation needs a nickname; joining needs nickname and room code. Keep one
+primary submit button and one contextual hint. Do not simultaneously expand
+two competing forms or detach a shared nickname into its own step/column.
+
+Mode changes preserve entered nickname and code. Tabs expose selection and
+support arrow keys plus Home/End. In joining mode Enter on nickname advances
+to the code instead of accidentally creating a room. Invite links still enter
+the target room directly. Both layouts keep the same operation order. At desktop
+widths of 1000px and above, the artwork and operation panel sit side by side
+within the shared page boundary, with aligned top and bottom edges. Smaller
+layouts retain their artwork-then-form stack. Selected mode tabs use the shared
+gold accent, a soft gold wash and a gold border; solid gold remains the primary
+action. These semantic selection colors are defined for both themes.
+
+Keep supporting invitation/voice instructions below the current action at the
+13px caption scale. Player count, registration, device and language/download
+facts stay within the hero. Do not put another centered paragraph or facts
+strip between the banner and room controls. Use existing semantic surfaces,
+colors, type and 44px-or-larger controls.
+
+Guides put setup before promotional facts. On phones the section rail scrolls
+within its own container, followed by a full-width play action; both use 44px
+minimum targets. Avoid stacking the section links into two extra rows. Product
+facts follow the numeric setup reference, so readers reach the table sooner.

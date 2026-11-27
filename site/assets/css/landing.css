@@ -9,3 +9,10 @@ section{padding:72px 0}section h2{margin:0 0 12px;font-size:clamp(28px,4vw,43px)
 @media(max-width:850px){.unified-header{flex-wrap:wrap;gap:12px}.unified-header .brand{flex:1}.public-links{order:3;flex-basis:100%;justify-content:flex-start;gap:20px;overflow:auto;padding:8px 0}.public-links a{font-size:13px}.legal-main h1{font-size:28px}}
 
 .guide-camp{border:1px solid var(--line);border-radius:12px;margin:12px 0;padding:16px}.guide-camp summary{cursor:pointer;font-weight:700;color:var(--gold)}.guide-camp[open] summary{margin-bottom:16px}.guide-camp .role-list p{margin:8px 0 0;color:var(--muted)}
+
+.guide-quick-start{max-width:75ch;margin-bottom:20px}
+.guide-optional{margin-top:24px;border:1px solid var(--line);border-radius:16px;padding:16px}
+.guide-optional>summary{cursor:pointer;min-height:44px;display:list-item;font-weight:700;line-height:1.5;overflow-wrap:anywhere}
+.guide-optional[open]>summary{margin-bottom:16px}
+.guide-optional .guide-modules{margin-top:24px}
+.guide-optional summary:focus-visible{outline:3px solid var(--gold);outline-offset:4px}

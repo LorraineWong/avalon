@@ -41,7 +41,7 @@ Everything for a room lives under `rooms/<CODE>`. Each document is stored as a J
 | Path                  | Writer                        | Content                                                                                                      |
 | --------------------- | ----------------------------- | ------------------------------------------------------------------------------------------------------------ |
 | `game` → `{host, j}`  | host                          | Public game state. `host` is duplicated outside `j` so security rules can read it.                           |
-| `seats/<uid>` → `{j}` | that player (host may remove) | `pid`, `nick`, `pub` (ECDH public key), `joined`, `act` (encrypted action), plus `reaction` and `draftTeam`. |
+| `seats/<uid>` → `{j}` | that player (host may remove) | `pid`, `nick`, `pub` (ECDH public key), `joined`, `act` (encrypted action), plus `reaction`, `draftTeam` and client `capabilities`. |
 | `sec/<uid>` → `{j}`   | host                          | That player's role data, encrypted to their public key.                                                      |
 | `sec/master` → `{j}`  | host                          | The full role and allegiance map, encrypted to the host's own public key.                                    |
 | `sec/<other>` → `{j}` | host                          | Private results such as loyalty checks, encrypted to the viewer.                                             |
@@ -58,7 +58,7 @@ Fields in `game.j` that matter most:
 - `phase` and `step` — current phase and a unique string for the current decision (for example `<gid>:propose:0:1`).
 - `order`, `pubs`, `nicks`, `n` — seating, public keys, and names frozen at game start.
 - `q`, `att`, `leader`, `team`, `quests`, `rounds` — quest index, proposal attempt, and history.
-- `settings`, `lady`, `lancelot`, `excaliburHolder`, `revealed`, `events` — optional modules and public events.
+- `settings`, `lady`, `lancelot`, `excaliburHolder`, `revealed`, `events` — optional modules and public events. `lancelot` contains drawn cards only; the future deck and its history offset live in the encrypted host master payload.
 - `expires` — expiry marker: 72 hours for a room, 24 hours after a game ends.
 - `roles`, `winner`, `reason` — filled in only when the game ends.
 
@@ -83,11 +83,11 @@ Phases in brackets occur only when the matching role or module is enabled. Three
 
 - Each browser generates an ECDH P-256 key pair bound to its anonymous Firebase uid. The private key stays in `localStorage`.
 - To encrypt, the sender creates an ephemeral ECDH key pair, derives an AES-GCM 256 key against the recipient's public key, and stores `{e, iv, ct}`.
-- At game start the host deals roles, writes one encrypted `sec/<uid>` per player, and writes `sec/master` encrypted to itself so it can recover the role map after a refresh.
+- At game start the host deals roles, encrypts one `sec/<uid>` per player plus `sec/master` to itself, then commits these payloads and the public game in one multi-path update. Switching-Lancelot draws also commit changed private roles, encrypted recovery data and public draw history together. The host master includes the future Lancelot deck when that variant is enabled, so refresh and explicit handoff preserve it without publishing future cards.
 
 ### Host handoff
 
-The host re-encrypts the master role map to the successor's public key and commits `sec/master` together with the new `game.host` in one multi-path `update`, so a dropped connection cannot leave half a transfer. If the host disappears without handing off, nobody else holds the key; the original host must reopen the room link. In the lobby, a departing host simply passes `host` to the next player because no secrets exist yet.
+The host re-encrypts the master role map to the successor's public key and commits `sec/master` together with the new `game.host` in one multi-path `update`, so a dropped connection cannot leave half a transfer. Clients advertise private-deck support in their seat; refreshed clients merge that marker into legacy seats. When a private Lancelot deck is active, the host asks an older successor to refresh before handoff. If the host disappears without handing off, nobody else holds the key; the original host must reopen the room link. In the lobby, a departing host simply passes `host` to the next player because no secrets exist yet.
 
 ## Browser storage
 

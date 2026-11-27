@@ -166,7 +166,7 @@ async function openClient(db,{uid,store=new Map(),hash=''}){
     type(id,value){ for(const fn of listeners.input||[]) fn({target:{id,value}}); },
     close(){ conn.close(); for(const id of timers){ clearTimeout(id); clearInterval(id); } timers.clear(); }
   };
-  await until(()=>app.ME.pid&&app.ME.priv,uid+' boots and signs in');
+  await until(()=>app.ME.pid&&app.ME.priv&&app.Net.connected()&&(hash||c.has('a','create')),uid+' boots, connects and enables creation');
   return c;
 }
 
@@ -184,13 +184,15 @@ async function dismissOverlays(c){
 async function setupRoom(db,n,tag){
   const clients=[];
   const host=await openClient(db,{uid:tag+'-p1'});
-  host.type('nick','P1'); host.click('a','create');
+  host.type('nick','P1'); host.click('a','homeJoin');
+  assert(host.S.ui.nick==='P1'&&host.has('a','join')&&!host.has('a','create'),'joining is one focused form and keeps the nickname');
+  host.click('a','homeCreate'); host.click('a','create');
   await until(()=>host.g&&host.g.status==='lobby'&&host.S.seats[host.uid],tag+' host creates a room');
   const code=host.S.code;
   clients.push(host);
   for(let i=2;i<=n;i++){
     const c=await openClient(db,{uid:tag+'-p'+i});
-    c.type('nick','P'+i); c.type('joinCode',code.toLowerCase()); c.click('a','join');
+    c.type('nick','P'+i); c.click('a','homeJoin'); c.type('joinCode',code.toLowerCase()); c.click('a','join');
     await until(()=>c.S.seats[c.uid],c.uid+' takes a seat');
     clients.push(c);
   }

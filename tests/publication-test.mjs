@@ -15,7 +15,7 @@ try{
   const source=readFileSync(sourceForPublic(lang+'/index.html'),'utf8'),published=readFileSync(path.join(first,lang,'index.html'),'utf8');
   let position=0;
   // Head metadata and unused helper loading are generated; the visible guide body is preserved.
-  for(const part of source.slice(source.indexOf('<body>')).split(/<!-- guide:(?:modules|players|player-note) -->/)){
+  for(const part of source.slice(source.indexOf('<body>')).split(/<!-- guide:[\w-]+ -->/)){
    const next=published.indexOf(part,position);assert.ok(next>=position,'preserve '+lang+' source outside shared guide slots');position=next+part.length;
   }
   assert.ok(!published.includes('<!-- guide:'),'expand all shared guide slots');
