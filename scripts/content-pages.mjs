@@ -33,7 +33,10 @@ export function writeContentPages(root,out){
       html=html.replace(/<title>[\s\S]*?<\/title>/,'<title>'+title+'</title>');
       html=setMetadata(html,'name','description',description);
       if(kind==='guide'){
-        const guide=context.window.AvalonGuide;
+        const guide=context.window.AvalonGuide, extra=registry.packs[id].extra;
+        html=html.replace('<!-- guide:quick-start -->','<p class="lead guide-quick-start">'+escape(extra.quickStart)+'</p>');
+        html=html.replace('<!-- guide:optional-title -->',escape(extra.optionalGuide));
+        html=html.replace('<!-- guide:roles-intro -->',escape(extra.guideRoleIntro));
         html=html.replace('<!-- guide:modules -->',guide.modules(id));
         html=html.replace('<!-- guide:players -->',guide.players(id));
         html=html.replace('<!-- guide:player-note -->',guide.copy(id).hint);
@@ -68,10 +71,25 @@ export function writeContentPages(root,out){
   }
   // Page-name roots have a useful default even when typed without a language.
   for(const name of Object.values(names)){
-    const html='<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Avalon Online</title><link rel="canonical" href="'+origin+name+'/en/"><meta http-equiv="refresh" content="0;url=en/"></head><body><p><a href="en/">Continue to Avalon Online</a></p><script>let lang="en";try{lang=JSON.parse(localStorage.getItem("lwav.lang"))||"en";}catch{}const routes={en:"en",zh:"zh-cn","zh-TW":"zh-tw",ru:"ru",es:"es",pt:"pt",vi:"vi",ja:"ja",ko:"ko"};location.replace((routes[lang]||"en")+"/"+location.hash);</script></body></html>';
+    const html='<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Avalon Online</title><link rel="canonical" href="'+origin+name+'/en/"><meta http-equiv="refresh" content="0;url=en/"></head><body><p><a href="en/">Continue to Avalon Online</a></p></body></html>';
     writeFileSync(path.join(out,name,'index.html'),html);
   }
+  const redirects=[];
+  for(const name of Object.values(names)){
+    for(const suffix of ['', '/', '/index.html']) redirects.push('/'+name+suffix+' /'+name+'/en/ 301');
+    for(const language of registry.languages){
+      const dest='/'+name+'/'+language.route+'/';
+      redirects.push(dest.slice(0,-1)+' '+dest+' 301',dest+'index.html '+dest+' 301');
+    }
+  }
+  for(const language of registry.languages){
+    for(const suffix of ['', '/', '/index.html']) redirects.push('/'+language.route+suffix+' /how-to-play/'+language.route+'/ 301');
+  }
+  for(const [legacy,name] of Object.entries({privacy:'privacy-policy','unofficial-notice':'terms',support:'about'})){
+    for(const suffix of ['', '/', '/index.html']) redirects.push('/'+legacy+suffix+' /'+name+'/en/ 301');
+  }
+  writeFileSync(path.join(out,'_redirects'),redirects.join('\n')+'\n');
   const xml='<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+['',...items].map(dest=>'  <url><loc>'+origin+dest+'</loc></url>').join('\n')+'\n</urlset>\n';
   writeFileSync(path.join(out,'sitemap.xml'),xml);
-  return items.length+Object.keys(names).length;
+  return items.length+Object.keys(names).length+1;
 }

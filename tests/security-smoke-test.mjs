@@ -76,7 +76,7 @@ try {
 
   // Inspect only our random candidate, and never clean up a room we did not create.
   const candidate = await databaseRequest(`rooms/${room}`, 'GET', undefined, host.idToken);
-  if (candidate.status !== 200 || candidate.text !== 'null') throw new Error('Test room is not confirmed unused; stopping before any writes.');
+  if (candidate.status !== 200 || candidate.text !== 'null') throw new Error('Test room is not confirmed unused (HTTP '+candidate.status+'); stopping before any writes. Check deployed rules and App Check requirements.');
   await expectStatus('Room listing is denied', 'rooms', 'GET', undefined, guest.idToken, [401]);
   await expectStatus('Unauthenticated room read is denied', `rooms/${room}`, 'GET', undefined, null, [401]);
   await expectStatus('Cannot write a seat into a missing room', `rooms/${room}/seats/${guest.localId}`, 'PUT', {j:'{}'}, guest.idToken, [401]);

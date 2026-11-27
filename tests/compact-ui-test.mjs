@@ -27,7 +27,8 @@ match(js,/t\('youAre'\)\+' · '\+t\('seatNo', g\.order\.indexOf\(me\)\+1\)/,'the
 const rename=section('  rename(pid, nick){','  draftTeam(pid, step, picks){');
 match(rename,/transaction\(raw=>/,'rename must merge into the latest seat state');
 match(rename,/seat\.nick=nick/,'rename must only change the nickname');
-match(js,/function saveRename\(\).*?slice\(0,12\).*?Net\.rename\(ME\.pid, nick\)/s,'rename must be capped and sent through the merge write');
+match(js,/function saveRename\(\).*?slice\(0,12\).*?await renameSeat\(\)/s,'rename remains capped and uses the acknowledged rename action');
+match(js,/function renameSeat\(\).*?await Net\.rename\(ME\.pid,\s*nick\)/s,'rename uses the merge write');
 match(js,/case 'editName': return openRename\(\)/,'rename entry point is missing');
 match(html,/id="nameModal"/,'the rename dialog mount is missing');
 

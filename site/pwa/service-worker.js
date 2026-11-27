@@ -1,15 +1,15 @@
-const CACHE = 'avalon-shell-v38';
+const CACHE = 'avalon-shell-v44';
 const SHELL = [
-  './assets/brand-mark-light.svg?v=38', './assets/brand-mark-dark.svg?v=38',
+  './assets/brand-mark-light.svg?v=44', './assets/brand-mark-dark.svg?v=44',
   './assets/favicon-96.png', './favicon.ico', './assets/favicon-48.png', './assets/apple-touch-icon.png',
   './assets/pwa-192.png', './assets/pwa-512.png', './assets/pwa-maskable-512.png',
   './about/ja/', './about/ko/',
-  './assets/js/guide.js?v=38',
-  './config/app-check.js?v=38', './assets/js/app-check.js?v=38', './vendor/firebase-app-check-compat.js',
-  './assets/js/policy-copy.js?v=38', './assets/js/policy-pages.js?v=38', './assets/js/locales.js?v=38', './assets/js/game-base.js?v=38', './assets/js/project-copy.js?v=38', './assets/js/project.js?v=38',
+  './assets/js/guide.js?v=44',
+  './config/app-check.js?v=44', './assets/js/app-check.js?v=44', './vendor/firebase-app-check-compat.js',
+  './assets/js/policy-copy.js?v=44', './assets/js/policy-pages.js?v=44', './assets/js/locales.js?v=44', './assets/js/game-base.js?v=44', './assets/js/project-copy.js?v=44', './assets/js/project.js?v=44',
   './about/en/', './about/zh-cn/', './about/zh-tw/', './about/ru/', './about/es/', './about/pt/', './about/vi/',
-  './support/', './support/index.html', './assets/js/public-ui.js?v=38', './assets/css/landing.css?v=38',
-  './assets/brand-mark.svg', './assets/css/theme.css?v=38', './assets/js/site-shell.js?v=38', './assets/css/site-shell.css?v=38', './assets/css/style.css?v=38', './assets/js/app.js?v=38',
+  './support/', './support/index.html', './assets/js/public-ui.js?v=44', './assets/css/landing.css?v=44',
+  './assets/brand-mark.svg', './assets/css/theme.css?v=44', './assets/js/site-shell.js?v=44', './assets/css/site-shell.css?v=44', './assets/css/style.css?v=44', './assets/js/app.js?v=44',
   './', './index.html', './assets/css/style.css', './assets/js/app.js', './manifest.webmanifest', './assets/app-icon.svg', './assets/player-avatars.webp',
   './vendor/firebase-app-compat.js', './vendor/firebase-auth-compat.js', './vendor/firebase-database-compat.js', './vendor/qrcode.min.js',
   './assets/roles/merlin.webp', './assets/roles/morgana.webp'

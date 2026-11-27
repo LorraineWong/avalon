@@ -149,12 +149,13 @@ The public guide and room reference share concise module/player copy in
 versioned URL is included in the service-worker shell.
 
 Guide source HTML keeps the role catalog, four steps and numeric table, with
-three `guide:` comment slots for shared modules, player summary and the note
-below the table.
+`guide:` comment slots for shared quick-start text, optional-role labels, modules,
+player summary and the note below the table.
 `content-pages.mjs` expands these slots for both legacy and named static guides.
 Do not replace the slots with a second independent copy of the instructions.
-The public guide keeps roles, optional modules and the count table expanded, with
-no disclosure controls. The in-room guide has three tabs: this game's roles, a
+The public guide places the expanded player-count table before the rules. Classic
+roles stay expanded; expansion roles and optional modules use one native `details`
+disclosure. Its content is still published in static HTML and readable without JS. The in-room guide has three tabs: this game's roles, a
 quick guide (objective, four steps, player-count table and the Quest 4 note) and
 all roles (both factions plus optional modules). Keep the quick guide to about
 one and a half phone screens; role detail belongs in the roles tabs. Modules reuse the same role-card layout

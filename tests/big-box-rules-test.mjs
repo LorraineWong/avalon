@@ -5,7 +5,7 @@ import { webcrypto } from 'node:crypto';
 
 let source=readGameSource();
 source=source.replace(/\nboot\(\);\s*$/,'\n');
-source+='\nglobalThis.__rules={DEFAULT_SETTINGS,buildRoles,questChoices,privateRoleData,shownLoyalty,resolveQuest,beginQuest,S,Net,ME};';
+source+='\nglobalThis.__rules={DEFAULT_SETTINGS,buildRoles,questChoices,privateRoleData,shownLoyalty,resolveQuest,beginQuest,PRIVATE_UPDATES,S,Net,ME};';
 
 const noop=()=>{};
 const context={
@@ -68,7 +68,13 @@ R.ME.pub=pub;
 R.S.master={roles:{lg:'lancelotGood',le:'lancelotEvil'},allegiances:{lg:'good',le:'evil'}};
 const switchGame={gid:'L',settings:{...R.DEFAULT_SETTINGS,lancelot:true,lancelotSwitch:true},order:['lg','le'],pubs:{lg:pub,le:pub},lancelot:{deck:[true],draws:[]},events:[]};
 const switched=await R.beginQuest(switchGame,{att:1,team:[]},1);
-assert(R.S.master.allegiances.lg==='evil'&&R.S.master.allegiances.le==='good','Lancelot allegiances switch');
+assert(switched[R.PRIVATE_UPDATES].master.allegiances.lg==='evil'&&switched[R.PRIVATE_UPDATES].master.allegiances.le==='good','Lancelot allegiances switch only in the pending atomic commit');
+assert(R.S.master.allegiances.lg==='good','private state stays unchanged until the write succeeds');
+assert(!JSON.stringify(switched).includes('private updates')&&!JSON.stringify(switched).includes('sec/master'),'private updates never serialize in public state');
 assert(switched.lancelot.draws[0].switched===true,'Lancelot draw is public state');
+assert(!('deck' in switched.lancelot),'future Lancelot cards never enter public state');
+const retried=await R.beginQuest(switchGame,{att:1,team:[]},1);
+assert(retried[R.PRIVATE_UPDATES].master.allegiances.lg==='evil'&&retried.lancelot.draws[0].switched,'same public step retries the same card without flipping twice');
+assert(Array.isArray(switched[R.PRIVATE_UPDATES].master.lancelotDeck),'host recovery payload retains the private deck for reconnect and handoff');
 
 console.log(`Big Box rules unit test: ${passed} checks passed.`);

@@ -1,5 +1,6 @@
 /* Semantic colors shared by every page. Applied before the first body paint. */
 :root[data-theme="dark"]{
+  --accent-wash:#3e3829;--accent-border:#9e844a;
   color-scheme:dark;
   --page:#18212b;--surface:#232f3c;--surface-raised:#2b3948;--surface-inset:#1c2733;
   --ink:#edf1f5;--ink-muted:#bbc7d3;--ink-dim:#a3b1c1;--accent:#e7c77f;--accent-ink:#241b0b;
@@ -9,6 +10,7 @@
   --table-center:#3a5062;--table-edge:#293d4e;--theme-shadow:0 12px 32px rgba(4,12,20,.2);
 }
 :root[data-theme="light"]{
+  --accent-wash:#fbf3df;--accent-border:#b58b42;
   color-scheme:light;
   --page:#f6f3eb;--surface:#fffdf8;--surface-raised:#eee9dd;--surface-inset:#f3efe5;
   --ink:#293542;--ink-muted:#526170;--ink-dim:#647180;--accent:#78551d;--accent-ink:#241b0b;
@@ -941,3 +943,36 @@ html.menu-open{overflow:hidden}
 :root[data-theme] .rules-tabs .btn{flex:none;white-space:nowrap}
 :root[data-theme] .rules-tab-content .guide-player-summary p{margin:0 0 12px;font:400 14px/1.65 var(--av-font);color:var(--ink)}
 :root[data-theme] .rules-tab-content .setup-footnote{font-size:13px}
+
+:root[data-theme] .qr-modal .qr-close{width:44px;height:44px;min-width:44px;min-height:44px}
+
+:root[data-theme] .home-access-fact b{display:flex;flex-wrap:wrap;gap:0 4px}
+:root[data-theme] .home-access-fact em{font:inherit;white-space:nowrap}
+:root[data-theme] .home-access-fact em+em::before{content:"· ";white-space:pre}
+/* Four quiet facts keep the product promise within the existing banner. */
+@media(max-width:600px){
+ :root[data-theme] .hero .feature{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 16px;max-width:360px;margin-inline:auto}
+ :root[data-theme] .hero .feature span{justify-content:flex-start;text-align:left;align-items:center}
+ :root[data-theme] .hero .home-access-fact b{display:block}
+ :root[data-theme] .hero .home-access-fact em{display:block}
+ :root[data-theme] .hero .home-access-fact em+em::before{content:none}
+}
+
+/* The guide leads with setup; its supporting facts follow the numeric reference. */
+:root[data-theme] main.wrap .guide-quick-start{font-size:14px;line-height:1.6;margin-bottom:16px}
+:root[data-theme] main.wrap #players{padding-top:12px}
+:root[data-theme] main.wrap .guide-player-summary p{font-size:14px;line-height:1.6;margin-block:0 16px}
+@media(max-width:720px){
+ :root[data-theme] .guide-sections{display:flex;gap:4px;overflow-x:auto;overscroll-behavior-x:contain}
+ :root[data-theme] .guide-jump .guide-sections a{flex:none;white-space:nowrap;overflow-wrap:normal;min-height:44px;display:inline-flex;align-items:center}
+ :root[data-theme] .guide-jump .guide-play{min-height:44px}
+}
+
+/* Desktop pairs the artwork and entry as one composition; phones retain their stack. */
+@media(min-width:1000px){
+ :root[data-theme] .home-page{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(360px,1fr);gap:20px;align-items:stretch}
+ :root[data-theme] .home-page>.hero{grid-column:1;grid-row:1;min-height:320px;margin:0}
+ :root[data-theme] .home-page>.home-entry{grid-column:2;grid-row:1;width:100%;max-width:none;margin:0}
+ :root[data-theme] .home-page.has-resume>.hero,:root[data-theme] .home-page.has-resume>.home-entry{grid-row:2}
+ :root[data-theme] .home-page>.resume{grid-column:1/-1;grid-row:1;margin:0}
+}

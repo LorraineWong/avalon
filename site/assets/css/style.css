@@ -804,3 +804,30 @@ button.me-id:hover,button.me-role:hover,button.me-id:focus-visible,button.me-rol
 @media(max-width:420px){.rules-flow ol{grid-template-columns:1fr}.home-grid>.card:first-child{grid-template-columns:1fr;gap:10px}.home-grid>.card:first-child .btn{width:100%}.home-grid>.card:first-child h2{margin-bottom:0}}
 .rules-flow li{padding-top:44px}.rules-flow li::before{top:14px;left:16px;width:22px;height:22px;font-size:11px}
 .rules-copy p{font:400 14px/1.75 var(--sans);color:var(--muted)}
+
+/* Choose one room action; the same compact form is used at every viewport. */
+.home-entry{width:100%;max-width:480px;margin:20px auto 0;padding:20px;border:1px solid var(--line);border-radius:12px}
+.home-mode{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px;margin-bottom:18px;padding:4px;background:var(--bg1);border:1px solid var(--line);border-radius:8px}
+.home-mode-tab{min-width:0;min-height:44px;padding:8px;border:1px solid transparent;border-radius:6px;background:transparent;color:var(--muted);font:600 13px/1.4 var(--sans);cursor:pointer;overflow-wrap:anywhere}
+.home-mode-tab[aria-selected="true"]{border-color:var(--accent-border);background:var(--accent-wash);color:var(--gold);box-shadow:none}
+.home-mode-tab:hover:not(:disabled){color:var(--gold)}
+.home-mode-tab:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.home-mode-tab:disabled{cursor:wait}
+.home-entry label{display:block;margin-bottom:6px;color:var(--text);font:600 14px/1.5 var(--sans)}
+.home-entry .home-field+.home-field{margin-top:12px}
+.home-entry .input{width:100%;min-width:0;box-sizing:border-box;min-height:48px;font-size:16px}
+.home-entry .input.code{letter-spacing:3px}
+.home-entry .home-submit{width:100%;min-height:48px;margin-top:16px}
+.home-entry #homeEntryHint{margin:10px 0 0;color:var(--muted);font:400 13px/1.6 var(--sans);text-align:left;overflow-wrap:anywhere}
+@media(max-width:600px){.home-entry{padding:16px;margin-top:16px}.home-mode{margin-bottom:16px}}
+#manualInvite{width:100%;font-size:16px;margin-top:8px}
+.qr-sheet label{display:block;margin-top:16px;line-height:1.5}
+.btn:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+
+.room-code-copy{display:block;background:none;border:0;padding:0;cursor:pointer;color:inherit;min-height:44px}
+.room-code-copy:focus-visible{outline:3px solid var(--gold);outline-offset:4px}
+
+/* Keep manual invitations reachable above short landscape/keyboard viewports. */
+.qr-modal .qr-sheet{max-height:calc(100dvh - 16px);overflow-y:auto;overscroll-behavior:contain}
+.qr-modal .qr-close{position:sticky;top:0;align-self:flex-end;margin-top:-12px;margin-bottom:-22px;z-index:1;background:var(--surface)}
+.qr-modal .qr-close{min-width:44px;min-height:44px}
